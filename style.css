@@ -9,8 +9,9 @@ body{
   margin:0;padding:0;width:100%;min-height:100%;overflow-x:hidden;overflow-y:auto;
   background:var(--bg);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;
+  overscroll-behavior-y:none;
 }
-button{font:inherit;color:inherit}
+button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
 .world{
   position:fixed;inset:0;z-index:0;overflow:hidden;background:#0b3027;
 }
@@ -30,7 +31,8 @@ body.map-ready .scene-bg{opacity:.18}
 body.state-map-overview .scene-bg,
 body.state-detail .scene-bg,
 body.state-peek .scene-bg,
-body.state-solo .scene-bg{transform:translateX(-102%);opacity:0}
+body.state-solo .scene-bg,
+body.state-fullmap .scene-bg{transform:translateX(-102%);opacity:0}
 
 /* fixed top controls */
 .top-controls{
@@ -52,12 +54,15 @@ body.state-solo .scene-bg{transform:translateX(-102%);opacity:0}
   min-height:calc(100dvh + 560px);
   padding:calc(88px + env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) calc(142px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));
   transition:transform .72s cubic-bezier(.16,1,.3,1),opacity .45s ease,filter .45s ease;
+  will-change:transform;
 }
 body.state-map-overview .journal-stage,
 body.state-peek .journal-stage,
-body.state-solo .journal-stage{transform:translateX(-108%);opacity:0;pointer-events:none}
+body.state-solo .journal-stage,
+body.state-fullmap .journal-stage{transform:translateX(-108%);opacity:0;pointer-events:none}
 body.state-detail .journal-stage{transform:translateX(-38%);filter:blur(.2px)}
 body.detail-half .journal-stage{transform:translateX(-58%)}
+body.journal-resetting .journal-stage{transform:translateX(0)!important;opacity:1;transition:none!important}
 .journal-intro{
   margin-bottom:12px;border-radius:32px;padding:18px;
   background:rgba(2,22,18,.60);border:1px solid var(--line);backdrop-filter:blur(18px);
@@ -71,11 +76,16 @@ body.detail-half .journal-stage{transform:translateX(-58%)}
   min-height:104px;border-radius:28px;padding:14px;display:grid;grid-template-columns:68px 1fr;gap:13px;align-items:center;
   background:rgba(2,20,17,.74);border:1px solid var(--line);backdrop-filter:blur(18px);
   box-shadow:0 18px 46px rgba(0,0,0,.25);
-  transform:translateX(0);transition:transform .62s cubic-bezier(.16,1,.3,1),opacity .42s ease;
+  transform:translateX(var(--drag-x,0));transition:transform .62s cubic-bezier(.16,1,.3,1),opacity .42s ease;
+  touch-action:pan-y;
+  user-select:none;
 }
+.jcard.dragging{transition:none!important}
 .jcard.selected{transform:translateX(-52%) scale(.98)}
 body.detail-half .jcard:not(.selected){transform:translateX(-38%)}
 body.state-detail .jcard.follow{transform:translateX(-26%)}
+body.state-journal .jcard{--drag-x:0px}
+body.journal-resetting .jcard{transform:translateX(0)!important;transition:none!important}
 .thumb{width:68px;height:68px;border-radius:20px;position:relative;overflow:hidden;background:linear-gradient(135deg,#42d39c,#007aff)}
 .thumb::after{content:"";position:absolute;inset:8px;border:2px solid rgba(255,255,255,.72);border-radius:50%}
 .jcard h2{margin:0;font-size:19px;line-height:1.05;letter-spacing:-.04em}
@@ -85,14 +95,14 @@ body.state-detail .jcard.follow{transform:translateX(-26%)}
 .note{margin:7px 0 0;color:var(--muted);font-size:12px;line-height:1.28}
 .journal-end{height:120px;border-radius:26px;margin-top:14px;background:rgba(2,20,17,.48);display:flex;align-items:center;justify-content:center;font-weight:900;color:rgba(255,255,255,.78)}
 
-/* detail floating sheet */
+/* detail floating card - no bottom-sheet container */
 .detail-shell{
   position:fixed;z-index:60;left:10px;right:10px;top:calc(64px + env(safe-area-inset-top));
   height:calc(100dvh - 152px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   border-radius:32px;background:rgba(2,18,15,.84);border:1px solid rgba(255,255,255,.22);
   box-shadow:0 30px 80px rgba(0,0,0,.38);backdrop-filter:blur(24px);
   transform:translateX(0) translateY(0);opacity:1;overflow:hidden;
-  transition:transform .62s cubic-bezier(.16,1,.3,1),height .46s cubic-bezier(.16,1,.3,1),top .46s cubic-bezier(.16,1,.3,1),opacity .25s ease;
+  transition:transform .62s cubic-bezier(.16,1,.3,1),height .46s cubic-bezier(.16,1,.3,1),top .46s cubic-bezier(.16,1,.3,1),bottom .46s cubic-bezier(.16,1,.3,1),opacity .25s ease;
 }
 .detail-shell.hidden{transform:translateX(108%);opacity:0;pointer-events:none}
 body.state-peek .detail-shell,
@@ -100,7 +110,8 @@ body.state-solo .detail-shell{
   top:auto;bottom:calc(78px + env(safe-area-inset-bottom));height:132px;
   left:10px;right:10px;border-radius:30px;
 }
-.detail-grip{width:52px;height:5px;border-radius:999px;background:rgba(255,255,255,.34);margin:9px auto}
+body.state-fullmap .detail-shell{transform:translateY(140%);opacity:0;pointer-events:none}
+.detail-grip{width:52px;height:5px;border-radius:999px;background:rgba(255,255,255,.34);margin:9px auto;cursor:grab}
 .detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:0 14px 10px}
 .detail-head strong{display:block;font-size:20px;line-height:1.1}.detail-head small{display:block;color:var(--muted);margin-top:3px}
 .detail-head button{width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.08);font-size:24px}
@@ -120,18 +131,35 @@ body.state-peek .detail-scroll,body.state-solo .detail-scroll{display:none}
   overflow:hidden;transition:opacity .25s ease,transform .3s ease;
 }
 .carousel.hidden{opacity:0;transform:translateY(16px);pointer-events:none}
+body.state-fullmap .carousel{opacity:0;transform:translateY(24px);pointer-events:none}
 .carousel-track{height:100%;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 12px 12px;scrollbar-width:none}.carousel-track::-webkit-scrollbar{display:none}
 .ccard{flex:0 0 78vw;max-width:360px;scroll-snap-align:center;border-radius:28px;padding:14px;background:rgba(2,18,15,.86);border:1px solid var(--line);backdrop-filter:blur(24px);box-shadow:0 20px 60px rgba(0,0,0,.34)}
 .ccard.active{outline:2px solid rgba(66,211,156,.82)}.ccard h3{margin:0;font-size:20px}.ccard p{margin:8px 0 0;color:var(--muted);font-size:13px}
 
-/* bottom nav full width */
+/* bottom nav full width, parking behavior */
 .bottom-nav{
   position:fixed;z-index:80;left:0;right:0;bottom:0;height:calc(64px + env(safe-area-inset-bottom));
   padding:8px max(10px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));
-  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:rgba(2,26,20,.78);border-top:1px solid rgba(255,255,255,.20);backdrop-filter:blur(22px)
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:rgba(2,26,20,.78);border-top:1px solid rgba(255,255,255,.20);backdrop-filter:blur(22px);
+  transition:transform .34s cubic-bezier(.2,.9,.2,1),opacity .28s ease,border-radius .34s ease,width .34s ease,right .34s ease,left .34s ease;
 }
 .nav{border:0;border-radius:20px;background:transparent;color:rgba(244,251,248,.70);font-weight:850;font-size:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}.nav.active{background:rgba(66,211,156,.24);color:white}
 .ico{width:21px;height:21px;border:2px solid currentColor;border-radius:6px}.journal-ico{border-left:0;border-right:0;border-radius:0}.trip-ico{border-radius:50%}.dash-ico{border-radius:4px;box-shadow:8px 0 0 -5px currentColor,-8px 0 0 -5px currentColor}
+body.nav-parked .bottom-nav,
+body.is-scrolling .bottom-nav,
+body.state-fullmap .bottom-nav{
+  left:10px;right:auto;width:74px;grid-template-columns:1fr;border-radius:26px 26px calc(18px + env(safe-area-inset-bottom)) calc(18px + env(safe-area-inset-bottom));
+  opacity:.88;transform:translateX(-2px);
+}
+body.nav-parked .bottom-nav .nav,
+body.is-scrolling .bottom-nav .nav,
+body.state-fullmap .bottom-nav .nav{display:none}
+body.nav-parked .bottom-nav .nav.active,
+body.is-scrolling .bottom-nav .nav.active,
+body.state-fullmap .bottom-nav .nav.active{display:flex}
+body.nav-parked .bottom-nav .nav.active span:last-child,
+body.is-scrolling .bottom-nav .nav.active span:last-child,
+body.state-fullmap .bottom-nav .nav.active span:last-child{display:none}
 
 /* map marker dimming */
 .pr-marker{background:#05221d;border:3px solid #fff;border-radius:999px;color:white;font-weight:900;width:34px;height:34px;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.34)}

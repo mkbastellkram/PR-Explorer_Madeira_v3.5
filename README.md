@@ -1,26 +1,26 @@
-# PR Explorer Madeira V3.5.1 Navigation Core
+# PR Explorer Madeira V3.5.2 Interaction Refinement
 
-Neuer Navigationskern gemäß Konzeptbeschluss.
+Feinschliff auf Basis der Rückmeldung zu V3.5.1.
 
-## Enthalten
+## Neu / geändert
 
-- Journal-first Start
-- schriftfreies Introbild als Listen-/Kartenhintergrund
-- PR-Kachel-Tap: ausgewählte Kachel gleitet links, Detail schiebt sich schwerelos ein
-- übrige Listenkacheln folgen verzögert
-- Detailseite fast fullscreen, umlaufender transparenter Rand zur Karte
-- Detailseite intern scrollbar
-- fixierte Top-Controls: Filter, Optionen, Teilen, Karte, Einstellungen
-- Kartensymbol:
-  - aus Journal: Liste + Hintergrund gleiten links, Karte mit allen Pins
-  - aus Detail: Detail reduziert auf Karussellhöhe
-- Karussell: horizontal wischbar
-- Solo-Modus: aktive PR mit Pin + GPX/KML-Dummy + POI-Dummy
-- Bottom Navigation volle Breite
-- kein Service Worker
+- Listenkachel kann per Drag nach links geöffnet werden.
+- Tippen auf Kachel funktioniert weiterhin.
+- Nach dem Weggleiten zentriert sich die Liste unsichtbar wieder magnetisch.
+- Detailseite bleibt Floating Card, kein klassisches Bottom-Sheet.
+- Kartensymbol schaltet:
+  - Journal → Kartenübersicht
+  - Detail → Karussellhöhe
+  - Karussell/Solo → Vollbildkarte
+  - Vollbildkarte → zurück zu Karussell/Solo
+- Bottom Navigation parkt beim Scrollen links.
+- Bottom Navigation parkt auch im Vollbildkartenmodus links.
+- Antippen/Benutzen der geparkten Navigation holt sie zurück.
+- Journal kann über Bottom Navigation wieder angewählt werden.
 
-## Noch bewusst prototypisch
+## Weiterhin prototypisch
 
-- echte GPX/KML-Geometrien werden in diesem Navigationskern noch nicht final ausgewertet
-- POIs sind Dummy-Kontextpunkte
-- Detailinhalte sind Platzhalter für spätere flexible Erweiterung
+- GPX/KML sind Dummy-Geometrien.
+- POI ist Dummy-Kontextpunkt.
+- Detailinhalte bleiben Platzhalter.
+- Keine Service-Worker-Logik.
