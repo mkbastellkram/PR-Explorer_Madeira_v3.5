@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#0a2019"/>
+<stop offset=".38" stop-color="#0d3a2a"/>
+<stop offset=".72" stop-color="#081a12"/>
+<stop offset="1" stop-color="#020806"/>
+</linearGradient>
+<radialGradient id="mist" cx=".5" cy=".35" r=".55">
+<stop offset="0" stop-color="#d8fff2" stop-opacity=".38"/>
+<stop offset=".45" stop-color="#73d8b4" stop-opacity=".12"/>
+<stop offset="1" stop-color="#000" stop-opacity="0"/>
+</radialGradient>
+<filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
+</defs>
+<rect width="1080" height="1920" fill="url(#sky)"/>
+<rect width="1080" height="1920" fill="url(#mist)"/>
+<path d="M-50 1920V880c160-80 235-180 330-126 80-205 226-110 330-246 116-152 260-78 370-220 160-205 256-60 430-168v1800z" fill="#082617"/>
+<path d="M-60 1920V1120c150-80 210 5 330-126 92-104 160-14 262-118 132-135 240-35 358-140 120-107 218-20 350-96v1280z" fill="#05170f" opacity=".95"/>
+<path d="M484 210c22 215 6 402-74 558-40 78-72 150-62 252 8 85-42 180-102 270-55 82-70 175-42 318" stroke="#e8fff5" stroke-opacity=".72" stroke-width="28" fill="none" filter="url(#blur)"/>
+<path d="M492 200c18 225 4 410-70 564-38 80-72 152-62 254 8 80-44 174-102 264-54 84-68 177-42 326" stroke="#f4fffb" stroke-width="7" fill="none"/>
+<path d="M710 730c28 122 22 224-28 318-32 60-28 128 8 205" stroke="#d9fff3" stroke-opacity=".38" stroke-width="20" fill="none" filter="url(#blur)"/>
+<g opacity=".9">
+<path d="M0 1920V1360c45-120 80-60 120-170 50-135 96-40 148-154 62-135 115-35 180-150 80-142 142-38 220-130 86-101 154 0 235-95 78-90 130-18 177-68v1327z" fill="#031009"/>
+<path d="M1080 1920V1220c-42-92-86-55-126-144-56-126-112-20-172-126-76-136-136-12-204-124-70-116-134-4-196-92v1186z" fill="#020b07"/>
+</g>
+<g opacity=".32" filter="url(#blur)">
+<ellipse cx="520" cy="930" rx="570" ry="150" fill="#d9fff0"/>
+<ellipse cx="560" cy="1110" rx="640" ry="120" fill="#7cd8b4"/>
+</g>
+<g opacity=".92">
+<path d="M0 1920V1540c40-70 70-20 102-90 40-88 80-22 120-92 42-76 84-18 132-86 50-70 98-12 150-72 62-72 110-4 170-62 74-72 128 2 196-58 70-62 140-15 210-70v910z" fill="#010805"/>
+</g>
+</svg>

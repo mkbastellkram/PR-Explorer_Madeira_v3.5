@@ -7,96 +7,87 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#021a14">
-<title>PR Explorer Madeira V3.5</title>
-
+<title>PR Explorer Madeira V3.5.1</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIINfQAMdK7Wqb6cXg3GuYdo0j3VfH61a9s=" crossorigin="">
-<link rel="stylesheet" href="./style.css?v=3.5.0">
-
+<link rel="stylesheet" href="./style.css?v=3.5.1">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="./data.js?v=3.5.0"></script>
+<script src="./data.js?v=3.5.1"></script>
 </head>
-<body>
-<div class="map-backdrop" id="mapBackdrop" aria-hidden="true">
+<body class="state-journal">
+<div class="world" id="world">
+  <div class="scene-bg" id="sceneBg"></div>
   <div id="map" class="map"></div>
-  <div class="map-art"></div>
 </div>
 
-<div id="intro" class="intro">
-  <div class="intro-bg"></div>
-  <div class="intro-content">
-    <div class="intro-kicker">MADEIRA 2026</div>
-    <h1>PR Explorer</h1>
-    <div class="intro-line">Entdecken · Sammeln · Planen</div>
-    <p>Start im Journal. Die Karte öffnet sich nach dem ersten Tipp auf eine PR.</p>
-    <button id="introBtn" class="intro-btn" type="button">Journal öffnen</button>
-    <button id="soundBtn" class="sound-btn" type="button" aria-pressed="false">Naturklang: aus</button>
+<header class="top-controls">
+  <div class="top-left">
+    <button id="filterBtn" class="ctl" type="button" aria-label="Filter">☰</button>
+    <button id="optionBtn" class="ctl" type="button" aria-label="Optionen">◎</button>
+    <button id="shareBtn" class="ctl" type="button" aria-label="Teilen">↗</button>
   </div>
-</div>
+  <div class="top-right">
+    <button id="mapBtn" class="ctl primary" type="button" aria-label="Karte">⌖</button>
+    <button id="settingsBtn" class="ctl" type="button" aria-label="Einstellungen">⚙</button>
+  </div>
+</header>
 
-<main class="page" id="page">
-  <header class="top">
-    <div class="brand">
-      <span class="brand-kicker">PR EXPLORER</span>
-      <strong>Madeira 2026</strong>
-      <small>V3.5.0 · Scroll-Sheet-Dock</small>
-    </div>
-    <div class="actions">
-      <button id="searchBtn" class="round" type="button" aria-label="Suche">⌕</button>
-      <button id="filterBtn" class="round" type="button" aria-label="Filter">☷</button>
-    </div>
-  </header>
-
-  <section class="hero">
-    <div>
-      <span>Journal-first</span>
-      <h2>Wähle eine PR. Die Karte startet erst dann.</h2>
-    </div>
-    <p>Die Liste scrollt natürlich wie eine Safari-Webseite. Das Floating Dock parkt beim Scrollen.</p>
+<main class="journal-stage" id="journalStage">
+  <section class="journal-intro">
+    <div class="intro-chip">PR EXPLORER · MADEIRA 2026</div>
+    <h1>Journal</h1>
+    <p>PR wählen. Details gleiten schwerelos über die Karte.</p>
   </section>
-
-  <section class="filters" aria-label="Schnellfilter">
-    <button class="chip active" data-filter="all" type="button">Alle</button>
-    <button class="chip" data-filter="leicht" type="button">Leicht</button>
-    <button class="chip" data-filter="mittel" type="button">Mittel</button>
-    <button class="chip" data-filter="schwer" type="button">Schwer</button>
-    <button class="chip" data-filter="fav" type="button">☆ Favoriten</button>
-  </section>
-
-  <section class="journal" id="journal" aria-label="PR Journal"></section>
-  <div class="end-marker">Journal-Ende · Karte bleibt im Hintergrund</div>
+  <section class="journal-list" id="journalList"></section>
+  <div class="journal-end">Ende der Kurzliste</div>
 </main>
 
-<div class="sheet hidden" id="detailSheet">
-  <div class="handle"></div>
-  <div class="sheet-head">
+<section class="detail-shell hidden" id="detailShell">
+  <div class="detail-grip" id="detailGrip"></div>
+  <div class="detail-head">
     <div>
-      <span id="sheetStatus" class="status-dot"></span>
-      <strong id="sheetTitle">PR</strong>
-      <small id="sheetSub">Details</small>
+      <span id="detailBadge" class="traffic"></span>
+      <strong id="detailTitle">PR</strong>
+      <small id="detailSub">Madeira</small>
     </div>
-    <button id="sheetClose" type="button">×</button>
+    <button id="detailClose" type="button">×</button>
   </div>
-  <div class="sheet-grid" id="sheetFacts"></div>
-  <div class="sheet-actions">
-    <button id="fitBtn" type="button">Route einpassen</button>
-    <button id="favBtn" type="button">☆ Favorit</button>
-    <button id="tripBtn" type="button">＋ Reise</button>
+  <div class="detail-scroll" id="detailScroll">
+    <div class="facts" id="detailFacts"></div>
+    <section class="detail-block">
+      <h3>Kurzbeschreibung</h3>
+      <p id="detailDescription">Antippen der Karte reduziert diese Detailseite auf Karussellhöhe.</p>
+    </section>
+    <section class="detail-block">
+      <h3>Später flexible Detailerweiterungen</h3>
+      <div class="placeholder-grid">
+        <div>Höhenprofil</div><div>POIs</div><div>Webcams</div><div>Tunnel</div><div>Wasserfälle</div><div>Notizen</div>
+      </div>
+    </section>
+    <section class="detail-block">
+      <h3>Aktionen</h3>
+      <div class="action-row">
+        <button id="detailMapBtn" type="button">Karte anzeigen</button>
+        <button id="detailFavBtn" type="button">☆ Favorit</button>
+        <button id="detailTripBtn" type="button">＋ Reise</button>
+      </div>
+    </section>
   </div>
-</div>
+</section>
 
-<nav class="dock-wrap" aria-label="Hauptnavigation">
-  <div class="dock">
-    <button class="nav" data-mode="map" type="button"><span class="ico mapico"></span><span>Karte</span></button>
-    <button class="nav active" data-mode="journal" type="button"><span class="ico listico"></span><span>Journal</span></button>
-    <button class="nav" data-mode="trip" type="button"><span class="ico bagico"></span><span>Reise</span></button>
-    <button class="nav" data-mode="dash" type="button"><span class="ico gridico"></span><span>Dashboard</span></button>
-  </div>
+<section class="carousel hidden" id="carousel" aria-label="PR Karussell">
+  <div class="carousel-track" id="carouselTrack"></div>
+</section>
+
+<nav class="bottom-nav" aria-label="Hauptnavigation">
+  <button class="nav active" data-nav="journal" type="button"><span class="ico journal-ico"></span><span>Journal</span></button>
+  <button class="nav" data-nav="map" type="button"><span class="ico map-ico"></span><span>Karte</span></button>
+  <button class="nav" data-nav="trip" type="button"><span class="ico trip-ico"></span><span>Reise</span></button>
+  <button class="nav" data-nav="dash" type="button"><span class="ico dash-ico"></span><span>Dashboard</span></button>
 </nav>
 
 <div id="toast" class="toast hidden"></div>
-
-<script src="./app.js?v=3.5.0"></script>
+<script src="./app.js?v=3.5.1"></script>
 </body>
 </html>
