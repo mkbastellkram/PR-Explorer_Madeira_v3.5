@@ -1,4 +1,8 @@
-# PR Explorer Madeira V3.6.2 POI DETAIL FLOW
+# PR-Explorer Madeira V3.6.3 POI SAME DETAIL FLOW
+
+Reparaturpatch: POIs laufen nicht mehr über separate Sheets, sondern im gleichen Detailkarten-Aufbau wie die PR-Details.
+
+# PR Explorer Madeira V3.6.3 POI DETAIL FLOW
 
 Arbeitsstand nach V3.6.1 POI CAROUSEL.
 
@@ -8,7 +12,7 @@ Arbeitsstand nach V3.6.1 POI CAROUSEL.
 - KML: 36 verwertbare Anfahrten; PR9-KML ohne Koordinaten
 - POI-Daten: vorhandene `poi-data.js` aus V3.6.0/3.6.1 weiterverwendet
 
-## V3.6.2 Schwerpunkt
+## V3.6.3 Schwerpunkt
 - Highlight-POIs und Funktions-/Info-POIs getrennt
 - Sehenswürdigkeiten/Highlights als kompakte vertikale POI-Liste in der PR-Detailseite
 - Antippen oder Links-Wischen öffnet das POI-Karussell
