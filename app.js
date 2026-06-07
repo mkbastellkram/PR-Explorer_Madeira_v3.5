@@ -106,6 +106,7 @@ function openDetailFromJournal(t,el){
  setNav('journal');
  $('detailShell').classList.remove('hidden');
  $('carousel').classList.add('hidden');
+ setTimeout(()=>window.scrollTo({top:0, behavior:'smooth'}),80);
  setTimeout(resetJournalInvisible,760);
 }
 function populateDetail(t){
@@ -152,13 +153,34 @@ function activateSolo(t,smooth=false){
  markers.forEach((m,id)=>{const el=m.getElement()?.querySelector('.pr-marker'); if(el){el.classList.toggle('active',id===t.id);el.classList.remove('dim'); m.getElement().style.display=id===t.id?'':'none';}});
  showContext(t); if(smooth) fitActive(t);
 }
+
+function expandDetailFromCarousel(t){
+ active=t;
+ solo=false;
+ fullMap=false;
+ populateDetail(t);
+ ensureMap();
+ showContext(t);
+ setState('state-detail');
+ setNav('map');
+ $('detailShell').classList.remove('hidden');
+ $('carousel').classList.add('hidden');
+ restoreAllPins();
+ const m = markers.get(t.id);
+ if(m && m.getElement()){
+   const el = m.getElement().querySelector('.pr-marker');
+   if(el) el.classList.add('active');
+ }
+ setTimeout(()=>{ window.scrollTo({top:0, behavior:'smooth'}); if(map){map.invalidateSize(); fitActive(t);} }, 90);
+}
+
 function restoreAllPins(){markers.forEach(m=>{if(m.getElement())m.getElement().style.display='';const el=m.getElement()?.querySelector('.pr-marker');if(el)el.classList.remove('active','dim')})}
 function showCarousel(t){
  const c=$('carousel'), track=$('carouselTrack'); c.classList.remove('hidden'); track.innerHTML='';
  trails.forEach(tr=>{
    const el=document.createElement('article'); el.className='ccard'+(tr.id===t.id?' active':''); el.dataset.id=tr.id;
    el.innerHTML=`<h3>PR${tr.number} · ${escapeHtml(tr.name)}</h3><p>${escapeHtml(tr.region||'Madeira')} · ${fmt(tr.length||tr.km,' km')} · ${statusText(tr)}</p>`;
-   el.addEventListener('click',()=>activateSolo(tr,true));
+   el.addEventListener('click',()=>expandDetailFromCarousel(tr));
    track.appendChild(el);
  });
  const activeCard=track.querySelector(`[data-id="${t.id}"]`); if(activeCard)setTimeout(()=>activeCard.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}),40);
