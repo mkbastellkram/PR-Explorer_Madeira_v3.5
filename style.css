@@ -168,7 +168,7 @@ body.state-fullmap .bottom-nav .nav.active span:last-child{display:none}
 .toast{position:fixed;z-index:120;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(0,0,0,.78);color:white;border-radius:999px;padding:10px 14px;font-weight:900;backdrop-filter:blur(16px)}.toast.hidden{display:none}
 
 
-/* V3.5.3 Detail Axis Refinement
+/* V3.5.4 Detail Axis Refinement
    Detailseiten sind keine begrenzten Bottom-Sheets mehr.
    Die Detailkarte liegt auf einer gemeinsamen magnetischen Mittelachse,
    darf länger als der Viewport sein und mit dem Dokument nach oben herauslaufen.
@@ -234,3 +234,91 @@ body.state-detail .journal-stage{
 body.state-detail .bottom-nav{
   position:fixed;
 }
+
+/* V3.5.4 Gesture Magnet Refinement
+   Detailkarten können schwerelos vertikal bewegt werden.
+   Magnetische Rastpunkte:
+   - Full: lange Detailseite auf Mittelachse, Dokument scrollt
+   - Peek/Karussell: Kopf + erste Fakten sichtbar
+   - Fullmap: nach unten aus Karussell lösen, Karte voll sichtbar
+*/
+.detail-shell{
+  will-change: transform, top, height;
+  touch-action: pan-y;
+}
+.detail-shell.dragging{
+  transition:none!important;
+}
+body.state-detail .detail-shell{
+  transform:translateY(var(--detail-drag-y,0px))!important;
+}
+body.state-peek .detail-shell,
+body.state-solo .detail-shell{
+  height:178px!important;
+  min-height:178px!important;
+  bottom:calc(78px + env(safe-area-inset-bottom))!important;
+  transform:translateY(var(--detail-drag-y,0px))!important;
+}
+body.state-peek .detail-scroll,
+body.state-solo .detail-scroll{
+  display:block!important;
+  height:auto!important;
+  overflow:hidden!important;
+  padding:0 14px 10px!important;
+}
+body.state-peek .detail-block,
+body.state-solo .detail-block,
+body.state-peek .action-row,
+body.state-solo .action-row{
+  display:none!important;
+}
+body.state-peek .facts,
+body.state-solo .facts{
+  display:grid!important;
+  grid-template-columns:repeat(4,1fr)!important;
+  gap:6px!important;
+  margin:0!important;
+}
+body.state-peek .fact:nth-child(n+5),
+body.state-solo .fact:nth-child(n+5){
+  display:none!important;
+}
+body.state-peek .fact,
+body.state-solo .fact{
+  padding:7px!important;
+  border-radius:14px!important;
+}
+body.state-peek .fact span,
+body.state-solo .fact span{
+  font-size:9px!important;
+}
+body.state-peek .fact strong,
+body.state-solo .fact strong{
+  font-size:12px!important;
+}
+body.state-peek .detail-head,
+body.state-solo .detail-head{
+  padding-bottom:7px!important;
+}
+body.state-peek .detail-head strong,
+body.state-solo .detail-head strong{
+  font-size:18px!important;
+  max-width:76vw;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+body.state-peek .carousel,
+body.state-solo .carousel{
+  bottom:calc(260px + env(safe-area-inset-bottom));
+}
+body.state-fullmap .detail-shell{
+  transform:translateY(160%)!important;
+}
+body.state-fullmap .carousel{
+  display:none!important;
+}
+body.state-fullmap .bottom-nav{
+  opacity:.72;
+}
+

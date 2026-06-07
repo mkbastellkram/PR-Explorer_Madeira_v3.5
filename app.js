@@ -215,7 +215,82 @@ function onScroll(){
  clearTimeout(navTimer);
  navTimer=setTimeout(()=>{document.body.classList.remove('is-scrolling'); if(!document.body.classList.contains('state-fullmap'))document.body.classList.remove('nav-parked')},720);
 }
+
+function bindDetailVerticalGestures(){
+ const shell = $('detailShell');
+ let startY=0, currentY=0, dragging=false, modeAtStart='';
+ const start = e => {
+   if(!active) return;
+   if(!(document.body.classList.contains('state-detail') || document.body.classList.contains('state-peek') || document.body.classList.contains('state-solo'))) return;
+   startY = e.clientY;
+   currentY = 0;
+   dragging = true;
+   modeAtStart = document.body.classList.contains('state-detail') ? 'detail' : (document.body.classList.contains('state-fullmap') ? 'fullmap' : 'peek');
+   shell.classList.add('dragging');
+   shell.setPointerCapture?.(e.pointerId);
+ };
+ const move = e => {
+   if(!dragging) return;
+   currentY = e.clientY - startY;
+   if(modeAtStart === 'detail'){
+     // Full detail: only meaningful downward gesture to magnet carousel. Keep upward for native scroll.
+     if(currentY > 0){
+       shell.style.setProperty('--detail-drag-y', Math.min(currentY, window.innerHeight*.55) + 'px');
+       e.preventDefault?.();
+     }
+   } else if(modeAtStart === 'peek'){
+     // Peek: upward opens full detail, downward opens full map
+     const limit = window.innerHeight*.38;
+     const y = Math.max(-limit, Math.min(currentY, 110));
+     shell.style.setProperty('--detail-drag-y', y + 'px');
+     e.preventDefault?.();
+   }
+ };
+ const end = () => {
+   if(!dragging) return;
+   dragging = false;
+   shell.classList.remove('dragging');
+   shell.style.removeProperty('--detail-drag-y');
+
+   const vh = window.innerHeight || 800;
+   const carouselH = $('carousel')?.getBoundingClientRect().height || 142;
+
+   if(modeAtStart === 'detail'){
+     if(currentY > vh * .18){
+       enterPeek();
+     }
+   } else if(modeAtStart === 'peek'){
+     if(currentY < -vh * .25){
+       expandDetailFromCarousel(active);
+     } else if(currentY > carouselH * .50){
+       openFullMapAllPins();
+     }
+   }
+   currentY = 0;
+ };
+ shell.addEventListener('pointerdown', start);
+ shell.addEventListener('pointermove', move, {passive:false});
+ shell.addEventListener('pointerup', end);
+ shell.addEventListener('pointercancel', end);
+}
+
+function openFullMapAllPins(){
+ ensureMap();
+ clearContext();
+ restoreAllPins();
+ active = null;
+ solo = false;
+ fullMap = true;
+ setState('state-fullmap');
+ setNav('map');
+ $('detailShell').classList.add('hidden');
+ $('carousel').classList.add('hidden');
+ document.body.classList.add('nav-parked');
+ setTimeout(()=>{ map.invalidateSize(); fitAllPins(); }, 120);
+}
+
 function bind(){
+ bindDetailVerticalGestures();
  $('mapBtn').addEventListener('click',toggleMapButton);
  $('detailMapBtn').addEventListener('click',enterPeek);
  $('detailGrip').addEventListener('click',enterPeek);

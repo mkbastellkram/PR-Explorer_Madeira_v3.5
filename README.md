@@ -1,18 +1,19 @@
-# PR Explorer Madeira V3.5.3 Detail Axis Refinement
+# PR Explorer Madeira V3.5.4 Gesture Magnet Refinement
 
-Feinschliff zu V3.5.2.
+Feinschliff zu V3.5.3.
 
 ## Neu
 
-- Karussell-Karte antippen öffnet die Detailseite wieder in voller Höhe.
-- Das gilt für jedes Karussell-Element.
-- Karussell-Wischen aktiviert weiterhin Solo-Kontext.
-- Detailseiten sind keine begrenzten Bottom-Sheets mehr.
-- Die Detailkarte darf länger als das Display sein.
-- Die Detailkarte darf beim Scrollen oben aus dem Bild herauslaufen.
-- Kein interner Detail-Scrollcontainer mehr.
-- Alle Detailseiten liegen auf einer gemeinsamen magnetischen Mittelachse.
-- Transparenz/Rand zur Karte bleibt erhalten.
+- Detailkarte kann schwerelos nach unten gezogen werden.
+- Beim Absenken rastet sie magnetisch auf Karussellhöhe ein.
+- In der Karussellhöhe bleiben sichtbar:
+  - Überschriftkachel
+  - die ersten vier Infokacheln
+- Aus Karussellhöhe löst ein Swipe nach oben ab ca. 1/4 Displayhöhe wieder die volle Detailseite.
+- Aus Karussellhöhe löst ein Swipe nach unten ab ca. 1/2 Karussellhöhe die Vollbildkarte aus.
+- Diese Vollbildkarte zeigt alle Pins.
+- Detailseiten bleiben auf gemeinsamer magnetischer Achse.
+- Detailseite darf weiter länger als das Display sein und nach oben aus dem Bild laufen.
 
 ## Weiterhin prototypisch
 
