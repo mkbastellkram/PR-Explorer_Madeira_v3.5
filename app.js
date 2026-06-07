@@ -213,10 +213,10 @@ function detailMaxScroll(){
  const shell = $('detailShell');
  if(!shell || shell.classList.contains('hidden')) return null;
  if(!document.body.classList.contains('state-detail')) return null;
- const rect = shell.getBoundingClientRect();
- const absoluteTop = window.scrollY + rect.top;
- const bottomReserve = 0;
- const max = Math.max(0, absoluteTop + shell.offsetHeight - window.innerHeight + bottomReserve);
+ // Nur normaler Seiten-Scroll wird begrenzt:
+ // sobald die Unterkante der Detailkarte sichtbar unten angekommen ist.
+ const top = shell.offsetTop;
+ const max = Math.max(0, top + shell.offsetHeight - window.innerHeight);
  return max;
 }
 
@@ -225,9 +225,7 @@ function clampDetailScroll(){
  if(document.body.classList.contains('detail-drag-active')) return;
  const max = detailMaxScroll();
  if(max === null) return;
- if(window.scrollY > max){
-   window.scrollTo(0, max);
- }
+ if(window.scrollY > max) window.scrollTo(0, max);
 }
 
 function parkNav(){document.body.classList.add('nav-parked')}
@@ -242,73 +240,75 @@ function onScroll(){
 function bindDetailVerticalGestures(){
  const shell = $('detailShell');
  const grip = $('detailGrip');
- let startY=0, currentY=0, dragging=false, modeAtStart='', pointerId=null;
 
- function canStartDetailDrag(dy){
-   if(!document.body.classList.contains('state-detail')) return false;
-   if(dy <= 0) return false;
-   // Erst normales Scrollen nach unten erlauben. Wenn Detail oben angekommen ist,
-   // übernimmt die Karte selbst schwerelos die Bewegung.
-   return window.scrollY <= 2;
+ let startY = 0;
+ let lastY = 0;
+ let dragging = false;
+ let modeAtStart = '';
+ let sourceScrollY = 0;
+
+ function inDetailMode(){
+   return document.body.classList.contains('state-detail') ||
+          document.body.classList.contains('state-peek') ||
+          document.body.classList.contains('state-solo');
  }
 
- const start = e => {
-   if(!active) return;
-   if(!(document.body.classList.contains('state-detail') || document.body.classList.contains('state-peek') || document.body.classList.contains('state-solo'))) return;
-   startY = e.clientY;
-   currentY = 0;
+ function begin(clientY){
+   if(!active || !inDetailMode()) return;
+   startY = clientY;
+   lastY = clientY;
    dragging = false;
-   pointerId = e.pointerId;
+   sourceScrollY = window.scrollY || 0;
    modeAtStart = document.body.classList.contains('state-detail') ? 'detail' : 'peek';
- };
+ }
 
- const move = e => {
-   if(!active) return;
-   const dy = e.clientY - startY;
-   currentY = dy;
+ function forceStartDrag(){
+   if(dragging) return;
+   dragging = true;
+   shell.classList.add('no-rubber-drag');
+   document.body.classList.add('detail-drag-active');
+   shell.style.setProperty('--detail-drag-y','0px');
+ }
+
+ function move(clientY, ev){
+   if(!active || !inDetailMode()) return;
+   const dy = clientY - startY;
+   lastY = clientY;
 
    if(modeAtStart === 'detail'){
-     if(!dragging && canStartDetailDrag(dy)){
-       dragging = true;
-       shell.classList.add('dragging');
-       document.body.classList.add('detail-drag-active');
-       shell.setPointerCapture?.(pointerId);
-     }
-     if(dragging){
-       const y = Math.max(0, Math.min(dy, window.innerHeight * .62));
+     // Entscheidender Unterschied:
+     // Sobald der Finger nach unten geht, übernimmt die Detailkarte sofort.
+     // Kein window-scroll, kein Clamp, kein Gummiband.
+     if(dy > 3){
+       forceStartDrag();
+       const y = Math.max(0, dy);
        shell.style.setProperty('--detail-drag-y', y + 'px');
-       e.preventDefault();
+       if(ev) ev.preventDefault();
      }
      return;
    }
 
    if(modeAtStart === 'peek'){
-     if(!dragging && Math.abs(dy) > 6){
-       dragging = true;
-       shell.classList.add('dragging');
-       document.body.classList.add('detail-drag-active');
-       shell.setPointerCapture?.(pointerId);
-     }
-     if(dragging){
-       const limitUp = window.innerHeight * .38;
-       const limitDown = 130;
-       const y = Math.max(-limitUp, Math.min(dy, limitDown));
-       shell.style.setProperty('--detail-drag-y', y + 'px');
-       e.preventDefault();
+     if(Math.abs(dy) > 3){
+       forceStartDrag();
+       // Peek darf nach oben und unten 1:1 laufen.
+       shell.style.setProperty('--detail-drag-y', dy + 'px');
+       if(ev) ev.preventDefault();
      }
    }
- };
+ }
 
- const end = () => {
+ function finish(){
    if(!active) return;
+   const dy = lastY - startY;
    const wasDragging = dragging;
+
    dragging = false;
-   shell.classList.remove('dragging');
+   shell.classList.remove('no-rubber-drag');
    document.body.classList.remove('detail-drag-active');
    shell.style.removeProperty('--detail-drag-y');
 
    if(!wasDragging){
-     currentY = 0;
      return;
    }
 
@@ -316,26 +316,41 @@ function bindDetailVerticalGestures(){
    const carouselH = $('carousel')?.getBoundingClientRect().height || 142;
 
    if(modeAtStart === 'detail'){
-     // Keine Gummiband-Logik: ab Schwelle direkt magnetisch auf Peek/Karussell.
-     if(currentY > vh * .16){
-       window.scrollTo({top:0, behavior:'instant'});
+     if(dy > vh * .12){
+       // Magnetische Übergabe ohne Gummiband.
+       window.scrollTo(0,0);
        enterPeek();
+     } else {
+       // Direkt zurück auf Achse, keine Federphysik.
+       window.scrollTo(0, Math.max(0, sourceScrollY));
      }
-   } else if(modeAtStart === 'peek'){
-     if(currentY < -vh * .25){
+   } else {
+     if(dy < -vh * .25){
        expandDetailFromCarousel(active);
-     } else if(currentY > carouselH * .50){
+     } else if(dy > carouselH * .50){
        openFullMapAllPins();
      }
    }
-   currentY = 0;
- };
+ }
 
- shell.addEventListener('pointerdown', start);
- shell.addEventListener('pointermove', move, {passive:false});
- shell.addEventListener('pointerup', end);
- shell.addEventListener('pointercancel', end);
- grip.addEventListener('pointerdown', start);
+ // Pointer Events
+ shell.addEventListener('pointerdown', e => begin(e.clientY));
+ shell.addEventListener('pointermove', e => move(e.clientY, e), {passive:false});
+ shell.addEventListener('pointerup', finish);
+ shell.addEventListener('pointercancel', finish);
+
+ // Touch Events: iOS Safari ist hier zuverlässiger als Pointer-only.
+ shell.addEventListener('touchstart', e => {
+   if(e.touches && e.touches[0]) begin(e.touches[0].clientY);
+ }, {passive:false});
+ shell.addEventListener('touchmove', e => {
+   if(e.touches && e.touches[0]) move(e.touches[0].clientY, e);
+ }, {passive:false});
+ shell.addEventListener('touchend', finish, {passive:false});
+ shell.addEventListener('touchcancel', finish, {passive:false});
+
+ // Griff zusätzlich, damit dort nie der Dokument-Scroll greift.
+ grip.addEventListener('touchmove', e => e.preventDefault(), {passive:false});
 }
 
 function openFullMapAllPins(){

@@ -168,7 +168,7 @@ body.state-fullmap .bottom-nav .nav.active span:last-child{display:none}
 .toast{position:fixed;z-index:120;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(0,0,0,.78);color:white;border-radius:999px;padding:10px 14px;font-weight:900;backdrop-filter:blur(16px)}.toast.hidden{display:none}
 
 
-/* V3.5.5 Detail Axis Refinement
+/* V3.5.6 Detail Axis Refinement
    Detailseiten sind keine begrenzten Bottom-Sheets mehr.
    Die Detailkarte liegt auf einer gemeinsamen magnetischen Mittelachse,
    darf länger als der Viewport sein und mit dem Dokument nach oben herauslaufen.
@@ -235,7 +235,7 @@ body.state-detail .bottom-nav{
   position:fixed;
 }
 
-/* V3.5.5 Gesture Magnet Refinement
+/* V3.5.6 Gesture Magnet Refinement
    Detailkarten können schwerelos vertikal bewegt werden.
    Magnetische Rastpunkte:
    - Full: lange Detailseite auf Mittelachse, Dokument scrollt
@@ -322,7 +322,7 @@ body.state-fullmap .bottom-nav{
   opacity:.72;
 }
 
-/* V3.5.5 Detail Scroll Clamp Fix
+/* V3.5.6 Detail Scroll Clamp Fix
    Harte Korrektur:
    - kein elastisches Gummiband beim Absenken
    - Detailkarte wird beim Ziehen 1:1 geführt
@@ -371,5 +371,67 @@ body.state-detail .detail-shell::after{
   content:"";
   display:block;
   height:1px;
+}
+
+/* V3.5.6 No-Rubber Detail Drag
+   Radikale Korrektur:
+   Beim Ziehen nach unten wird die Detailkarte vom Seiten-Scroll getrennt.
+   Die Karte folgt 1:1 dem Finger und darf ohne Widerstand nach unten aus dem Display laufen.
+*/
+body.state-detail .journal-stage,
+body.state-peek .journal-stage,
+body.state-solo .journal-stage,
+body.state-map-overview .journal-stage,
+body.state-fullmap .journal-stage{
+  transform:translateX(-122%)!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+body.state-detail .jcard,
+body.state-peek .jcard,
+body.state-solo .jcard,
+body.state-map-overview .jcard,
+body.state-fullmap .jcard{
+  transform:translateX(-140vw)!important;
+}
+body.state-detail .detail-shell{
+  transform:translate3d(0,var(--detail-drag-y,0px),0)!important;
+}
+.detail-shell.no-rubber-drag{
+  position:fixed!important;
+  left:12px!important;
+  right:12px!important;
+  top:calc(72px + env(safe-area-inset-top))!important;
+  bottom:auto!important;
+  height:auto!important;
+  min-height:calc(100dvh - 168px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
+  max-height:none!important;
+  transition:none!important;
+  will-change:transform!important;
+  touch-action:none!important;
+  pointer-events:auto!important;
+}
+body.detail-drag-active{
+  overflow:hidden!important;
+  touch-action:none!important;
+  overscroll-behavior:none!important;
+}
+body.detail-drag-active,
+body.detail-drag-active *{
+  user-select:none!important;
+  -webkit-user-select:none!important;
+}
+.detail-grip,
+.detail-head{
+  touch-action:none!important;
+}
+body.state-detail .detail-scroll{
+  overflow:visible!important;
+  height:auto!important;
+  max-height:none!important;
+  padding-bottom:calc(168px + env(safe-area-inset-bottom))!important;
+}
+body.state-detail .detail-shell{
+  overscroll-behavior:none!important;
 }
 

@@ -1,21 +1,21 @@
-# PR Explorer Madeira V3.5.5 Detail Scroll Clamp Fix
+# PR Explorer Madeira V3.5.6 No-Rubber Detail Drag
 
-Harte Korrektur nach Rückmeldung zu V3.5.4.
+Radikale Korrektur nach Rückmeldung zu V3.5.5.
 
 ## Geändert
 
-- Kein elastisches Gummiband mehr beim Absenken der Detailkarte.
-- Detailkarte wird beim Ziehen nach unten linear 1:1 geführt.
-- Ab Schwelle rastet die Detailkarte direkt magnetisch auf Karussellhöhe ein.
-- Detailseite scrollt nach oben nur noch bis zu dem Punkt, an dem ihre Unterkante am unteren Displayrand sichtbar ist.
-- Weiteres Nach-oben-Ziehen wird geklemmt.
-- Von dort kann die Detailkarte wieder mühelos nach unten geführt werden.
-- Linke Listenreste werden vollständig aus dem sichtbaren Detailbild entfernt.
-- Journal-Karten werden im Detail-/Karten-/Solozustand vollständig außerhalb des sichtbaren Bereichs geparkt.
+- Beim Ziehen nach unten hängt die Detailkarte nicht mehr am Dokument-Scroll.
+- Die Detailkarte folgt abwärts 1:1 dem Finger.
+- Keine künstliche Gegenkraft.
+- Kein Gummiband.
+- Kein Clamp während des Ziehens.
+- Die Detailkarte darf beim Ziehen nach unten komplett aus dem Display laufen.
+- Beim Loslassen wird nur magnetisch entschieden:
+  - kurzer Zug → zurück zur Detailachse
+  - deutlicher Zug → Karussellhöhe
+- Normaler Detail-Scroll nach oben wird weiterhin begrenzt, sobald die Unterkante der Detailkarte sichtbar am unteren Displayrand steht.
+- Linke Listenreste bleiben vollständig außerhalb des sichtbaren Bereichs.
 
-## Weiterhin prototypisch
+## Wichtig
 
-- GPX/KML sind Dummy-Geometrien.
-- POI ist Dummy-Kontextpunkt.
-- Detailinhalte sind Platzhalter.
-- Keine Service-Worker-Logik.
+Dieser Patch entfernt die vorherige Gummibandlogik aus dem Dragpfad.
