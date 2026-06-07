@@ -1,4 +1,4 @@
-# PR Explorer Madeira V3.5.12 STABILIZED
+# PR Explorer Madeira V3.6.0 STABILIZED
 
 Vollversion nach Interview-Architektur, mit realen Projektdateien eingebunden.
 
@@ -37,6 +37,11 @@ Vollversion nach Interview-Architektur, mit realen Projektdateien eingebunden.
 Siehe `PRX_V3.5.11_CHANGELOG.md`.
 
 
-## V3.5.12
+## V3.6.0
 
-Filterfunktion reaktiviert: Region, Status und numerische Zwei-Anfasser-Hybrid-Slider mit echten PR-Datenwerten als interne Rastpunkte, Lineal-/Zollstock-Skala, Trefferzahl und gemeinsamer Wirkung auf Journal und Kartenpins. Siehe `PRX_V3.5.12_CHANGELOG.md`.
+Filterfunktion reaktiviert: Region, Status und numerische Zwei-Anfasser-Hybrid-Slider mit echten PR-Datenwerten als interne Rastpunkte, Lineal-/Zollstock-Skala, Trefferzahl und gemeinsamer Wirkung auf Journal und Kartenpins. Siehe `PRX_V3.6.0_CHANGELOG.md`.
+
+
+## V3.6.0 POI Context Foundation
+
+POI-/Reise-Kontext auf Basis prx_poi_madeira_v1 integriert. POIs werden nur bei aktiver PR vorgeschlagen, können als Heute/Später/Erledigt/Ausblenden markiert werden und dienen zur Google-Maps-Übergabe. Keine automatische Routenoptimierung, keine Live-Statusabfrage.
