@@ -106,7 +106,7 @@ function openDetailFromJournal(t,el){
  setNav('journal');
  $('detailShell').classList.remove('hidden');
  $('carousel').classList.add('hidden');
- setTimeout(()=>window.scrollTo({top:0, behavior:'smooth'}),80);
+ setTimeout(()=>window.scrollTo({top:0, behavior:'instant'}),80);
  setTimeout(resetJournalInvisible,760);
 }
 function populateDetail(t){
@@ -171,7 +171,7 @@ function expandDetailFromCarousel(t){
    const el = m.getElement().querySelector('.pr-marker');
    if(el) el.classList.add('active');
  }
- setTimeout(()=>{ window.scrollTo({top:0, behavior:'smooth'}); if(map){map.invalidateSize(); fitActive(t);} }, 90);
+ setTimeout(()=>{ window.scrollTo({top:0, behavior:'instant'}); if(map){map.invalidateSize(); fitActive(t);} }, 90);
 }
 
 function restoreAllPins(){markers.forEach(m=>{if(m.getElement())m.getElement().style.display='';const el=m.getElement()?.querySelector('.pr-marker');if(el)el.classList.remove('active','dim')})}
@@ -208,9 +208,32 @@ function fitActive(t){
 function fitAllPins(){
  const pts=[]; trails.forEach(t=>{const c=coord(t); if(c)pts.push(c)}); if(pts.length)map.fitBounds(pts,{padding:[32,32]});
 }
+
+function detailMaxScroll(){
+ const shell = $('detailShell');
+ if(!shell || shell.classList.contains('hidden')) return null;
+ if(!document.body.classList.contains('state-detail')) return null;
+ const rect = shell.getBoundingClientRect();
+ const absoluteTop = window.scrollY + rect.top;
+ const bottomReserve = 0;
+ const max = Math.max(0, absoluteTop + shell.offsetHeight - window.innerHeight + bottomReserve);
+ return max;
+}
+
+function clampDetailScroll(){
+ if(!document.body.classList.contains('state-detail')) return;
+ if(document.body.classList.contains('detail-drag-active')) return;
+ const max = detailMaxScroll();
+ if(max === null) return;
+ if(window.scrollY > max){
+   window.scrollTo(0, max);
+ }
+}
+
 function parkNav(){document.body.classList.add('nav-parked')}
 function unparkNav(){document.body.classList.remove('nav-parked','is-scrolling')}
 function onScroll(){
+ clampDetailScroll();
  document.body.classList.add('is-scrolling'); parkNav();
  clearTimeout(navTimer);
  navTimer=setTimeout(()=>{document.body.classList.remove('is-scrolling'); if(!document.body.classList.contains('state-fullmap'))document.body.classList.remove('nav-parked')},720);
@@ -218,45 +241,84 @@ function onScroll(){
 
 function bindDetailVerticalGestures(){
  const shell = $('detailShell');
- let startY=0, currentY=0, dragging=false, modeAtStart='';
+ const grip = $('detailGrip');
+ let startY=0, currentY=0, dragging=false, modeAtStart='', pointerId=null;
+
+ function canStartDetailDrag(dy){
+   if(!document.body.classList.contains('state-detail')) return false;
+   if(dy <= 0) return false;
+   // Erst normales Scrollen nach unten erlauben. Wenn Detail oben angekommen ist,
+   // übernimmt die Karte selbst schwerelos die Bewegung.
+   return window.scrollY <= 2;
+ }
+
  const start = e => {
    if(!active) return;
    if(!(document.body.classList.contains('state-detail') || document.body.classList.contains('state-peek') || document.body.classList.contains('state-solo'))) return;
    startY = e.clientY;
    currentY = 0;
-   dragging = true;
-   modeAtStart = document.body.classList.contains('state-detail') ? 'detail' : (document.body.classList.contains('state-fullmap') ? 'fullmap' : 'peek');
-   shell.classList.add('dragging');
-   shell.setPointerCapture?.(e.pointerId);
+   dragging = false;
+   pointerId = e.pointerId;
+   modeAtStart = document.body.classList.contains('state-detail') ? 'detail' : 'peek';
  };
+
  const move = e => {
-   if(!dragging) return;
-   currentY = e.clientY - startY;
+   if(!active) return;
+   const dy = e.clientY - startY;
+   currentY = dy;
+
    if(modeAtStart === 'detail'){
-     // Full detail: only meaningful downward gesture to magnet carousel. Keep upward for native scroll.
-     if(currentY > 0){
-       shell.style.setProperty('--detail-drag-y', Math.min(currentY, window.innerHeight*.55) + 'px');
-       e.preventDefault?.();
+     if(!dragging && canStartDetailDrag(dy)){
+       dragging = true;
+       shell.classList.add('dragging');
+       document.body.classList.add('detail-drag-active');
+       shell.setPointerCapture?.(pointerId);
      }
-   } else if(modeAtStart === 'peek'){
-     // Peek: upward opens full detail, downward opens full map
-     const limit = window.innerHeight*.38;
-     const y = Math.max(-limit, Math.min(currentY, 110));
-     shell.style.setProperty('--detail-drag-y', y + 'px');
-     e.preventDefault?.();
+     if(dragging){
+       const y = Math.max(0, Math.min(dy, window.innerHeight * .62));
+       shell.style.setProperty('--detail-drag-y', y + 'px');
+       e.preventDefault();
+     }
+     return;
+   }
+
+   if(modeAtStart === 'peek'){
+     if(!dragging && Math.abs(dy) > 6){
+       dragging = true;
+       shell.classList.add('dragging');
+       document.body.classList.add('detail-drag-active');
+       shell.setPointerCapture?.(pointerId);
+     }
+     if(dragging){
+       const limitUp = window.innerHeight * .38;
+       const limitDown = 130;
+       const y = Math.max(-limitUp, Math.min(dy, limitDown));
+       shell.style.setProperty('--detail-drag-y', y + 'px');
+       e.preventDefault();
+     }
    }
  };
+
  const end = () => {
-   if(!dragging) return;
+   if(!active) return;
+   const wasDragging = dragging;
    dragging = false;
    shell.classList.remove('dragging');
+   document.body.classList.remove('detail-drag-active');
    shell.style.removeProperty('--detail-drag-y');
+
+   if(!wasDragging){
+     currentY = 0;
+     return;
+   }
 
    const vh = window.innerHeight || 800;
    const carouselH = $('carousel')?.getBoundingClientRect().height || 142;
 
    if(modeAtStart === 'detail'){
-     if(currentY > vh * .18){
+     // Keine Gummiband-Logik: ab Schwelle direkt magnetisch auf Peek/Karussell.
+     if(currentY > vh * .16){
+       window.scrollTo({top:0, behavior:'instant'});
        enterPeek();
      }
    } else if(modeAtStart === 'peek'){
@@ -268,10 +330,12 @@ function bindDetailVerticalGestures(){
    }
    currentY = 0;
  };
+
  shell.addEventListener('pointerdown', start);
  shell.addEventListener('pointermove', move, {passive:false});
  shell.addEventListener('pointerup', end);
  shell.addEventListener('pointercancel', end);
+ grip.addEventListener('pointerdown', start);
 }
 
 function openFullMapAllPins(){
