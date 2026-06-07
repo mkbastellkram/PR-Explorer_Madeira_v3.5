@@ -1,11 +1,11 @@
-# PR Explorer Madeira V3.5.7 FULL DATA NAV
+# PR Explorer Madeira V3.5.8 STABILIZED
 
 Vollversion nach Interview-Architektur, mit realen Projektdateien eingebunden.
 
 ## Datenstand
-- Excel: 37 PR-/PS-Einträge aus `PR – V1.xlsx`
+- Excel/App: 37 PR-Einträge aus `PR – V1.xlsx` eingebettet; 3 PS-Zeilen aus Excel sind als offener Datenumfang dokumentiert
 - GPX: 37 Tracks aus `Gpx.zip`, inklusive Höhenprofilen
-- KML: 36 Anfahrten aus `KML.zip`
+- KML: 36 verwertbare Anfahrten aus `KML.zip`; PR9-KML enthält keine Koordinaten
 
 ## Navigation
 - Journal-first Start
@@ -24,3 +24,9 @@ Vollversion nach Interview-Architektur, mit realen Projektdateien eingebunden.
 - GPX rot, KML blau
 - Cupertino-ähnliche Inline-Line-Icons
 - kein Service Worker
+
+## V3.5.8 Stabilisierung
+
+- Leaflet/CDN-Ausfall erzeugt keinen harten JavaScript-Abbruch mehr.
+- Keine Architekturänderung.
+- Auditbericht: `PRX_V3.5.7_AUDIT_REPORT.md`.
