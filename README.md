@@ -26,3 +26,13 @@ Arbeitsstand nach V3.6.1 POI CAROUSEL.
 - Keine Live-Statusabfrage
 - Keine Änderung an PR-/GPX-/KML-Rohdaten
 - Keine neue Navigationsarchitektur
+
+
+## V3.6.4 POI MAP DOCK
+
+- POI-Auswahl fährt die PR-Detailkarte nach links aus dem Blickfeld.
+- POI-Karussell liegt danach als kompakter Dock im unteren Kartenbereich.
+- GPX-/KML-Kontext der aktiven PR bleibt sichtbar.
+- Aktiver POI wird auf der Karte markiert; weitere POIs der Kategorie bleiben als Ghost-Marker sichtbar.
+- Kein separates POI-Sheet als Zielzustand; Bedienung orientiert sich am PR-/Journal-Kartenfluss.
+- Grauer Griff-/Balkenbereich der Detailkarte reduziert und Peek-Position unten leicht angehoben.

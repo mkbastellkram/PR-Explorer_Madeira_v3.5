@@ -27,3 +27,44 @@
 .poi-inline-detail{display:block!important}.poi-inline-head{display:grid!important;grid-template-columns:auto 1fr auto!important;align-items:center;gap:10px;margin-bottom:10px;padding:10px 11px!important;border:1px solid rgba(255,255,255,.14);border-radius:18px!important;background:rgba(255,255,255,.055)!important}.poi-inline-head button{border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.08);padding:7px 10px;font-weight:950}.poi-inline-head strong{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.poi-inline-head span{min-width:30px;height:28px;border-radius:999px;display:grid!important;place-items:center;background:rgba(66,211,156,.18);color:#dfffee;font-weight:950}
 .poi-inline-rail{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;touch-action:pan-x;padding:0 2px 8px;margin:0 -2px}.poi-inline-rail::-webkit-scrollbar{display:none}.poi-inline-rail .poi-card{flex:0 0 min(88vw,390px);scroll-snap-align:center;align-self:stretch;min-height:250px;max-height:330px;overflow:hidden}.poi-card-inline.active{border-color:rgba(66,211,156,.74);box-shadow:0 0 0 2px rgba(66,211,156,.18),0 18px 40px rgba(0,0,0,.30)}
 .poi-sheet{display:none!important}body.poi-sheet-open .detail-card{pointer-events:auto!important}
+
+
+/* V3.6.4 POI map dock: PR detail exits left, POI carousel sits over lower map */
+body.poi-focus-open .detail-card{
+  transform:translate3d(-112vw,0,0)!important;
+  opacity:.98;
+  pointer-events:none;
+  transition:transform .32s cubic-bezier(.16,1,.3,1),opacity .20s ease!important;
+}
+.poi-focus-dock{
+  position:fixed;
+  z-index:86;
+  left:max(10px,env(safe-area-inset-left));
+  right:max(10px,env(safe-area-inset-right));
+  bottom:calc(72px + env(safe-area-inset-bottom));
+  max-height:min(38dvh,315px);
+  padding:7px 8px 10px;
+  border:1px solid rgba(255,255,255,.20);
+  border-radius:28px;
+  background:rgba(2,18,15,.78);
+  backdrop-filter:blur(24px);
+  box-shadow:0 -20px 54px rgba(0,0,0,.36);
+  transform:translateY(0);
+  transition:transform .28s cubic-bezier(.16,1,.3,1),opacity .22s ease;
+}
+.poi-focus-dock.hidden{display:none}
+.poi-focus-grip{width:42px;height:4px;border-radius:999px;background:rgba(244,251,248,.28);margin:0 auto 7px}
+.poi-focus-head{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:0 2px 7px}
+.poi-focus-head button{border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.08);padding:7px 10px;font-weight:950}
+.poi-focus-head strong{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+.poi-focus-head span{min-width:30px;height:28px;border-radius:999px;display:grid;place-items:center;background:rgba(66,211,156,.18);color:#dfffee;font-weight:950}
+.poi-focus-rail{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;touch-action:pan-x;padding:0 2px 6px;overscroll-behavior-x:contain}
+.poi-focus-rail::-webkit-scrollbar{display:none}
+.poi-focus-rail .poi-card{flex:0 0 min(88vw,390px);scroll-snap-align:center;min-height:190px;max-height:235px;overflow:hidden;align-self:stretch}
+.poi-focus-rail .poi-card.active{border-color:rgba(66,211,156,.78);box-shadow:0 0 0 2px rgba(66,211,156,.18),0 18px 40px rgba(0,0,0,.30)}
+.poi-focus-rail .poi-main p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.poi-focus-rail .poi-actions{gap:5px}.poi-focus-rail .poi-actions button{padding:6px 8px;font-size:12px}
+/* reduce bottom collision / grey handle weight */
+.detail-grip{width:42px!important;height:4px!important;margin:7px auto 8px!important;background:rgba(255,255,255,.28)!important}
+.detail-card{padding-bottom:calc(126px + env(safe-area-inset-bottom))!important}
+.state-peek .detail-card{bottom:calc(70px + env(safe-area-inset-bottom))!important;height:164px!important;min-height:164px!important;padding-bottom:8px!important}
