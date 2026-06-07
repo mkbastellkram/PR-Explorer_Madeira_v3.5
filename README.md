@@ -1,21 +1,26 @@
-# PR Explorer Madeira V3.5.6 No-Rubber Detail Drag
+# PR Explorer Madeira V3.5.7 FULL DATA NAV
 
-Radikale Korrektur nach Rückmeldung zu V3.5.5.
+Vollversion nach Interview-Architektur, mit realen Projektdateien eingebunden.
 
-## Geändert
+## Datenstand
+- Excel: 37 PR-/PS-Einträge aus `PR – V1.xlsx`
+- GPX: 37 Tracks aus `Gpx.zip`, inklusive Höhenprofilen
+- KML: 36 Anfahrten aus `KML.zip`
 
-- Beim Ziehen nach unten hängt die Detailkarte nicht mehr am Dokument-Scroll.
-- Die Detailkarte folgt abwärts 1:1 dem Finger.
-- Keine künstliche Gegenkraft.
-- Kein Gummiband.
-- Kein Clamp während des Ziehens.
-- Die Detailkarte darf beim Ziehen nach unten komplett aus dem Display laufen.
-- Beim Loslassen wird nur magnetisch entschieden:
-  - kurzer Zug → zurück zur Detailachse
-  - deutlicher Zug → Karussellhöhe
-- Normaler Detail-Scroll nach oben wird weiterhin begrenzt, sobald die Unterkante der Detailkarte sichtbar am unteren Displayrand steht.
-- Linke Listenreste bleiben vollständig außerhalb des sichtbaren Bereichs.
+## Navigation
+- Journal-first Start
+- Detailkarte ist das kompakte Karussell: keine separaten Karussellkarten
+- Detail nach unten ziehen: 1:1, ohne Gummiband, Snap auf kompakte Detailkarte
+- Kompakte Detailkarte horizontal wischen: PR-Wechsel
+- Kompakte Detailkarte nach oben ziehen: volle Detailseite
+- Kompakte Detailkarte nach unten ziehen: Vollbildkarte mit allen Pins
+- Karte-Button: Journal → Übersichtskarte, Detail → kompakte Detailkarte, Peek → Vollbildkarte
 
-## Wichtig
-
-Dieser Patch entfernt die vorherige Gummibandlogik aus dem Dragpfad.
+## Enthalten
+- echte PR-Daten aus Excel
+- echte GPX-Polylines
+- echte KML-Anfahrtslinien
+- echte SVG-Höhenprofile aus GPX-Höhendaten
+- GPX rot, KML blau
+- Cupertino-ähnliche Inline-Line-Icons
+- kein Service Worker
