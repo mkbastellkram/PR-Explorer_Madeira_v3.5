@@ -28,7 +28,7 @@ Arbeitsstand nach V3.6.1 POI CAROUSEL.
 - Keine neue Navigationsarchitektur
 
 
-## V3.6.4 POI MAP DOCK
+## V3.7.0 POI MAP DOCK
 
 - POI-Auswahl fährt die PR-Detailkarte nach links aus dem Blickfeld.
 - POI-Karussell liegt danach als kompakter Dock im unteren Kartenbereich.
@@ -36,3 +36,7 @@ Arbeitsstand nach V3.6.1 POI CAROUSEL.
 - Aktiver POI wird auf der Karte markiert; weitere POIs der Kategorie bleiben als Ghost-Marker sichtbar.
 - Kein separates POI-Sheet als Zielzustand; Bedienung orientiert sich am PR-/Journal-Kartenfluss.
 - Grauer Griff-/Balkenbereich der Detailkarte reduziert und Peek-Position unten leicht angehoben.
+
+
+## V3.7.0 OPTIONS & TRIP FOUNDATION
+Optionen, Einstellungen und Reisebereich sind nun als zweistufige Grundstruktur belegt. Satellit-Hybrid, Hiking Overlay, Linklogos, Adminarchiv und Reisezeitraum sind vorbereitet.
