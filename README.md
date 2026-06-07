@@ -1,47 +1,24 @@
-# PR Explorer Madeira V3.6.1 STABILIZED
+# PR Explorer Madeira V3.6.2 POI DETAIL FLOW
 
-Vollversion nach Interview-Architektur, mit realen Projektdateien eingebunden.
+Arbeitsstand nach V3.6.1 POI CAROUSEL.
 
 ## Datenstand
-- Excel/App: 37 PR-Einträge aus `PR – V1.xlsx` eingebettet; 3 PS-Zeilen aus Excel sind als offener Datenumfang dokumentiert
-- GPX: 37 Tracks aus `Gpx.zip`, inklusive Höhenprofilen
-- KML: 36 verwertbare Anfahrten aus `KML.zip`; PR9-KML enthält keine Koordinaten
+- PR-Grunddaten: 37 PR-Einträge eingebettet
+- GPX: 37 Tracks inklusive Höhenprofilen
+- KML: 36 verwertbare Anfahrten; PR9-KML ohne Koordinaten
+- POI-Daten: vorhandene `poi-data.js` aus V3.6.0/3.6.1 weiterverwendet
 
-## Navigation
-- Journal-first Start
-- Detailkarte ist das kompakte Karussell: keine separaten Karussellkarten
-- Detail nach unten ziehen: 1:1, ohne Gummiband, Snap auf kompakte Detailkarte
-- Kompakte Detailkarte horizontal wischen: PR-Wechsel
-- Kompakte Detailkarte nach oben ziehen: volle Detailseite
-- Kompakte Detailkarte nach unten ziehen: Vollbildkarte mit allen Pins
-- Karte-Button: Journal → Übersichtskarte, Detail → kompakte Detailkarte, Peek → Vollbildkarte
+## V3.6.2 Schwerpunkt
+- Highlight-POIs und Funktions-/Info-POIs getrennt
+- Sehenswürdigkeiten/Highlights als kompakte vertikale POI-Liste in der PR-Detailseite
+- Antippen oder Links-Wischen öffnet das POI-Karussell
+- Funktions-/Info-POIs erscheinen als Kategorie-Platzhalter mit Anzahl
+- Kategorie-Platzhalter öffnen ein eigenes Kategorie-Karussell
+- Aktiver POI wird auf der Karte angezeigt; GPX/KML der aktiven PR bleiben sichtbar
 
-## Enthalten
-- echte PR-Daten aus Excel
-- echte GPX-Polylines
-- echte KML-Anfahrtslinien
-- echte SVG-Höhenprofile aus GPX-Höhendaten
-- GPX rot, KML blau
-- Cupertino-ähnliche Inline-Line-Icons
-- kein Service Worker
-
-## V3.5.11 Stabilisierung
-
-- Leaflet/CDN-Ausfall erzeugt keinen harten JavaScript-Abbruch mehr.
-- Keine Architekturänderung.
-- Auditbericht: `PRX_V3.5.7_AUDIT_REPORT.md`.
-
-
-## V3.5.11
-
-Siehe `PRX_V3.5.11_CHANGELOG.md`.
-
-
-## V3.6.1
-
-Filterfunktion reaktiviert: Region, Status und numerische Zwei-Anfasser-Hybrid-Slider mit echten PR-Datenwerten als interne Rastpunkte, Lineal-/Zollstock-Skala, Trefferzahl und gemeinsamer Wirkung auf Journal und Kartenpins. Siehe `PRX_V3.6.1_CHANGELOG.md`.
-
-
-## V3.6.1 POI Context Foundation
-
-POI-/Reise-Kontext auf Basis prx_poi_madeira_v1 integriert. POIs werden nur bei aktiver PR vorgeschlagen, können als Heute/Später/Erledigt/Ausblenden markiert werden und dienen zur Google-Maps-Übergabe. Keine automatische Routenoptimierung, keine Live-Statusabfrage.
+## Nicht enthalten
+- Keine neuen POI-Daten
+- Keine automatische Tagesroutenoptimierung
+- Keine Live-Statusabfrage
+- Keine Änderung an PR-/GPX-/KML-Rohdaten
+- Keine neue Navigationsarchitektur
