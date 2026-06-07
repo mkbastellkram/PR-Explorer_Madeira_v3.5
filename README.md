@@ -1,4 +1,4 @@
-# PR Explorer Madeira V3.5.10 STABILIZED
+# PR Explorer Madeira V3.5.12 STABILIZED
 
 Vollversion nach Interview-Architektur, mit realen Projektdateien eingebunden.
 
@@ -25,13 +25,18 @@ Vollversion nach Interview-Architektur, mit realen Projektdateien eingebunden.
 - Cupertino-ähnliche Inline-Line-Icons
 - kein Service Worker
 
-## V3.5.10 Stabilisierung
+## V3.5.11 Stabilisierung
 
 - Leaflet/CDN-Ausfall erzeugt keinen harten JavaScript-Abbruch mehr.
 - Keine Architekturänderung.
 - Auditbericht: `PRX_V3.5.7_AUDIT_REPORT.md`.
 
 
-## V3.5.10
+## V3.5.11
 
-Siehe `PRX_V3.5.10_CHANGELOG.md`.
+Siehe `PRX_V3.5.11_CHANGELOG.md`.
+
+
+## V3.5.12
+
+Filterfunktion reaktiviert: Region, Status und numerische Zwei-Anfasser-Hybrid-Slider mit echten PR-Datenwerten als interne Rastpunkte, Lineal-/Zollstock-Skala, Trefferzahl und gemeinsamer Wirkung auf Journal und Kartenpins. Siehe `PRX_V3.5.12_CHANGELOG.md`.
