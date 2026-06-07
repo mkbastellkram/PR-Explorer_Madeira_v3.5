@@ -1,9 +1,27 @@
 {
-  "name": "PR Explorer Madeira V3.5.7",
-  "short_name": "PRX V3.5.7",
+  "name": "PR Explorer Madeira V3.5.9",
+  "short_name": "PRX V3.5.9",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#021a14",
   "theme_color": "#021a14",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "assets/app-icons/prx-map-route-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/app-icons/prx-map-route-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/app-icons/prx-map-route-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }

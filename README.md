@@ -1,4 +1,4 @@
-# PR Explorer Madeira V3.5.8 STABILIZED
+# PR Explorer Madeira V3.5.9 STABILIZED
 
 Vollversion nach Interview-Architektur, mit realen Projektdateien eingebunden.
 
@@ -25,8 +25,13 @@ Vollversion nach Interview-Architektur, mit realen Projektdateien eingebunden.
 - Cupertino-ähnliche Inline-Line-Icons
 - kein Service Worker
 
-## V3.5.8 Stabilisierung
+## V3.5.9 Stabilisierung
 
 - Leaflet/CDN-Ausfall erzeugt keinen harten JavaScript-Abbruch mehr.
 - Keine Architekturänderung.
 - Auditbericht: `PRX_V3.5.7_AUDIT_REPORT.md`.
+
+
+## V3.5.9
+
+Siehe `PRX_V3.5.9_CHANGELOG.md`.
