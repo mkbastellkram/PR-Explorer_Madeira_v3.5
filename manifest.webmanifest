@@ -1,0 +1,9 @@
+{
+  "name": "PR Explorer Madeira V3.5",
+  "short_name": "PRX V3.5",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#021a14",
+  "theme_color": "#021a14",
+  "orientation": "portrait"
+}

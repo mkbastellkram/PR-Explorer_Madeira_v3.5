@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#021a14">
+<title>PR Explorer Madeira V3.5</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIINfQAMdK7Wqb6cXg3GuYdo0j3VfH61a9s=" crossorigin="">
+<link rel="stylesheet" href="./style.css?v=3.5.0">
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="./data.js?v=3.5.0"></script>
+</head>
+<body>
+<div class="map-backdrop" id="mapBackdrop" aria-hidden="true">
+  <div id="map" class="map"></div>
+  <div class="map-art"></div>
+</div>
+
+<div id="intro" class="intro">
+  <div class="intro-bg"></div>
+  <div class="intro-content">
+    <div class="intro-kicker">MADEIRA 2026</div>
+    <h1>PR Explorer</h1>
+    <div class="intro-line">Entdecken · Sammeln · Planen</div>
+    <p>Start im Journal. Die Karte öffnet sich nach dem ersten Tipp auf eine PR.</p>
+    <button id="introBtn" class="intro-btn" type="button">Journal öffnen</button>
+    <button id="soundBtn" class="sound-btn" type="button" aria-pressed="false">Naturklang: aus</button>
+  </div>
+</div>
+
+<main class="page" id="page">
+  <header class="top">
+    <div class="brand">
+      <span class="brand-kicker">PR EXPLORER</span>
+      <strong>Madeira 2026</strong>
+      <small>V3.5.0 · Scroll-Sheet-Dock</small>
+    </div>
+    <div class="actions">
+      <button id="searchBtn" class="round" type="button" aria-label="Suche">⌕</button>
+      <button id="filterBtn" class="round" type="button" aria-label="Filter">☷</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <span>Journal-first</span>
+      <h2>Wähle eine PR. Die Karte startet erst dann.</h2>
+    </div>
+    <p>Die Liste scrollt natürlich wie eine Safari-Webseite. Das Floating Dock parkt beim Scrollen.</p>
+  </section>
+
+  <section class="filters" aria-label="Schnellfilter">
+    <button class="chip active" data-filter="all" type="button">Alle</button>
+    <button class="chip" data-filter="leicht" type="button">Leicht</button>
+    <button class="chip" data-filter="mittel" type="button">Mittel</button>
+    <button class="chip" data-filter="schwer" type="button">Schwer</button>
+    <button class="chip" data-filter="fav" type="button">☆ Favoriten</button>
+  </section>
+
+  <section class="journal" id="journal" aria-label="PR Journal"></section>
+  <div class="end-marker">Journal-Ende · Karte bleibt im Hintergrund</div>
+</main>
+
+<div class="sheet hidden" id="detailSheet">
+  <div class="handle"></div>
+  <div class="sheet-head">
+    <div>
+      <span id="sheetStatus" class="status-dot"></span>
+      <strong id="sheetTitle">PR</strong>
+      <small id="sheetSub">Details</small>
+    </div>
+    <button id="sheetClose" type="button">×</button>
+  </div>
+  <div class="sheet-grid" id="sheetFacts"></div>
+  <div class="sheet-actions">
+    <button id="fitBtn" type="button">Route einpassen</button>
+    <button id="favBtn" type="button">☆ Favorit</button>
+    <button id="tripBtn" type="button">＋ Reise</button>
+  </div>
+</div>
+
+<nav class="dock-wrap" aria-label="Hauptnavigation">
+  <div class="dock">
+    <button class="nav" data-mode="map" type="button"><span class="ico mapico"></span><span>Karte</span></button>
+    <button class="nav active" data-mode="journal" type="button"><span class="ico listico"></span><span>Journal</span></button>
+    <button class="nav" data-mode="trip" type="button"><span class="ico bagico"></span><span>Reise</span></button>
+    <button class="nav" data-mode="dash" type="button"><span class="ico gridico"></span><span>Dashboard</span></button>
+  </div>
+</nav>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="./app.js?v=3.5.0"></script>
+</body>
+</html>
