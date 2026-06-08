@@ -1,0 +1,24 @@
+{
+  "project": "PR-Explorer Madeira",
+  "base": "3.5.12_STABILIZED",
+  "target": "3.6.0",
+  "decisions": [
+    "POIs entlang GPX/KML werden nur vorgeschlagen; Nutzer wählt aus, Google Maps übernimmt Sortierung und Navigation.",
+    "POIs erscheinen nur bei aktiver PR/Soloansicht; beim PR-Wechsel wird alter POI-Kontext gelöscht.",
+    "Bis zu 10 Vorschläge anzeigen.",
+    "Maximal 5 POIs für die heutige Tagestour auswählen.",
+    "Maximal 10 POIs für später merken.",
+    "Zwei Ebenen: Heute auswählen und Für später merken.",
+    "POI-Zustände: Merken, Heute, Später, Erledigt, Ausblenden.",
+    "KML-Nähe als Vorfilter: 0–500 m direkter Anfahrtskontext, 500 m–1,5 km kurzer Stopp, 1,5–5 km Abstecher, über 5 km nicht automatisch.",
+    "Kategorieabhängige Distanzgrenzen: Versorgung enger, Aussicht/Café mittel, besondere Sehenswürdigkeiten größer.",
+    "Hinweg/Rückweg nur als Badge: Hinweg geeignet, Rückweg geeignet, Beide, Manuell prüfen.",
+    "Standard: Café/Restaurant eher Rückweg, Versorgung beide, Aussicht/Sehenswürdigkeit beide/manuell, Webcam kein Tagesstopp.",
+    "Google-Maps-Übergabe als Link/Koordinatenliste.",
+    "POI-Darstellung: kompakte horizontale POI-Karten mit Kategorie, Entfernung/Bezug, Kurztext und Aktionen.",
+    "Marker: standardmäßig ein ausgewählter Kontextmarker; Mehrfachanzeige nur nach Auswahl.",
+    "Dubletten erkennen und zusammenführen/überspringen; nichts automatisch hart löschen.",
+    "Mindestqualität: Name, Koordinate, Kategorie, Quelle/Vertrauensgrad.",
+    "Eine grobe manuelle Reihenfolge durch Antippen/Sortieren kann später vorbereitet werden, aber keine automatische Routenoptimierung."
+  ]
+}

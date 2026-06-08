@@ -28,7 +28,7 @@ Arbeitsstand nach V3.6.1 POI CAROUSEL.
 - Keine neue Navigationsarchitektur
 
 
-## V3.7.0 POI MAP DOCK
+## V3.7.1 POI MAP DOCK
 
 - POI-Auswahl fährt die PR-Detailkarte nach links aus dem Blickfeld.
 - POI-Karussell liegt danach als kompakter Dock im unteren Kartenbereich.
@@ -38,5 +38,23 @@ Arbeitsstand nach V3.6.1 POI CAROUSEL.
 - Grauer Griff-/Balkenbereich der Detailkarte reduziert und Peek-Position unten leicht angehoben.
 
 
-## V3.7.0 OPTIONS & TRIP FOUNDATION
+## V3.7.1 OPTIONS & TRIP FOUNDATION
 Optionen, Einstellungen und Reisebereich sind nun als zweistufige Grundstruktur belegt. Satellit-Hybrid, Hiking Overlay, Linklogos, Adminarchiv und Reisezeitraum sind vorbereitet.
+
+## V3.7.1 DATA V2 IMPORT FOUNDATION
+
+Diese Version bindet das abgeschlossene PRX POI-Datenpaket V2 als neue Daten-/Textschicht ein.
+
+Enthalten:
+- neue Datenstruktur unter `data/`
+- Placeholder-Bildlogik unter `assets/poi/placeholders/`
+- Dokumentation unter `docs/poi/`
+- Adapter `data/prx-v2-adapter.js` zur Übersetzung der V2-Daten in die bestehende App-Logik
+
+Nicht enthalten:
+- keine echten lokalen POI-Bilder
+- keine Änderung an GPX/KML
+- keine automatische Tagesroutenoptimierung
+- keine Live-Statusabfrage
+
+Upload-Hinweis: PC-Upload empfohlen wegen neuer/geänderter Ordner.
