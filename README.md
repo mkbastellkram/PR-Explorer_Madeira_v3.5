@@ -1,4 +1,4 @@
-# PR-Explorer Madeira V3.7.6 SETTINGS ENGINE
+# PR-Explorer Madeira V3.7.7 SETTINGS ENGINE
 
 Stabilisiert die zweiten Ebenen von Optionen, Einstellungen und Reise auf Basis der V3.7.4/V3.7.5-Modal-Isolation.
 
@@ -10,3 +10,8 @@ Schwerpunkt:
 - Reisezeitraum und Tagesdetails als stabile zweite Ebene
 
 Keine neuen Daten oder Asset-Ordner.
+
+
+## V3.7.7
+
+Interaktive Liniensteuerung, Favoriten-Badges, Status-/Buchungsblock, Icon-/Symbol-Testebene und aktive Detailtext-Testauswahl ergänzt.

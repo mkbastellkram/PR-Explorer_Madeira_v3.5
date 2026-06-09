@@ -1,4 +1,4 @@
-/* PRX V3.7.6 · Settings Engine
+/* PRX V3.7.7 · Settings Engine
    Repariert die zweite Ebene von Optionen/Einstellungen/Reise:
    - echte Modal-Isolation auch für Detailseiten
    - kein Durchscheinen darunterliegender Inhalte
@@ -10,6 +10,7 @@
   const APP_OPTIONS_KEY='prx.options.v370';
   const APP_SETTINGS_KEY='prx.appSettings.v370';
   const TRIP_KEY='prx.trip.v370';
+  const LINE_STYLE_KEY='prx.lineStyle.v377';
   const DEFAULT_OPTIONS={showPins:true,showGPX:true,showKML:true,showPoiContext:true,showGhostPois:true,showHome:true,focusMode:true,autoFit:true,poiHighlights:true,poiWebcams:true,poiSupply:true,poiParking:true,poiMobility:true,hikingOverlay:false};
   const DEFAULT_SETTINGS={mapStyle:'hybrid',snap:'soft',fontScale:'standard',motion:'glide'};
   const DEFAULT_TRIP={start:'2026-06-22',end:'2026-07-05'};
@@ -17,6 +18,9 @@
   const esc=(s)=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
   function load(key,def){try{return Object.assign({},def,JSON.parse(localStorage.getItem(key)||'{}'))}catch(e){return Object.assign({},def)}}
   function save(key,obj){try{localStorage.setItem(key,JSON.stringify(obj))}catch(e){}}
+  function loadLine(){return load(LINE_STYLE_KEY,{gpx:{color:'#ff3b30',weight:5,opacity:.95},kml:{color:'#007aff',weight:5,opacity:.86},outline:{color:'#ffffff',extraWeight:1,opacity:.55},kmlStyle:'solid'})}
+  function saveLine(line){save(LINE_STYLE_KEY,line); document.dispatchEvent(new CustomEvent('prx-line-style-changed',{detail:line})); toast('Linien gespeichert')}
+  function lineCtl(group,label,line){const v=line[group]||{};return `<div class="settings-row line-editor"><strong>${esc(label)}</strong><label>Farbe <input type="color" data-line="${group}.color" value="${esc(v.color||'#ffffff')}"></label><label>Stärke <input type="range" min="1" max="12" step="1" data-line="${group}.weight" value="${esc(v.weight||5)}"><span>${esc(v.weight||5)} px</span></label><label>Deckkraft <input type="range" min="0.2" max="1" step="0.05" data-line="${group}.opacity" value="${esc(v.opacity||.9)}"></label></div>`}
   function toast(msg){let t=$('toast'); if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t)} t.textContent=msg; t.classList.remove('hidden'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.add('hidden'),1600)}
   function sheet(id){let el=$(id); if(!el){el=document.createElement('section'); el.id=id; document.body.appendChild(el)} el.className='settings-sheet prx376-sheet hidden'; return el}
   function openModal(el){
@@ -50,7 +54,7 @@
     detail.innerHTML=`<button class="back-row prx376-back">‹ ${esc(root)}</button><h2>${esc(title)}</h2><div class="settings-stack">${body}</div>`;
     detail.querySelector('.prx376-back').onclick=()=>el.querySelector('.prx376-pages').classList.remove('detail-open');
     el.querySelector('.prx376-pages').classList.add('detail-open');
-    bindInputs(el); bindSeg(el);
+    bindInputs(el); bindSeg(el); bindLineInputs(el);
   }
   function showDetail(el,key){ if(el.id==='optionSheet') optionDetail(key); else if(el.id==='settingsSheet') settingsDetail(key); else if(el.id==='tripSheet') tripDetail(key); }
   function openOptions(){
@@ -70,15 +74,15 @@
     const el=$('optionSheet'), o=load(APP_OPTIONS_KEY,DEFAULT_OPTIONS); let title='',body='';
     if(key==='map'){title='Karteninhalt';body=[toggle('PR-Pins anzeigen','Alle gefilterten PRs auf der Karte','showPins',o),toggle('GPX-Wanderroute anzeigen','aktive Wanderroute','showGPX',o),toggle('KML-Anfahrt anzeigen','aktive Anfahrt','showKML',o),toggle('POI-Kontext anzeigen','Vorschläge zur aktiven PR','showPoiContext',o),toggle('Ghost-POIs anzeigen','weitere Kontextmarker dezent','showGhostPois',o),toggle('Hotel/Home-Pin anzeigen','Pestana/Homepunkt später','showHome',o),toggle('Fokusmodus','andere PRs abdunkeln','focusMode',o),toggle('Automatisch einpassen','Route/POI in sichtbares Kartenfeld','autoFit',o),toggle('OSM-Hiking Overlay','Waymarked Trails als externe Ebene','hikingOverlay',o)].join('')}
     if(key==='pois'){title='POI-Anzeige';body=[toggle('Highlight-POIs','Sehenswürdigkeiten und echte Besuchsziele','poiHighlights',o),toggle('Webcams','nur Info-Kategorie, kein Highlight','poiWebcams',o),toggle('Versorgung','Tankstellen, WC, Supermärkte','poiSupply',o),toggle('Parken & Startpunkte','Parkplätze und Trailheads','poiParking',o),toggle('Mobilität','Bus, Shuttle, Taxi','poiMobility',o)].join('')+`<div class="settings-note">Funktions-POIs bleiben Kategoriezeilen mit Anzahl; keine Vermischung mit Highlights.</div>`}
-    if(key==='lines'){title='Linien & Tracks';body=`<div class="settings-row"><strong>GPX Wanderroute</strong><div class="prx376-line gpx"></div><small>Rot · 5 px · weiße Kontur vorbereitet.</small></div><div class="settings-row"><strong>KML Anfahrt</strong><div class="prx376-line kml"></div><small>Blau · durchgezogen · 5 px · weiße Kontur vorbereitet.</small></div><div class="settings-row"><strong>OSM Hiking Overlay</strong>${toggle('Overlay anzeigen','Waymarked Trails. Editierbare Nachzeichnung später.','hikingOverlay',o)}</div>`}
+    if(key==='lines'){title='Linien & Tracks';const line=loadLine();body=lineCtl('gpx','GPX Wanderroute',line)+lineCtl('kml','KML Anfahrt',line)+`<div class="settings-row line-editor"><strong>KML Linienart</strong>${seg('kmlstyle',[['solid','durchgezogen'],['dash','gestrichelt'],['dot','gepunktet']],line.kmlStyle||'solid')}</div><div class="settings-row line-editor"><strong>Weiße Kontur</strong><label>Zusatzbreite <input type="range" min="0" max="6" step="0.5" data-line="outline.extraWeight" value="${esc(line.outline?.extraWeight??1)}"><span>${esc(line.outline?.extraWeight??1)} px</span></label><label>Deckkraft <input type="range" min="0" max="1" step="0.05" data-line="outline.opacity" value="${esc(line.outline?.opacity??.55)}"></label></div><div class="settings-row"><strong>OSM Hiking Overlay</strong>${toggle('Overlay anzeigen','Waymarked Trails. Editierbare Nachzeichnung später.','hikingOverlay',o)}</div>`}
     if(key==='filters'){title='Filter & Sortierung';body=`<div class="settings-row"><strong>Filter öffnen</strong><small>Status, Region und Hybrid-Slider bleiben im Filterbereich.</small><button id="prx376OpenFilter">Filter öffnen</button></div><div class="settings-row"><strong>Min = Max</strong><small>Einzelwert wird ruhiger angezeigt; kein Doppelgriff bei identischem Wert.</small></div>`}
     if(key==='tripview'){title='Reiseansicht';body=`<div class="settings-row"><strong>Tageslisten</strong><small>Einspaltige Liste. Tagesdetail gleitet von rechts herein.</small></div><div class="settings-row"><strong>Heute / Später</strong><small>Max. 5 Heute, max. 10 Später.</small></div>`}
     if(key==='export'){title='Export & Teilen';body=`<div class="settings-row"><button id="prx376CopyOpt">Optionen als JSON kopieren</button><button id="prx376CopySummary">Kurzinfo kopieren</button></div>`}
-    if(key==='diagnostics'){title='Diagnose/Test';body=`<div class="diag-grid"><div><b>Version</b><span>3.7.6</span></div><div><b>PRX Speicher</b><span>${Object.keys(localStorage).filter(k=>k.startsWith('prx.')).length} Keys</span></div><div><b>Modal</b><span>isoliert</span></div><div><b>Navigation</b><span>Cover weich</span></div></div>`}
+    if(key==='diagnostics'){title='Diagnose/Test';body=`<div class="diag-grid"><div><b>Version</b><span>3.7.7</span></div><div><b>PRX Speicher</b><span>${Object.keys(localStorage).filter(k=>k.startsWith('prx.')).length} Keys</span></div><div><b>Modal</b><span>isoliert</span></div><div><b>Navigation</b><span>Cover weich</span></div></div>`}
     paint(el,'Optionen',title,body);
     const f=$('prx376OpenFilter'); if(f) f.onclick=()=>{closeModal(el); setTimeout(()=>$('filterBtn')?.click(),60)};
     const co=$('prx376CopyOpt'); if(co) co.onclick=()=>copy(JSON.stringify(load(APP_OPTIONS_KEY,DEFAULT_OPTIONS),null,2));
-    const cs=$('prx376CopySummary'); if(cs) cs.onclick=()=>copy('PR-Explorer V3.7.6 · Optionen/Einstellungen/Reise stabilisiert');
+    const cs=$('prx376CopySummary'); if(cs) cs.onclick=()=>copy('PR-Explorer V3.7.7 · Optionen/Einstellungen/Reise stabilisiert');
   }
   function openSettings(){
     const s=load(APP_SETTINGS_KEY,DEFAULT_SETTINGS); const mode=localStorage.getItem('prx.detailTextMode.v373')||'off';
@@ -90,9 +94,9 @@
     if(key==='display'){title='Darstellung';body=`<div class="settings-row"><strong>Detailtext-Testmodus</strong>${seg('detailtext',[['off','Aus'],['short150','150'],['detail280','280'],['both','Beide']],detailMode)}</div><div class="settings-row"><strong>Glass-Stärke</strong>${seg('glass',[['light','Leicht'],['medium','Mittel'],['strong','Stark']],localStorage.getItem('prx.glass.v376')||'medium')}</div><div class="settings-row"><strong>Schriftgröße</strong>${seg('fontscale',[['compact','Kompakt'],['standard','Standard'],['large','Groß']],s.fontScale||'standard')}</div><div class="settings-row"><strong>Reduzierte Bewegung</strong>${seg('reducedmotion',[['off','Aus'],['on','An']],localStorage.getItem('prx.reducedMotion.v376')||'off')}</div>`}
     if(key==='mapstyle'){title='Kartenstil';body=`<div class="settings-row"><strong>Basiskarte</strong>${seg('mapstyle',[['osm','OSM'],['topo','Topo'],['sat','Satellit kräftig'],['hybrid','Satellit-Hybrid']],s.mapStyle||'hybrid')}</div><div class="settings-note">Satellit/Hybrid bleiben ohne globale Blass-/Opacity-Reduktion.</div>`}
     if(key==='gestures'){title='Bedienung & Gesten';body=`<div class="settings-row"><strong>Bewegung</strong>${seg('motion',[['glide','Gleiten'],['normal','Normal'],['fast','Schnell']],localStorage.getItem('prx.motion.v376')||s.motion||'glide')}</div><div class="settings-row"><strong>Snap-Stärke</strong>${seg('snap',[['soft','Weich'],['medium','Mittel'],['firm','Fest']],s.snap||'soft')}</div><div class="settings-row"><strong>Horizontaler Lock</strong><small>Aktiv: bei horizontalem Swipe wird die vertikale Achse stabilisiert. Gilt für Journal, POI, Reise, Optionen, Einstellungen.</small></div><div class="settings-row"><strong>Vertikales Wegschubsen</strong><small>Für Einstellungs-/Options-/Reisedetailseiten blockiert. Nur interner Seiteninhalt scrollt.</small></div>`}
-    if(key==='icons'){title='Icons & Symbole';body=`<div class="settings-row"><strong>UI-Icongröße</strong>${seg('iconscale',[['0.9','0.90×'],['1','1.00×'],['1.15','1.15×'],['1.3','1.30×'],['1.45','1.45×']],String(localStorage.getItem('prx.iconScale.v376')||'1.15'))}</div><div class="prx376-icon-grid"><div>⌖<small>Highlight</small></div><div>📷<small>Webcam</small></div><div>⛽<small>Tanken</small></div><div>WC<small>Toilette</small></div><div>Ⓟ<small>Parken</small></div><div>⛰<small>Route</small></div></div>`}
+    if(key==='icons'){title='Icons & Symbole';const cur=localStorage.getItem('prx.symbolSet.v377')||'cupertino';body=`<div class="settings-row"><strong>UI-Icongröße</strong>${seg('iconscale',[['0.9','0.90×'],['1','1.00×'],['1.15','1.15×'],['1.3','1.30×'],['1.45','1.45×']],String(localStorage.getItem('prx.iconScale.v376')||'1.15'))}</div><div class="settings-row"><strong>Symbolset</strong>${seg('symbolset',[['cupertino','Cupertino klar'],['outdoor','Outdoor zweifarbig'],['minimal','Minimal hart']],cur)}</div><div class="prx376-icon-grid prx377-symbol-grid"><button data-symbol="highlight">⌖<small>Highlight</small></button><button data-symbol="webcam">▣<small>Webcam</small></button><button data-symbol="fuel">⛽<small>Tanken</small></button><button data-symbol="toilet">WC<small>Toilette</small></button><button data-symbol="parking">Ⓟ<small>Parken</small></button><button data-symbol="trail">⛰<small>Route</small></button></div><small>Auswahl speichert die Symbol-Taxonomie als Testwert; finale SVG-Sets später.</small>`}
     if(key==='data'){title='Daten & Speicher';body=`<div class="settings-row"><button id="prx376CopyLocal">Lokale PRX-Daten kopieren</button><button id="prx376ClearPoi">POI-Zustände löschen</button><button id="prx376ClearStatus">Statusdaten löschen</button><small>Rohdaten bleiben unverändert.</small></div>`}
-    if(key==='admin'){title='Admin';body=`<div class="diag-grid"><div><b>Version</b><span>3.7.6</span></div><div><b>PRX Keys</b><span>${Object.keys(localStorage).filter(k=>k.startsWith('prx.')).length}</span></div><div><b>Upload</b><span>Einzeldateien</span></div><div><b>Engine</b><span>Settings</span></div></div><div class="settings-row"><strong>Entscheidungsarchiv</strong><small>Markdown/JSON bleibt in docs/interviews verfügbar.</small></div>`}
+    if(key==='admin'){title='Admin';body=`<div class="diag-grid"><div><b>Version</b><span>3.7.7</span></div><div><b>PRX Keys</b><span>${Object.keys(localStorage).filter(k=>k.startsWith('prx.')).length}</span></div><div><b>Upload</b><span>Einzeldateien</span></div><div><b>Engine</b><span>Settings</span></div></div><div class="settings-row"><strong>Entscheidungsarchiv</strong><small>Markdown/JSON bleibt in docs/interviews verfügbar.</small></div>`}
     paint(el,'Einstellungen',title,body);
     const cl=$('prx376CopyLocal'); if(cl) cl.onclick=()=>copy(JSON.stringify(snapshot(),null,2));
     const cp=$('prx376ClearPoi'); if(cp) cp.onclick=()=>{localStorage.removeItem('prx.poiState.v360');toast('POI-Zustände gelöscht')};
@@ -115,10 +119,16 @@
   function bindInputs(el){
     el.querySelectorAll('input[data-opt]').forEach(inp=>inp.onchange=()=>{const o=load(APP_OPTIONS_KEY,DEFAULT_OPTIONS);o[inp.dataset.opt]=inp.checked;save(APP_OPTIONS_KEY,o);toast('Option gespeichert')});
   }
+
+  function bindLineInputs(el){
+    el.querySelectorAll('[data-line]').forEach(inp=>{inp.oninput=inp.onchange=()=>{const line=loadLine();const [g,k]=inp.dataset.line.split('.');line[g]=line[g]||{};let val=inp.value;if(inp.type==='range')val=Number(val);line[g][k]=val;const span=inp.parentElement?.querySelector('span'); if(span&&inp.type==='range')span.textContent=val+' px';saveLine(line)}});
+  }
   function bindSeg(el){
     el.querySelectorAll('[data-seg]').forEach(btn=>btn.onclick=()=>{
       const name=btn.dataset.seg, val=btn.dataset.value; const s=load(APP_SETTINGS_KEY,DEFAULT_SETTINGS);
       if(name==='mapstyle'){s.mapStyle=val; save(APP_SETTINGS_KEY,s); toast('Kartenstil gespeichert')}
+      if(name==='kmlstyle'){const line=loadLine();line.kmlStyle=val;saveLine(line)}
+      if(name==='symbolset'){localStorage.setItem('prx.symbolSet.v377',val); document.documentElement.dataset.symbolset=val; toast('Symbolset '+val)}
       if(name==='snap'){s.snap=val; save(APP_SETTINGS_KEY,s); document.documentElement.dataset.snap=val; toast('Snap '+val)}
       if(name==='motion'){s.motion=val; save(APP_SETTINGS_KEY,s); localStorage.setItem('prx.motion.v376',val); document.documentElement.dataset.motion=val; toast('Bewegung '+val)}
       if(name==='detailtext'){localStorage.setItem('prx.detailTextMode.v373',val); toast('Textmodus '+val)}
