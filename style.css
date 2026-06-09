@@ -146,3 +146,107 @@ html[data-snap="soft"] .detail-card,html[data-snap="soft"] .poi-sheet,html[data-
   .menu-row,.back-row,.switch-row{min-height:60px!important;}
   .app-icon-row img{width:54px;height:54px;}
 }
+
+/* PRX V3.7.4 · Isolierte Bereiche für Reise / Optionen / Einstellungen
+   Wenn eine dieser Rubriken aktiv ist, werden alle anderen App-Ebenen pauschal ausgeblendet.
+   Dadurch scrollt nicht mehr versehentlich Journal/Karte unter der aktiven Liste. */
+html.prx-modal-lock,
+body.prx-modal-lock{
+  overflow:hidden!important;
+  height:100%!important;
+  overscroll-behavior:none!important;
+  touch-action:none;
+}
+body.prx-modal-isolated .world,
+body.prx-modal-isolated .top-controls,
+body.prx-modal-isolated #journalStage,
+body.prx-modal-isolated #detailCard,
+body.prx-modal-isolated #poiSheet,
+body.prx-modal-isolated #bottomNav{
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+  transition:opacity .16s ease!important;
+}
+body.prx-modal-isolated #optionSheet.prx-active-modal,
+body.prx-modal-isolated #settingsSheet.prx-active-modal,
+body.prx-modal-isolated #tripSheet.prx-active-modal,
+body.prx-modal-isolated #filterSheet.prx-active-modal{
+  display:block!important;
+  position:fixed!important;
+  z-index:5000!important;
+  inset:max(10px,env(safe-area-inset-top)) 10px max(10px,env(safe-area-inset-bottom)) 10px!important;
+  width:auto!important;
+  height:auto!important;
+  max-height:none!important;
+  min-height:0!important;
+  overflow:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior:contain!important;
+  touch-action:pan-y!important;
+  border-radius:32px!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+  background:rgba(9,28,24,.96)!important;
+  box-shadow:0 24px 90px rgba(0,0,0,.56)!important;
+  backdrop-filter:blur(26px)!important;
+  padding-bottom:calc(22px + env(safe-area-inset-bottom))!important;
+}
+body.prx-modal-isolated .settings-head{
+  position:sticky!important;
+  top:0!important;
+  z-index:2!important;
+  background:linear-gradient(180deg,rgba(9,28,24,.98),rgba(9,28,24,.90))!important;
+  backdrop-filter:blur(20px)!important;
+  margin:-1px -1px 12px!important;
+  padding:18px 18px 12px!important;
+  border-radius:32px 32px 0 0!important;
+  border-bottom:1px solid rgba(255,255,255,.10)!important;
+}
+body.prx-modal-isolated .settings-head strong{
+  font-size:22px!important;
+}
+body.prx-modal-isolated .settings-head button{
+  min-width:42px!important;
+  min-height:42px!important;
+}
+body.prx-modal-isolated .menu-list,
+body.prx-modal-isolated .settings-stack,
+body.prx-modal-isolated .filter-block,
+body.prx-modal-isolated .filter-actions,
+body.prx-modal-isolated .settings-row,
+body.prx-modal-isolated .trip-days{
+  margin-left:12px!important;
+  margin-right:12px!important;
+}
+body.prx-modal-isolated .menu-row,
+body.prx-modal-isolated .switch-row,
+body.prx-modal-isolated .back-row{
+  min-height:68px!important;
+  border-radius:22px!important;
+  padding:15px 16px!important;
+}
+body.prx-modal-isolated .menu-row strong,
+body.prx-modal-isolated .switch-row strong{
+  font-size:17px!important;
+}
+body.prx-modal-isolated .menu-row small,
+body.prx-modal-isolated .switch-row small{
+  font-size:13px!important;
+}
+body.prx-modal-isolated .date-row{
+  grid-template-columns:1fr 1fr!important;
+  gap:12px!important;
+}
+body.prx-modal-isolated .date-row input{
+  min-height:56px!important;
+  font-size:17px!important;
+}
+@media(max-width:390px){
+  body.prx-modal-isolated #optionSheet.prx-active-modal,
+  body.prx-modal-isolated #settingsSheet.prx-active-modal,
+  body.prx-modal-isolated #tripSheet.prx-active-modal,
+  body.prx-modal-isolated #filterSheet.prx-active-modal{
+    inset:max(8px,env(safe-area-inset-top)) 8px max(8px,env(safe-area-inset-bottom)) 8px!important;
+    border-radius:28px!important;
+  }
+}

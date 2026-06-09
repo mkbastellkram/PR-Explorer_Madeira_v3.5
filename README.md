@@ -10,3 +10,11 @@ Schwerpunkt:
 - App-Icon-Vorschau und Design-Tokens vorbereitet.
 
 Keine neuen Datenquellen, keine Live-Abfragen, keine neuen Asset-Ordner.
+
+
+## V3.7.4 MODAL ISOLATION
+
+- Reise, Optionen, Einstellungen und Filter werden als isolierte App-Ebene geführt.
+- Unterliegende Journal-/Detail-/Kartenebenen werden ausgeblendet und gegen Scroll/Tap gesperrt.
+- Aktive Listen scrollen nun selbst, nicht das darunterliegende Karten- oder Journalmaterial.
+- Keine neuen Datenordner.
