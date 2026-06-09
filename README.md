@@ -1,3 +1,11 @@
+# PR-Explorer Madeira V3.8.0 OSM LIVE POI LAYER
+
+Basis: V3.7.8 Detail Open Recovery.
+
+Diese Version ergänzt einen separaten OSM-Live-POI-Layer.
+
+OSM-Live-POIs sind nicht kuratierte Community-Daten und bleiben getrennt von PRX Highlight-/Standard-POIs.
+
 # PR-Explorer Madeira V3.7.8 SETTINGS ENGINE
 
 Stabilisiert die zweiten Ebenen von Optionen, Einstellungen und Reise auf Basis der V3.7.4/V3.7.5-Modal-Isolation.

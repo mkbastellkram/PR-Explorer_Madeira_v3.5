@@ -1,6 +1,6 @@
 {
-  "name": "PR Explorer Madeira V3.7.8",
-  "short_name": "PRX V3.7.8",
+  "name": "PR Explorer Madeira V3.8.0",
+  "short_name": "PRX 3.8.0",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#021a14",
@@ -23,5 +23,6 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "description": "PR-Explorer Madeira V3.8.0 OSM Live POI Layer"
 }
