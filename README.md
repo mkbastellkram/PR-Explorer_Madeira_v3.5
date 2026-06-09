@@ -1,3 +1,7 @@
+# PR-Explorer Madeira V3.8.2 CRITICAL LOAD FIX
+
+Korrekturbuild nach GitHub-Upload-Audit: prx-v377 eingebunden, prx-v380 nach App-Initialisierung geladen, doppelter Leaflet-CSS-Import entfernt, short_name versionsfrei gesetzt, Versionssync beibehalten.
+
 # PR-Explorer Madeira V3.8.0 OSM LIVE POI LAYER
 
 Basis: V3.7.8 Detail Open Recovery.
