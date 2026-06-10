@@ -1,8 +1,10 @@
-# PR-Explorer Madeira V3.8.3 CRITICAL LOAD FIX
+# PR-Explorer Madeira V3.8.4 DISPLAY LOAD RECOVERY
 
-Korrekturbuild nach GitHub-Upload-Audit: prx-v377 eingebunden, prx-v380 nach App-Initialisierung geladen, doppelter Leaflet-CSS-Import entfernt, short_name versionsfrei gesetzt, Versionssync beibehalten.
+Recovery-Build nach grünem Display in V3.8.2/V3.8.3. Basis ist der funktionierende GitHub-Upload V3.8.0, nicht die defekte index.html der Recovery-Zwischenversionen.
 
-# PR-Explorer Madeira V3.8.3 OSM LIVE POI LAYER
+Wichtig: Keine neuen Daten, keine neuen Ordner, keine neue Architektur.
+
+# PR-Explorer Madeira V3.8.0 OSM LIVE POI LAYER
 
 Basis: V3.7.8 Detail Open Recovery.
 
@@ -30,7 +32,3 @@ Interaktive Liniensteuerung, Favoriten-Badges, Status-/Buchungsblock, Icon-/Symb
 
 ## V3.7.8 DETAIL OPEN RECOVERY
 Recovery-Build nach Freeze beim Öffnen einer PR-Detailkarte. Entfernt die automatische Zusatzlogik/Observer-Schleife aus V3.7.7 und kapselt Status-/Buchungsblock defensiv.
-
-
-## V3.8.3 DISPLAY RECOVERY
-Vollständige App-Shell nach fehlerhafter V3.8.2-index.html wiederhergestellt.
