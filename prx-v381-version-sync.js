@@ -1,8 +1,8 @@
-/* PRX V3.8.1 · Version Display Sync
+/* PRX V3.8.3 · Version Display Sync
    Korrigiert ältere hardcodierte Diagnose-/Admin-Versionen aus Modulketten. */
 (function(){
   'use strict';
-  const VERSION='3.8.1';
+  const VERSION='3.8.3';
   window.PRX_APP_VERSION=VERSION;
   window.PRX_APP_VERSION_LABEL='PR-Explorer Madeira V'+VERSION;
   function syncVersions(root=document){
