@@ -27,7 +27,7 @@ Interaktive Liniensteuerung, Favoriten-Badges, Status-/Buchungsblock, Icon-/Symb
 ## V3.7.8 DETAIL OPEN RECOVERY
 Recovery-Build nach Freeze beim Öffnen einer PR-Detailkarte. Entfernt die automatische Zusatzlogik/Observer-Schleife aus V3.7.7 und kapselt Status-/Buchungsblock defensiv.
 
-## V3.8.5 MODULE INTAKE & START DIAGNOSIS
+## V3.8.6 MODULE INTAKE & START DIAGNOSIS
 
 Dieser Build stabilisiert die Ladefolge und ergänzt eine Startdiagnose. Er basiert defensiv auf dem sichtbaren V3.8.0-GitHub-Stand. Keine neuen Ordner, keine neuen Daten und kein Service Worker.
 
@@ -38,3 +38,7 @@ Wichtige Punkte:
 - Dashboard zeigt eine lokale Startdiagnose.
 - Display-Guard verhindert eine vollständig leere Hauptansicht.
 - OSM-Ladeindikator ergänzt.
+
+## V3.8.6 Interaction Recovery
+
+Entfernt die blockierende V3.7.7-Status-MutationObserver-Logik aus der aktiven Script-Kette und ersetzt sie durch ein defensives Status-/Buchungsmodul ohne automatische Live-Abfrage.
