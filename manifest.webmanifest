@@ -1,7 +1,7 @@
 {
   "name": "PR Explorer Madeira",
   "short_name": "PRX Madeira",
-  "start_url": "./index.html?v=3.8.7",
+  "start_url": "./index.html?v=3.9.0",
   "display": "standalone",
   "background_color": "#021a14",
   "theme_color": "#021a14",
@@ -24,5 +24,5 @@
       "purpose": "any maskable"
     }
   ],
-  "description": "PR-Explorer Madeira V3.8.0 OSM Live POI Layer"
+  "description": "PR-Explorer Madeira V3.9.0 GPS Status Dashboard Foundation"
 }
