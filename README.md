@@ -1,3 +1,9 @@
+# PR Explorer Madeira V3.8.7 MAP TILE RECOVERY
+
+Recovery-Build gegen Leaflet-Kachelversatz nach V3.8.6.
+
+Wichtig: keine neuen Ordner, kein Service Worker, keine neuen Daten.
+
 # PR-Explorer Madeira V3.8.0 OSM LIVE POI LAYER
 
 Basis: V3.7.8 Detail Open Recovery.
