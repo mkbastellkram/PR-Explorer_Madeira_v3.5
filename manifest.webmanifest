@@ -1,7 +1,7 @@
 {
-  "name": "PR Explorer Madeira",
-  "short_name":"PRX Madeira",
-  "start_url": "./index.html?v=3.9.4",
+  "name": "PR Explorer Madeira V3.9.5",
+  "short_name": "PRX Madeira",
+  "start_url": "./index.html?v=3.9.5",
   "display": "standalone",
   "background_color": "#021a14",
   "theme_color": "#021a14",
