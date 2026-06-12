@@ -1,48 +1,26 @@
-# PR Explorer Madeira · V3.10.4
+# PR Explorer Madeira V3.10.4 AUDIT RECORDER & VISIBILITY ENGINE
 
-## Schwerpunkt
-Karten-Detailseite stabilisieren und globales Buttonfeedback vereinheitlichen.
+## Geändert
+- A-00 Audit-Konsole ersetzt den alten schwer erreichbaren Audit-Einstieg als aktive Auditoberfläche.
+- Auditbericht zeigt jetzt Version 3.10.4 statt alter 3.10.1-Reportversion.
+- Sichtbarkeitsprüfung verbessert: Viewport, Hidden-Klassen, Display/Visibility/Opacity und Elementgröße werden berücksichtigt.
+- Audit-Recorder ergänzt:
+  - Aufnahme 60 Sekunden
+  - Aufnahme 120 Sekunden
+  - Stop
+  - Ereignisse mit Zeitversatz, Ereignistyp, Komponenten-ID, Komponentenname und Body-Klassen.
+- Auditbericht enthält Recorder-Protokoll, falls eine Aufnahme läuft oder eine letzte Aufnahme gespeichert ist.
+- PRX_AUDIT API überschreibt jetzt `open`, `collect`, `report`, `toggle`, `startRecording`, `stopRecording`.
+- Floating A-00 Button im Auditmodus beibehalten.
+- Versionsanzeigen auf 3.10.4 synchronisiert.
 
-## Änderungen
+## Nicht geändert
+- Keine PR-/GPX-/KML-/POI-Rohdaten geändert.
+- Keine Kartenarchitektur geändert.
+- Kein Service Worker.
+- Keine neue Ordnerstruktur.
+- Keine Hotspot-/Heatmap-Integration.
+- Keine automatische Tagesroutenoptimierung.
 
-### D-01 · PR-Detailseite
-- Detailseite nutzt in Karten-/Detailansicht jetzt das Journal-Überlaufprinzip.
-- `#detailCard` läuft technisch bis `bottom: 0` und erhält unten ausreichend Innenabstand für Bottom-Navigation und iOS-Safe-Area.
-- Vertikales Scrollen der Detailseite ist wieder eigenständig möglich.
-- Detailkopf bleibt innerhalb der Detailseite sticky.
-
-### N-01 · Bottom-Navigation
-- Bottom-Navigation bleibt fest über dem Inhalt.
-- Keine zusätzliche harte Detailbegrenzung oberhalb der Navigation.
-- Detailinhalt darf hinter die Navigation scrollen, wird aber durch Padding freigehalten.
-
-### T-00 · Top-Control-Leiste
-- Top-Control-Höhe wird dynamisch gemessen.
-- Detailseite startet unterhalb der Top-Controls.
-
-### Globales Buttonfeedback
-- Einführung der Laufzeitklassen:
-  - `.prx-toggle` für einrastende Schalter.
-  - `.prx-action` für momentane Taster.
-  - `.prx-status-choice` für Statusauswahl.
-- Klicks erhalten eine kurze visuelle Pulse-Rückmeldung.
-- Aktionsbuttons erhalten Busy-/Done-Zustand.
-- Relevante Aktionen lösen Toast-Meldungen aus.
-
-### S-01/S-02 · Status & Buchung
-- Statusbuttons werden als Radio-State-Gruppe behandelt.
-- Nur der gewählte Status wird aktiv markiert.
-- Statuswechsel erzeugt Toast-Rückmeldung.
-
-### A-00/A-01/A-02/A-03 · Audit/Admin
-- Audit-/ID-Schalter erhalten Toggle-Kennzeichnung.
-- Audit-kopieren-Button erhält Done-Feedback und Toast.
-
-## Dateien
-- `index.html`
-- `prx-v3104-detail-scroll-feedback.js`
-- `PRX_V3.10.4_CHANGELOG.md`
-- `UPLOAD_INFO_V3.10.4.md`
-
-## Ordneränderungen
-Keine neuen oder geänderten Ordner.
+## Bekannte Grenze
+- Das Audit-System ist weiter eine Laufzeit-Ergänzung. Es verbessert Adressierung und Protokollierung, ersetzt aber noch keine vollständige Entwicklerkonsole.
