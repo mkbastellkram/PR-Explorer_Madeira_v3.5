@@ -17,3 +17,12 @@ Drive Time Realism: realistische Madeira-Anfahrtszeit mit Faktor, Verkehrs-/Grup
 - Audit-Panel mit gegliederter Kopiervorlage.
 - Normalbetrieb unverändert; Audit-Labels nur bei aktivem Modus sichtbar.
 - Keine neuen Ordner, kein Service Worker, keine Datenänderung.
+
+
+## V3.10.2 AUDIT ENTRY & VERSION SYNC
+
+- Sichtbarer Einstieg A-00 im Dashboard.
+- Audit/Admin-Karte in Einstellungen → Admin wird defensiv ergänzt.
+- Audit-Modus, Komponentenlabels und kopierbarer Auditbericht über UI erreichbar.
+- Versionsanzeigen werden zentral auf 3.10.2 synchronisiert.
+- intro.jpg wurde entfernt; intro-bg.svg bleibt die aktive Hintergrundgrafik.
