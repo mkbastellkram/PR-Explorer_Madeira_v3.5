@@ -6,7 +6,7 @@ const PRX = {
   data: null,
   map: null,
   pinRenderer: null,
-  layers: { pins: null, gpx: null, kml: null },
+  layers: { pins: null, gpx: null, kml: null, endpoints: null, pois: null },
   active: null,
   view: 'journal',
   filter: { q: '', region: '', status: '' },
@@ -301,6 +301,8 @@ function initMap() {
   PRX.layers.pins = L.layerGroup().addTo(PRX.map);
   PRX.layers.gpx = L.layerGroup().addTo(PRX.map);
   PRX.layers.kml = L.layerGroup().addTo(PRX.map);
+  PRX.layers.endpoints = L.layerGroup().addTo(PRX.map);
+  PRX.layers.pois = L.layerGroup().addTo(PRX.map);
   L.control.zoom({ position: 'bottomright' }).addTo(PRX.map);
   PRX.map.on('baselayerchange zoomend moveend', () => scheduleMapSize());
   setTimeout(() => PRX.map.invalidateSize({ animate: false }), 300);
@@ -321,7 +323,7 @@ function renderPins() {
   PRX.layers.pins.clearLayers();
   filtered().forEach(p => {
     if (!p.lat || !p.lon) return;
-    const m = L.circleMarker([p.lat, p.lon], { renderer: PRX.pinRenderer, radius: 7, color: '#ffffff', weight: 1, fillColor: '#38d5bd', fillOpacity: .9 });
+    const m = L.circleMarker([p.lat, p.lon], { renderer: PRX.pinRenderer, radius: 8, color: '#ffffff', weight: 2, fillColor: '#38d5bd', fillOpacity: .95, pane: 'markerPane' });
     m.bindTooltip(`${p.sourceNumber || p.id} · ${p.name}`);
     m.on('click', () => openDetail(p.id));
     m.addTo(PRX.layers.pins);
@@ -353,16 +355,45 @@ async function showActiveLines(p) {
   clearActiveLines();
   const bounds = [];
   if (p.routeFile) {
-    try { const r = await (await fetch(p.routeFile, { cache: 'force-cache' })).json(); const pts = decimate(r.points, 1800); L.polyline(pts, { color: '#0a84ff', weight: 5, opacity: .82, renderer: PRX.pinRenderer, smoothFactor: 1.2, interactive: false }).addTo(PRX.layers.kml); bounds.push(...pts); }
-    catch (e) { console.warn(e); }
+    try {
+      const r = await (await fetch(p.routeFile, { cache: 'force-cache' })).json();
+      const pts = decimate(r.points, 1800);
+      L.polyline(pts, { color: '#0a84ff', weight: 5, opacity: .82, renderer: PRX.pinRenderer, smoothFactor: 1.2, interactive: false }).addTo(PRX.layers.kml);
+      addPathEndpoints(pts, 'kml');
+      bounds.push(...pts);
+    } catch (e) { console.warn(e); }
   }
   if (p.trackFile) {
-    try { const g = await (await fetch(p.trackFile, { cache: 'force-cache' })).json(); const pts = decimate(g.points, 1800); L.polyline(pts, { color: '#ff453a', weight: 5, opacity: .88, renderer: PRX.pinRenderer, smoothFactor: 1.2, interactive: false }).addTo(PRX.layers.gpx); bounds.push(...pts); }
-    catch (e) { console.warn(e); }
+    try {
+      const g = await (await fetch(p.trackFile, { cache: 'force-cache' })).json();
+      const pts = decimate(g.points, 1800);
+      L.polyline(pts, { color: '#ff453a', weight: 5, opacity: .88, renderer: PRX.pinRenderer, smoothFactor: 1.2, interactive: false }).addTo(PRX.layers.gpx);
+      addPathEndpoints(pts, 'gpx');
+      bounds.push(...pts);
+    } catch (e) { console.warn(e); }
   }
   if (bounds.length && PRX.map) PRX.map.fitBounds(bounds, { padding: [30, 90], maxZoom: 13, animate: false });
 }
-function clearActiveLines() { if (PRX.layers.gpx) PRX.layers.gpx.clearLayers(); if (PRX.layers.kml) PRX.layers.kml.clearLayers(); }
+function addPathEndpoints(points, kind) {
+  if (!PRX.layers.endpoints || !Array.isArray(points) || !points.length) return;
+  const first = points[0];
+  const last = points[points.length - 1];
+  const isGpx = kind === 'gpx';
+  const color = isGpx ? '#ff453a' : '#0a84ff';
+  const label = isGpx ? 'GPX' : 'KML';
+  addEndpointMarker(first, color, `${label} Start`, 6);
+  if (last && (last[0] !== first[0] || last[1] !== first[1])) addEndpointMarker(last, color, `${label} Ziel`, 9);
+}
+function addEndpointMarker(latlng, color, label, radius) {
+  const marker = L.circleMarker(latlng, { renderer: PRX.pinRenderer, radius, color: '#ffffff', weight: 2, fillColor: color, fillOpacity: .96, pane: 'markerPane' });
+  marker.bindTooltip(label);
+  marker.addTo(PRX.layers.endpoints);
+}
+function clearActiveLines() {
+  if (PRX.layers.gpx) PRX.layers.gpx.clearLayers();
+  if (PRX.layers.kml) PRX.layers.kml.clearLayers();
+  if (PRX.layers.endpoints) PRX.layers.endpoints.clearLayers();
+}
 
 function openFilter() {
   const body = el('div');
