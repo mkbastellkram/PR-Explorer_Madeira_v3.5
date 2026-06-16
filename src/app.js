@@ -256,7 +256,7 @@ function drawRows(list) {
   if (!rows.length) { list.append(el('div', 'empty', { text: 'Keine PRs im aktuellen Filter.' })); return; }
   rows.forEach(p => {
     const b = cid(el('button', 'pr-row', { type: 'button', onclick: () => openDetail(p.id) }), 'J-03', Registry['J-03'], p.id);
-    b.innerHTML = `<div class="status-dot">${statusIcon(p.status)}</div><div><div class="pr-title">${p.sourceNumber || p.id} · ${p.name}</div><div class="pr-meta"><span>${p.region}</span><span>${fmt(p.trail.distanceKm, ' km')}</span><span>${fmt(p.trail.duration)}</span><span>${fmt(p.trail.elevGain, ' hm')}</span></div></div><div class="pr-facts"><div>${fmt(p.drive.km, ' km')}</div><div>${fmt(p.drive.min, ' min')}</div></div>`;
+    b.innerHTML = `<div class="pr-thumb">${p.sourceNumber || statusIcon(p.status)}</div><div><div class="pr-title">${p.sourceNumber || p.id} · ${p.name}</div><div class="pr-meta"><span>${p.region}</span><span>${fmt(p.trail.distanceKm, ' km')}</span><span>${fmt(p.trail.duration)}</span><span>${fmt(p.trail.elevGain, ' hm')}</span></div></div><div class="pr-facts"><div>${fmt(p.drive.km, ' km')}</div><div>${fmt(p.drive.min, ' min')}</div></div>`;
     list.append(b);
   });
 }
@@ -332,13 +332,13 @@ function renderPins() {
 function fitMadeira() { if (PRX.map) PRX.map.setView([32.75, -16.95], 10); }
 async function openDetail(id) {
   const p = PRX.data.prs.find(x => x.id === id); if (!p) return;
-  PRX.active = p; renderView('map'); await showActiveLines(p);
-  if (PRX.map && p.lat && p.lon) PRX.map.setView([p.lat, p.lon], 12);
+  PRX.active = p; renderView('map');
   const host = $('#detailHost'); host.innerHTML = ''; host.hidden = false;
   const sheet = cid(el('section', 'detail-sheet'), 'PD-00', Registry['PD-00'], p.id);
   const head = el('header', 'detail-header');
   head.append(el('div', 'detail-title', { text: `${p.sourceNumber || p.id} · ${p.name}` }), Components.closeButton(() => { host.hidden = true; clearActiveLines(); }, 'PD-01'));
   const body = el('div', 'detail-body');
+  body.append(renderRouteHero(p));
   const grid = cid(el('div', 'kv-grid'), 'PD-02', Registry['PD-02'], p.id);
   [['Region', p.region], ['Status', p.status], ['Distanz', p.trail.distanceKm ? `${p.trail.distanceKm} km` : null], ['Dauer', p.trail.duration], ['Höhenmeter', p.trail.elevGain ? `${p.trail.elevGain} hm` : null], ['Anfahrt', p.drive.min ? `${p.drive.min} min · ${fmt(p.drive.km, ' km')}` : null], ['Höchster Punkt', p.trail.elevHigh ? `${p.trail.elevHigh} m` : null], ['Tiefster Punkt', p.trail.elevLow ? `${p.trail.elevLow} m` : null]].forEach(x => grid.append(Components.kv(x[0], x[1])));
   body.append(grid, el('div', 'divider'));
@@ -349,6 +349,14 @@ async function openDetail(id) {
   body.append(links, el('div', 'divider'));
   body.append(cid(el('div', 'empty', { html: `GPX: ${p.dataStatus.gpx ? 'vorhanden' : 'Nicht in den bereitgestellten Daten vorhanden.'}<br>KML: ${p.dataStatus.kml ? 'vorhanden' : 'Nicht in den bereitgestellten Daten vorhanden.'}<br>Parken/Gebühr: ${p.parking.info || p.parking.fee || 'Nicht in den bereitgestellten Daten vorhanden.'}` }), 'PD-04', Registry['PD-04'], p.id));
   sheet.append(head, body); host.append(sheet); applyAuditState();
+  requestAnimationFrame(async () => {
+    await showActiveLines(p);
+    scheduleMapSize();
+  });
+}
+function renderRouteHero(p) {
+  const facts = [p.region, fmt(p.trail.distanceKm, ' km'), fmt(p.trail.duration), fmt(p.trail.elevGain, ' hm')].filter(Boolean).map(x => `<span>${x}</span>`).join('');
+  return cid(el('section', 'route-hero', { html: `<div class="route-hero-code">${p.sourceNumber || p.id}</div><div class="route-hero-title">${p.name}</div><div class="route-hero-meta">${facts}</div>` }), 'PD-05', Registry['PD-05'], p.id);
 }
 function decimate(points, max = 1600) { if (!Array.isArray(points) || points.length <= max) return points || []; const step = Math.ceil(points.length / max); return points.filter((_, i) => i % step === 0 || i === points.length - 1); }
 async function showActiveLines(p) {

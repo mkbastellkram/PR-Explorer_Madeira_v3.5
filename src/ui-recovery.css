@@ -1,0 +1,134 @@
+/* V4.0.3 UI recovery: calmer iOS-like sheets, stable rows, and visual route anchors. */
+html,
+body,
+#app {
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+.scroll-pane,
+.detail-body,
+.panel-body {
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.pr-row {
+  grid-template-columns: 58px minmax(0, 1fr) auto !important;
+  align-items: center;
+  min-height: 84px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+.pr-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: #eafff9;
+  background:
+    linear-gradient(135deg, rgba(56, 213, 189, .38), rgba(10, 132, 255, .18)),
+    rgba(255, 255, 255, .07);
+  border: 1px solid rgba(255, 255, 255, .13);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.pr-title {
+  overflow-wrap: anywhere;
+}
+
+.pr-facts {
+  min-width: 66px;
+}
+
+.detail-host {
+  touch-action: none;
+}
+
+.detail-sheet,
+.panel {
+  contain: layout paint;
+  transform: translateZ(0);
+}
+
+.detail-sheet {
+  height: min(76dvh, calc(100dvh - env(safe-area-inset-top) - 76px)) !important;
+  min-height: 420px;
+}
+
+.detail-body {
+  max-height: calc(100% - 58px) !important;
+}
+
+.route-hero {
+  min-height: 136px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, .13);
+  background:
+    radial-gradient(circle at 18% 20%, rgba(56, 213, 189, .28), transparent 32%),
+    linear-gradient(135deg, rgba(10, 132, 255, .22), rgba(255, 69, 58, .10)),
+    rgba(255, 255, 255, .05);
+  padding: 16px;
+  margin: 0 0 14px;
+  display: grid;
+  align-content: end;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.route-hero-code {
+  width: fit-content;
+  max-width: 100%;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: rgba(7, 26, 29, .56);
+  border: 1px solid rgba(255, 255, 255, .14);
+  color: #dffdf6;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.route-hero-title {
+  font-size: 20px;
+  line-height: 1.12;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.route-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.route-hero-meta span {
+  border-radius: 999px;
+  padding: 5px 8px;
+  background: rgba(255, 255, 255, .08);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+@media (min-width: 700px) {
+  .detail-sheet {
+    height: calc(100dvh - 120px) !important;
+    min-height: 0;
+  }
+}
