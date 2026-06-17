@@ -1,0 +1,11 @@
+ID,Verworfener_Ansatz,Grund_Regel
+REJ-001,Weitere V3.x-Patchkette,Keine prx-v37x/v38x/v39x/v310x Recovery-Dateien weiterführen.
+REJ-002,Service-Worker-Experimente in Baseline,Kein aggressives Caching vor stabiler Basis.
+REJ-003,Strava Community Heatmap als Kernquelle,Für Madeira verworfen; stattdessen eigener kuratierter Hotspot-Layer.
+REJ-004,Webcams als Sehenswürdigkeiten,"Webcams sind Info-/Kontextkategorie, nicht Highlight-POI."
+REJ-005,Automatische POI-Tagesplanung,POIs nur Vorschläge; Nutzer entscheidet.
+REJ-006,Google Popular Times Scraping,Nicht verwenden.
+REJ-007,Echte Server-Synchronisation als Baseline,Gruppenplanung zunächst lokal/exportbasiert.
+REJ-008,Automatisches Löschen beim Import,Importe nur kumulativ; Löschen nur explizit.
+REJ-009,Framework-/Build-Zwang,Vanilla JS + Leaflet bevorzugt.
+REJ-010,Neue CSS-/JS-Patchdateien als Dauerlösung,"Eine klare Hauptstruktur, keine Altbestände."

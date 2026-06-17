@@ -2,6 +2,8 @@
 
 Die App sollte nicht direkt per Doppelklick als `file://.../index.html` geöffnet werden, weil Browser dann `fetch()` auf `data/prs.json` und die Track-/Routen-Dateien blockieren können.
 
+Paketstand: V4.0.4 Recovery Baseline.
+
 ## Windows
 
 1. `START_LOCAL_SERVER.bat` starten.

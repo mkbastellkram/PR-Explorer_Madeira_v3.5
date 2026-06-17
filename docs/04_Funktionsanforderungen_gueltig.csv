@@ -1,0 +1,39 @@
+ID,Funktion,Beschreibung,Zielstand
+CORE-001,Private iPhone-PWA,"Statische App für iPhone/Safari/Homebildschirm, GitHub Pages geeignet.",V4.0 Basis
+CORE-002,PR-zentrierte Madeira-App,Kern sind offizielle PR-/PS-PR-Wanderwege; kein allgemeiner Reiseführer.,verbindlich
+DATA-001,Primärdaten aus Excel/GPX/KML,"PR – V1.xlsx, Gpx.zip und KML.zip als verbindliche Datenquellen.",verbindlich
+DATA-002,Keine erfundenen Daten,"Fehlende Daten werden als fehlend gekennzeichnet, nicht halluziniert.",verbindlich
+MAP-001,Leaflet-Karte,Stabile Leaflet-Karte mit Madeira-Fokus.,verbindlich
+MAP-002,Basiskartenumschaltung,"OSM, OpenTopoMap, Satellit und Satellit-Hybrid.",V4.x
+MAP-003,PR-Pins,Pins aus echten Start-/Ziel-/Parkplatzkoordinaten.,V4.0
+MAP-004,GPX-Tracks,"Wandertracks aus echten GPX-Dateien, klar getrennt von KML.",V4.0
+MAP-005,KML-Anfahrten,"Anfahrtslinien aus echten KML-Dateien, keine Luftlinien.",V4.0
+MAP-006,Solo-Modus,"Aktive PR zeigt nur relevanten Track, KML und Marker.",Zielarchitektur
+MAP-007,Layersteuerung,GPX/KML/Marker/Basemap getrennt schaltbar.,V4.1
+JRN-001,Journal-first,App startet im Journal mit PR-Liste.,verbindlich
+JRN-002,Flache PR-Liste,"PR-Nummer, Name, Region, Status, Länge, Dauer, Höhenmeter, Anfahrt.",V4.0
+JRN-003,Suche und Minimalfilter,"Suche, Region und Status als Baseline-Filter.",V4.0
+FLT-001,Dynamische Filterengine,Filterbereiche beeinflussen sich bidirektional und klemmen Werte sauber.,V4.1
+DET-001,PR-Detailseite,"Platzsparende Detailseite mit echten Daten, Links, GPX/KML-Aktionen.",V4.0
+DET-002,Höhenprofil,"Höhenprofil aus GPX-Höhendaten, wenn vorhanden.",V4.x
+NAV-001,Bottom Navigation,Karte · Journal · Reise · Dashboard als Hauptnavigation.,verbindlich
+NAV-002,Einstellungen über Zahnrad,Globale Einstellungen oben rechts.,verbindlich
+TRIP-001,Reisebereich als Hülle,"V4.0 nur vorbereitete Hülle, kein defekter Kalender.",V4.0
+TRIP-002,Reisezeitraum,Urlaubszeitraum einstellen und daraus Tagesliste erzeugen.,V4.3
+TRIP-003,Tagesplanung,PRs/POIs/Stopps Tagen zuordnen und Tagesbelastung erkennen.,V4.3
+TRIP-004,Heute/Später,Sammellisten für heutige und spätere POIs/PRs.,V4.4
+DRIVE-001,Homezone Hotel,Pestana Promenade Premium Funchal als voreingestellter Homepunkt.,verbindlich
+DRIVE-002,One-Click-Anfahrt,Google Maps vom Hotel zum Start/Parkplatz der PR öffnen.,Ziel
+DRIVE-003,Realistische Anfahrtszeit,"Google-Zeit plus Madeira-Faktor, Verkehr, Gruppenpuffer, Parkplatzsuche, Weg zum Start.",V4.3
+POI-001,Kuratierte POIs,"POIs entlang GPX/KML als Vorschläge, nicht automatische Planung.",V4.4
+POI-002,Highlight-/Funktions-POI-Trennung,"Webcams, Tankstellen, WC, Supermärkte nicht als Sehenswürdigkeiten behandeln.",verbindlich
+POI-003,POI-Kurzsteckbriefe,"Kurze deutsche Texte, Kategorie, Koordinate, Quelle/Link.",Ziel
+POI-004,Tunnel/Wasserfall-Zähler,"Tunnel und Wasserfälle entlang Route zählen, wenn quellenbasiert.",Ziel
+STAT-001,Statusanzeige,Status aus Excel bzw. manuell; kompakt als einzelnes Ampelsymbol.,V4.2
+STAT-002,Buchungs-/Quellenlinks,"Visit Madeira, SIMplifica/MadeiraJourney/IFCN nur als Links/Quellen, kein Scraping.",V4.2
+GRP-001,Gruppenplanung,Vier Personen/zwei Paare mit Contributor- und Teilnehmerlogik.,Roadmap
+GRP-002,Export/Import,"JSON/ZIP, WhatsApp/E-Mail/Cloud-Link; kumulativer Import ohne harte Löschung.",Roadmap
+DASH-001,Dashboard,"Datenstatus, Zähler, Favoriten/Status/Reiseübersicht später.",V4.0+
+AUD-001,Audit/Diagnose,"Komponenten-IDs, Auditbericht, später Recorder/CSV; erst nach stabiler Basis.",später
+PWA-001,Manifest,PWA-Manifest erlaubt.,V4.0
+PWA-002,Service Worker erst später,"Offlinefähigkeit langfristig, aber kein Service Worker in instabiler Baseline.",später

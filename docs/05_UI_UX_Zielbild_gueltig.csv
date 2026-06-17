@@ -1,0 +1,18 @@
+ID,UI_UX_Ziel,Beschreibung,Status
+UI-001,Apple-/Cupertino-nahe Designsprache,"Große, klare Touch-Ziele, ruhige Iconbuttons, iPhone-orientiert.",verbindlich
+UI-002,Flach und nutzflächenorientiert,"Keine verschachtelten Karten-in-Karten, wenig Zierat, dünne Trennlinien.",verbindlich
+UI-003,Leichte Transparenz einstellbar,"Transparenz darf vorhanden sein, aber nicht als Platzfresser oder Fehlerquelle.",verbindlich
+UI-004,Fullscreen-Karte,Karte nutzt Viewport einschließlich Safe-Area sinnvoll.,verbindlich
+UI-005,Schwebende Bottom-Navigation,"Pill über Inhalt, Kartenmaterial bleibt darunter sichtbar.",verbindlich
+UI-006,Isolierte Scrollcontainer,"Journal, Detail, Reise, Einstellungen scrollen eigenständig ohne Scrollweitergabe.",verbindlich
+UI-007,Komponentenprinzip,"Wiederkehrende Elemente wie Close-X, Pills, Listenzeilen, Linkbuttons zentral definieren.",verbindlich
+UI-008,Einheitliche Bedienmuster,Gleiche Funktion = gleiche Positionierung = gleiches Verhalten.,verbindlich
+UI-009,Keine globalen Tile-schädlichen CSS-Regeln,Leaflet-Tiles dürfen nicht durch globale img/filter/radius/shadow-Regeln beschädigt werden.,verbindlich
+UX-001,Journal-first Workflow,"Schneller Vergleich der Wanderungen zuerst, Detail und Karte danach.",verbindlich
+UX-002,PR-zentrierte Soloansicht,"Auswahl einer PR fokussiert Karte, GPX, KML und Detail.",Ziel
+UX-003,Detail schließen führt zurück zur Liste,"X beendet Detail/Soloansicht, Liste bzw. Pins sind wieder sichtbar.",verbindlich
+UX-004,Cover weich + horizontaler Lock,Horizontale Detail-/Rückwischgeste stabilisiert vertikale Achse.,Ziel
+UX-005,Tagesliste einspaltig,Reiseplanung nicht zweispaltig; Tagesdetail gleitet von rechts.,Ziel
+UX-006,Fahrerperspektive,Anfahrt und Startpunkt müssen ohne Vor-Ort-Suche verständlich sein.,verbindlich
+UX-007,Fehler sichtbar statt weißer Seite,Fehlende Daten/Fehler müssen sichtbar gemeldet werden.,verbindlich
+UX-008,Keine Feature-Überladung,Stabilität vor Funktionsfülle; Ausbau in Stufen.,verbindlich

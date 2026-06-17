@@ -2,7 +2,7 @@
 'use strict';
 
 const PRX = {
-  version: 'V4.0.1 Governance',
+  version: 'V4.0.4 Recovery Baseline',
   data: null,
   map: null,
   pinRenderer: null,
@@ -240,7 +240,7 @@ function renderJournal() {
     v.append(sp); h.append(v);
     return;
   }
-  sp.append(el('div', 'section-head', { html: `<h1 class="title">Journal</h1><div class="sub">${PRX.data.prs.length} PR-/PS-PR-Wege aus PR – V1.xlsx · V4.0.1 Governance</div>` }));
+  sp.append(el('div', 'section-head', { html: `<h1 class="title">Journal</h1><div class="sub">${PRX.data.prs.length} PR-/PS-PR-Wege aus PR – V1.xlsx · V4.0.4 Recovery Baseline</div>` }));
   const tb = el('div', 'toolbar-row');
   const inp = cid(el('input', 'search', { placeholder: 'Suche PR, Name, Region', 'aria-label': 'Suche' }), 'J-01', Registry['J-01']);
   inp.value = PRX.filter.q;
@@ -272,7 +272,7 @@ function renderTrip() {
   const h = host();
   const v = cid(el('section', 'view active list-shell'), 'R-00', Registry['R-00']);
   const sp = el('div', 'scroll-pane');
-  sp.append(el('div', 'section-head', { html: '<h1 class="title">Reise</h1><div class="sub">V4.0.1 enthält bewusst nur die stabile Hülle. Tagesplanung folgt in V4.3.</div>' }));
+  sp.append(el('div', 'section-head', { html: '<h1 class="title">Reise</h1><div class="sub">V4.0.4 enthält bewusst nur die stabile Hülle. Tagesplanung folgt in V4.3.</div>' }));
   sp.append(el('div', 'dashboard-grid', { html: '<div class="metric"><div class="metric-num">14</div><div class="metric-label">Reisetage vorbereitet</div></div><div class="metric"><div class="metric-num">Home</div><div class="metric-label">Pestana Promenade Funchal</div></div>' }));
   sp.append(el('div', 'section-head', { html: '<div class="empty">Keine defekte Kalenderlogik. Später: einspaltige Tagesliste, Tagesdetail per Slide, PRs/POIs Heute/Später.</div>' }));
   v.append(sp); h.append(v);
@@ -285,7 +285,7 @@ function renderDashboard() {
   const sp = el('div', 'scroll-pane');
   sp.append(el('div', 'section-head', { html: `<h1 class="title">Dashboard</h1><div class="sub">Datenstatus · ${PRX.data.meta.version}</div>` }));
   sp.append(el('div', 'dashboard-grid', { html: `<div class="metric"><div class="metric-num">${c.prs || 0}</div><div class="metric-label">PR-Stammdaten</div></div><div class="metric"><div class="metric-num">${c.gpxMatched || 0}</div><div class="metric-label">GPX zugeordnet</div></div><div class="metric"><div class="metric-num">${c.kmlMatched || 0}</div><div class="metric-label">KML zugeordnet</div></div><div class="metric"><div class="metric-num">${openCount}</div><div class="metric-label">offene Audit-Tickets</div></div>` }));
-  sp.append(el('div', 'section-head', { html: `<div class="empty">Quellen: ${PRX.data.meta.sourceFiles.join(' · ')}<br>Service Worker: nicht aktiv in V4.0.1.<br>Homezone: ${PRX.data.meta.home.name}<br>Audit-Session: ${PRX.audit.sessionId}</div>` }));
+  sp.append(el('div', 'section-head', { html: `<div class="empty">Quellen: ${PRX.data.meta.sourceFiles.join(' · ')}<br>Service Worker: nicht aktiv in V4.0.4.<br>Homezone: ${PRX.data.meta.home.name}<br>Audit-Session: ${PRX.audit.sessionId}</div>` }));
   v.append(sp); h.append(v);
 }
 
