@@ -132,3 +132,128 @@ body,
     min-height: 0;
   }
 }
+
+/* V4.0.7 Interaction recovery: stable PR peek sheet and visible multi filters. */
+.detail-sheet.detail-peek {
+  height: clamp(210px, 27dvh, 260px) !important;
+  min-height: 0 !important;
+}
+
+.detail-sheet.detail-expanded {
+  height: min(76dvh, calc(100dvh - env(safe-area-inset-top) - 76px)) !important;
+  min-height: 420px;
+}
+
+.detail-mode-btn {
+  width: auto !important;
+  min-width: 68px;
+  padding: 0 12px;
+  font-size: 13px !important;
+  font-weight: 800;
+}
+
+.detail-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 10px 12px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.detail-summary-item {
+  min-width: 0;
+  min-height: 58px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .055);
+  padding: 8px;
+}
+
+.detail-summary-item span,
+.detail-summary-item strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail-summary-item span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.detail-summary-item strong {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.detail-peek .detail-body {
+  display: none;
+}
+
+.detail-expanded .detail-body {
+  display: block;
+  max-height: calc(100% - 132px) !important;
+}
+
+.filter-group {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.filter-group-title {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.filter-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-chip {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .055);
+  color: var(--text);
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.filter-chip.active {
+  border-color: rgba(56, 213, 189, .62);
+  background: rgba(56, 213, 189, .16);
+  color: #eafff9;
+}
+
+.filter-reset {
+  margin-top: 14px;
+}
+
+@media (max-width: 430px) {
+  .detail-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .detail-sheet.detail-peek {
+    height: clamp(245px, 31dvh, 292px) !important;
+  }
+}
+
+@media (min-width: 700px) {
+  .detail-sheet.detail-peek {
+    height: 278px !important;
+  }
+
+  .detail-sheet.detail-expanded {
+    height: calc(100dvh - 120px) !important;
+    min-height: 0;
+  }
+}

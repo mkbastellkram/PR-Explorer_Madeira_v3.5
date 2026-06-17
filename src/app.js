@@ -9,7 +9,7 @@ const PRX = {
   layers: { pins: null, gpx: null, kml: null, endpoints: null, pois: null },
   active: null,
   view: 'journal',
-  filter: { q: '', region: '', status: '' },
+  filter: { q: '', region: '', status: '', regions: [], statuses: [] },
   baseLayers: {},
   currentBase: null,
   settings: { sheetTransparency: .86, home: null },
@@ -235,9 +235,13 @@ function renderView(v) {
 function filtered() {
   let a = PRX.data.prs.slice();
   const q = PRX.filter.q.toLowerCase();
+  const regions = Array.isArray(PRX.filter.regions) ? PRX.filter.regions : [];
+  const statuses = Array.isArray(PRX.filter.statuses) ? PRX.filter.statuses : [];
   if (q) a = a.filter(p => `${p.id} ${p.name} ${p.region}`.toLowerCase().includes(q));
-  if (PRX.filter.region) a = a.filter(p => p.region === PRX.filter.region);
-  if (PRX.filter.status) a = a.filter(p => (p.status || 'prüfen') === PRX.filter.status);
+  if (regions.length) a = a.filter(p => regions.includes(p.region));
+  else if (PRX.filter.region) a = a.filter(p => p.region === PRX.filter.region);
+  if (statuses.length) a = a.filter(p => statuses.includes(p.status || 'pruefen'));
+  else if (PRX.filter.status) a = a.filter(p => (p.status || 'pruefen') === PRX.filter.status);
   return a;
 }
 
@@ -344,9 +348,13 @@ async function openDetail(id) {
   const p = PRX.data.prs.find(x => x.id === id); if (!p) return;
   PRX.active = p; renderView('map');
   const host = $('#detailHost'); host.innerHTML = ''; host.hidden = false;
-  const sheet = cid(el('section', 'detail-sheet'), 'PD-00', Registry['PD-00'], p.id);
+  const sheet = cid(el('section', 'detail-sheet detail-peek'), 'PD-00', Registry['PD-00'], p.id);
   const head = el('header', 'detail-header');
   head.append(el('div', 'detail-title', { text: `${p.sourceNumber || p.id} · ${p.name}` }), Components.closeButton(() => { host.hidden = true; clearActiveLines(); }, 'PD-01'));
+  const modeBtn = el('button', 'icon-btn detail-mode-btn', { type: 'button', text: 'Mehr' });
+  modeBtn.addEventListener('click', () => setDetailExpanded(sheet, modeBtn, !sheet.classList.contains('detail-expanded')));
+  head.insertBefore(modeBtn, head.lastElementChild);
+  const summary = renderPrSummary(p);
   const body = el('div', 'detail-body');
   body.append(renderRouteHero(p));
   const grid = cid(el('div', 'kv-grid'), 'PD-02', Registry['PD-02'], p.id);
@@ -360,11 +368,26 @@ async function openDetail(id) {
   const poiContext = renderPoiContext(p);
   if (poiContext) body.append(poiContext, el('div', 'divider'));
   body.append(cid(el('div', 'empty', { html: `GPX: ${p.dataStatus.gpx ? 'vorhanden' : 'Nicht in den bereitgestellten Daten vorhanden.'}<br>KML: ${p.dataStatus.kml ? 'vorhanden' : 'Nicht in den bereitgestellten Daten vorhanden.'}<br>Parken/Gebühr: ${p.parking.info || p.parking.fee || 'Nicht in den bereitgestellten Daten vorhanden.'}` }), 'PD-04', Registry['PD-04'], p.id));
-  sheet.append(head, body); host.append(sheet); applyAuditState();
+  sheet.append(head, summary, body); host.append(sheet); applyAuditState();
   requestAnimationFrame(async () => {
     await showActiveLines(p);
     scheduleMapSize();
   });
+}
+function setDetailExpanded(sheet, button, expanded) {
+  sheet.classList.toggle('detail-expanded', expanded);
+  sheet.classList.toggle('detail-peek', !expanded);
+  button.textContent = expanded ? 'Weniger' : 'Mehr';
+  scheduleMapSize();
+}
+function renderPrSummary(p) {
+  const items = [
+    ['Anfahrt', p.drive.min ? `${p.drive.min} min` : '-'],
+    ['Laenge', p.trail.distanceKm ? `${p.trail.distanceKm} km` : '-'],
+    ['Dauer', p.trail.duration || '-'],
+    ['Region', p.region || '-']
+  ];
+  return cid(el('section', 'detail-summary', { html: items.map(([label, value]) => `<div class="detail-summary-item"><span>${label}</span><strong>${value}</strong></div>`).join('') }), 'PD-02', Registry['PD-02'], p.id);
 }
 function renderRouteHero(p) {
   const facts = [p.region, fmt(p.trail.distanceKm, ' km'), fmt(p.trail.duration), fmt(p.trail.elevGain, ' hm')].filter(Boolean).map(x => `<span>${x}</span>`).join('');
@@ -488,25 +511,61 @@ function showPoiOnMap(poi, contextPois = [], row = null, pan = true) {
   document.querySelectorAll('.poi-row, .poi-card').forEach(elm => elm.classList.toggle('active', elm === row));
   if (pan) PRX.map.panTo([+poi.lat, +poi.lon], { animate: false });
 }
+function distanceKm(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b)) return Infinity;
+  const lat1 = Number(a[0]);
+  const lon1 = Number(a[1]);
+  const lat2 = Number(b[0]);
+  const lon2 = Number(b[1]);
+  if (![lat1, lon1, lat2, lon2].every(Number.isFinite)) return Infinity;
+  const toRad = value => value * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return 6371 * 2 * Math.asin(Math.sqrt(h));
+}
+function splitPathSegments(points, maxJumpKm = 1.5) {
+  if (!Array.isArray(points) || !points.length) return [];
+  const segments = [];
+  let current = [points[0]];
+  for (let i = 1; i < points.length; i += 1) {
+    const point = points[i];
+    if (distanceKm(current[current.length - 1], point) > maxJumpKm) {
+      if (current.length > 1) segments.push(current);
+      current = [point];
+    } else {
+      current.push(point);
+    }
+  }
+  if (current.length > 1) segments.push(current);
+  return segments;
+}
 function decimate(points, max = 1600) { if (!Array.isArray(points) || points.length <= max) return points || []; const step = Math.ceil(points.length / max); return points.filter((_, i) => i % step === 0 || i === points.length - 1); }
+function drawPathSegments(points, layer, style, kind) {
+  const segments = splitPathSegments(points).map(segment => decimate(segment, 1800));
+  const drawn = [];
+  segments.forEach(segment => {
+    if (segment.length < 2) return;
+    L.polyline(segment, style).addTo(layer);
+    drawn.push(...segment);
+  });
+  addPathEndpoints(drawn, kind);
+  return drawn;
+}
 async function showActiveLines(p) {
   clearActiveLines();
   const bounds = [];
   if (p.routeFile) {
     try {
       const r = await (await fetch(p.routeFile, { cache: 'force-cache' })).json();
-      const pts = decimate(r.points, 1800);
-      L.polyline(pts, { color: '#0a84ff', weight: 5, opacity: .82, renderer: PRX.pinRenderer, smoothFactor: 1.2, interactive: false }).addTo(PRX.layers.kml);
-      addPathEndpoints(pts, 'kml');
+      const pts = drawPathSegments(r.points, PRX.layers.kml, { color: '#0a84ff', weight: 5, opacity: .82, renderer: PRX.pinRenderer, smoothFactor: 1.2, interactive: false }, 'kml');
       bounds.push(...pts);
     } catch (e) { console.warn(e); }
   }
   if (p.trackFile) {
     try {
       const g = await (await fetch(p.trackFile, { cache: 'force-cache' })).json();
-      const pts = decimate(g.points, 1800);
-      L.polyline(pts, { color: '#ff453a', weight: 5, opacity: .88, renderer: PRX.pinRenderer, smoothFactor: 1.2, interactive: false }).addTo(PRX.layers.gpx);
-      addPathEndpoints(pts, 'gpx');
+      const pts = drawPathSegments(g.points, PRX.layers.gpx, { color: '#ff453a', weight: 5, opacity: .88, renderer: PRX.pinRenderer, smoothFactor: 1.2, interactive: false }, 'gpx');
       bounds.push(...pts);
     } catch (e) { console.warn(e); }
   }
@@ -534,7 +593,7 @@ function clearActiveLines() {
   if (PRX.layers.pois) PRX.layers.pois.clearLayers();
 }
 
-function openFilter() {
+function openFilterLegacy() {
   const body = el('div');
   const regions = [...new Set(PRX.data.prs.map(p => p.region).filter(Boolean))].sort();
   const statuses = [...new Set(PRX.data.prs.map(p => p.status || 'prüfen'))].sort();
@@ -545,6 +604,56 @@ function selectRow(label, items, value, onChange) {
   const row = el('div', 'settings-row'); row.append(el('div', 'kv-label', { text: label }));
   const s = el('select', 'search'); s.innerHTML = '<option value="">Alle</option>' + items.map(i => `<option ${i === value ? 'selected' : ''}>${i}</option>`).join('');
   s.addEventListener('change', () => onChange(s.value)); row.append(s); return row;
+}
+function refreshFilters() {
+  renderPins();
+  if (PRX.view === 'journal') renderJournal();
+}
+function filterItems(key) {
+  if (key === 'regions') return [...new Set(PRX.data.prs.map(p => p.region).filter(Boolean))].sort();
+  return [...new Set(PRX.data.prs.map(p => p.status || 'pruefen'))].sort();
+}
+function toggleFilterValue(key, value) {
+  const items = filterItems(key);
+  const selected = new Set(Array.isArray(PRX.filter[key]) ? PRX.filter[key] : []);
+  if (value === '__all') selected.clear();
+  else if (!selected.size) {
+    items.filter(item => item !== value).forEach(item => selected.add(item));
+  } else if (selected.has(value)) selected.delete(value);
+  else selected.add(value);
+  PRX.filter[key] = selected.size === items.length ? [] : [...selected];
+  PRX.filter.region = '';
+  PRX.filter.status = '';
+  refreshFilters();
+  openFilter();
+}
+function filterToggleGroup(label, key) {
+  const items = filterItems(key);
+  const selected = Array.isArray(PRX.filter[key]) ? PRX.filter[key] : [];
+  const allActive = !selected.length || selected.length === items.length;
+  const group = el('section', 'filter-group');
+  group.append(el('div', 'filter-group-title', { text: label }));
+  const chips = el('div', 'filter-chip-grid');
+  const all = el('button', `filter-chip ${allActive ? 'active' : ''}`, { type: 'button', text: 'Alle' });
+  all.addEventListener('click', () => toggleFilterValue(key, '__all'));
+  chips.append(all);
+  items.forEach(item => {
+    const active = allActive || selected.includes(item);
+    const chip = el('button', `filter-chip ${active ? 'active' : ''}`, { type: 'button', text: item });
+    chip.addEventListener('click', () => toggleFilterValue(key, item));
+    chips.append(chip);
+  });
+  group.append(chips);
+  return group;
+}
+function openFilter() {
+  const body = el('div');
+  body.append(
+    filterToggleGroup('Regionen', 'regions'),
+    filterToggleGroup('Status', 'statuses'),
+    el('button', 'chip filter-reset', { type: 'button', text: 'Filter zuruecksetzen', onclick: () => { PRX.filter = { q: '', region: '', status: '', regions: [], statuses: [] }; closePanel(); renderView('journal'); renderPins(); } })
+  );
+  openPanel('Filter', body, 'F-00');
 }
 function openSettings() {
   const body = el('div');
