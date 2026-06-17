@@ -1,7 +1,7 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-echo PR-Explorer Madeira V4.0.4 Recovery Baseline
+echo PR-Explorer Madeira V4.0.1
 echo.
 echo Lokaler Server startet auf http://localhost:4173
 echo Browser oeffnen und diese Adresse verwenden.
