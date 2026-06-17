@@ -1,60 +1,28 @@
-# PR-Explorer Madeira V4.0.1 Governance
-
-## GitHub Kurzzeile
-PR-Explorer Madeira V4.0.1 Governance: Audit-ID-System, kumulative Tickets, CSV/JSON Export, Leaflet-Stabilisierung.
-
-## Vollständiger Infoblock
-Version: PR-Explorer Madeira V4.0.1 Governance
-Zweck: Governance-Zwischenschritt vor weiterer Fehlerbeseitigung.
-Änderungen:
-- Audit Center über ⚑ in der Topbar.
-- Audit-Modus ein/aus.
-- Element-IDs sichtbar als gelbe Labels/Outlines.
-- Notizmodus: nächster Tap auf ein Element erzeugt genau ein Ticket.
-- Immer nur ein einziges Notiz-Popup.
-- Popup ist frei verschiebbar und sperrt die Bedienung bis Speichern/Abbrechen.
-- Tickets werden kumulativ gespeichert und global nummeriert.
-- Tickets können per Checkbox als erledigt markiert werden.
-- Tickets können manuell gelöscht werden.
-- CSV-Export je Gesamtlauf/Testsession für Excel/Numbers-Autofilter.
-- JSON-Export als technische Sicherung.
-- CSV-Import vorbereitet.
-- Leaflet-Stabilisierung: Canvas-Renderer, reduzierte Animationen, gezielteres invalidateSize, Polyline-Decimation.
-
-## Upload-Hinweis
-Den bisherigen Repository-Inhalt vollständig ersetzen. Keine alten Dateien stehen lassen.
-Root-Dateien und Ordner hochladen:
-- index.html
-- manifest.webmanifest
-- src/
-- data/
-- assets/
-- docs/
-
-## Geänderte/neue Ordner
-Geändert:
-- src/
-- docs/
-
-Unverändert weiter erforderlich:
-- data/
-- assets/
-
-## Testreihenfolge
-1. App starten.
-2. Journal sichtbar prüfen.
-3. ⚑ Audit öffnen.
-4. Audit-Modus aktivieren.
-5. Element-IDs anzeigen aktivieren.
-6. Notizmodus aktivieren.
-7. Auf eine PR-Zeile tippen und Ticket speichern.
-8. Audit Center öffnen, Ticket prüfen.
-9. Ticket als erledigt markieren.
-10. CSV exportieren und in Dateien speichern.
-11. Karte öffnen und Basiskarten wechseln.
-12. PR öffnen und GPX/KML laden.
-
-## Bekannte Grenzen
-- Kein Service Worker.
-- CSV ist für Excel-Auswertung; JSON bleibt Sicherungsformat.
-- Audit-IDs decken die Hauptkomponenten ab, Detailtiefe kann später erweitert werden.
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#071a1d" />
+  <title>PR-Explorer Madeira V4.0</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="src/styles.css" />
+  <link rel="stylesheet" href="src/map-recovery.css" />
+  <link rel="stylesheet" href="src/ui-recovery.css" />
+  <link rel="stylesheet" href="src/poi-recovery.css" />
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <div id="map" class="map-layer" aria-label="Madeira Karte"></div>
+    <header class="topbar" id="topbar"></header>
+    <main id="viewHost" class="view-host"></main>
+    <aside id="detailHost" class="detail-host" hidden></aside>
+    <aside id="panelHost" class="panel-host" hidden></aside>
+    <nav id="bottomNav" class="bottom-nav" aria-label="Hauptnavigation"></nav>
+    <div id="toast" class="toast" hidden></div>
+  </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="src/app.js"></script>
+</body>
+</html>

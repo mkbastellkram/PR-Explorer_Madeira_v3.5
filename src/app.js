@@ -2,7 +2,7 @@
 'use strict';
 
 const PRX = {
-  version: 'V4.0.1 Governance',
+  version: 'V4.0.9 Version Sync + Audit Recovery',
   data: null,
   map: null,
   pinRenderer: null,
@@ -44,6 +44,23 @@ const cid = (node, id, name, context = '') => {
   if (context) node.dataset.prxContext = context;
   return node;
 };
+
+const Icons = {
+  search: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="M16 16l4 4"></path></svg>',
+  map: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l5-2 6 2 5-2v12l-5 2-6-2-5 2z"></path><path d="M9 5v12M15 7v12"></path></svg>',
+  flag: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20V5"></path><path d="M6 5h10l-1.5 4L16 13H6"></path></svg>',
+  gear: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 3.8v2.1M12 18.1v2.1M4.9 4.9l1.5 1.5M17.6 17.6l1.5 1.5M3.8 12h2.1M18.1 12h2.1M4.9 19.1l1.5-1.5M17.6 6.4l1.5-1.5"></path></svg>',
+  list: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7h12M8 12h12M8 17h12"></path><circle cx="4" cy="7" r="1"></circle><circle cx="4" cy="12" r="1"></circle><circle cx="4" cy="17" r="1"></circle></svg>',
+  location: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 3v4M12 17v4M3 12h4M17 12h4"></path></svg>',
+  diamond: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 9-9 9-9-9z"></path></svg>',
+  dashboard: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"></path><path d="M8 5v14M12 5v14M16 5v14"></path></svg>',
+  close: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"></path></svg>',
+  route: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18c5-9 7 3 12-8"></path><circle cx="6" cy="18" r="2"></circle><circle cx="18" cy="10" r="2"></circle></svg>',
+  external: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7h8v8"></path><path d="M17 7L7 17"></path><path d="M7 7h4M7 7v4"></path></svg>'
+};
+function iconSvg(name) {
+  return Icons[name] || Icons.location;
+}
 
 const Registry = {
   'APP-00': 'App Shell',
@@ -90,9 +107,9 @@ const Registry = {
 
 const Components = {
   iconButton(icon, label, onClick, id) {
-    return cid(el('button', 'icon-btn', { type: 'button', 'aria-label': label, title: label, html: icon, onclick: onClick }), id || 'BTN-00', label);
+    return cid(el('button', 'icon-btn', { type: 'button', 'aria-label': label, title: label, html: iconSvg(icon), onclick: onClick }), id || 'BTN-00', label);
   },
-  closeButton(onClick, id = 'PD-01') { return Components.iconButton('×', 'Schließen', onClick, id); },
+  closeButton(onClick, id = 'PD-01') { return Components.iconButton('close', 'Schliessen', onClick, id); },
   panel(title, body, onClose, id = 'P-00') {
     const p = cid(el('section', 'panel'), id, Registry[id] || title);
     const h = el('header', 'panel-header');
@@ -102,7 +119,7 @@ const Components = {
     return p;
   },
   navItem(id, icon, label, cidValue) {
-    return cid(el('button', 'nav-item', { type: 'button', 'data-view': id, html: `<span class="nav-ico">${icon}</span><span>${label}</span>` }), cidValue, label);
+    return cid(el('button', 'nav-item', { type: 'button', 'data-view': id, html: `<span class="nav-ico">${iconSvg(icon)}</span><span>${label}</span>` }), cidValue, label);
   },
   kv(label, value) {
     const k = el('div', 'kv');
@@ -111,7 +128,7 @@ const Components = {
   },
   link(href, icon, label) {
     const a = el('a', 'link-btn', { href, target: '_blank', rel: 'noopener' });
-    a.innerHTML = `<span>${icon}</span><span>${label}</span>`;
+    a.innerHTML = `<span class="link-ico">${iconSvg(icon)}</span><span>${label}</span>`;
     return a;
   },
   toast(msg) {
@@ -207,15 +224,15 @@ function renderChrome() {
   top.append(el('div', 'brand-pill', { html: '<span class="brand-dot"></span><span>PR-Explorer</span>' }));
   const actions = el('div', 'top-actions');
   actions.append(
-    Components.iconButton('⌕', 'Filter', openFilter, 'TOP-01'),
-    Components.iconButton('▣', 'Kartenmodus', () => renderView('map'), 'TOP-02'),
-    Components.iconButton('⚑', 'Audit', openAuditCenter, 'TOP-04'),
-    Components.iconButton('⚙︎', 'Einstellungen', openSettings, 'TOP-03')
+    Components.iconButton('search', 'Filter', openFilter, 'TOP-01'),
+    Components.iconButton('map', 'Kartenmodus', () => renderView('map'), 'TOP-02'),
+    Components.iconButton('flag', 'Audit', openAuditCenter, 'TOP-04'),
+    Components.iconButton('gear', 'Einstellungen', openSettings, 'TOP-03')
   );
   top.append(actions);
   const nav = cid($('#bottomNav'), 'NAV-00', Registry['NAV-00']);
   nav.innerHTML = '';
-  [['journal', '☰', 'Journal', 'NAV-01'], ['map', '⌖', 'Karte', 'NAV-02'], ['trip', '◇', 'Reise', 'NAV-03'], ['dashboard', '▥', 'Dashboard', 'NAV-04']].forEach(n => nav.append(Components.navItem(...n)));
+  [['journal', 'list', 'Journal', 'NAV-01'], ['map', 'location', 'Karte', 'NAV-02'], ['trip', 'diamond', 'Reise', 'NAV-03'], ['dashboard', 'dashboard', 'Dashboard', 'NAV-04']].forEach(n => nav.append(Components.navItem(...n)));
   nav.addEventListener('click', e => { const b = e.target.closest('.nav-item'); if (b) renderView(b.dataset.view); });
 }
 
@@ -254,7 +271,7 @@ function renderJournal() {
     v.append(sp); h.append(v);
     return;
   }
-  sp.append(el('div', 'section-head', { html: `<h1 class="title">Journal</h1><div class="sub">${PRX.data.prs.length} PR-/PS-PR-Wege aus PR – V1.xlsx · V4.0.1 Governance</div>` }));
+  sp.append(el('div', 'section-head', { html: `<h1 class="title">Journal</h1><div class="sub">${PRX.data.prs.length} PR-/PS-PR-Wege aus PR - V1.xlsx · ${PRX.version}</div>` }));
   const tb = el('div', 'toolbar-row');
   const inp = cid(el('input', 'search', { placeholder: 'Suche PR, Name, Region', 'aria-label': 'Suche' }), 'J-01', Registry['J-01']);
   inp.value = PRX.filter.q;
@@ -286,7 +303,7 @@ function renderTrip() {
   const h = host();
   const v = cid(el('section', 'view active list-shell'), 'R-00', Registry['R-00']);
   const sp = el('div', 'scroll-pane');
-  sp.append(el('div', 'section-head', { html: '<h1 class="title">Reise</h1><div class="sub">V4.0.1 enthält bewusst nur die stabile Hülle. Tagesplanung folgt in V4.3.</div>' }));
+  sp.append(el('div', 'section-head', { html: `<h1 class="title">Reise</h1><div class="sub">${PRX.version} enthaelt bewusst nur die stabile Huelle. Tagesplanung folgt spaeter.</div>` }));
   sp.append(el('div', 'dashboard-grid', { html: '<div class="metric"><div class="metric-num">14</div><div class="metric-label">Reisetage vorbereitet</div></div><div class="metric"><div class="metric-num">Home</div><div class="metric-label">Pestana Promenade Funchal</div></div>' }));
   sp.append(el('div', 'section-head', { html: '<div class="empty">Keine defekte Kalenderlogik. Später: einspaltige Tagesliste, Tagesdetail per Slide, PRs/POIs Heute/Später.</div>' }));
   v.append(sp); h.append(v);
@@ -297,9 +314,9 @@ function renderDashboard() {
   const h = host();
   const v = cid(el('section', 'view active list-shell'), 'D-00', Registry['D-00']);
   const sp = el('div', 'scroll-pane');
-  sp.append(el('div', 'section-head', { html: `<h1 class="title">Dashboard</h1><div class="sub">Datenstatus · ${PRX.data.meta.version}</div>` }));
+  sp.append(el('div', 'section-head', { html: `<h1 class="title">Dashboard</h1><div class="sub">Datenstatus · ${PRX.version}</div>` }));
   sp.append(el('div', 'dashboard-grid', { html: `<div class="metric"><div class="metric-num">${c.prs || 0}</div><div class="metric-label">PR-Stammdaten</div></div><div class="metric"><div class="metric-num">${c.gpxMatched || 0}</div><div class="metric-label">GPX zugeordnet</div></div><div class="metric"><div class="metric-num">${c.kmlMatched || 0}</div><div class="metric-label">KML zugeordnet</div></div><div class="metric"><div class="metric-num">${openCount}</div><div class="metric-label">offene Audit-Tickets</div></div>` }));
-  sp.append(el('div', 'section-head', { html: `<div class="empty">Quellen: ${PRX.data.meta.sourceFiles.join(' · ')}<br>Service Worker: nicht aktiv in V4.0.1.<br>Homezone: ${PRX.data.meta.home.name}<br>Audit-Session: ${PRX.audit.sessionId}</div>` }));
+  sp.append(el('div', 'section-head', { html: `<div class="empty">Quellen: ${PRX.data.meta.sourceFiles.join(' · ')}<br>Service Worker: nicht aktiv in ${PRX.version}.<br>Homezone: ${PRX.data.meta.home.name}<br>Audit-Session: ${PRX.audit.sessionId}</div>` }));
   v.append(sp); h.append(v);
 }
 
@@ -347,13 +364,11 @@ function fitMadeira() { if (PRX.map) PRX.map.setView([32.75, -16.95], 10); }
 async function openDetail(id) {
   const p = PRX.data.prs.find(x => x.id === id); if (!p) return;
   PRX.active = p; renderView('map');
+  $('#app').classList.add('detail-active');
   const host = $('#detailHost'); host.innerHTML = ''; host.hidden = false;
   const sheet = cid(el('section', 'detail-sheet detail-peek'), 'PD-00', Registry['PD-00'], p.id);
   const head = el('header', 'detail-header');
-  head.append(el('div', 'detail-title', { text: `${p.sourceNumber || p.id} · ${p.name}` }), Components.closeButton(() => { host.hidden = true; clearActiveLines(); }, 'PD-01'));
-  const modeBtn = el('button', 'icon-btn detail-mode-btn', { type: 'button', text: 'Mehr' });
-  modeBtn.addEventListener('click', () => setDetailExpanded(sheet, modeBtn, !sheet.classList.contains('detail-expanded')));
-  head.insertBefore(modeBtn, head.lastElementChild);
+  head.append(el('div', 'detail-title', { text: `${p.sourceNumber || p.id} - ${p.name}` }), Components.closeButton(() => { host.hidden = true; $('#app').classList.remove('detail-active'); clearActiveLines(); }, 'PD-01'));
   const summary = renderPrSummary(p);
   const body = el('div', 'detail-body');
   body.append(renderRouteHero(p));
@@ -361,9 +376,9 @@ async function openDetail(id) {
   [['Region', p.region], ['Status', p.status], ['Distanz', p.trail.distanceKm ? `${p.trail.distanceKm} km` : null], ['Dauer', p.trail.duration], ['Höhenmeter', p.trail.elevGain ? `${p.trail.elevGain} hm` : null], ['Anfahrt', p.drive.min ? `${p.drive.min} min · ${fmt(p.drive.km, ' km')}` : null], ['Höchster Punkt', p.trail.elevHigh ? `${p.trail.elevHigh} m` : null], ['Tiefster Punkt', p.trail.elevLow ? `${p.trail.elevLow} m` : null]].forEach(x => grid.append(Components.kv(x[0], x[1])));
   body.append(grid, el('div', 'divider'));
   const links = cid(el('div', 'link-grid'), 'PD-03', Registry['PD-03'], p.id);
-  if (p.googleMapsFromHome) links.append(Components.link(p.googleMapsFromHome, '⌖', 'Anfahrt'));
-  if (p.links.visitMadeira) links.append(Components.link(`https://www.visitmadeira.com/de/resultate?Search=${encodeURIComponent(p.links.visitMadeira)}`, '↗', 'Visit'));
-  if (p.lat && p.lon) links.append(Components.link(`https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lon}`, '◎', 'Google'));
+  if (p.googleMapsFromHome) links.append(Components.link(p.googleMapsFromHome, 'route', 'Anfahrt'));
+  if (p.links.visitMadeira) links.append(Components.link(`https://www.visitmadeira.com/de/resultate?Search=${encodeURIComponent(p.links.visitMadeira)}`, 'external', 'Visit'));
+  if (p.lat && p.lon) links.append(Components.link(`https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lon}`, 'location', 'Google'));
   body.append(links, el('div', 'divider'));
   const poiContext = renderPoiContext(p);
   if (poiContext) body.append(poiContext, el('div', 'divider'));
@@ -667,9 +682,24 @@ function openSettings() {
 function openPanel(title, body, id = 'P-00') { const host = $('#panelHost'); host.innerHTML = ''; host.hidden = false; host.append(Components.panel(title, body, closePanel, id)); applyAuditState(); }
 function closePanel() { const host = $('#panelHost'); host.hidden = true; host.innerHTML = ''; }
 
+function toggleAuditRecording() {
+  const active = PRX.audit.enabled && PRX.audit.noteMode;
+  if (active) {
+    PRX.audit.noteMode = false;
+  } else {
+    PRX.audit.enabled = true;
+    PRX.audit.labels = true;
+    PRX.audit.noteMode = true;
+  }
+  saveAudit();
+  applyAuditState();
+  openAuditCenter();
+}
 function openAuditCenter() {
   const body = el('div');
-  body.append(el('div', 'empty', { html: `Session: <b>${PRX.audit.sessionId}</b><br>Tickets gesamt: ${PRX.audit.tickets.length}<br>Offen: ${PRX.audit.tickets.filter(t => t.status !== 'erledigt').length}` }));
+  const recording = PRX.audit.enabled && PRX.audit.noteMode;
+  body.append(el('div', 'empty audit-recording-info', { html: `Session: <b>${PRX.audit.sessionId}</b><br>Tickets gesamt: ${PRX.audit.tickets.length}<br>Offen: ${PRX.audit.tickets.filter(t => t.status !== 'erledigt').length}<br>Recording: <b>${recording ? 'aktiv' : 'aus'}</b>` }));
+  body.append(el('button', `chip audit-recording ${recording ? 'active' : ''}`, { type: 'button', text: recording ? 'Recording stoppen' : 'Recording starten', onclick: toggleAuditRecording }));
   body.append(
     Components.toggleRow('Audit-Modus aktiv', PRX.audit.enabled, v => { PRX.audit.enabled = v; if (!v) PRX.audit.noteMode = false; saveAudit(); applyAuditState(); openAuditCenter(); }, 'A-01'),
     Components.toggleRow('Element-IDs anzeigen', PRX.audit.labels, v => { PRX.audit.labels = v; saveAudit(); applyAuditState(); }, 'A-02'),
@@ -728,7 +758,7 @@ function openNotePopup(target) {
   const box = cid(el('section', 'audit-note-box'), 'A-08', Registry['A-08']);
   box.style.left = '18px'; box.style.top = '110px';
   const header = el('header', 'audit-note-head', { html: `<b>${componentId}</b><span>${componentName}</span>` });
-  const close = el('button', 'icon-btn', { type: 'button', html: '×', onclick: closeNotePopup });
+  const close = Components.iconButton('close', 'Schliessen', closeNotePopup, 'A-08-CLOSE');
   header.append(close);
   const body = el('div', 'audit-note-body');
   body.append(el('div', 'sub', { text: `Ticket ${ticketNo(PRX.audit.nextTicket)} · Ansicht: ${PRX.view}${prId ? ' · Kontext: ' + prId : ''}` }));
