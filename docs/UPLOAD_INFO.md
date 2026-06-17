@@ -1,15 +1,12 @@
-# PR-Explorer Madeira V4.0.4 Recovery Baseline
+# PR-Explorer Madeira V4.0.1 Governance
 
 ## GitHub Kurzzeile
-PR-Explorer Madeira V4.0.4 Recovery Baseline: konsolidierter Stand mit Zielbild-Dokumentation, Audit-System, CSV/JSON Export und integrierter Leaflet-/UI-Stabilisierung.
+PR-Explorer Madeira V4.0.1 Governance: Audit-ID-System, kumulative Tickets, CSV/JSON Export, Leaflet-Stabilisierung.
 
 ## Vollständiger Infoblock
-Version: PR-Explorer Madeira V4.0.4 Recovery Baseline
-Zweck: stabiler Recovery-Schnitt vor weiterem Featureausbau.
+Version: PR-Explorer Madeira V4.0.1 Governance
+Zweck: Governance-Zwischenschritt vor weiterer Fehlerbeseitigung.
 Änderungen:
-- Recovery-, Funktions-, UI- und UX-Briefings in `docs/` integriert.
-- V4.0.2-/V4.0.3-Stabilisierungen in `src/styles.css` konsolidiert.
-- Keine aktiven separaten Recovery-CSS-Dateien mehr.
 - Audit Center über ⚑ in der Topbar.
 - Audit-Modus ein/aus.
 - Element-IDs sichtbar als gelbe Labels/Outlines.
@@ -33,7 +30,6 @@ Root-Dateien und Ordner hochladen:
 - data/
 - assets/
 - docs/
-- vendor/
 
 ## Geänderte/neue Ordner
 Geändert:
@@ -43,8 +39,6 @@ Geändert:
 Unverändert weiter erforderlich:
 - data/
 - assets/
-- docs/
-- vendor/
 
 ## Testreihenfolge
 1. App starten.
@@ -64,4 +58,3 @@ Unverändert weiter erforderlich:
 - Kein Service Worker.
 - CSV ist für Excel-Auswertung; JSON bleibt Sicherungsformat.
 - Audit-IDs decken die Hauptkomponenten ab, Detailtiefe kann später erweitert werden.
-- Leaflet 1.9.4 ist lokal in `vendor/leaflet/` enthalten. Kartenkacheln werden weiterhin von den jeweiligen Tile-Anbietern geladen.

@@ -2,7 +2,7 @@
 'use strict';
 
 const PRX = {
-  version: 'V4.0.4 Recovery Baseline',
+  version: 'V4.0.1 Governance',
   data: null,
   map: null,
   pinRenderer: null,
@@ -26,6 +26,7 @@ const PRX = {
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const POI_STATUS_KEY = 'PRX_POI_STATUS_V1';
 const el = (tag, cls, attrs = {}) => {
   const n = document.createElement(tag);
   if (cls) n.className = cls;
@@ -163,6 +164,15 @@ async function loadData() {
   try {
     const res = await fetch('data/prs.json', { cache: 'no-store' });
     PRX.data = await res.json();
+    PRX.data.pois = [];
+    try {
+      const poiRes = await fetch('data/pois.json', { cache: 'no-store' });
+      const poiData = await poiRes.json();
+      PRX.data.pois = poiData.pois || [];
+      PRX.data.meta.counts.pois = PRX.data.pois.length;
+    } catch (poiError) {
+      console.warn('POI recovery data not loaded', poiError);
+    }
     PRX.settings.home = PRX.data.meta.home;
     document.documentElement.style.setProperty('--sheetAlpha', PRX.settings.sheetTransparency);
   } catch (e) {
@@ -240,7 +250,7 @@ function renderJournal() {
     v.append(sp); h.append(v);
     return;
   }
-  sp.append(el('div', 'section-head', { html: `<h1 class="title">Journal</h1><div class="sub">${PRX.data.prs.length} PR-/PS-PR-Wege aus PR – V1.xlsx · V4.0.4 Recovery Baseline</div>` }));
+  sp.append(el('div', 'section-head', { html: `<h1 class="title">Journal</h1><div class="sub">${PRX.data.prs.length} PR-/PS-PR-Wege aus PR – V1.xlsx · V4.0.1 Governance</div>` }));
   const tb = el('div', 'toolbar-row');
   const inp = cid(el('input', 'search', { placeholder: 'Suche PR, Name, Region', 'aria-label': 'Suche' }), 'J-01', Registry['J-01']);
   inp.value = PRX.filter.q;
@@ -272,7 +282,7 @@ function renderTrip() {
   const h = host();
   const v = cid(el('section', 'view active list-shell'), 'R-00', Registry['R-00']);
   const sp = el('div', 'scroll-pane');
-  sp.append(el('div', 'section-head', { html: '<h1 class="title">Reise</h1><div class="sub">V4.0.4 enthält bewusst nur die stabile Hülle. Tagesplanung folgt in V4.3.</div>' }));
+  sp.append(el('div', 'section-head', { html: '<h1 class="title">Reise</h1><div class="sub">V4.0.1 enthält bewusst nur die stabile Hülle. Tagesplanung folgt in V4.3.</div>' }));
   sp.append(el('div', 'dashboard-grid', { html: '<div class="metric"><div class="metric-num">14</div><div class="metric-label">Reisetage vorbereitet</div></div><div class="metric"><div class="metric-num">Home</div><div class="metric-label">Pestana Promenade Funchal</div></div>' }));
   sp.append(el('div', 'section-head', { html: '<div class="empty">Keine defekte Kalenderlogik. Später: einspaltige Tagesliste, Tagesdetail per Slide, PRs/POIs Heute/Später.</div>' }));
   v.append(sp); h.append(v);
@@ -285,7 +295,7 @@ function renderDashboard() {
   const sp = el('div', 'scroll-pane');
   sp.append(el('div', 'section-head', { html: `<h1 class="title">Dashboard</h1><div class="sub">Datenstatus · ${PRX.data.meta.version}</div>` }));
   sp.append(el('div', 'dashboard-grid', { html: `<div class="metric"><div class="metric-num">${c.prs || 0}</div><div class="metric-label">PR-Stammdaten</div></div><div class="metric"><div class="metric-num">${c.gpxMatched || 0}</div><div class="metric-label">GPX zugeordnet</div></div><div class="metric"><div class="metric-num">${c.kmlMatched || 0}</div><div class="metric-label">KML zugeordnet</div></div><div class="metric"><div class="metric-num">${openCount}</div><div class="metric-label">offene Audit-Tickets</div></div>` }));
-  sp.append(el('div', 'section-head', { html: `<div class="empty">Quellen: ${PRX.data.meta.sourceFiles.join(' · ')}<br>Service Worker: nicht aktiv in V4.0.4.<br>Homezone: ${PRX.data.meta.home.name}<br>Audit-Session: ${PRX.audit.sessionId}</div>` }));
+  sp.append(el('div', 'section-head', { html: `<div class="empty">Quellen: ${PRX.data.meta.sourceFiles.join(' · ')}<br>Service Worker: nicht aktiv in V4.0.1.<br>Homezone: ${PRX.data.meta.home.name}<br>Audit-Session: ${PRX.audit.sessionId}</div>` }));
   v.append(sp); h.append(v);
 }
 
@@ -347,6 +357,8 @@ async function openDetail(id) {
   if (p.links.visitMadeira) links.append(Components.link(`https://www.visitmadeira.com/de/resultate?Search=${encodeURIComponent(p.links.visitMadeira)}`, '↗', 'Visit'));
   if (p.lat && p.lon) links.append(Components.link(`https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lon}`, '◎', 'Google'));
   body.append(links, el('div', 'divider'));
+  const poiContext = renderPoiContext(p);
+  if (poiContext) body.append(poiContext, el('div', 'divider'));
   body.append(cid(el('div', 'empty', { html: `GPX: ${p.dataStatus.gpx ? 'vorhanden' : 'Nicht in den bereitgestellten Daten vorhanden.'}<br>KML: ${p.dataStatus.kml ? 'vorhanden' : 'Nicht in den bereitgestellten Daten vorhanden.'}<br>Parken/Gebühr: ${p.parking.info || p.parking.fee || 'Nicht in den bereitgestellten Daten vorhanden.'}` }), 'PD-04', Registry['PD-04'], p.id));
   sheet.append(head, body); host.append(sheet); applyAuditState();
   requestAnimationFrame(async () => {
@@ -357,6 +369,124 @@ async function openDetail(id) {
 function renderRouteHero(p) {
   const facts = [p.region, fmt(p.trail.distanceKm, ' km'), fmt(p.trail.duration), fmt(p.trail.elevGain, ' hm')].filter(Boolean).map(x => `<span>${x}</span>`).join('');
   return cid(el('section', 'route-hero', { html: `<div class="route-hero-code">${p.sourceNumber || p.id}</div><div class="route-hero-title">${p.name}</div><div class="route-hero-meta">${facts}</div>` }), 'PD-05', Registry['PD-05'], p.id);
+}
+function normalizePr(value) {
+  return String(value || '').toUpperCase().replace(/[^A-Z0-9.]/g, '');
+}
+function poiIcon(poi) {
+  const c = String(poi.category || '').toLowerCase();
+  if (c === 'trailhead') return 'PR';
+  if (c === 'waterfall') return 'WF';
+  if (c === 'viewpoint') return 'VP';
+  if (c === 'parking') return 'P';
+  if (c === 'fuel') return 'F';
+  if (c === 'toilet') return 'WC';
+  if (c === 'supermarket') return 'SM';
+  if (c === 'beach') return 'B';
+  if (c === 'tunnel') return 'T';
+  return 'POI';
+}
+function poiLabel(poi) {
+  const labels = { trailhead: 'Start/Ziel', waterfall: 'Wasserfall', viewpoint: 'Aussicht', sight: 'Highlight', parking: 'Parken', fuel: 'Tankstelle', toilet: 'WC', supermarket: 'Supermarkt', beach: 'Strand', tunnel: 'Tunnel' };
+  return labels[poi.category] || poi.category || 'POI';
+}
+function poisForPr(pr) {
+  const keys = new Set([normalizePr(pr.id), normalizePr(pr.sourceNumber), normalizePr(pr.links?.visitMadeira)].filter(Boolean));
+  return (PRX.data.pois || []).filter(poi => (poi.relatedPR || []).some(ref => keys.has(normalizePr(ref)))).slice(0, 12);
+}
+function escapeHtml(text) {
+  return String(text || '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[ch]));
+}
+function getPoiStatus(id) {
+  return readJSON(POI_STATUS_KEY, {})[id] || '';
+}
+function setPoiStatus(id, status) {
+  const store = readJSON(POI_STATUS_KEY, {});
+  if (store[id] === status) delete store[id];
+  else store[id] = status;
+  writeJSON(POI_STATUS_KEY, store);
+}
+function poiStatusLabel(status) {
+  return ({ today: 'Heute', later: 'Spaeter', done: 'Erledigt' })[status] || 'Offen';
+}
+function renderPoiCard(poi) {
+  const note = poi.shortDescriptionDe || poi.notes || 'Projekt-POI';
+  const status = getPoiStatus(poi.id);
+  const actions = [
+    ['today', 'Heute'],
+    ['later', 'Spaeter'],
+    ['done', 'Erledigt']
+  ].map(([key, label]) => `<button type="button" class="poi-action${status === key ? ' active' : ''}" data-poi-status="${key}">${label}</button>`).join('');
+  return `
+    <div class="poi-card-head">
+      <span class="poi-icon">${poiIcon(poi)}</span>
+      <span class="poi-card-title"><strong>${escapeHtml(poi.name)}</strong><em>${escapeHtml(poiLabel(poi))}</em></span>
+    </div>
+    <p class="poi-card-note">${escapeHtml(note)}</p>
+    <div class="poi-meta-row">
+      <span class="poi-pill">${escapeHtml(poiStatusLabel(status))}</span>
+      <span class="poi-pill">${Number(poi.lat).toFixed(4)}, ${Number(poi.lon).toFixed(4)}</span>
+    </div>
+    <div class="poi-actions">${actions}</div>`;
+}
+function renderPoiContext(pr) {
+  const pois = poisForPr(pr);
+  if (!pois.length) return null;
+  const wrap = cid(el('section', 'poi-context'), 'POI-00', 'POI Kontext', pr.id);
+  const today = pois.filter(poi => getPoiStatus(poi.id) === 'today').length;
+  const later = pois.filter(poi => getPoiStatus(poi.id) === 'later').length;
+  wrap.append(el('div', 'poi-context-head', { html: `<strong>POI-Kontext</strong><span>${pois.length} aus V3.6.3 - Heute ${today} - Spaeter ${later}</span>` }));
+  const list = el('div', 'poi-list');
+  const rail = el('div', 'poi-inline-rail');
+  pois.forEach((poi, idx) => {
+    const row = el('button', 'poi-row', { type: 'button' });
+    const note = poi.shortDescriptionDe || poi.notes || 'Projekt-POI';
+    row.innerHTML = `<span class="poi-icon">${poiIcon(poi)}</span><span class="poi-main"><strong>${escapeHtml(poi.name)}</strong><span>${escapeHtml(poiLabel(poi))} - ${escapeHtml(note)}</span></span><span class="poi-arrow">&rsaquo;</span>`;
+    row.addEventListener('click', () => {
+      showPoiOnMap(poi, pois, row);
+      const card = $$('.poi-card', wrap).find(item => item.dataset.poiId === poi.id);
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    });
+    if (idx === 0) setTimeout(() => showPoiOnMap(poi, pois, row, false), 0);
+    list.append(row);
+
+    const card = el('article', 'poi-card', { tabindex: '0' });
+    card.dataset.poiId = poi.id;
+    card.innerHTML = renderPoiCard(poi);
+    card.addEventListener('click', evt => {
+      const statusButton = evt.target.closest('[data-poi-status]');
+      if (statusButton) {
+        evt.stopPropagation();
+        setPoiStatus(poi.id, statusButton.dataset.poiStatus);
+        const replacement = renderPoiContext(pr);
+        if (replacement) wrap.replaceWith(replacement);
+        return;
+      }
+      showPoiOnMap(poi, pois, card);
+    });
+    card.addEventListener('keydown', evt => {
+      if (evt.key === 'Enter' || evt.key === ' ') {
+        evt.preventDefault();
+        showPoiOnMap(poi, pois, card);
+      }
+    });
+    rail.append(card);
+  });
+  wrap.append(list, rail);
+  return wrap;
+}
+function showPoiOnMap(poi, contextPois = [], row = null, pan = true) {
+  if (!PRX.map || !PRX.layers.pois || !Number.isFinite(+poi.lat) || !Number.isFinite(+poi.lon)) return;
+  PRX.layers.pois.clearLayers();
+  contextPois.forEach(other => {
+    if (other.id === poi.id || !Number.isFinite(+other.lat) || !Number.isFinite(+other.lon)) return;
+    L.circleMarker([+other.lat, +other.lon], { renderer: PRX.pinRenderer, radius: 5, color: '#ffffff', weight: 1, fillColor: '#ffd166', fillOpacity: .45, pane: 'markerPane' }).addTo(PRX.layers.pois);
+  });
+  const marker = L.circleMarker([+poi.lat, +poi.lon], { renderer: PRX.pinRenderer, radius: 9, color: '#ffffff', weight: 2, fillColor: '#ffd166', fillOpacity: .96, pane: 'markerPane' });
+  marker.bindTooltip(`${poiLabel(poi)} - ${poi.name}`);
+  marker.addTo(PRX.layers.pois);
+  document.querySelectorAll('.poi-row, .poi-card').forEach(elm => elm.classList.toggle('active', elm === row));
+  if (pan) PRX.map.panTo([+poi.lat, +poi.lon], { animate: false });
 }
 function decimate(points, max = 1600) { if (!Array.isArray(points) || points.length <= max) return points || []; const step = Math.ceil(points.length / max); return points.filter((_, i) => i % step === 0 || i === points.length - 1); }
 async function showActiveLines(p) {
@@ -401,6 +531,7 @@ function clearActiveLines() {
   if (PRX.layers.gpx) PRX.layers.gpx.clearLayers();
   if (PRX.layers.kml) PRX.layers.kml.clearLayers();
   if (PRX.layers.endpoints) PRX.layers.endpoints.clearLayers();
+  if (PRX.layers.pois) PRX.layers.pois.clearLayers();
 }
 
 function openFilter() {
