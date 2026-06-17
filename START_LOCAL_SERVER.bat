@@ -1,10 +1,30 @@
-@echo off
-setlocal
-cd /d "%~dp0"
-echo PR-Explorer Madeira V4.0.1
-echo.
-echo Lokaler Server startet auf http://localhost:4173
-echo Browser oeffnen und diese Adresse verwenden.
-echo Zum Beenden dieses Fensters: Strg+C
-echo.
-"%USERPROFILE%\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" -m http.server 4173 --bind 127.0.0.1
+/* V4.0.2 map recovery: keep Leaflet tiles and overlays isolated from app-wide media styles. */
+.map-layer.leaflet-container {
+  z-index: 1;
+  width: 100vw !important;
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+.leaflet-container .leaflet-tile {
+  width: 256px !important;
+  height: 256px !important;
+  max-width: none !important;
+  max-height: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  object-fit: initial !important;
+  filter: none !important;
+}
+
+.leaflet-container .leaflet-marker-pane,
+.leaflet-container .leaflet-overlay-pane {
+  pointer-events: auto;
+}
+
+.leaflet-container .leaflet-control-container {
+  position: relative;
+  z-index: 700;
+}
