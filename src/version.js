@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.6',
-  name: 'Carousel Motion Top Controls',
-  label: 'V5.0.6 Carousel Motion Top Controls'
+  id: 'V5.0.7',
+  name: 'Flag Styling Activity Emoji',
+  label: 'V5.0.7 Flag Styling Activity Emoji'
 };

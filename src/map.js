@@ -21,21 +21,9 @@ const mapStyle = {
 
 const baseLayers = new Map();
 const BASE_LAYER_CONFIG = {
-  osm: {
-    label: 'OSM',
-    url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    options: { maxZoom: 19, attribution: '(c) OpenStreetMap' }
-  },
-  topo: {
-    label: 'Topo',
-    url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-    options: { maxZoom: 17, attribution: '(c) OpenTopoMap, (c) OpenStreetMap' }
-  },
-  sat: {
-    label: 'Sat',
-    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    options: { maxZoom: 18, attribution: 'Tiles (c) Esri' }
-  }
+  osm: { label: 'OSM', url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', options: { maxZoom: 19, attribution: '(c) OpenStreetMap' } },
+  topo: { label: 'Topo', url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', options: { maxZoom: 17, attribution: '(c) OpenTopoMap, (c) OpenStreetMap' } },
+  sat: { label: 'Sat', url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', options: { maxZoom: 18, attribution: 'Tiles (c) Esri' } }
 };
 
 export function initMap(onOpenPr) {
@@ -97,9 +85,7 @@ export function fitAll() {
     .filter(pr => Number.isFinite(pr.lat) && Number.isFinite(pr.lon))
     .map(pr => [pr.lat, pr.lon]);
 
-  if (points.length) {
-    map.fitBounds(points, { paddingTopLeft: [28, 128], paddingBottomRight: [28, 118], animate: false });
-  }
+  if (points.length) map.fitBounds(points, { paddingTopLeft: [28, 128], paddingBottomRight: [28, 118], animate: false });
 }
 
 export function setBaseLayer(key) {
@@ -116,11 +102,7 @@ export function setBaseLayer(key) {
 }
 
 export function getBaseLayers() {
-  return Object.entries(BASE_LAYER_CONFIG).map(([key, config]) => ({
-    key,
-    label: config.label,
-    active: key === activeBaseLayer
-  }));
+  return Object.entries(BASE_LAYER_CONFIG).map(([key, config]) => ({ key, label: config.label, active: key === activeBaseLayer }));
 }
 
 export async function showPrOnMap(id) {
@@ -165,12 +147,7 @@ async function drawFile(file, layer, color, label, active) {
         opacity: active ? 0.85 : 0.24,
         interactive: false
       }).addTo(layer);
-      L.polyline(segment, {
-        color,
-        weight,
-        opacity: active ? 0.94 : 0.24,
-        interactive: false
-      }).addTo(layer);
+      L.polyline(segment, { color, weight, opacity: active ? 0.94 : 0.24, interactive: false }).addTo(layer);
       drawn.push(...segment);
     });
     addEndpoints(drawn, color, label);
@@ -190,9 +167,9 @@ function createPrFlag(pr, active, faded) {
   const html = `
     <span class="pr-pin-wrap ${active ? 'active' : ''} ${faded ? 'faded' : ''}" style="--pin-scale:${scale}">
       <span class="pr-needle"></span>
-      <span class="pr-flag ${active ? 'active' : ''}" style="--pin-bg:${difficulty.bg};--pin-fg:${difficulty.fg}">
+      <span class="pr-flag ${active ? 'active' : ''}" style="--difficulty:${difficulty.bg}">
         <span class="badge status" style="background:${status}"></span>
-        <span class="badge activity ${activity ? '' : 'empty'}" style="background:${activity?.bg || 'transparent'}">${activity?.label || ''}</span>
+        <span class="activity ${activity ? '' : 'empty'}">${activity?.label || ''}</span>
         ${escapeHtml(compactPrNumber(pr.displayId))}
       </span>
     </span>`;
@@ -266,10 +243,10 @@ function getBottomPadding() {
 
 function difficultyStyle(value = '') {
   const s = normalize(value);
-  if (s.includes('schwer')) return { bg: '#ff453a', fg: '#ffffff' };
-  if (s.includes('mittel')) return { bg: '#ffd166', fg: '#142426' };
-  if (s.includes('leicht')) return { bg: '#35d49f', fg: '#082224' };
-  return { bg: '#7dd8ff', fg: '#061b1d' };
+  if (s.includes('schwer')) return { bg: '#ff453a' };
+  if (s.includes('mittel')) return { bg: '#ffd166' };
+  if (s.includes('leicht')) return { bg: '#35d49f' };
+  return { bg: '#7dd8ff' };
 }
 
 function statusStyle(value = '') {
@@ -281,9 +258,9 @@ function statusStyle(value = '') {
 }
 
 function activityBadge(value = '') {
-  if (value === 'favorite') return { bg: '#050708', label: '♥' };
-  if (value === 'planned') return { bg: '#ff2d55', label: '♥' };
-  if (value === 'booked') return { bg: '#ffd166', label: '*' };
+  if (value === 'favorite') return { label: '🖤' };
+  if (value === 'planned') return { label: '♥️' };
+  if (value === 'booked') return { label: '⭐️' };
   return null;
 }
 

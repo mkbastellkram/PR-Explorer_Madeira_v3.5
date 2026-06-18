@@ -92,7 +92,7 @@ function renderRow(pr) {
         <strong>${escapeHtml(pr.name)}</strong>
         <em>${escapeHtml(pr.region)} - ${fmt(pr.distanceKm, ' km')} - ${escapeHtml(pr.duration || '-')} - ${fmt(pr.driveMin, ' min')}</em>
       </span>
-      <span class="pr-status">${escapeHtml(activityLabel(user) || statusLabel(pr.status))}</span>
+      <span class="pr-status">${activityEmoji(user)} ${escapeHtml(activityLabel(user) || statusLabel(pr.status))}</span>
     </button>`;
 }
 
@@ -105,6 +105,13 @@ function activityLabel(user) {
   if (user.activity === 'planned') return 'geplant';
   if (user.activity === 'favorite') return 'Favorit';
   if (user.ignored) return 'ignoriert';
+  return '';
+}
+
+function activityEmoji(user) {
+  if (user.activity === 'booked') return '⭐️';
+  if (user.activity === 'planned') return '♥️';
+  if (user.activity === 'favorite') return '🖤';
   return '';
 }
 
