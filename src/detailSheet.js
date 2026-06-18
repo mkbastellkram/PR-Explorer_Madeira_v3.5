@@ -21,23 +21,29 @@ export function openDetail(id, openAdjacent) {
     <section class="sheet peek" id="sheet">
       <header class="sheet-head">
         <div>
-          <strong>${escapeHtml(pr.displayId)} · ${escapeHtml(pr.name)}</strong>
+          <strong>${escapeHtml(pr.displayId)} - ${escapeHtml(pr.name)}</strong>
           <span>${escapeHtml(pr.region || '')}</span>
         </div>
-        <button class="close" aria-label="Schließen">×</button>
+        <button class="close" aria-label="Schliessen">x</button>
       </header>
       <section class="summary">
         <div><span>Anfahrt</span><strong>${fmt(pr.driveMin, ' min')}</strong></div>
-        <div><span>Länge</span><strong>${fmt(pr.distanceKm, ' km')}</strong></div>
+        <div><span>Laenge</span><strong>${fmt(pr.distanceKm, ' km')}</strong></div>
         <div><span>Dauer</span><strong>${escapeHtml(pr.duration || '-')}</strong></div>
         <div><span>Region</span><strong>${escapeHtml(pr.region || '-')}</strong></div>
+      </section>
+      <section class="peek-meta" aria-label="Planungsstatus">
+        <span>${escapeHtml(pr.status || 'Status offen')}</span>
+        <span>Tunnel -</span>
+        <span>Favorit -</span>
+        <span>Termin -</span>
       </section>
       <div class="sheet-body">
         <p class="lead">${escapeHtml(pr.shortText || pr.detailText || 'Noch kein Kurztext vorhanden.')}</p>
         <div class="facts">
           <div><span>Status</span><strong>${escapeHtml(pr.status || 'Check')}</strong></div>
           <div><span>Level</span><strong>${escapeHtml(pr.difficulty || '-')}</strong></div>
-          <div><span>Höhe</span><strong>${fmt(pr.elevationLow, '')}-${fmt(pr.elevationHigh, ' m')}</strong></div>
+          <div><span>Hoehe</span><strong>${fmt(pr.elevationLow, '')}-${fmt(pr.elevationHigh, ' m')}</strong></div>
           <div><span>Aufstieg</span><strong>${fmt(pr.elevationGain, ' hm')}</strong></div>
         </div>
         <p>${escapeHtml(pr.detailText || '')}</p>
@@ -48,7 +54,7 @@ export function openDetail(id, openAdjacent) {
           ${link(pr.links.schmalePfade, 'Schmale Pfade')}
         </div>
         <div class="data-state">
-          GPX: ${pr.track ? 'vorhanden' : 'fehlt'} · KML: ${pr.route ? 'vorhanden' : 'fehlt'}
+          GPX: ${pr.track ? 'vorhanden' : 'fehlt'} - KML: ${pr.route ? 'vorhanden' : 'fehlt'}
         </div>
       </div>
     </section>`;
@@ -84,19 +90,19 @@ function bindGestures(sheet, openAdjacent) {
     const ay = Math.abs(dy);
 
     if (!axis) {
-      if (ay > 12 && ay > ax * 1.15) axis = 'y';
-      else if (ax > 18 && ax > ay * 1.15 && sheet.classList.contains('peek')) axis = 'x';
+      if (ay > 14 && ay > ax * 1.2) axis = 'y';
+      else if (ax > 24 && ax > ay * 1.2 && sheet.classList.contains('peek')) axis = 'x';
       else return;
       sheet.classList.add('dragging');
     }
 
     event.preventDefault();
     if (axis === 'y') {
-      const min = Math.max(240, window.innerHeight * 0.30);
+      const min = Math.max(260, window.innerHeight * 0.32);
       const max = Math.min(window.innerHeight * 0.78, window.innerHeight - 72);
       sheet.style.height = `${Math.max(min, Math.min(max, startHeight - dy))}px`;
     }
-    if (axis === 'x') sheet.style.setProperty('--drag-x', `${Math.max(-260, Math.min(260, dx))}px`);
+    if (axis === 'x') sheet.style.setProperty('--drag-x', `${Math.max(-220, Math.min(220, dx))}px`);
   }, { passive: false });
 
   sheet.addEventListener('pointerup', () => {
@@ -104,11 +110,12 @@ function bindGestures(sheet, openAdjacent) {
     active = false;
     sheet.classList.remove('dragging');
 
-    if (axis === 'x' && Math.abs(dx) > 82) {
-      openAdjacent(dx < 0 ? 1 : -1);
+    if (axis === 'x' && Math.abs(dx) > 96) {
+      sheet.style.setProperty('--drag-x', `${dx < 0 ? -120 : 120}px`);
+      setTimeout(() => openAdjacent(dx < 0 ? 1 : -1), 130);
       return;
     }
-    if (axis === 'y') setState(sheet, dy < -36 ? 'expanded' : 'peek');
+    if (axis === 'y') setState(sheet, dy < -52 ? 'expanded' : 'peek');
     sheet.style.removeProperty('--drag-x');
   });
 }
