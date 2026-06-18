@@ -9,7 +9,13 @@ export const state = {
   filters: {
     q: '',
     regions: new Set(),
-    statuses: new Set()
+    statuses: new Set(),
+    ranges: {
+      driveKm: null,
+      driveMin: null,
+      distanceKm: null,
+      durationMin: null
+    }
   }
 };
 
@@ -70,8 +76,50 @@ export function filteredPrs() {
     if (q && !`${pr.displayId} ${pr.name} ${pr.region}`.toLowerCase().includes(q)) return false;
     if (state.filters.regions.size && !state.filters.regions.has(pr.region)) return false;
     if (state.filters.statuses.size && !state.filters.statuses.has(pr.status)) return false;
+    if (!rangeAllows('driveKm', pr.driveKm)) return false;
+    if (!rangeAllows('driveMin', pr.driveMin)) return false;
+    if (!rangeAllows('distanceKm', pr.distanceKm)) return false;
+    if (!rangeAllows('durationMin', durationToMinutes(pr.duration))) return false;
     return true;
   });
+}
+
+export function prsForRange(metricKey) {
+  const q = state.filters.q.trim().toLowerCase();
+  return (state.data?.prs || []).filter(pr => {
+    if (q && !`${pr.displayId} ${pr.name} ${pr.region}`.toLowerCase().includes(q)) return false;
+    if (state.filters.regions.size && !state.filters.regions.has(pr.region)) return false;
+    if (state.filters.statuses.size && !state.filters.statuses.has(pr.status)) return false;
+    return Object.keys(state.filters.ranges).every(key => key === metricKey || rangeAllows(key, metricValue(pr, key)));
+  });
+}
+
+export function metricValue(pr, key) {
+  if (key === 'durationMin') return durationToMinutes(pr.duration);
+  return Number(pr[key]);
+}
+
+export function durationToMinutes(value = '') {
+  const raw = String(value || '').trim().replace(',', '.');
+  const hourMinute = raw.match(/(\d+(?:\.\d+)?)\s*[:h]\s*(\d+)?/i);
+  if (hourMinute) return Math.round(Number(hourMinute[1]) * 60 + Number(hourMinute[2] || 0));
+  const decimal = raw.match(/(\d+(?:\.\d+)?)/);
+  return decimal ? Math.round(Number(decimal[1]) * 60) : NaN;
+}
+
+export function setRangeFilter(key, min, max) {
+  state.filters.ranges[key] = Number.isFinite(min) && Number.isFinite(max) ? { min, max } : null;
+}
+
+export function resetRangeFilters() {
+  Object.keys(state.filters.ranges).forEach(key => { state.filters.ranges[key] = null; });
+}
+
+function rangeAllows(key, value) {
+  const range = state.filters.ranges[key];
+  const number = Number(value);
+  if (!range || !Number.isFinite(number)) return true;
+  return number >= range.min && number <= range.max;
 }
 
 function saveUserState() {

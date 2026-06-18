@@ -3,6 +3,7 @@ import { loadUserState, state, filteredPrs, prUserState } from './state.js';
 import { getBaseLayers, initMap, renderPins, setBaseLayer, showPrOnMap, fitAll } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
+import { openFilterSheet } from './filterSheet.js';
 
 const $ = selector => document.querySelector(selector);
 
@@ -28,7 +29,7 @@ function renderTopbar() {
     <div class="brand"><span></span><strong>PR-Explorer</strong></div>
     <div class="top-actions">
       <button class="icon-btn" data-action="share" aria-label="Teilen">↑</button>
-      <button class="icon-btn" data-action="map-options" aria-label="Kartenoptionen">◫</button>
+      <button class="icon-btn" data-action="map-options" aria-label="Filter">☷</button>
       <button class="icon-btn" data-action="settings" aria-label="Einstellungen">⚙</button>
     </div>`;
 
@@ -37,7 +38,7 @@ function renderTopbar() {
     if (action === 'fit') fitAll();
     if (action === 'journal') renderView('journal');
     if (action === 'share') toast('Teilen ist vorbereitet.');
-    if (action === 'map-options') toast('Kartenoptionen folgen.');
+    if (action === 'map-options') openFilterSheet(handleFiltersChanged);
     if (action === 'settings') renderView('dashboard');
   });
 }
@@ -168,6 +169,15 @@ function renderTrip() {
     </section>`;
 
   $('#view').querySelectorAll('[data-trip-pr]').forEach(row => row.addEventListener('click', () => openPr(row.dataset.tripPr)));
+}
+
+function handleFiltersChanged() {
+  renderPins();
+  if (state.view === 'map') {
+    setTimeout(fitAll, 30);
+  } else if (state.view === 'journal') {
+    renderJournal($('#view'), openPr);
+  }
 }
 
 function tripRank(user) {

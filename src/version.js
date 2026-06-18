@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.11',
-  name: 'Map Dots And Trip Foundation',
-  label: 'V5.0.11 Map Dots And Trip Foundation'
+  id: 'V5.0.12',
+  name: 'Dependent Map Filters',
+  label: 'V5.0.12 Dependent Map Filters'
 };
