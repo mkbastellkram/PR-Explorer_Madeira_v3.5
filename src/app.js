@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { loadUserState, state, filteredPrs } from './state.js';
+import { loadUserState, state, filteredPrs, prUserState } from './state.js';
 import { getBaseLayers, initMap, renderPins, setBaseLayer, showPrOnMap, fitAll } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
@@ -46,6 +46,7 @@ function renderNav() {
   $('#nav').innerHTML = `
     <button data-view="journal">Journal</button>
     <button data-view="map">Karte</button>
+    <button data-view="trip">Reise</button>
     <button data-view="dashboard">Dashboard</button>`;
 
   $('#nav').addEventListener('click', event => {
@@ -86,6 +87,7 @@ export function renderView(view) {
     setTimeout(fitAll, 60);
   }
   if (view === 'dashboard') renderDashboard();
+  if (view === 'trip') renderTrip();
 }
 
 export function openPr(id) {
@@ -131,6 +133,72 @@ function renderDashboard() {
         <div><strong>${counts.pois}</strong><span>POIs</span></div>
       </div>
     </section>`;
+}
+
+function renderTrip() {
+  const planned = (state.data?.prs || [])
+    .map(pr => ({ pr, user: prUserState(pr.id) }))
+    .filter(item => ['booked', 'planned', 'favorite'].includes(item.user.activity))
+    .sort((a, b) => tripRank(a.user) - tripRank(b.user) || scheduleTime(a.user).localeCompare(scheduleTime(b.user)) || Number(a.pr.number) - Number(b.pr.number));
+  const driveKm = planned.reduce((sum, item) => sum + (Number(item.pr.driveKm) || 0) * 2, 0);
+
+  $('#view').innerHTML = `
+    <section class="panel-list">
+      <div class="journal-head">
+        <div>
+          <h1>Reise</h1>
+          <p>${planned.length} gemerkte PRs - ${fmt(driveKm, ' km')} Hin/Rueck geschaetzt</p>
+        </div>
+      </div>
+      <div class="list">
+        ${planned.map(({ pr, user }) => `
+          <button class="pr-row" data-trip-pr="${escapeHtml(pr.id)}">
+            <span class="trip-mark">${activityEmoji(user.activity)}</span>
+            <span class="pr-main">
+              <strong>${escapeHtml(pr.displayId)} - ${escapeHtml(pr.name)}</strong>
+              <em>${escapeHtml(scheduleLabel(user))} - ${fmt((Number(pr.driveKm) || 0) * 2, ' km')} Fahrt - ${fmt(pr.driveMin, ' min Google')}</em>
+            </span>
+            <span class="pr-status">${escapeHtml(user.activity)}</span>
+          </button>`).join('') || '<div class="empty">Noch keine Favoriten, geplanten oder gebuchten PRs.</div>'}
+      </div>
+      <div class="metrics">
+        <div><strong>${fmt(driveKm, '')}</strong><span>km Fahrt gesamt</span></div>
+        <div><strong>${planned.filter(item => item.user.activity === 'booked').length}</strong><span>gebucht</span></div>
+      </div>
+    </section>`;
+
+  $('#view').querySelectorAll('[data-trip-pr]').forEach(row => row.addEventListener('click', () => openPr(row.dataset.tripPr)));
+}
+
+function tripRank(user) {
+  if (user.activity === 'booked') return 1;
+  if (user.activity === 'planned') return 2;
+  if (user.activity === 'favorite') return 3;
+  return 9;
+}
+
+function scheduleTime(user) {
+  return user.schedule?.isoLocal || '9999-99-99T99:99';
+}
+
+function scheduleLabel(user) {
+  if (!user.schedule) return user.activity === 'favorite' ? 'ohne Termin' : 'Termin offen';
+  return `${user.schedule.date} ${user.schedule.hour}:${user.schedule.minute}`;
+}
+
+function activityEmoji(activity) {
+  if (activity === 'favorite') return '\u{1F499}';
+  if (activity === 'planned') return '\u2764\uFE0F';
+  if (activity === 'booked') return '\u2B50\uFE0F';
+  return '';
+}
+
+function fmt(value, suffix = '') {
+  return value === null || value === undefined || value === '' ? '-' : `${String(Math.round(Number(value) * 10) / 10).replace('.', ',')}${suffix}`;
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
 }
 
 async function boot() {

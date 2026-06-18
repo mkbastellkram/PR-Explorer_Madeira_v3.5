@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.10',
-  name: 'External Platform Search Links',
-  label: 'V5.0.10 External Platform Search Links'
+  id: 'V5.0.11',
+  name: 'Map Dots And Trip Foundation',
+  label: 'V5.0.11 Map Dots And Trip Foundation'
 };

@@ -159,6 +159,8 @@ async function drawFile(file, layer, color, label, active) {
 }
 
 function createPrFlag(pr, active, faded) {
+  if (faded) return createPrDot(pr);
+
   const scale = active ? mapStyle.activePinScale : mapStyle.pinScale;
   const difficulty = difficultyStyle(pr.difficulty);
   const status = statusEmoji(pr.status);
@@ -179,6 +181,16 @@ function createPrFlag(pr, active, faded) {
     html,
     iconSize: [Math.ceil(86 * scale), Math.ceil(54 * scale)],
     iconAnchor: [Math.ceil(16 * scale), Math.ceil(48 * scale)]
+  });
+}
+
+function createPrDot(pr) {
+  const html = `<span class="pr-dot" style="--dot-bg:${statusColor(pr.status)}"></span>`;
+  return L.divIcon({
+    className: 'pr-dot-icon',
+    html,
+    iconSize: [18, 18],
+    iconAnchor: [9, 9]
   });
 }
 
@@ -255,6 +267,14 @@ function statusEmoji(value = '') {
   if (s.includes('restricted') || s.includes('eingeschraenkt') || s.includes('eingeschrankt')) return '\u{1F7E1}';
   if (s.includes('open') || s.includes('geoeffnet') || s.includes('geoffnet')) return '\u{1F7E2}';
   return '\u{1F7E1}';
+}
+
+function statusColor(value = '') {
+  const s = normalize(value);
+  if (s.includes('closed') || s.includes('geschlossen')) return '#ff453a';
+  if (s.includes('restricted') || s.includes('eingeschraenkt') || s.includes('eingeschrankt')) return '#ffd166';
+  if (s.includes('open') || s.includes('geoeffnet') || s.includes('geoffnet')) return '#35d49f';
+  return '#ffd166';
 }
 
 function activityBadge(value = '') {
