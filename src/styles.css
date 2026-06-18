@@ -165,6 +165,7 @@ p { color: var(--muted); line-height: 1.45; }
 .range-head, .range-foot { display: flex; justify-content: space-between; gap: 12px; }
 .range-head strong { font-size: 14px; }
 .range-head span, .range-foot span { color: var(--muted); font-size: 12px; }
+.range-live { margin-top: 3px; color: var(--accent); font-size: 11px; font-weight: 800; }
 .double-range { position: relative; height: 42px; margin-top: 6px; }
 .double-range input[type="range"] { position: absolute; left: 0; right: 0; top: 10px; width: 100%; accent-color: var(--accent); background: transparent; pointer-events: none; }
 .double-range input[type="range"]::-webkit-slider-thumb { pointer-events: auto; }

@@ -134,12 +134,14 @@ function renderRanges(backdrop) {
 
 function renderMetric(metric) {
   const values = valuesFor(metric.key);
-  const fallback = metricBounds(metric.key, state.data?.prs || []);
-  const min = values[0] ?? fallback.min ?? 0;
-  const max = values[values.length - 1] ?? fallback.max ?? 0;
-  const current = state.filters.ranges[metric.key] || { min, max };
-  const low = clampToValues(current.min, values, min);
-  const high = clampToValues(current.max, values, max);
+  const global = metricBounds(metric.key, state.data?.prs || []);
+  const min = global.min ?? 0;
+  const max = global.max ?? 0;
+  const visibleMin = values[0] ?? min;
+  const visibleMax = values[values.length - 1] ?? max;
+  const current = state.filters.ranges[metric.key] || { min: visibleMin, max: visibleMax };
+  const low = clampToValues(current.min, values, visibleMin);
+  const high = clampToValues(current.max, values, visibleMax);
   const safeLow = Math.min(low, high);
   const safeHigh = Math.max(low, high);
 
@@ -156,6 +158,9 @@ function renderMetric(metric) {
       <div class="range-foot">
         <span>${formatMetric(metric, min)}</span>
         <span>${formatMetric(metric, max)}</span>
+      </div>
+      <div class="range-live">
+        aktuell ${formatMetric(metric, visibleMin)} - ${formatMetric(metric, visibleMax)}
       </div>
     </div>`;
 }
