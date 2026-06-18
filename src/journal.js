@@ -85,12 +85,12 @@ function groupPrs(prs) {
 
 function renderRow(pr) {
   const user = prUserState(pr.id);
-  const status = statusColor(pr.status);
+  const status = statusEmoji(pr.status);
   const activity = activityEmoji(user);
   return `
     <button class="pr-row ${user.ignored ? 'ignored' : ''}" data-id="${pr.id}">
       <span class="pr-code journal-flag" style="--pin-bg:${difficultyStyle(pr.difficulty).bg};--pin-fg:${difficultyStyle(pr.difficulty).fg}">
-        <span class="badge status" style="background:${status}"></span>
+        <span class="status-emoji">${status}</span>
         <span class="activity ${activity ? '' : 'empty'}">${activity}</span>
         ${escapeHtml(pr.displayId)}
       </span>
@@ -117,7 +117,7 @@ function activityLabel(user) {
 function activityEmoji(user) {
   if (user.activity === 'booked') return '\u2B50\uFE0F';
   if (user.activity === 'planned') return '\u2665\uFE0F';
-  if (user.activity === 'favorite') return '\u{1F5A4}';
+  if (user.activity === 'favorite') return '\u{1F499}';
   return '';
 }
 
@@ -129,12 +129,12 @@ function statusLabel(status = '') {
   return 'pruefen';
 }
 
-function statusColor(status = '') {
+function statusEmoji(status = '') {
   const s = String(status).toLowerCase();
-  if (s.includes('closed') || s.includes('geschlossen')) return '#ff453a';
-  if (s.includes('restricted') || s.includes('eingeschraenkt')) return '#ffd166';
-  if (s.includes('open')) return '#35d49f';
-  return '#8fa2a0';
+  if (s.includes('closed') || s.includes('geschlossen')) return '\u{1F534}';
+  if (s.includes('restricted') || s.includes('eingeschraenkt')) return '\u{1F7E1}';
+  if (s.includes('open')) return '\u{1F7E2}';
+  return '\u{1F7E1}';
 }
 
 function difficultyStyle(value = '') {

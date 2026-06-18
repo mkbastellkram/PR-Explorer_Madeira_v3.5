@@ -23,18 +23,29 @@ export function loadUserState() {
 }
 
 export function prUserState(id) {
-  return state.prStates[id] || { activity: '', ignored: false };
+  return {
+    activity: '',
+    ignored: false,
+    schedule: null,
+    ...state.prStates[id]
+  };
 }
 
-export function setPrActivity(id, activity) {
+export function setPrActivity(id, activity, schedule = null) {
   const current = prUserState(id);
+  if (current.activity === 'booked' && activity !== 'booked') return false;
+
   const nextActivity = current.activity === activity ? '' : activity;
+  if ((nextActivity === 'planned' || nextActivity === 'booked') && !schedule) return false;
+
   state.prStates[id] = {
     ...current,
     activity: nextActivity,
-    ignored: nextActivity === 'booked' ? false : current.ignored
+    ignored: nextActivity === 'booked' ? false : current.ignored,
+    schedule: nextActivity === 'planned' || nextActivity === 'booked' ? schedule : null
   };
   saveUserState();
+  return true;
 }
 
 export function toggleIgnored(id) {

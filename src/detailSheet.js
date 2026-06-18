@@ -35,10 +35,10 @@ export function openDetail(id, openAdjacent) {
         <div><span>Region</span><strong>${escapeHtml(pr.region || '-')}</strong></div>
       </section>
       <section class="peek-meta" aria-label="Planungsstatus">
-        <span>${escapeHtml(pr.status || 'Status offen')}</span>
-        <button class="${user.activity === 'favorite' ? 'active' : ''}" data-activity="favorite">Favorit</button>
-        <button class="${user.activity === 'planned' ? 'active' : ''}" data-activity="planned">Geplant</button>
-        <button class="${user.activity === 'booked' ? 'active' : ''}" data-activity="booked">IFCN</button>
+        <span>${statusEmoji(pr.status)} ${escapeHtml(pr.status || 'Status offen')}</span>
+        <button class="${user.activity === 'favorite' ? 'active' : ''}" data-activity="favorite" ${user.activity === 'booked' ? 'disabled' : ''}>${'\u{1F499}'} Favorit</button>
+        <button class="${user.activity === 'planned' ? 'active' : ''}" data-activity="planned" ${user.activity === 'booked' ? 'disabled' : ''}>${'\u2764\uFE0F'} Geplant</button>
+        <button class="${user.activity === 'booked' ? 'active' : ''}" data-activity="booked">${'\u2B50\uFE0F'} IFCN</button>
       </section>
       <section class="state-actions" aria-label="PR Status">
         <button class="${user.ignored ? 'active' : ''}" data-action="ignore" ${user.activity === 'booked' ? 'disabled' : ''}>Ignorieren</button>
@@ -46,7 +46,7 @@ export function openDetail(id, openAdjacent) {
       <div class="sheet-body">
         <p class="lead">${escapeHtml(pr.shortText || pr.detailText || 'Noch kein Kurztext vorhanden.')}</p>
         <div class="facts">
-          <div><span>Status</span><strong>${escapeHtml(pr.status || 'Check')}</strong></div>
+          <div><span>Status</span><strong>${statusEmoji(pr.status)} ${escapeHtml(pr.status || 'Check')}</strong></div>
           <div><span>Level</span><strong>${escapeHtml(pr.difficulty || '-')}</strong></div>
           <div><span>Hoehe</span><strong>${fmt(pr.elevationLow, '')}-${fmt(pr.elevationHigh, ' m')}</strong></div>
           <div><span>Aufstieg</span><strong>${fmt(pr.elevationGain, ' hm')}</strong></div>
@@ -66,8 +66,17 @@ export function openDetail(id, openAdjacent) {
 
   host.querySelector('.close').addEventListener('click', () => closeDetail());
   host.querySelectorAll('[data-activity]').forEach(button => {
-    button.addEventListener('click', event => {
-      setPrActivity(id, event.currentTarget.dataset.activity);
+    button.addEventListener('click', async event => {
+      const activity = event.currentTarget.dataset.activity;
+      if (activity === 'favorite') {
+        setPrActivity(id, activity);
+      } else if (user.activity === activity) {
+        setPrActivity(id, activity);
+      } else {
+        const schedule = await openScheduleDialog(pr, activity, user.schedule);
+        if (!schedule) return;
+        setPrActivity(id, activity, schedule);
+      }
       renderPins();
       openDetail(id, openAdjacent);
     });
@@ -80,6 +89,115 @@ export function openDetail(id, openAdjacent) {
   const sheet = host.querySelector('#sheet');
   bindGestures(sheet, openAdjacent);
   runSheetEntry(sheet);
+}
+
+function openScheduleDialog(pr, activity, currentSchedule = null) {
+  return new Promise(resolve => {
+    const existing = document.querySelector('.modal-backdrop');
+    if (existing) existing.remove();
+
+    const now = new Date();
+    const fallbackDate = now.toISOString().slice(0, 10);
+    const fallbackHour = String(Math.max(6, Math.min(22, now.getHours()))).padStart(2, '0');
+    const fallbackMinute = now.getMinutes() >= 30 ? '30' : '00';
+    const date = currentSchedule?.date || fallbackDate;
+    const hour = currentSchedule?.hour || fallbackHour;
+    const minute = currentSchedule?.minute || fallbackMinute;
+    const title = activity === 'booked' ? 'IFCN gebucht' : 'Geplant';
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'modal-backdrop';
+    backdrop.innerHTML = `
+      <section class="schedule-modal" role="dialog" aria-modal="true" aria-label="${escapeHtml(title)}">
+        <header>
+          <div>
+            <strong>${activityEmoji(activity)} ${escapeHtml(title)}</strong>
+            <span>${escapeHtml(pr.displayId)} - ${escapeHtml(pr.name)}</span>
+          </div>
+          <button data-close aria-label="Abbrechen">x</button>
+        </header>
+        <label class="schedule-field">
+          <span>Datum</span>
+          <input type="date" value="${escapeHtml(date)}" />
+        </label>
+        <div class="schedule-time">
+          <label>
+            <span>Stunde</span>
+            <select data-hour>${hourOptions(hour)}</select>
+          </label>
+          <label>
+            <span>Minute</span>
+            <div class="minute-tabs">
+              <button class="${minute === '00' ? 'active' : ''}" data-minute="00">00</button>
+              <button class="${minute === '30' ? 'active' : ''}" data-minute="30">30</button>
+            </div>
+          </label>
+        </div>
+        <div class="schedule-info">
+          ${escapeHtml(fmt(pr.distanceKm, ' km'))} - ${escapeHtml(pr.duration || '-')} - ${escapeHtml(fmt(pr.driveMin, ' min Anfahrt'))}
+        </div>
+        <footer>
+          <button data-close>Abbrechen</button>
+          <button class="primary" data-save>Uebernehmen</button>
+        </footer>
+      </section>`;
+
+    document.querySelector('#app').append(backdrop);
+
+    let selectedMinute = minute;
+    backdrop.querySelectorAll('[data-minute]').forEach(button => {
+      button.addEventListener('click', () => {
+        selectedMinute = button.dataset.minute;
+        backdrop.querySelectorAll('[data-minute]').forEach(item => item.classList.toggle('active', item === button));
+      });
+    });
+    backdrop.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => {
+      backdrop.remove();
+      resolve(null);
+    }));
+    backdrop.querySelector('[data-save]').addEventListener('click', () => {
+      const pickedDate = backdrop.querySelector('input[type="date"]').value;
+      const pickedHour = backdrop.querySelector('[data-hour]').value;
+      if (!pickedDate || !pickedHour || !selectedMinute) return;
+      backdrop.remove();
+      resolve({
+        date: pickedDate,
+        hour: pickedHour,
+        minute: selectedMinute,
+        isoLocal: `${pickedDate}T${pickedHour}:${selectedMinute}`,
+        title: `${activityEmoji(activity)} ${pr.displayId} ${pr.name}`,
+        href: `#pr=${encodeURIComponent(pr.id)}`
+      });
+    });
+  });
+}
+
+function hourOptions(selected) {
+  return Array.from({ length: 18 }, (_, index) => String(index + 5).padStart(2, '0'))
+    .map(hour => `<option value="${hour}" ${hour === selected ? 'selected' : ''}>${hour}</option>`)
+    .join('');
+}
+
+function activityEmoji(activity) {
+  if (activity === 'favorite') return '\u{1F499}';
+  if (activity === 'planned') return '\u2764\uFE0F';
+  if (activity === 'booked') return '\u2B50\uFE0F';
+  return '';
+}
+
+function statusEmoji(status = '') {
+  const s = normalize(status);
+  if (s.includes('closed') || s.includes('geschlossen')) return '\u{1F534}';
+  if (s.includes('restricted') || s.includes('eingeschraenkt') || s.includes('eingeschrankt')) return '\u{1F7E1}';
+  if (s.includes('open') || s.includes('geoeffnet') || s.includes('geoffnet')) return '\u{1F7E2}';
+  return '\u{1F7E1}';
+}
+
+function normalize(value) {
+  return String(value || '').toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\u00DF/g, 'ss');
 }
 
 function bindGestures(sheet, openAdjacent) {

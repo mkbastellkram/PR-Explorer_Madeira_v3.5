@@ -161,14 +161,14 @@ async function drawFile(file, layer, color, label, active) {
 function createPrFlag(pr, active, faded) {
   const scale = active ? mapStyle.activePinScale : mapStyle.pinScale;
   const difficulty = difficultyStyle(pr.difficulty);
-  const status = statusStyle(pr.status);
+  const status = statusEmoji(pr.status);
   const user = prUserState(pr.id);
   const activity = activityBadge(user.activity);
   const html = `
     <span class="pr-pin-wrap ${active ? 'active' : ''} ${faded ? 'faded' : ''}" style="--pin-scale:${scale}">
       <span class="pr-needle"></span>
       <span class="pr-flag ${active ? 'active' : ''}" style="--pin-bg:${difficulty.bg};--pin-fg:${difficulty.fg}">
-        <span class="badge status" style="background:${status}"></span>
+        <span class="status-emoji">${status}</span>
         <span class="activity ${activity ? '' : 'empty'}">${activity?.label || ''}</span>
         ${escapeHtml(compactPrNumber(pr.displayId))}
       </span>
@@ -249,16 +249,16 @@ function difficultyStyle(value = '') {
   return { bg: '#7dd8ff', fg: '#061b1d' };
 }
 
-function statusStyle(value = '') {
+function statusEmoji(value = '') {
   const s = normalize(value);
-  if (s.includes('closed') || s.includes('geschlossen')) return '#ff453a';
-  if (s.includes('restricted') || s.includes('eingeschraenkt') || s.includes('eingeschrankt')) return '#ffd166';
-  if (s.includes('open') || s.includes('geoeffnet') || s.includes('geoffnet')) return '#35d49f';
-  return '#8fa2a0';
+  if (s.includes('closed') || s.includes('geschlossen')) return '\u{1F534}';
+  if (s.includes('restricted') || s.includes('eingeschraenkt') || s.includes('eingeschrankt')) return '\u{1F7E1}';
+  if (s.includes('open') || s.includes('geoeffnet') || s.includes('geoffnet')) return '\u{1F7E2}';
+  return '\u{1F7E1}';
 }
 
 function activityBadge(value = '') {
-  if (value === 'favorite') return { label: '\u{1F5A4}' };
+  if (value === 'favorite') return { label: '\u{1F499}' };
   if (value === 'planned') return { label: '\u2665\uFE0F' };
   if (value === 'booked') return { label: '\u2B50\uFE0F' };
   return null;
