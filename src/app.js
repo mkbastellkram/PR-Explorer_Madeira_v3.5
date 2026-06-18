@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { state, filteredPrs } from './state.js';
+import { loadUserState, state, filteredPrs } from './state.js';
 import { getBaseLayers, initMap, renderPins, setBaseLayer, showPrOnMap, fitAll } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
@@ -126,6 +126,7 @@ function renderDashboard() {
 }
 
 async function boot() {
+  loadUserState();
   renderTopbar();
   renderNav();
   await loadData();

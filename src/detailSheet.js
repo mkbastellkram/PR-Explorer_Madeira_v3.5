@@ -1,4 +1,5 @@
-import { state } from './state.js';
+import { prUserState, setPrActivity, state, toggleIgnored } from './state.js';
+import { renderPins } from './map.js';
 
 let host;
 
@@ -14,11 +15,12 @@ export function openDetail(id, openAdjacent) {
   host ||= document.querySelector('#detailHost');
   const pr = state.data.prs.find(item => item.id === id);
   if (!pr) return;
+  const user = prUserState(id);
 
   host.hidden = false;
   document.querySelector('#app').classList.add('detail-active');
   host.innerHTML = `
-    <section class="sheet peek" id="sheet">
+    <section class="sheet peek ${user.ignored ? 'ignored' : ''}" id="sheet">
       <header class="sheet-head">
         <div>
           <strong>${escapeHtml(pr.displayId)} - ${escapeHtml(pr.name)}</strong>
@@ -34,9 +36,12 @@ export function openDetail(id, openAdjacent) {
       </section>
       <section class="peek-meta" aria-label="Planungsstatus">
         <span>${escapeHtml(pr.status || 'Status offen')}</span>
-        <span>Tunnel -</span>
-        <span>Favorit -</span>
-        <span>Termin -</span>
+        <button class="${user.activity === 'favorite' ? 'active' : ''}" data-activity="favorite">Favorit</button>
+        <button class="${user.activity === 'planned' ? 'active' : ''}" data-activity="planned">Geplant</button>
+        <button class="${user.activity === 'booked' ? 'active' : ''}" data-activity="booked">IFCN</button>
+      </section>
+      <section class="state-actions" aria-label="PR Status">
+        <button class="${user.ignored ? 'active' : ''}" data-action="ignore" ${user.activity === 'booked' ? 'disabled' : ''}>Ignorieren</button>
       </section>
       <div class="sheet-body">
         <p class="lead">${escapeHtml(pr.shortText || pr.detailText || 'Noch kein Kurztext vorhanden.')}</p>
@@ -60,6 +65,18 @@ export function openDetail(id, openAdjacent) {
     </section>`;
 
   host.querySelector('.close').addEventListener('click', () => closeDetail());
+  host.querySelectorAll('[data-activity]').forEach(button => {
+    button.addEventListener('click', event => {
+      setPrActivity(id, event.currentTarget.dataset.activity);
+      renderPins();
+      openDetail(id, openAdjacent);
+    });
+  });
+  host.querySelector('[data-action="ignore"]').addEventListener('click', () => {
+    toggleIgnored(id);
+    renderPins();
+    openDetail(id, openAdjacent);
+  });
   bindGestures(host.querySelector('#sheet'), openAdjacent);
 }
 
@@ -73,7 +90,7 @@ function bindGestures(sheet, openAdjacent) {
   let startHeight = 0;
 
   sheet.addEventListener('pointerdown', event => {
-    if (event.target.closest('button, a')) return;
+    if (event.target.closest('.close, a')) return;
     if (sheet.classList.contains('expanded') && event.target.closest('.sheet-body')) return;
     active = true;
     axis = '';

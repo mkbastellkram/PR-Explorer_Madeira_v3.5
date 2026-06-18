@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { state, filteredPrs } from './state.js';
+import { state, filteredPrs, prUserState } from './state.js';
 import { renderPins } from './map.js';
 
 export function renderJournal(host, openPr) {
@@ -8,9 +8,14 @@ export function renderJournal(host, openPr) {
       <div class="journal-head">
         <div>
           <h1>Journal</h1>
-          <p>${state.data.meta.counts.prs} PR-Wege · ${VERSION.label}</p>
+          <p>${state.data.meta.counts.prs} PR-Wege - ${VERSION.label}</p>
         </div>
         <input id="search" class="search" type="search" placeholder="Suchen" value="${escapeHtml(state.filters.q)}" />
+      </div>
+      <div class="filter-row sort-row" id="sortModes">
+        <button class="chip active" data-sort="plan">Plan</button>
+        <button class="chip" data-sort="region">Region</button>
+        <button class="chip" data-sort="number">Nummer</button>
       </div>
       <div class="filter-row" id="regions"></div>
       <div class="list" id="list"></div>
@@ -46,25 +51,69 @@ function renderRegionFilters() {
 function drawList(openPr) {
   window.PRX_OPEN_PR = openPr;
   const list = document.querySelector('#list');
-  const rows = filteredPrs();
-  list.innerHTML = rows.map(pr => `
-    <button class="pr-row" data-id="${pr.id}">
+  const groups = groupPrs(filteredPrs());
+  list.innerHTML = groups.map(group => `
+    <section class="journal-group">
+      <h2>${group.title}</h2>
+      ${group.items.map(renderRow).join('')}
+    </section>`).join('') || '<div class="empty">Keine PRs im aktuellen Filter.</div>';
+  list.querySelectorAll('.pr-row').forEach(row => row.addEventListener('click', () => openPr(row.dataset.id)));
+}
+
+function groupPrs(prs) {
+  const groups = [
+    { key: 'booked', title: 'IFCN gebucht', items: [] },
+    { key: 'planned', title: 'Geplant', items: [] },
+    { key: 'favorite', title: 'Favoriten', items: [] },
+    { key: 'normal', title: 'Alle PRs', items: [] },
+    { key: 'ignored', title: 'Ignorieren', items: [] }
+  ];
+  const byKey = Object.fromEntries(groups.map(group => [group.key, group]));
+
+  prs.forEach(pr => {
+    const user = prUserState(pr.id);
+    if (user.ignored) byKey.ignored.items.push(pr);
+    else if (user.activity === 'booked') byKey.booked.items.push(pr);
+    else if (user.activity === 'planned') byKey.planned.items.push(pr);
+    else if (user.activity === 'favorite') byKey.favorite.items.push(pr);
+    else byKey.normal.items.push(pr);
+  });
+
+  groups.forEach(group => group.items.sort(sortByNumber));
+  return groups.filter(group => group.items.length);
+}
+
+function renderRow(pr) {
+  const user = prUserState(pr.id);
+  return `
+    <button class="pr-row ${user.ignored ? 'ignored' : ''}" data-id="${pr.id}">
       <span class="pr-code">${escapeHtml(pr.displayId)}</span>
       <span class="pr-main">
         <strong>${escapeHtml(pr.name)}</strong>
-        <em>${escapeHtml(pr.region)} · ${fmt(pr.distanceKm, ' km')} · ${escapeHtml(pr.duration || '-')} · ${fmt(pr.driveMin, ' min')}</em>
+        <em>${escapeHtml(pr.region)} - ${fmt(pr.distanceKm, ' km')} - ${escapeHtml(pr.duration || '-')} - ${fmt(pr.driveMin, ' min')}</em>
       </span>
-      <span class="pr-status">${escapeHtml(statusLabel(pr.status))}</span>
-    </button>`).join('') || '<div class="empty">Keine PRs im aktuellen Filter.</div>';
-  list.querySelectorAll('.pr-row').forEach(row => row.addEventListener('click', () => openPr(row.dataset.id)));
+      <span class="pr-status">${escapeHtml(activityLabel(user) || statusLabel(pr.status))}</span>
+    </button>`;
+}
+
+function sortByNumber(a, b) {
+  return Number(a.number) - Number(b.number) || a.displayId.localeCompare(b.displayId, 'de');
+}
+
+function activityLabel(user) {
+  if (user.activity === 'booked') return 'gebucht';
+  if (user.activity === 'planned') return 'geplant';
+  if (user.activity === 'favorite') return 'Favorit';
+  if (user.ignored) return 'ignoriert';
+  return '';
 }
 
 function statusLabel(status = '') {
   const s = String(status).toLowerCase();
   if (s.includes('closed')) return 'geschlossen';
-  if (s.includes('restricted')) return 'eingeschränkt';
+  if (s.includes('restricted')) return 'eingeschraenkt';
   if (s.includes('open')) return 'offen';
-  return 'prüfen';
+  return 'pruefen';
 }
 
 function fmt(value, suffix = '') {

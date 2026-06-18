@@ -1,4 +1,4 @@
-import { state, filteredPrs } from './state.js';
+import { state, filteredPrs, prUserState } from './state.js';
 
 let map;
 let pinLayer;
@@ -9,8 +9,8 @@ let openPrCallback;
 let activeBaseLayer = 'osm';
 
 const mapStyle = {
-  pinScale: 1.12,
-  activePinScale: 1.42,
+  pinScale: 1.08,
+  activePinScale: 1.36,
   activeLineWeight: 5,
   inactiveLineWeight: 2,
   lineHaloWeight: 0.8,
@@ -185,20 +185,23 @@ function createPrFlag(pr, active, faded) {
   const scale = active ? mapStyle.activePinScale : mapStyle.pinScale;
   const difficulty = difficultyStyle(pr.difficulty);
   const status = statusStyle(pr.status);
-  const activity = activityBadge(pr.activity || pr.planStatus || '');
-  const className = `pr-flag ${active ? 'active' : ''} ${faded ? 'faded' : ''}`;
+  const user = prUserState(pr.id);
+  const activity = activityBadge(user.activity);
   const html = `
-    <span class="${className}" style="--pin-bg:${difficulty.bg};--pin-fg:${difficulty.fg};--pin-scale:${scale}">
-      <span class="badge status" style="background:${status}"></span>
-      <span class="badge activity ${activity ? '' : 'empty'}" style="background:${activity?.bg || 'transparent'}">${activity?.label || ''}</span>
-      ${escapeHtml(compactPrNumber(pr.displayId))}
+    <span class="pr-pin-wrap ${active ? 'active' : ''} ${faded ? 'faded' : ''}" style="--pin-scale:${scale}">
+      <span class="pr-needle"></span>
+      <span class="pr-flag ${active ? 'active' : ''}" style="--pin-bg:${difficulty.bg};--pin-fg:${difficulty.fg}">
+        <span class="badge status" style="background:${status}"></span>
+        <span class="badge activity ${activity ? '' : 'empty'}" style="background:${activity?.bg || 'transparent'}">${activity?.label || ''}</span>
+        ${escapeHtml(compactPrNumber(pr.displayId))}
+      </span>
     </span>`;
 
   return L.divIcon({
     className: 'pr-flag-icon',
     html,
-    iconSize: [Math.ceil(54 * scale), Math.ceil(34 * scale)],
-    iconAnchor: [Math.ceil(27 * scale), Math.ceil(17 * scale)]
+    iconSize: [Math.ceil(86 * scale), Math.ceil(54 * scale)],
+    iconAnchor: [Math.ceil(16 * scale), Math.ceil(48 * scale)]
   });
 }
 
@@ -278,19 +281,17 @@ function statusStyle(value = '') {
 }
 
 function activityBadge(value = '') {
-  const s = normalize(value);
-  if (s.includes('favorit')) return { bg: '#050708', label: 'H' };
-  if (s.includes('geplant')) return { bg: '#ff2d55', label: 'H' };
-  if (s.includes('gebucht')) return { bg: '#ffd166', label: '*' };
+  if (value === 'favorite') return { bg: '#050708', label: '♥' };
+  if (value === 'planned') return { bg: '#ff2d55', label: '♥' };
+  if (value === 'booked') return { bg: '#ffd166', label: '*' };
   return null;
 }
 
 function normalize(value) {
   return String(value || '').toLowerCase()
-    .replaceAll('ä', 'ae')
-    .replaceAll('ö', 'oe')
-    .replaceAll('ü', 'ue')
-    .replaceAll('ß', 'ss');
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ß/g, 'ss');
 }
 
 function distanceKm(a, b) {
