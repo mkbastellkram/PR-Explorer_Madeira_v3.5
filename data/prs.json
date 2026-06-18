@@ -1,0 +1,1777 @@
+{
+  "meta": {
+    "version": "V5.0.0 Recovery Core",
+    "generatedFrom": [
+      "PR – V1.xlsx",
+      "PRX_Kurztexte_PR_POI_V1.json",
+      "Gpx (1).zip",
+      "KML (1).zip"
+    ],
+    "counts": {
+      "prs": 40,
+      "tracks": 37,
+      "routes": 36,
+      "pois": 32
+    }
+  },
+  "prs": [
+    {
+      "id": "pr-1",
+      "displayId": "PR 1",
+      "number": "1",
+      "name": "Vereda do Areeiro",
+      "region": "Süd (zentral)",
+      "lat": 32.735491,
+      "lon": -16.928797,
+      "distanceKm": 6.1,
+      "duration": "3,30 h",
+      "difficulty": "mittel",
+      "driveKm": 22.8,
+      "driveMin": 40,
+      "parking": "4,00 €/Stunde",
+      "fee": 4.5,
+      "elevationHigh": 1857,
+      "elevationLow": 1491,
+      "elevationGain": 366,
+      "links": {
+        "visitMadeira": "https://www.visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr1-vereda-do-areeiro/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.73549086827481,-16.928797218182066",
+        "driveGoogleMaps": "https://maps.app.goo.gl/x92kJZw17p66UPnn7",
+        "schmalePfade": "https://www.schmale-pfade.de/alle-offiziellen-wanderungen-auf-madeira-mit-gps/"
+      },
+      "shortText": "Hochgebirgsroute vom Pico do Areeiro Richtung Pico Ruivo: Gipfelgrat, Tunnel, Felsstufen und weite Zentralmassiv-Blicke.",
+      "detailText": "Verbindet Areeiro, Torres und Ruivo im Zentralmassiv. Anspruchsvolle Gratpassagen, Tunnel im Vulkangestein und steile Treppen; Status vor Start prüfen.",
+      "featureTags": [
+        "Hochgebirge",
+        "Gipfel",
+        "Tunnel",
+        "Pico Ruivo"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-1.json",
+        "sourceFile": "PR1 PicoArieiro_zu_PicoRuivo.gpx",
+        "points": 825,
+        "distanceKm": 12.22
+      },
+      "route": {
+        "file": "data/routes/pr-1.json",
+        "sourceFile": "Route von Pestana Promenade nach PR_1.kml",
+        "points": 1287,
+        "distanceKm": 47.56
+      }
+    },
+    {
+      "id": "pr-1-1",
+      "displayId": "PR 1.1",
+      "number": "1.1",
+      "name": "Vereda da Ilha",
+      "region": "Nord",
+      "lat": 32.805899,
+      "lon": -16.91139,
+      "distanceKm": 8.2,
+      "duration": "3:00 h",
+      "difficulty": "mittel",
+      "driveKm": 50.9,
+      "driveMin": 54,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1764,
+      "elevationLow": 490,
+      "elevationGain": 1274,
+      "links": {
+        "visitMadeira": "https://www.visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-11-vereda-da-ilha/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.80589882733172,-16.911390091678538",
+        "driveGoogleMaps": "https://maps.app.goo.gl/T7AdkML3wfRHoSya9",
+        "schmalePfade": "https://www.schmale-pfade.de/alle-offiziellen-wanderungen-auf-madeira-mit-gps/"
+      },
+      "shortText": "Abstiegsroute von der Pico-Ruivo-Zone Richtung Ilha mit großem Höhenverlust, Talblicken und Nordküsten-Charakter.",
+      "detailText": "Start-/Referenzpunkt bei Ilha. Markant ist der lange Höhenunterschied zwischen Bergzone und Nordseite; ideal als Verbindung, aber logistisch sorgfältig planen.",
+      "featureTags": [
+        "Abstieg",
+        "Nordküste",
+        "Pico Ruivo-Zugang"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-1-1.json",
+        "sourceFile": "PR1.1-vereda-da-ilha.gpx",
+        "points": 398,
+        "distanceKm": 7.18
+      },
+      "route": {
+        "file": "data/routes/pr-1-1.json",
+        "sourceFile": "Route von Pestana Promenade nach PR_1.1.kml",
+        "points": 1746,
+        "distanceKm": 88.65
+      }
+    },
+    {
+      "id": "pr-1-2",
+      "displayId": "PR 1.2",
+      "number": "1.2",
+      "name": "Vereda do Pico Ruivo",
+      "region": "Nordost",
+      "lat": 32.764814,
+      "lon": -16.92108,
+      "distanceKm": 2.8,
+      "duration": "1:30 h",
+      "difficulty": "mittel",
+      "driveKm": 54.9,
+      "driveMin": 61,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1857,
+      "elevationLow": 1852,
+      "elevationGain": 5,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-12-vereda-do-pico-ruivo/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.76481399738595,-16.921079577375384",
+        "driveGoogleMaps": "https://maps.app.goo.gl/hZKCeYHtAxJwfYwJ7",
+        "schmalePfade": "https://www.schmale-pfade.de/alle-offiziellen-wanderungen-auf-madeira-mit-gps/"
+      },
+      "shortText": "Kompakter Zugang von Achada do Teixeira zum Pico Ruivo, Madeiras höchstem Punkt, mit weitem Blick über das Zentralmassiv.",
+      "detailText": "Kurze, exponierte Gipfelroute mit sehr geringem Höhenprofil laut Stammdaten. Hauptmerkmal ist der direkte Zugang zum Pico Ruivo und die Rundumsicht.",
+      "featureTags": [
+        "Pico Ruivo",
+        "Achada do Teixeira",
+        "höchste Erhebung"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-1-2.json",
+        "sourceFile": "pr1.2-vereda-do-pico-ruivo.gpx",
+        "points": 325,
+        "distanceKm": 2.85
+      },
+      "route": {
+        "file": "data/routes/pr-1-2.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 1.2.kml",
+        "points": 2012,
+        "distanceKm": 83.37
+      }
+    },
+    {
+      "id": "pr-1-3",
+      "displayId": "PR 1.3",
+      "number": "1.3",
+      "name": "Vereda da Encumeada",
+      "region": "Nord (zentral)",
+      "lat": 32.760215,
+      "lon": -16.943376,
+      "distanceKm": 11.2,
+      "duration": "05:00:00",
+      "difficulty": "mittel",
+      "driveKm": 54.0,
+      "driveMin": 60,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1764,
+      "elevationLow": 1009,
+      "elevationGain": 755,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-13-vereda-da-encumeada/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.76021449770582,-16.943376336186073",
+        "driveGoogleMaps": "https://maps.app.goo.gl/eZoMsNgYDnZg4ZKs5",
+        "schmalePfade": null
+      },
+      "shortText": "Lange Gebirgsquerung vom Pico-Ruivo-Umfeld Richtung Encumeada; Zentralmassiv, Kämme und wechselnde Höhenlagen prägen die Route.",
+      "detailText": "Anspruchsvolle Westquerung im Gebirge mit 11,2 km und deutlichem Höhenprofil. Offizieller Status derzeit geschlossen; nur als Planungsreferenz führen.",
+      "featureTags": [
+        "Zentralmassiv",
+        "Encumeada",
+        "lange Querung"
+      ],
+      "status": "Closed",
+      "track": {
+        "file": "data/tracks/pr-1-3.json",
+        "sourceFile": "pr1.3-vereda-da-encumeada.gpx",
+        "points": 448,
+        "distanceKm": 9.54
+      },
+      "route": {
+        "file": "data/routes/pr-1-3.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 1.3.kml",
+        "points": 1999,
+        "distanceKm": 83.13
+      }
+    },
+    {
+      "id": "pr-2",
+      "displayId": "PR 2",
+      "number": "2",
+      "name": "Vereda do Urzal",
+      "region": "Süd (zentral)",
+      "lat": 32.742544,
+      "lon": -16.966133,
+      "distanceKm": 10.6,
+      "duration": "4:30 h",
+      "difficulty": "mittel",
+      "driveKm": 18.3,
+      "driveMin": 32,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1450,
+      "elevationLow": 519,
+      "elevationGain": 931,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-2-vereda-do-urzal/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.74254420560559,-16.966133498283956",
+        "driveGoogleMaps": "https://maps.app.goo.gl/J4UtbmZihv27guaw8",
+        "schmalePfade": "https://www.schmale-pfade.de/alle-offiziellen-wanderungen-auf-madeira-mit-gps/"
+      },
+      "shortText": "Historischer Verbindungsweg zwischen Süd- und Nordseite; lange Mittelgebirgsroute mit hohem Höhenunterschied.",
+      "detailText": "Die Route folgt einem alten Pfad durch wechselnde Vegetation und verbindet Inselräume. 10,6 km und ca. 931 hm laut Stammdaten: eher Ausdauerroute.",
+      "featureTags": [
+        "alter Verbindungsweg",
+        "Nord-Süd-Route"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-2.json",
+        "sourceFile": "pr2-vereda-do-urzal.gpx",
+        "points": 796,
+        "distanceKm": 9.27
+      },
+      "route": {
+        "file": "data/routes/pr-2.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 2.kml",
+        "points": 921,
+        "distanceKm": 42.45
+      }
+    },
+    {
+      "id": "pr-3",
+      "displayId": "PR 3",
+      "number": "3",
+      "name": "Vereda do Burro",
+      "region": "Süd (zentral)",
+      "lat": 32.734933,
+      "lon": -16.928818,
+      "distanceKm": 7.2,
+      "duration": "02:40:00",
+      "difficulty": "leicht",
+      "driveKm": 25.8,
+      "driveMin": 41,
+      "parking": "",
+      "fee": "-",
+      "elevationHigh": null,
+      "elevationLow": null,
+      "elevationGain": null,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-3-vereda-do-burro/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.734932734078406,-16.928817586547034",
+        "driveGoogleMaps": "https://maps.app.goo.gl/PshKK9YP6JA7kTXJ9",
+        "schmalePfade": null
+      },
+      "shortText": "Leichtere Vereda im Umfeld des Pico do Areeiro; geeignet als weniger extreme Alternative im Hochlandbereich.",
+      "detailText": "Start nahe Areeiro. Die Route eignet sich als moderater Hochlandkontakt, wenn PR1 zu anspruchsvoll oder statusbedingt ungeeignet ist.",
+      "featureTags": [
+        "Areeiro-Umfeld",
+        "einfache Vereda"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-3.json",
+        "sourceFile": "pr3-vereda-do-burro.gpx",
+        "points": 487,
+        "distanceKm": 7.14
+      },
+      "route": {
+        "file": "data/routes/pr-3.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 3.kml",
+        "points": 1287,
+        "distanceKm": 47.53
+      }
+    },
+    {
+      "id": "pr-3-1",
+      "displayId": "PR 3.1",
+      "number": "3.1",
+      "name": "Caminho Real do Monte",
+      "region": "Süd",
+      "lat": 32.676691,
+      "lon": -16.903321,
+      "distanceKm": 4.2,
+      "duration": "02:00:00",
+      "difficulty": "mittel",
+      "driveKm": 6.5,
+      "driveMin": 16,
+      "parking": "",
+      "fee": null,
+      "elevationHigh": 1130,
+      "elevationLow": 550,
+      "elevationGain": 580,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-31-caminho-real-do-monte/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.67669129523632,-16.903320943749144",
+        "driveGoogleMaps": "https://maps.app.goo.gl/f3H6yhjyHKAypCuL6",
+        "schmalePfade": null
+      },
+      "shortText": "Kurzer historischer Caminho-Real-Abschnitt im Raum Monte mit deutlichem Höhenprofil und stadtnaher Lage.",
+      "detailText": "Mit 4,2 km kurz, aber wegen ca. 580 hm nicht trivial. Interessant als kulturhistorische Verbindung zwischen Berg- und Siedlungsraum.",
+      "featureTags": [
+        "historischer Caminho Real",
+        "Monte"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-3-1.json",
+        "sourceFile": "pr3.1-a-b-caminho-real-do-monte.gpx",
+        "points": 291,
+        "distanceKm": 3.98
+      },
+      "route": {
+        "file": "data/routes/pr-3-1.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 3.1.kml",
+        "points": 484,
+        "distanceKm": 17.24
+      }
+    },
+    {
+      "id": "pr-4",
+      "displayId": "PR 4",
+      "number": "4",
+      "name": "Levada do Barreiro",
+      "region": "Süd (zentral)",
+      "lat": 32.726012,
+      "lon": -16.924866,
+      "distanceKm": 5.2,
+      "duration": "02:10:00",
+      "difficulty": "leicht",
+      "driveKm": 21.0,
+      "driveMin": 38,
+      "parking": "",
+      "fee": null,
+      "elevationHigh": 1650,
+      "elevationLow": 975,
+      "elevationGain": 675,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-4-levada-do-barreiro/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.72601175823501,-16.924866237361318",
+        "driveGoogleMaps": "https://maps.app.goo.gl/mgGrLdZgsTUoWwYm8",
+        "schmalePfade": null
+      },
+      "shortText": "Levada-Runde im Barreiro-/Hochlandbereich nahe Areeiro; eher kurz, landschaftlich offen und technisch moderat.",
+      "detailText": "Kurze Levada-Tour mit 5,2 km und hohem Höhenbereich. Offizieller Status eingeschränkt; Nutzung nur nach aktueller Prüfung.",
+      "featureTags": [
+        "Levada",
+        "Barreiro",
+        "Hochlagen"
+      ],
+      "status": "Restricted",
+      "track": {
+        "file": "data/tracks/pr-4.json",
+        "sourceFile": "pr4-levada-do-barreiro.gpx",
+        "points": 253,
+        "distanceKm": 4.89
+      },
+      "route": {
+        "file": "data/routes/pr-4.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 4.kml",
+        "points": 1217,
+        "distanceKm": 43.94
+      }
+    },
+    {
+      "id": "pr-5",
+      "displayId": "PR 5",
+      "number": "5",
+      "name": "Vededa das Funduras",
+      "region": "Nordost",
+      "lat": 32.747471,
+      "lon": -16.825449,
+      "distanceKm": 8.7,
+      "duration": "03:00:00",
+      "difficulty": "mittel",
+      "driveKm": 34.5,
+      "driveMin": 36,
+      "parking": "",
+      "fee": null,
+      "elevationHigh": 624,
+      "elevationLow": 186,
+      "elevationGain": 438,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-5-vereda-das-funduras/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.74747059707775,-16.825448583409344",
+        "driveGoogleMaps": "https://maps.app.goo.gl/6k1VaNQSXsX9Yhvh7",
+        "schmalePfade": null
+      },
+      "shortText": "Waldreiche Vereda der Funduras im Osten Madeiras; ruhiger Kontrast zu den stark besuchten Gipfel- und Rabaçal-Routen.",
+      "detailText": "Mittelstrecke mit 8,7 km. Schwerpunkt ist der grüne Ostteil der Insel mit Waldpassagen und weniger alpinem Charakter.",
+      "featureTags": [
+        "Funduras",
+        "Wald",
+        "Ostseite"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-5.json",
+        "sourceFile": "pr5-vereda-das-funduras.gpx",
+        "points": 497,
+        "distanceKm": 8.05
+      },
+      "route": {
+        "file": "data/routes/pr-5.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 5.kml",
+        "points": 1194,
+        "distanceKm": 66.66
+      }
+    },
+    {
+      "id": "pr-6",
+      "displayId": "PR 6",
+      "number": "6",
+      "name": "Levada das 25 Fontes",
+      "region": "Südwest",
+      "lat": 32.755044,
+      "lon": -17.133991,
+      "distanceKm": 4.3,
+      "duration": "03:00:00",
+      "difficulty": "mittel",
+      "driveKm": 38.9,
+      "driveMin": 50,
+      "parking": "",
+      "fee": null,
+      "elevationHigh": 1288,
+      "elevationLow": 964,
+      "elevationGain": 324,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-6-levada-das-25-fontes/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.75504424930365,-17.133990561042204",
+        "driveGoogleMaps": "https://maps.app.goo.gl/PFqZGeyjvCLngX8Q7",
+        "schmalePfade": "https://www.schmale-pfade.de/alle-offiziellen-wanderungen-auf-madeira-mit-gps/"
+      },
+      "shortText": "Rabaçal-Klassiker zur Lagoa das 25 Fontes: Quellen, Lagune, Laurissilva und Talblicke der Ribeira da Janela.",
+      "detailText": "Sehr beliebte Levada ab ER105/Rabaçal. Ziel ist die Lagune der 25 Quellen; Rückweg meist gleich. Besuchszeit wegen Andrang bewusst wählen.",
+      "featureTags": [
+        "25 Quellen",
+        "Rabaçal",
+        "Laurissilva",
+        "Lagune"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-6.json",
+        "sourceFile": "pr6-levada-das-25fontes.gpx",
+        "points": 283,
+        "distanceKm": 4.34
+      },
+      "route": {
+        "file": "data/routes/pr-6.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 6.kml",
+        "points": 1451,
+        "distanceKm": 84.61
+      }
+    },
+    {
+      "id": "pr-6-1",
+      "displayId": "PR 6.1",
+      "number": "6.1",
+      "name": "Levada do Risco",
+      "region": "Südwest",
+      "lat": 32.7550461,
+      "lon": -17.1339926,
+      "distanceKm": 1.5,
+      "duration": "02:00:00",
+      "difficulty": "leicht",
+      "driveKm": 38.9,
+      "driveMin": 50,
+      "parking": "",
+      "fee": null,
+      "elevationHigh": 1288,
+      "elevationLow": 1000,
+      "elevationGain": 288,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-61-levada-do-risco/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.75504612371665,-17.133992561599545",
+        "driveGoogleMaps": "https://maps.app.goo.gl/3Enwpophrj5Y8iLz7",
+        "schmalePfade": null
+      },
+      "shortText": "Kurze Rabaçal-Route zum Risco-Wasserfall; einfache Ergänzung oder Alternative zur 25-Fontes-Tour.",
+      "detailText": "Start wie PR6. Der Fokus liegt klar auf dem hohen Risco-Wasserfall. Gut als kurzer Abstecher, aber Wege- und Statuslage prüfen.",
+      "featureTags": [
+        "Risco-Wasserfall",
+        "Rabaçal"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-6-1.json",
+        "sourceFile": "Pr6.1-levada-do-risco.gpx",
+        "points": 210,
+        "distanceKm": 3.25
+      },
+      "route": {
+        "file": "data/routes/pr-6-1.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 6.1.kml",
+        "points": 1451,
+        "distanceKm": 84.61
+      }
+    },
+    {
+      "id": "pr-6-2",
+      "displayId": "PR 6.2",
+      "number": "6.2",
+      "name": "Levada do Alecrim",
+      "region": "Südwest (zentral)",
+      "lat": 32.753573,
+      "lon": -17.132659,
+      "distanceKm": 3.5,
+      "duration": "02:30:00",
+      "difficulty": "leicht",
+      "driveKm": 38.8,
+      "driveMin": 53,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1339,
+      "elevationLow": 1256,
+      "elevationGain": 83,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-62-levada-do-alecrim/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.753572621238135,-17.132658815204834",
+        "driveGoogleMaps": "https://maps.app.goo.gl/k18LNhz8LKytwu769",
+        "schmalePfade": null
+      },
+      "shortText": "Leichte Levada do Alecrim im Rabaçal-Gebiet; kurze Distanz, wenig Höhenmeter und wassergeprägte Waldlandschaft.",
+      "detailText": "Gute Ergänzung im Rabaçal-Cluster. Geringes Höhenprofil laut Stammdaten, dennoch mit Levada-typischer Trittsicherheit planen.",
+      "featureTags": [
+        "Alecrim",
+        "Levada",
+        "Rabaçal"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-6-2.json",
+        "sourceFile": "PR6.2-Levada-do-Alecrim.gpx",
+        "points": 185,
+        "distanceKm": 3.47
+      },
+      "route": {
+        "file": "data/routes/pr-6-2.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 6.2.kml",
+        "points": 1456,
+        "distanceKm": 84.42
+      }
+    },
+    {
+      "id": "pr-6-3",
+      "displayId": "PR 6.3",
+      "number": "6.3",
+      "name": "Vereda da Lagoa do Vento",
+      "region": "Südwest (zentral)",
+      "lat": 32.759936,
+      "lon": -17.121887,
+      "distanceKm": 1.8,
+      "duration": "01:30:00",
+      "difficulty": "leicht",
+      "driveKm": 38.1,
+      "driveMin": 50,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1600,
+      "elevationLow": 200,
+      "elevationGain": 1400,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-63-vereda-da-lagoa-do-vento/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.75993603465592,-17.121886972313497",
+        "driveGoogleMaps": "https://maps.app.goo.gl/hAxeyeAtC8mMvB639",
+        "schmalePfade": null
+      },
+      "shortText": "Kurzer Zugang zur Lagoa do Vento: Wasserfallkulisse oberhalb von Rabaçal, starkes Ziel bei geringer Distanz.",
+      "detailText": "Die Stammdaten zeigen kurze Distanz, aber extreme Höhenspanne im Datensatz; vor Nutzung Track/Profil prüfen. Hauptziel ist die Lagoa do Vento.",
+      "featureTags": [
+        "Lagoa do Vento",
+        "Wasserfall",
+        "steiler Bezug"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-6-3.json",
+        "sourceFile": "pr6.3-vereda-da-lagoa-do-vento.gpx",
+        "points": 192,
+        "distanceKm": 2.35
+      },
+      "route": {
+        "file": "data/routes/pr-6-3.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 6.3.kml",
+        "points": 1436,
+        "distanceKm": 80.95
+      }
+    },
+    {
+      "id": "pr-6-4",
+      "displayId": "PR 6.4",
+      "number": "6.4",
+      "name": "Levada Velha do Rabacal",
+      "region": "Südwest (zentral)",
+      "lat": 32.769039,
+      "lon": -17.153574,
+      "distanceKm": 5.0,
+      "duration": "02:00:00",
+      "difficulty": "",
+      "driveKm": 40.7,
+      "driveMin": 54,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1055,
+      "elevationLow": 988,
+      "elevationGain": 67,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-64-levada-velha-do-rabacal/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.76903882249155,-17.153573486631423",
+        "driveGoogleMaps": "https://maps.app.goo.gl/NApraegjHAhCB9Eu7",
+        "schmalePfade": null
+      },
+      "shortText": "Ruhigere Rabaçal-Variante entlang der Levada Velha; kurzer bis mittlerer Weg mit geringem Höhenprofil.",
+      "detailText": "Nützlich als Alternative im Rabaçal-System. Schwerpunkt: alte Levadaführung, Wald, Wasserläufe und Anschlusslogik zu weiteren Rabaçal-Zielen.",
+      "featureTags": [
+        "alte Levada",
+        "Rabaçal"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-6-4.json",
+        "sourceFile": "pr6.4-levada-velha-do-rabacal.gpx",
+        "points": 107,
+        "distanceKm": 4.17
+      },
+      "route": {
+        "file": "data/routes/pr-6-4.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 6.4.kml",
+        "points": 1506,
+        "distanceKm": 90.68
+      }
+    },
+    {
+      "id": "pr-6-5",
+      "displayId": "PR 6.5",
+      "number": "6.5",
+      "name": "Vereda do Pico Fernandes",
+      "region": "Südwest (zentral)",
+      "lat": 32.762628,
+      "lon": -17.09944,
+      "distanceKm": 3.8,
+      "duration": "01:30:00",
+      "difficulty": "",
+      "driveKm": 41.1,
+      "driveMin": 53,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1422,
+      "elevationLow": 990,
+      "elevationGain": 432,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-65-vereda-do-pico-fernandes/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.76262800882304,-17.09943964232764",
+        "driveGoogleMaps": "https://maps.app.goo.gl/a6zGUmaWBhyfavnN8",
+        "schmalePfade": null
+      },
+      "shortText": "Kurze Vereda zum Pico-Fernandes-Umfeld mit deutlichem Höhenprofil und Aussichtspotenzial im Westhochland.",
+      "detailText": "Mit 3,8 km kurz, aber ca. 432 hm laut Stammdaten. Als konzentrierter Aussichtspunkt-/Höhenweg im Rabaçal-Umfeld führen.",
+      "featureTags": [
+        "Pico Fernandes",
+        "Aussicht",
+        "Rabaçal-Rand"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-6-5.json",
+        "sourceFile": "PR6.5-Vereda-do-Pico-Fernandes.gpx",
+        "points": 68,
+        "distanceKm": 3.0
+      },
+      "route": {
+        "file": "data/routes/pr-6-5.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 6.5.kml",
+        "points": 1494,
+        "distanceKm": 82.35
+      }
+    },
+    {
+      "id": "pr-6-6",
+      "displayId": "PR 6.6",
+      "number": "6.6",
+      "name": "Vereda do Tunel do Cavalo",
+      "region": "Südwest (zentral)",
+      "lat": 32.755616,
+      "lon": -17.142597,
+      "distanceKm": 2.3,
+      "duration": "00:45:00",
+      "difficulty": "",
+      "driveKm": 38.2,
+      "driveMin": 49,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1055,
+      "elevationLow": 988,
+      "elevationGain": 67,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-66-vereda-do-tunel-do-cavalo/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.755616048764786,-17.14259727082998",
+        "driveGoogleMaps": "https://maps.app.goo.gl/p6vTvqPuVrz6pbBw9",
+        "schmalePfade": null
+      },
+      "shortText": "Sehr kurze Rabaçal-Route mit Tunnelbezug; interessant als Kontextziel im Cluster rund um 25 Fontes und Risco.",
+      "detailText": "Wegen des Tunnelmerkmals im PR-Explorer gesondert markieren. Kurze Distanz und geringe Höhendifferenz, aber lokale Bedingungen prüfen.",
+      "featureTags": [
+        "Tunnel",
+        "Rabaçal",
+        "kurzer Abstecher"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-6-6.json",
+        "sourceFile": "pr6.6-vereda-do-tu-nel-do-cavalo.gpx",
+        "points": 121,
+        "distanceKm": 2.25
+      },
+      "route": {
+        "file": "data/routes/pr-6-6.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 6.6.kml",
+        "points": 1387,
+        "distanceKm": 85.28
+      }
+    },
+    {
+      "id": "pr-6-8",
+      "displayId": "PR 6.8",
+      "number": "6.8",
+      "name": "Levada do Paul II - Um caminho para todos",
+      "region": "Südwest (zentral)",
+      "lat": 32.748334,
+      "lon": -17.125443,
+      "distanceKm": 1.2,
+      "duration": "00:30:00",
+      "difficulty": "k.A.",
+      "driveKm": 38.2,
+      "driveMin": 49,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1280,
+      "elevationLow": 1279,
+      "elevationGain": 1,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-68-levada-do-paul-ii-um-caminho-para-todos/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.755616048764786,-17.14259727082998",
+        "driveGoogleMaps": "https://maps.app.goo.gl/CwzDVjYis5ZAZEWd6",
+        "schmalePfade": null
+      },
+      "shortText": "Sehr kurzer, nahezu ebener Levadaweg „Um caminho para todos“ im Paul-/Rabaçal-Umfeld.",
+      "detailText": "Als niedrigschwelliger Levada-Baustein führen: 1,2 km, kaum Höhenunterschied laut Stammdaten, gut für kurze Stopps und gemischte Gruppen.",
+      "featureTags": [
+        "barrierearm",
+        "kurzer Levadaweg"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-6-8.json",
+        "sourceFile": "pr6.8-levada-do-paul-ii-um-caminho-para-todos.gpx",
+        "points": 76,
+        "distanceKm": 1.12
+      },
+      "route": {
+        "file": "data/routes/pr-6-8.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 6.8.kml",
+        "points": 1407,
+        "distanceKm": 80.48
+      }
+    },
+    {
+      "id": "pr-7",
+      "displayId": "PR 7",
+      "number": "7",
+      "name": "Levada do Moinho",
+      "region": "Nordwest",
+      "lat": 32.845746,
+      "lon": -17.193717,
+      "distanceKm": 10.5,
+      "duration": "03:30:00",
+      "difficulty": "mittel",
+      "driveKm": 53.9,
+      "driveMin": 62,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 940,
+      "elevationLow": 504,
+      "elevationGain": 436,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-7-levada-do-moinho/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.845746147850626,-17.193716747622144",
+        "driveGoogleMaps": "https://maps.app.goo.gl/MFYKatcMve5jbEUB8",
+        "schmalePfade": null
+      },
+      "shortText": "Levada do Moinho im Nordwesten: lange Levada-Wanderung mit Wasserlauf, Wald und Küstenbezug.",
+      "detailText": "Mit 10,5 km und ca. 436 hm eher ausgedehnt. Offizieller Status geschlossen; nur als gesperrte Planungsoption markieren.",
+      "featureTags": [
+        "Levada",
+        "Mühle",
+        "Nordwesten"
+      ],
+      "status": "Closed",
+      "track": {
+        "file": "data/tracks/pr-7.json",
+        "sourceFile": "PR-7-Levada-do-Moinho.gpx",
+        "points": 445,
+        "distanceKm": 10.5
+      },
+      "route": {
+        "file": "data/routes/pr-7.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 7.kml",
+        "points": 2038,
+        "distanceKm": 120.95
+      }
+    },
+    {
+      "id": "pr-8",
+      "displayId": "PR 8",
+      "number": "8",
+      "name": "Vereda da Ponta de Sao Lourenco",
+      "region": "Nordost",
+      "lat": 32.743376,
+      "lon": -16.70094,
+      "distanceKm": null,
+      "duration": "02:30:00",
+      "difficulty": "mittel",
+      "driveKm": 37.7,
+      "driveMin": 36,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 126,
+      "elevationLow": 23,
+      "elevationGain": 103,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-8-vereda-da-ponta-de-sao-lourenco/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.74337635200951,-16.700940231938628",
+        "driveGoogleMaps": "https://maps.app.goo.gl/QGKjeyK3REofVg6t6",
+        "schmalePfade": "https://www.schmale-pfade.de/alle-offiziellen-wanderungen-auf-madeira-mit-gps/"
+      },
+      "shortText": "Spektakuläre Küstenvereda am trockenen Ostkap São Lourenço: Felsklippen, Meerblick und kaum Schatten.",
+      "detailText": "Anders als Levada- und Waldwege: offene Halbinsel, Wind, Sonne und Steilküste. Wasser/Sonnenschutz einplanen; Rückweg meist gleich.",
+      "featureTags": [
+        "Halbinsel",
+        "Küste",
+        "trockenes Ostkap"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-8.json",
+        "sourceFile": "pr8-vereda-da-ponta-de-sao-lourenc-o.gpx",
+        "points": 313,
+        "distanceKm": 3.7
+      },
+      "route": {
+        "file": "data/routes/pr-8.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 8.kml",
+        "points": 1218,
+        "distanceKm": 87.75
+      }
+    },
+    {
+      "id": "pr-9",
+      "displayId": "PR 9",
+      "number": "9",
+      "name": "Levada do Caldeirao Verde",
+      "region": "Nord",
+      "lat": 32.783557,
+      "lon": -16.907019,
+      "distanceKm": 8.7,
+      "duration": "06:30:00",
+      "difficulty": "mittel",
+      "driveKm": 48.5,
+      "driveMin": 51,
+      "parking": "2,00 €/Stunde",
+      "fee": 4.5,
+      "elevationHigh": 1020,
+      "elevationLow": 872,
+      "elevationGain": 148,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-9-levada-do-caldeirao-verde/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.78355662588914,-16.907019203666717",
+        "driveGoogleMaps": "https://maps.app.goo.gl/5x7tYqkystRAX9CE6",
+        "schmalePfade": null
+      },
+      "shortText": "Levada-Klassiker zum Caldeirão Verde mit Tunnelpassagen, Felswänden und Wasserfallziel im Norden.",
+      "detailText": "Sehr beliebte Route ab Queimadas-Zone. Laut offizieller Liste geschlossen; im PR-Explorer mit deutlichem Statushinweis und Alternativen führen.",
+      "featureTags": [
+        "Caldeirão Verde",
+        "Tunnel",
+        "Wasserfall"
+      ],
+      "status": "Closed",
+      "track": {
+        "file": "data/tracks/pr-9.json",
+        "sourceFile": "PR-9-Levada-do-Caldeirao-Verde.gpx",
+        "points": 388,
+        "distanceKm": 8.32
+      },
+      "route": null
+    },
+    {
+      "id": "pr-9-1",
+      "displayId": "PR 9.1",
+      "number": "9.1",
+      "name": "Levada do Caldeirao Verde - um caminho",
+      "region": "Nord",
+      "lat": 32.73554,
+      "lon": -16.886378,
+      "distanceKm": null,
+      "duration": "45 min",
+      "difficulty": "k.A.",
+      "driveKm": 49.5,
+      "driveMin": 52,
+      "parking": "2,00 €/Stunde",
+      "fee": 4.5,
+      "elevationHigh": 890,
+      "elevationLow": 870,
+      "elevationGain": 20,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-91-levada-do-caldeirao-verde-um-caminho-para-todos/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.77959690401485,-16.89645519773683",
+        "driveGoogleMaps": "https://maps.app.goo.gl/TenS4pD9JD63ZsHj9",
+        "schmalePfade": null
+      },
+      "shortText": "Kurzer, einfacher Caldeirão-Verde-Kontextweg mit geringem Höhenunterschied; als zugängliche Variante markieren.",
+      "detailText": "Nur 1,9 km und ca. 20 hm laut Stammdaten. Kein Ersatz für PR9, sondern separater kurzer Zugang/Erlebnisabschnitt.",
+      "featureTags": [
+        "barrierearmer Abschnitt",
+        "Caldeirão Verde"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-9-1.json",
+        "sourceFile": "pr9.1-levada-do-caldeira-o-verde-um-caminho-para-todos.gpx",
+        "points": 102,
+        "distanceKm": 1.84
+      },
+      "route": {
+        "file": "data/routes/pr-9-1.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 9.1.kml",
+        "points": 1308,
+        "distanceKm": 47.37
+      }
+    },
+    {
+      "id": "pr-10",
+      "displayId": "PR 10",
+      "number": "10",
+      "name": "Levada do Furado",
+      "region": "Süd (zentral)",
+      "lat": 32.734915,
+      "lon": -16.886138,
+      "distanceKm": 11.0,
+      "duration": "05:00:00",
+      "difficulty": "mittel",
+      "driveKm": 20.4,
+      "driveMin": 37,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 880,
+      "elevationLow": 645,
+      "elevationGain": 235,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-10-levada-do-furado/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.734914631544086,-16.886137865456078",
+        "driveGoogleMaps": "https://maps.app.goo.gl/fuN7oBNBtNfN3sKv9",
+        "schmalePfade": null
+      },
+      "shortText": "Lange Levada-Tour im Ribeiro-Frio-/Portela-Kontext; Wald, Wasserlauf und Ost-Nord-Verbindung.",
+      "detailText": "Mit 11 km und ca. 5 h eine klassische längere Levada. Offizieller Status geschlossen; Statusfilter und Alternativen zwingend anzeigen.",
+      "featureTags": [
+        "Levada",
+        "Ribeiro Frio",
+        "Portela"
+      ],
+      "status": "Closed",
+      "track": {
+        "file": "data/tracks/pr-10.json",
+        "sourceFile": "PR10-Ribeiro-Frio-Portela.gpx",
+        "points": 772,
+        "distanceKm": 10.53
+      },
+      "route": {
+        "file": "data/routes/pr-10.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 10.kml",
+        "points": 1305,
+        "distanceKm": 47.2
+      }
+    },
+    {
+      "id": "pr-11",
+      "displayId": "PR 11",
+      "number": "11",
+      "name": "Vereda dos Balcoes",
+      "region": "Süd (zentral)",
+      "lat": 32.7355398,
+      "lon": -16.8863779,
+      "distanceKm": null,
+      "duration": "01:30:00",
+      "difficulty": "leicht",
+      "driveKm": 20.5,
+      "driveMin": 39,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 880,
+      "elevationLow": 870,
+      "elevationGain": 10,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-11-vereda-dos-balcoes/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.735539779125105,-16.886377853332657",
+        "driveGoogleMaps": "https://maps.app.goo.gl/FAArCsvp1JTAjmxHA",
+        "schmalePfade": null
+      },
+      "shortText": "Sehr kurzer Weg zum Aussichtspunkt Balcões bei Ribeiro Frio; hohe Aussichtswirkung bei geringer Distanz.",
+      "detailText": "Ideal als kurzer Stopp: 1,5 km einfach, kaum Höhenmeter. Hauptmerkmal ist der Blick vom Balcões-Aussichtspunkt in die Bergwelt.",
+      "featureTags": [
+        "Balcões-Aussicht",
+        "Ribeiro Frio",
+        "kurzer Weg"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-11.json",
+        "sourceFile": "PR11-Balcoes.gpx",
+        "points": 75,
+        "distanceKm": 1.37
+      },
+      "route": {
+        "file": "data/routes/pr-11.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 11.kml",
+        "points": 1308,
+        "distanceKm": 47.37
+      }
+    },
+    {
+      "id": "pr-12",
+      "displayId": "PR 12",
+      "number": "12",
+      "name": "Caminho Real da Encumeada",
+      "region": "Süd",
+      "lat": 32.711065,
+      "lon": -16.987193,
+      "distanceKm": 12.5,
+      "duration": "05:00:00",
+      "difficulty": "mittel",
+      "driveKm": 13.3,
+      "driveMin": 22,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1323,
+      "elevationLow": 830,
+      "elevationGain": 493,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-12-caminho-real-da-encumeada/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.71106531519118,-16.98719335015557",
+        "driveGoogleMaps": "https://maps.app.goo.gl/EdPqVsLqxUAqMKix6",
+        "schmalePfade": null
+      },
+      "shortText": "Historischer Caminho Real bei Encumeada mit langer Distanz, Bergwald und Verbindung durch das Zentralgebiet.",
+      "detailText": "12,5 km und knapp 500 hm laut Stammdaten. Offiziell eingeschränkt; für Planung nur mit aktueller Prüfung und Alternativroute.",
+      "featureTags": [
+        "Caminho Real",
+        "Encumeada",
+        "historischer Weg"
+      ],
+      "status": "Restricted",
+      "track": {
+        "file": "data/tracks/pr-12.json",
+        "sourceFile": "pr12-caminho-real-da-encumeada.gpx",
+        "points": 1457,
+        "distanceKm": 12.21
+      },
+      "route": {
+        "file": "data/routes/pr-12.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 12.kml",
+        "points": 615,
+        "distanceKm": 32.16
+      }
+    },
+    {
+      "id": "pr-13",
+      "displayId": "PR 13",
+      "number": "13",
+      "name": "Vareda do Fanal",
+      "region": "Südwest (zentral)",
+      "lat": 32.767111,
+      "lon": -17.107714,
+      "distanceKm": null,
+      "duration": "04:00:00",
+      "difficulty": "mittel",
+      "driveKm": 42.1,
+      "driveMin": 54,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1420,
+      "elevationLow": 1130,
+      "elevationGain": 290,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-13-vereda-do-fanal/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.76711059606755,-17.107713654977086",
+        "driveGoogleMaps": "https://maps.app.goo.gl/Weh8wGSnbYGNaxcC9",
+        "schmalePfade": null
+      },
+      "shortText": "Route zum Fanal-/Laurissilva-Gebiet: Nebelwald, alte Lorbeerbäume und Hochebenencharakter.",
+      "detailText": "Fanal ist landschaftlicher Kern: märchenhafter Laurissilva, Wetter-/Nebelwirkung und offene Hochflächen. Sehr gutes Fotomotiv.",
+      "featureTags": [
+        "Fanal",
+        "Laurissilva",
+        "Hochebene"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-13.json",
+        "sourceFile": "PR13-Fanal.gpx",
+        "points": 459,
+        "distanceKm": 11.02
+      },
+      "route": {
+        "file": "data/routes/pr-13.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 13.kml",
+        "points": 1523,
+        "distanceKm": 85.15
+      }
+    },
+    {
+      "id": "pr-13-1",
+      "displayId": "PR 13.1",
+      "number": "13.1",
+      "name": "Vareda da Palha Carga",
+      "region": "Südwest (zentral)",
+      "lat": 32.772718,
+      "lon": -17.122694,
+      "distanceKm": null,
+      "duration": "45 min",
+      "difficulty": "k.A.",
+      "driveKm": 43.7,
+      "driveMin": 56,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1328,
+      "elevationLow": 970,
+      "elevationGain": 358,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-131-vereda-da-palha-carga/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.772718042482936,-17.12269427305472",
+        "driveGoogleMaps": "https://maps.app.goo.gl/s9gBLCLwbQAByyMg9",
+        "schmalePfade": null
+      },
+      "shortText": "Kurzer Abzweig im Fanal-/Rabaçal-Kontext; deutlicher Höhenunterschied auf sehr kleiner Distanz.",
+      "detailText": "Beginnt im Umfeld ER209/Louro da Gota und knüpft an PR13 an. Wegen 358 hm auf 1,8 km als kurzer, aber steiler Baustein markieren.",
+      "featureTags": [
+        "Palha Carga",
+        "Fanal-Abzweig",
+        "kurzer Zugang"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-13-1.json",
+        "sourceFile": "pr13.1-vereda-da-palha-carga.gpx",
+        "points": 120,
+        "distanceKm": 1.55
+      },
+      "route": {
+        "file": "data/routes/pr-13-1.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 13.1.kml",
+        "points": 1600,
+        "distanceKm": 89.71
+      }
+    },
+    {
+      "id": "pr-14",
+      "displayId": "PR 14",
+      "number": "14",
+      "name": "Levada dos Cedros",
+      "region": "Südwest (zentral)",
+      "lat": 32.806103,
+      "lon": -17.140848,
+      "distanceKm": null,
+      "duration": "03:00:00",
+      "difficulty": "mittel",
+      "driveKm": 48.8,
+      "driveMin": 63,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1090,
+      "elevationLow": 840,
+      "elevationGain": 250,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-14-levada-dos-cedros/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.80610297336484,-17.14084752263464",
+        "driveGoogleMaps": "https://maps.app.goo.gl/Badfy68BcpbULR1d8",
+        "schmalePfade": null
+      },
+      "shortText": "Levada dos Cedros im Westen: Wasserlauf, Laurissilva-Wald und ruhigerer Gegenpol zu Rabaçal-Klassikern.",
+      "detailText": "7,2 km und ca. 250 hm. Der Charakter liegt auf Levadaführung durch Wald, Feuchtigkeit und ursprünglicher Nordwestlandschaft.",
+      "featureTags": [
+        "Cedros",
+        "Laurissilva",
+        "Levada"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-14.json",
+        "sourceFile": "PR14-Levada-dos-Cedros.gpx",
+        "points": 361,
+        "distanceKm": 6.79
+      },
+      "route": {
+        "file": "data/routes/pr-14.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 14.kml",
+        "points": 1815,
+        "distanceKm": 102.33
+      }
+    },
+    {
+      "id": "pr-15",
+      "displayId": "PR 15",
+      "number": "15",
+      "name": "Vededa da Ribeira da Janela",
+      "region": "Nordwest",
+      "lat": 32.844092,
+      "lon": -17.155057,
+      "distanceKm": null,
+      "duration": "01:30:00",
+      "difficulty": "mittel",
+      "driveKm": 49.1,
+      "driveMin": 56,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 820,
+      "elevationLow": 400,
+      "elevationGain": 420,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-15-vereda-da-ribeira-da-janela/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.84409253483396,-17.1550570898547",
+        "driveGoogleMaps": "https://maps.app.goo.gl/UrspDCuHrAmmn4av8",
+        "schmalePfade": null
+      },
+      "shortText": "Kurze, aber höhenbetonte Vereda im Tal der Ribeira da Janela; Nordwestcharakter und steile Landschaft.",
+      "detailText": "Mit 2,7 km kurz, aber 420 hm laut Stammdaten. Als intensiver Tal-/Aussichtsbaustein im Nordwesten einstufen.",
+      "featureTags": [
+        "Ribeira da Janela",
+        "Tal",
+        "Nordwest"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-15.json",
+        "sourceFile": "PR15-Ribeira-da-Janela.gpx",
+        "points": 122,
+        "distanceKm": 2.39
+      },
+      "route": {
+        "file": "data/routes/pr-15.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 15.kml",
+        "points": 1841,
+        "distanceKm": 110.62
+      }
+    },
+    {
+      "id": "pr-16",
+      "displayId": "PR 16",
+      "number": "16",
+      "name": "Levada Faja do Rodrigues",
+      "region": "Nord (zentral)",
+      "lat": 32.779257,
+      "lon": -17.04958,
+      "distanceKm": 3.9,
+      "duration": "03:30:00",
+      "difficulty": "mittel",
+      "driveKm": 31.8,
+      "driveMin": 37,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 630,
+      "elevationLow": 600,
+      "elevationGain": 30,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-16-levada-faja-do-rodrigues/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.779256929687,-17.04957993776205",
+        "driveGoogleMaps": "https://maps.app.goo.gl/KTV9fYPfUN4UCSG59",
+        "schmalePfade": null
+      },
+      "shortText": "Levada Fajã do Rodrigues bei São Vicente: feuchte Nordseite, Tunnel- und Wasserlaufcharakter.",
+      "detailText": "Hin-/Rückweg laut Stammdaten 7,8 km. Wegen Tunnel/Levada unbedingt Licht, Trittsicherheit und aktuelle Bedingungen berücksichtigen.",
+      "featureTags": [
+        "Levada",
+        "Tunnel",
+        "São Vicente"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-16.json",
+        "sourceFile": "PR16-Faja-do-Rodrigues.gpx",
+        "points": 179,
+        "distanceKm": 3.82
+      },
+      "route": {
+        "file": "data/routes/pr-16.json",
+        "sourceFile": "Route von Pestana Promenade nach PR 16.kml",
+        "points": 1181,
+        "distanceKm": 70.46
+      }
+    },
+    {
+      "id": "pr-17",
+      "displayId": "PR 17",
+      "number": "17",
+      "name": "Caminho do Pinaculo e Folhadal",
+      "region": "Nord (zentral)",
+      "lat": 32.754225,
+      "lon": -17.019293,
+      "distanceKm": null,
+      "duration": "06:30:00",
+      "difficulty": "schwer",
+      "driveKm": 25.9,
+      "driveMin": 33,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1490,
+      "elevationLow": 970,
+      "elevationGain": 520,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-17-caminho-do-pinaculo-e-folhadal/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.75422517938156,-17.019292506502026",
+        "driveGoogleMaps": "https://maps.app.goo.gl/HGD2hRjKdUyi875G8",
+        "schmalePfade": "https://www.schmale-pfade.de/alle-offiziellen-wanderungen-auf-madeira-mit-gps/"
+      },
+      "shortText": "Lange schwere Route durch Hochlagen und Laurissilva: Pináculo, Folhadal und wechselnde Wald-/Berglandschaft.",
+      "detailText": "Mit 15 km und 6:30 h eine der großen Tagestouren. Gute Wetter-, Zeit- und Konditionsplanung erforderlich; starker Naturwert.",
+      "featureTags": [
+        "Pináculo",
+        "Folhadal",
+        "Laurissilva",
+        "lange Tour"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-17.json",
+        "sourceFile": "pr17-caminho-do-pinaculo-e-falhadal.gpx",
+        "points": 1161,
+        "distanceKm": 15.36
+      },
+      "route": {
+        "file": "data/routes/pr-17.json",
+        "sourceFile": "Route von Pestana Promenade nach PR17.kml",
+        "points": 1069,
+        "distanceKm": 56.1
+      }
+    },
+    {
+      "id": "pr-18",
+      "displayId": "PR 18",
+      "number": "18",
+      "name": "Levada do Rei",
+      "region": "Nord",
+      "lat": 32.816548,
+      "lon": -16.924595,
+      "distanceKm": null,
+      "duration": "03:30:00",
+      "difficulty": "mittel",
+      "driveKm": 52.3,
+      "driveMin": 55,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 573,
+      "elevationLow": 535,
+      "elevationGain": 38,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-18-levada-do-rei/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.816548298715254,-16.924595003735213",
+        "driveGoogleMaps": "https://maps.app.goo.gl/AFDx5djSL4Uwb8Mx6",
+        "schmalePfade": null
+      },
+      "shortText": "Levada do Rei im Norden: gleichmäßiger Wasserlauf, dichter Lorbeerwald und Zugang Richtung Ribeiro Bonito.",
+      "detailText": "Klassische Nord-Levada mit 10,6 km Hin/Rück laut Stammdaten. Sehr gleichmäßiges Profil, aber schmale Passagen beachten.",
+      "featureTags": [
+        "Levada",
+        "Laurissilva",
+        "Ribeiro Bonito"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-18.json",
+        "sourceFile": "PR18-Levada-do-Rei.gpx",
+        "points": 321,
+        "distanceKm": 5.01
+      },
+      "route": {
+        "file": "data/routes/pr-18.json",
+        "sourceFile": "Route von Pestana Promenade nach PR18.kml",
+        "points": 1736,
+        "distanceKm": 92.31
+      }
+    },
+    {
+      "id": "pr-19",
+      "displayId": "PR 19",
+      "number": "19",
+      "name": "Caminho Real do Paul do Mar",
+      "region": "Südwest",
+      "lat": 32.752487,
+      "lon": -17.217052,
+      "distanceKm": null,
+      "duration": "01:20:00",
+      "difficulty": "mittel",
+      "driveKm": 37.2,
+      "driveMin": 42,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 550,
+      "elevationLow": 16,
+      "elevationGain": 534,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-19-caminho-real-do-paul-do-mar/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.75248737105696,-17.217051687162563",
+        "driveGoogleMaps": "https://maps.app.goo.gl/j4XEqEP3qYpm7rcA7",
+        "schmalePfade": null
+      },
+      "shortText": "Kurzer historischer Küstenabstieg nach Paul do Mar mit massivem Höhenverlust und Atlantikblick.",
+      "detailText": "Nur 1,8 km, aber über 500 hm Differenz. Als kurzer, steiler Caminho Real mit starkem Küstenbezug und Rücktransport-Frage markieren.",
+      "featureTags": [
+        "historischer Abstieg",
+        "Paul do Mar",
+        "Küste"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-19.json",
+        "sourceFile": "pr19-caminho-real-do-paul-do-mar.gpx",
+        "points": 255,
+        "distanceKm": 1.77
+      },
+      "route": {
+        "file": "data/routes/pr-19.json",
+        "sourceFile": "Route von Pestana Promenade nach PR19.kml",
+        "points": 1290,
+        "distanceKm": 95.54
+      }
+    },
+    {
+      "id": "pr-20",
+      "displayId": "PR 20",
+      "number": "20",
+      "name": "Vereda do Jardim do Mar",
+      "region": "Südwest",
+      "lat": 32.748332,
+      "lon": -17.21016,
+      "distanceKm": 1.9,
+      "duration": "01:30:00",
+      "difficulty": "leicht",
+      "driveKm": 37.5,
+      "driveMin": 42,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 530,
+      "elevationLow": 35,
+      "elevationGain": 495,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-20-vereda-do-jardim-do-mar/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.74833202362809,-17.210159519414983",
+        "driveGoogleMaps": "https://maps.app.goo.gl/eiJQG6ShuNW7biyw6",
+        "schmalePfade": null
+      },
+      "shortText": "Kurze Vereda im Raum Jardim do Mar mit starkem Höhenbezug zur Südwestküste.",
+      "detailText": "Trotz kurzer Länge große Höhendifferenz. Offizieller Status geschlossen; nur als gesperrte Referenz oder Alternativprüfung führen.",
+      "featureTags": [
+        "Jardim do Mar",
+        "Küstenabstieg"
+      ],
+      "status": "Closed",
+      "track": {
+        "file": "data/tracks/pr-20.json",
+        "sourceFile": "PR20-Vereda-do-Jardim-do-Mar.gpx",
+        "points": 226,
+        "distanceKm": 1.83
+      },
+      "route": {
+        "file": "data/routes/pr-20.json",
+        "sourceFile": "Route von Pestana Promenade nach PR20.kml",
+        "points": 1297,
+        "distanceKm": 94.35
+      }
+    },
+    {
+      "id": "pr-21",
+      "displayId": "PR 21",
+      "number": "21",
+      "name": "Caminho do Norte",
+      "region": "Südwest (zentral)",
+      "lat": 32.754524,
+      "lon": -17.018887,
+      "distanceKm": null,
+      "duration": "01:30:00",
+      "difficulty": "mittel",
+      "driveKm": 26.0,
+      "driveMin": 33,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1000,
+      "elevationLow": 320,
+      "elevationGain": 680,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-21-caminho-do-norte/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.75452412649732,-17.01888724496048",
+        "driveGoogleMaps": "https://maps.app.goo.gl/sBwAvM3rPytsRP5r9",
+        "schmalePfade": null
+      },
+      "shortText": "Kurzer Caminho im Encumeada-/Nordweg-Kontext mit ausgeprägtem Höhenprofil und historischer Wegebeziehung.",
+      "detailText": "3,2 km bei ca. 680 hm laut Stammdaten: kurzer, aber sehr höhenwirksamer Baustein. Für Tagesplanung nicht unterschätzen.",
+      "featureTags": [
+        "alter Nordweg",
+        "Encumeada-Umfeld"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-21.json",
+        "sourceFile": "pr21-caminho-do-norte.gpx",
+        "points": 141,
+        "distanceKm": 2.78
+      },
+      "route": {
+        "file": "data/routes/pr-21.json",
+        "sourceFile": "Route von Pestana Promenade nach PR21.kml",
+        "points": 1071,
+        "distanceKm": 56.15
+      }
+    },
+    {
+      "id": "pr-22",
+      "displayId": "PR 22",
+      "number": "22",
+      "name": "Vereda do Chao dos Louros",
+      "region": "Südwest (zentral)",
+      "lat": 32.76019,
+      "lon": -17.018242,
+      "distanceKm": null,
+      "duration": "00:45:00",
+      "difficulty": "leicht",
+      "driveKm": 27.4,
+      "driveMin": 36,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 890,
+      "elevationLow": 830,
+      "elevationGain": 60,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-22-vereda-do-chao-dos-louros/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.760189950825286,-17.018242398710708",
+        "driveGoogleMaps": "https://maps.app.goo.gl/syYX8aE8QHfp6A1n8",
+        "schmalePfade": null
+      },
+      "shortText": "Kurzer leichter Weg bei Chão dos Louros; geeignet als kompakter Wald- und Aussichtsstopp.",
+      "detailText": "Sehr kurze Strecke mit geringem Höhenprofil. Gut als Ergänzung bei Encumeada-/São-Vicente-Tagen oder für Restzeitfenster.",
+      "featureTags": [
+        "Chão dos Louros",
+        "kurzer Rund-/Waldweg"
+      ],
+      "status": "Open",
+      "track": {
+        "file": "data/tracks/pr-22.json",
+        "sourceFile": "pr22-vereda-do-cha-o-dos-loouros.gpx",
+        "points": 85,
+        "distanceKm": 1.78
+      },
+      "route": {
+        "file": "data/routes/pr-22.json",
+        "sourceFile": "Route von Pestana Promenade nach PR22.kml",
+        "points": 1138,
+        "distanceKm": 58.63
+      }
+    },
+    {
+      "id": "pr-27",
+      "displayId": "PR 27",
+      "number": "27",
+      "name": "Glaciar de Planalto",
+      "region": "Südwest (zentral)",
+      "lat": 32.757621,
+      "lon": -17.059546,
+      "distanceKm": 4.6,
+      "duration": "01:30:00",
+      "difficulty": "k.A.",
+      "driveKm": 44.5,
+      "driveMin": 56,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1588,
+      "elevationLow": 1457,
+      "elevationGain": 131,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-27-glaciar-de-planalto/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.7576210698105,-17.05954580536538",
+        "driveGoogleMaps": "https://maps.app.goo.gl/vDCFaJNtMRAhr3WH6",
+        "schmalePfade": null
+      },
+      "shortText": "Geologischer Themenweg auf der Paul-da-Serra-Hochebene; Fokus auf Landschaftsformen und Planalto-Charakter.",
+      "detailText": "Start im Bereich Bica da Cana/Paul da Serra. Offiziell geschlossen; im Explorer als geologischer POI-/Routenbaustein mit Sperrstatus führen.",
+      "featureTags": [
+        "Paul da Serra",
+        "Geologie",
+        "Hochebene"
+      ],
+      "status": "Closed",
+      "track": {
+        "file": "data/tracks/pr-27.json",
+        "sourceFile": "pr27-glaciar-de-planalto.gpx",
+        "points": 227,
+        "distanceKm": 5.56
+      },
+      "route": {
+        "file": "data/routes/pr-27.json",
+        "sourceFile": "Route von Pestana Promenade nach PR27.kml",
+        "points": 1582,
+        "distanceKm": 79.75
+      }
+    },
+    {
+      "id": "pr-28",
+      "displayId": "PR 28",
+      "number": "28",
+      "name": "Levada da Rocha Vermelha",
+      "region": "Südwest",
+      "lat": 32.742804,
+      "lon": -17.150514,
+      "distanceKm": 10.8,
+      "duration": "04:00:00",
+      "difficulty": "k.A.",
+      "driveKm": 35.5,
+      "driveMin": 45,
+      "parking": "",
+      "fee": 4.5,
+      "elevationHigh": 1297,
+      "elevationLow": 837,
+      "elevationGain": 460,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-28-levada-da-rocha-vermelha/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2032.7428037746597,-17.150513538606898",
+        "driveGoogleMaps": "https://maps.app.goo.gl/JqDKdFPqCzLPJF587",
+        "schmalePfade": null
+      },
+      "shortText": "Lange Levada im Südwesten/Rabaçal-Westbereich mit Wald, Wasserführung und deutlichem Höhenprofil.",
+      "detailText": "10,8 km und ca. 460 hm laut Stammdaten. Offiziell geschlossen; nur als gesperrte Langroute mit Statuswarnung verwenden.",
+      "featureTags": [
+        "Rocha Vermelha",
+        "Rabaçal-West",
+        "lange Levada"
+      ],
+      "status": "Closed",
+      "track": {
+        "file": "data/tracks/pr-28.json",
+        "sourceFile": "pr28-levada-da-rocha-vermelha.gpx",
+        "points": 513,
+        "distanceKm": 11.18
+      },
+      "route": {
+        "file": "data/routes/pr-28.json",
+        "sourceFile": "Route von Pestana Promenade nach PR28.kml",
+        "points": 1258,
+        "distanceKm": 81.83
+      }
+    },
+    {
+      "id": "ps-pr-1",
+      "displayId": "PS PR 1",
+      "number": "PS 1",
+      "name": "Vereda do Pico Branco e Terra Cha",
+      "region": "",
+      "lat": 33.096706,
+      "lon": -16.314598,
+      "distanceKm": null,
+      "duration": "",
+      "difficulty": "",
+      "driveKm": null,
+      "driveMin": null,
+      "parking": "",
+      "fee": null,
+      "elevationHigh": null,
+      "elevationLow": null,
+      "elevationGain": null,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/ps-pr-1-vereda-do-pico-branco-e-terra-cha/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2033.09670603437484,-16.314597854937265",
+        "driveGoogleMaps": null,
+        "schmalePfade": null
+      },
+      "shortText": "Porto-Santo-Route zum Pico Branco und Terra Chã: trockene Insellandschaft, Aussicht und anderes Vegetationsbild als Madeira.",
+      "detailText": "Als eigene Porto-Santo-Kategorie führen. Koordinate am Start/Referenzpunkt; Distanz-/Höhendaten in Stammdaten noch ergänzen.",
+      "featureTags": [
+        "Porto Santo",
+        "Pico Branco",
+        "Terra Chã"
+      ],
+      "status": "Open",
+      "track": null,
+      "route": null
+    },
+    {
+      "id": "ps-pr-2",
+      "displayId": "PS PR 2",
+      "number": "PS 2",
+      "name": "Vereda do Pico do Castelo",
+      "region": "",
+      "lat": 33.090709,
+      "lon": -16.3274,
+      "distanceKm": null,
+      "duration": "",
+      "difficulty": "",
+      "driveKm": null,
+      "driveMin": null,
+      "parking": "",
+      "fee": null,
+      "elevationHigh": null,
+      "elevationLow": null,
+      "elevationGain": null,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/ps-pr-2-vereda-do-pico-do-castelo/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2033.0907093007863,-16.327400163922427",
+        "driveGoogleMaps": null,
+        "schmalePfade": null
+      },
+      "shortText": "Porto-Santo-Weg zum Pico do Castelo; kurzer Berg-/Aussichtskontext mit Blick über die Insel.",
+      "detailText": "Separat von Madeira-PRs behandeln. Geeignet als Porto-Santo-Ausflugspunkt; Detaildaten und offizielles Höhenprofil noch nachpflegen.",
+      "featureTags": [
+        "Porto Santo",
+        "Pico do Castelo",
+        "Aussicht"
+      ],
+      "status": "Open",
+      "track": null,
+      "route": null
+    },
+    {
+      "id": "ps-pr-3",
+      "displayId": "PS PR 3",
+      "number": "PS 3",
+      "name": "Levada do Pico do Castelo",
+      "region": "",
+      "lat": 33.08382,
+      "lon": -16.340841,
+      "distanceKm": null,
+      "duration": "",
+      "difficulty": "",
+      "driveKm": null,
+      "driveMin": null,
+      "parking": "",
+      "fee": null,
+      "elevationHigh": null,
+      "elevationLow": null,
+      "elevationGain": null,
+      "links": {
+        "visitMadeira": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/ps-pr-3-levada-do-pico-do-castelo/",
+        "startGoogleMaps": "http://maps.google.com/maps?q=%2033.083820334426555,-16.34084078243039",
+        "driveGoogleMaps": null,
+        "schmalePfade": null
+      },
+      "shortText": "Porto-Santo-Levada im Pico-do-Castelo-Kontext; offizieller Status geschlossen.",
+      "detailText": "Als gesperrte Porto-Santo-Route führen. Keine automatische Tagesplanung ohne aktuelle Statusprüfung und ergänzte Routendaten.",
+      "featureTags": [
+        "Porto Santo",
+        "Levada",
+        "Pico do Castelo"
+      ],
+      "status": "Closed",
+      "track": null,
+      "route": null
+    }
+  ]
+}
