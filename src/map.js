@@ -7,16 +7,12 @@ let kmlLayer;
 let endpointLayer;
 let openPrCallback;
 let activeBaseLayer = 'osm';
+let redrawTimer = 0;
 
 const mapStyle = {
   pinScale: 1.08,
   activePinScale: 1.36,
-  activeLineWeight: 5,
-  inactiveLineWeight: 2,
-  lineHaloWeight: 0.8,
-  lineHaloColor: '#ffffff',
-  gpxColor: '#ff453a',
-  kmlColor: '#0a84ff'
+  inactiveLineWeight: 2
 };
 
 const baseLayers = new Map();
@@ -115,8 +111,9 @@ export async function showPrOnMap(id) {
   if (!pr) return;
 
   const bounds = [];
-  if (pr.route?.file) bounds.push(...await drawFile(pr.route.file, kmlLayer, mapStyle.kmlColor, 'KML', true));
-  if (pr.track?.file) bounds.push(...await drawFile(pr.track.file, gpxLayer, mapStyle.gpxColor, 'GPX', true));
+  const style = currentRouteStyle();
+  if (pr.route?.file) bounds.push(...await drawFile(pr.route.file, kmlLayer, style.kmlColor, 'KML', true));
+  if (pr.track?.file) bounds.push(...await drawFile(pr.track.file, gpxLayer, style.gpxColor, 'GPX', true));
   if (!bounds.length && Number.isFinite(pr.lat) && Number.isFinite(pr.lon)) bounds.push([pr.lat, pr.lon]);
 
   if (bounds.length) {
@@ -137,13 +134,14 @@ async function drawFile(file, layer, color, label, active) {
       .filter(point => Number.isFinite(point[0]) && Number.isFinite(point[1]));
     const segments = splitSegments(raw);
     const drawn = [];
-    const weight = active ? mapStyle.activeLineWeight : mapStyle.inactiveLineWeight;
+    const style = currentRouteStyle();
+    const weight = active ? style.activeLineWeight : mapStyle.inactiveLineWeight;
 
     segments.forEach(segment => {
       if (segment.length < 2) return;
       L.polyline(segment, {
-        color: mapStyle.lineHaloColor,
-        weight: weight + mapStyle.lineHaloWeight * 2,
+        color: style.lineHaloColor,
+        weight: weight + style.lineHaloWeight * 2,
         opacity: active ? 0.85 : 0.24,
         interactive: false
       }).addTo(layer);
@@ -236,6 +234,22 @@ function clearActiveLayers() {
   gpxLayer.clearLayers();
   kmlLayer.clearLayers();
   endpointLayer.clearLayers();
+}
+
+export function redrawActiveRoute() {
+  if (!state.activeId) return;
+  window.clearTimeout(redrawTimer);
+  redrawTimer = window.setTimeout(() => showPrOnMap(state.activeId), 80);
+}
+
+function currentRouteStyle() {
+  return {
+    activeLineWeight: Number(state.mapStyle.activeLineWeight) || 5,
+    lineHaloWeight: Number(state.mapStyle.lineHaloWeight) || 0.5,
+    lineHaloColor: state.mapStyle.lineHaloColor || '#ffffff',
+    gpxColor: state.mapStyle.gpxColor || '#ff453a',
+    kmlColor: state.mapStyle.kmlColor || '#0a84ff'
+  };
 }
 
 function invalidateMap() {

@@ -152,6 +152,14 @@ p { color: var(--muted); line-height: 1.45; }
 .filter-sheet header button { width: 40px; height: 40px; border-radius: 20px; border: 1px solid var(--line); background: rgba(255,255,255,.06); font-size: 24px; }
 .filter-body { overflow: auto; padding: 14px 14px 18px; -webkit-overflow-scrolling: touch; }
 .filter-body h2 { margin: 0 0 10px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+.line-style-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 10px; }
+.color-control { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid var(--line); border-radius: 16px; padding: 8px 10px; background: rgba(255,255,255,.045); }
+.color-control span { color: var(--text); font-size: 13px; font-weight: 850; }
+.color-control input { width: 42px; height: 30px; border: 0; border-radius: 10px; background: transparent; padding: 0; }
+.style-slider { display: grid; gap: 7px; border: 1px solid var(--line); border-radius: 16px; padding: 10px 12px; margin-bottom: 10px; background: rgba(255,255,255,.045); }
+.style-slider span { display: flex; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 12px; font-weight: 800; }
+.style-slider strong { color: var(--text); font-size: 12px; }
+.style-slider input { width: 100%; accent-color: var(--accent); }
 .filter-region-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
 .range-card { border: 1px solid var(--line); border-radius: 16px; padding: 12px; margin-bottom: 10px; background: rgba(255,255,255,.045); }
 .range-head, .range-foot { display: flex; justify-content: space-between; gap: 12px; }

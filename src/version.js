@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.12',
-  name: 'Dependent Map Filters',
-  label: 'V5.0.12 Dependent Map Filters'
+  id: 'V5.0.13',
+  name: 'Route Line Style Controls',
+  label: 'V5.0.13 Route Line Style Controls'
 };

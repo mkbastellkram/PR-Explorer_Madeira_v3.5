@@ -16,6 +16,13 @@ export const state = {
       distanceKm: null,
       durationMin: null
     }
+  },
+  mapStyle: {
+    activeLineWeight: 5,
+    lineHaloWeight: 0.5,
+    lineHaloColor: '#ffffff',
+    gpxColor: '#ff453a',
+    kmlColor: '#0a84ff'
   }
 };
 

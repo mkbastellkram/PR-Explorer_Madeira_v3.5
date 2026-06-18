@@ -27,6 +27,10 @@ export function openFilterSheet(onChange) {
       </header>
       <div class="filter-body">
         <section>
+          <h2>Linien</h2>
+          <div id="lineControls"></div>
+        </section>
+        <section>
           <h2>Regionen</h2>
           <div class="filter-region-grid" id="filterRegions"></div>
         </section>
@@ -55,9 +59,53 @@ export function openFilterSheet(onChange) {
 }
 
 function renderFilterControls(backdrop) {
+  renderLineControls(backdrop);
   renderRegions(backdrop);
   renderRanges(backdrop);
   backdrop.querySelector('#filterCount').textContent = `${filteredPrs().length} PRs sichtbar`;
+}
+
+function renderLineControls(backdrop) {
+  const style = state.mapStyle;
+  const host = backdrop.querySelector('#lineControls');
+  host.innerHTML = `
+    <div class="line-style-grid">
+      ${colorControl('gpxColor', 'GPX', style.gpxColor)}
+      ${colorControl('kmlColor', 'KML', style.kmlColor)}
+    </div>
+    ${styleSlider('activeLineWeight', 'Linienbreite', style.activeLineWeight, 2, 9, 0.5, 'px')}
+    ${styleSlider('lineHaloWeight', 'Weisse Kontur je Seite', style.lineHaloWeight, 0, 2, 0.5, 'px')}
+  `;
+  host.querySelectorAll('[data-style-color]').forEach(input => {
+    input.addEventListener('input', () => {
+      state.mapStyle[input.dataset.styleColor] = input.value;
+      emitChange();
+    });
+  });
+  host.querySelectorAll('[data-style-slider]').forEach(input => {
+    input.addEventListener('input', () => {
+      state.mapStyle[input.dataset.styleSlider] = Number(input.value);
+      const label = host.querySelector(`[data-style-value="${input.dataset.styleSlider}"]`);
+      if (label) label.textContent = `${formatNumber(Number(input.value), 1)} ${input.dataset.unit}`;
+      emitChange();
+    });
+  });
+}
+
+function colorControl(key, label, value) {
+  return `
+    <label class="color-control">
+      <span>${label}</span>
+      <input type="color" value="${escapeHtml(value)}" data-style-color="${key}" />
+    </label>`;
+}
+
+function styleSlider(key, label, value, min, max, step, unit) {
+  return `
+    <label class="style-slider">
+      <span>${label}<strong data-style-value="${key}">${formatNumber(value, 1)} ${unit}</strong></span>
+      <input type="range" min="${min}" max="${max}" step="${step}" value="${value}" data-style-slider="${key}" data-unit="${unit}" />
+    </label>`;
 }
 
 function renderRegions(backdrop) {

@@ -1,6 +1,6 @@
 import { VERSION } from './version.js';
 import { loadUserState, state, filteredPrs, prUserState } from './state.js';
-import { getBaseLayers, initMap, renderPins, setBaseLayer, showPrOnMap, fitAll } from './map.js';
+import { getBaseLayers, initMap, renderPins, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
 import { openFilterSheet } from './filterSheet.js';
@@ -173,6 +173,7 @@ function renderTrip() {
 
 function handleFiltersChanged() {
   renderPins();
+  redrawActiveRoute();
   if (state.view === 'map') {
     setTimeout(fitAll, 30);
   } else if (state.view === 'journal') {
