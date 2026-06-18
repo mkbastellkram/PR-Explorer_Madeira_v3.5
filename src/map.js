@@ -14,17 +14,17 @@ const BASE_LAYER_CONFIG = {
   osm: {
     label: 'OSM',
     url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    options: { maxZoom: 19, attribution: '© OpenStreetMap' }
+    options: { maxZoom: 19, attribution: '(c) OpenStreetMap' }
   },
   topo: {
     label: 'Topo',
     url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-    options: { maxZoom: 17, attribution: '© OpenTopoMap, © OpenStreetMap' }
+    options: { maxZoom: 17, attribution: '(c) OpenTopoMap, (c) OpenStreetMap' }
   },
   sat: {
     label: 'Sat',
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    options: { maxZoom: 18, attribution: 'Tiles © Esri' }
+    options: { maxZoom: 18, attribution: 'Tiles (c) Esri' }
   }
 };
 
@@ -58,7 +58,6 @@ export function initMap(onOpenPr) {
   gpxLayer = L.layerGroup().addTo(map);
   kmlLayer = L.layerGroup().addTo(map);
   endpointLayer = L.layerGroup().addTo(map);
-  L.control.zoom({ position: 'bottomright' }).addTo(map);
 
   window.addEventListener('resize', invalidateMap);
   setTimeout(invalidateMap, 120);
@@ -78,7 +77,7 @@ export function renderPins() {
       fillColor: statusColor(pr.status),
       fillOpacity: 0.94
     });
-    marker.bindTooltip(`${pr.displayId} · ${pr.name}`);
+    marker.bindTooltip(`${pr.displayId} - ${pr.name}`);
     marker.on('click', () => openPrCallback(pr.id));
     marker.addTo(pinLayer);
   });
@@ -92,7 +91,7 @@ export function fitAll() {
     .map(pr => [pr.lat, pr.lon]);
 
   if (points.length) {
-    map.fitBounds(points, { paddingTopLeft: [28, 128], paddingBottomRight: [28, 96], animate: false });
+    map.fitBounds(points, { paddingTopLeft: [28, 128], paddingBottomRight: [28, 118], animate: false });
   }
 }
 
@@ -133,8 +132,8 @@ export async function showPrOnMap(id) {
 
   if (bounds.length) {
     map.fitBounds(bounds, {
-      paddingTopLeft: [28, 128],
-      paddingBottomRight: [28, 320],
+      paddingTopLeft: [28, getTopPadding()],
+      paddingBottomRight: [28, getBottomPadding()],
       maxZoom: 14,
       animate: false
     });
@@ -206,6 +205,17 @@ function clearActiveLayers() {
 
 function invalidateMap() {
   if (map) map.invalidateSize({ animate: false });
+}
+
+function getTopPadding() {
+  const controls = document.querySelector('#mapControls')?.getBoundingClientRect();
+  return controls ? Math.ceil(controls.bottom + 20) : 128;
+}
+
+function getBottomPadding() {
+  const sheet = document.querySelector('#sheet')?.getBoundingClientRect();
+  if (!sheet) return 118;
+  return Math.ceil(window.innerHeight - sheet.top + 22);
 }
 
 function distanceKm(a, b) {

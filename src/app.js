@@ -27,8 +27,8 @@ function renderTopbar() {
   $('#topbar').innerHTML = `
     <div class="brand"><span></span><strong>PR-Explorer</strong></div>
     <div class="top-actions">
-      <button class="icon-btn" data-action="fit" aria-label="Alle Pins">◎</button>
-      <button class="icon-btn" data-action="journal" aria-label="Journal">☰</button>
+      <button class="icon-btn text-btn" data-action="fit" aria-label="Alle Pins">Pins</button>
+      <button class="icon-btn text-btn" data-action="journal" aria-label="Journal">Liste</button>
     </div>`;
 
   $('#topbar').addEventListener('click', event => {
@@ -71,6 +71,7 @@ function renderMapControls() {
 export function renderView(view) {
   state.view = view;
   closeDetail(false);
+  $('#app').classList.remove('journal-leaving');
   $('#app').classList.toggle('list-mode', view !== 'map');
   $('#app').classList.toggle('map-mode', view === 'map');
   document.querySelectorAll('#nav button').forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
@@ -84,13 +85,26 @@ export function renderView(view) {
 }
 
 export function openPr(id) {
+  const wasList = $('#app').classList.contains('list-mode');
   state.activeId = id;
   state.view = 'map';
+
   $('#app').classList.remove('list-mode');
   $('#app').classList.add('map-mode');
   document.querySelectorAll('#nav button').forEach(btn => btn.classList.toggle('active', btn.dataset.view === 'map'));
-  showPrOnMap(id);
+
+  if (wasList) {
+    $('#app').classList.add('journal-leaving');
+    setTimeout(() => {
+      $('#view').innerHTML = '';
+      $('#app').classList.remove('journal-leaving');
+    }, 210);
+  } else {
+    $('#view').innerHTML = '';
+  }
+
   openDetail(id, openAdjacentPr);
+  setTimeout(() => showPrOnMap(id), 40);
 }
 
 function openAdjacentPr(delta) {
