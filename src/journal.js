@@ -85,14 +85,20 @@ function groupPrs(prs) {
 
 function renderRow(pr) {
   const user = prUserState(pr.id);
+  const status = statusColor(pr.status);
+  const activity = activityEmoji(user);
   return `
     <button class="pr-row ${user.ignored ? 'ignored' : ''}" data-id="${pr.id}">
-      <span class="pr-code">${escapeHtml(pr.displayId)}</span>
+      <span class="pr-code journal-flag" style="--pin-bg:${difficultyStyle(pr.difficulty).bg};--pin-fg:${difficultyStyle(pr.difficulty).fg}">
+        <span class="badge status" style="background:${status}"></span>
+        <span class="activity ${activity ? '' : 'empty'}">${activity}</span>
+        ${escapeHtml(pr.displayId)}
+      </span>
       <span class="pr-main">
         <strong>${escapeHtml(pr.name)}</strong>
         <em>${escapeHtml(pr.region)} - ${fmt(pr.distanceKm, ' km')} - ${escapeHtml(pr.duration || '-')} - ${fmt(pr.driveMin, ' min')}</em>
       </span>
-      <span class="pr-status">${activityEmoji(user)} ${escapeHtml(activityLabel(user) || statusLabel(pr.status))}</span>
+      <span class="pr-status">${activity} ${escapeHtml(activityLabel(user) || statusLabel(pr.status))}</span>
     </button>`;
 }
 
@@ -109,9 +115,9 @@ function activityLabel(user) {
 }
 
 function activityEmoji(user) {
-  if (user.activity === 'booked') return '⭐️';
-  if (user.activity === 'planned') return '♥️';
-  if (user.activity === 'favorite') return '🖤';
+  if (user.activity === 'booked') return '\u2B50\uFE0F';
+  if (user.activity === 'planned') return '\u2665\uFE0F';
+  if (user.activity === 'favorite') return '\u{1F5A4}';
   return '';
 }
 
@@ -121,6 +127,22 @@ function statusLabel(status = '') {
   if (s.includes('restricted')) return 'eingeschraenkt';
   if (s.includes('open')) return 'offen';
   return 'pruefen';
+}
+
+function statusColor(status = '') {
+  const s = String(status).toLowerCase();
+  if (s.includes('closed') || s.includes('geschlossen')) return '#ff453a';
+  if (s.includes('restricted') || s.includes('eingeschraenkt')) return '#ffd166';
+  if (s.includes('open')) return '#35d49f';
+  return '#8fa2a0';
+}
+
+function difficultyStyle(value = '') {
+  const s = String(value || '').toLowerCase();
+  if (s.includes('schwer')) return { bg: '#ff453a', fg: '#ffffff' };
+  if (s.includes('mittel')) return { bg: '#ffd166', fg: '#142426' };
+  if (s.includes('leicht')) return { bg: '#35d49f', fg: '#082224' };
+  return { bg: '#7dd8ff', fg: '#061b1d' };
 }
 
 function fmt(value, suffix = '') {

@@ -167,7 +167,7 @@ function createPrFlag(pr, active, faded) {
   const html = `
     <span class="pr-pin-wrap ${active ? 'active' : ''} ${faded ? 'faded' : ''}" style="--pin-scale:${scale}">
       <span class="pr-needle"></span>
-      <span class="pr-flag ${active ? 'active' : ''}" style="--difficulty:${difficulty.bg}">
+      <span class="pr-flag ${active ? 'active' : ''}" style="--pin-bg:${difficulty.bg};--pin-fg:${difficulty.fg}">
         <span class="badge status" style="background:${status}"></span>
         <span class="activity ${activity ? '' : 'empty'}">${activity?.label || ''}</span>
         ${escapeHtml(compactPrNumber(pr.displayId))}
@@ -243,10 +243,10 @@ function getBottomPadding() {
 
 function difficultyStyle(value = '') {
   const s = normalize(value);
-  if (s.includes('schwer')) return { bg: '#ff453a' };
-  if (s.includes('mittel')) return { bg: '#ffd166' };
-  if (s.includes('leicht')) return { bg: '#35d49f' };
-  return { bg: '#7dd8ff' };
+  if (s.includes('schwer')) return { bg: '#ff453a', fg: '#ffffff' };
+  if (s.includes('mittel')) return { bg: '#ffd166', fg: '#142426' };
+  if (s.includes('leicht')) return { bg: '#35d49f', fg: '#082224' };
+  return { bg: '#7dd8ff', fg: '#061b1d' };
 }
 
 function statusStyle(value = '') {
@@ -258,9 +258,9 @@ function statusStyle(value = '') {
 }
 
 function activityBadge(value = '') {
-  if (value === 'favorite') return { label: '🖤' };
-  if (value === 'planned') return { label: '♥️' };
-  if (value === 'booked') return { label: '⭐️' };
+  if (value === 'favorite') return { label: '\u{1F5A4}' };
+  if (value === 'planned') return { label: '\u2665\uFE0F' };
+  if (value === 'booked') return { label: '\u2B50\uFE0F' };
   return null;
 }
 
@@ -268,7 +268,7 @@ function normalize(value) {
   return String(value || '').toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/ß/g, 'ss');
+    .replace(/\u00DF/g, 'ss');
 }
 
 function distanceKm(a, b) {

@@ -52,6 +52,11 @@ p { color: var(--muted); line-height: 1.45; }
 .list { border-top: 1px solid var(--line); background: rgba(0,0,0,.14); }
 .pr-row { width: 100%; min-height: 76px; display: grid; grid-template-columns: 54px 1fr auto; gap: 10px; align-items: center; padding: 12px 16px; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; }
 .pr-code { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: rgba(53,212,159,.16); color: #dffdf5; font-weight: 900; font-size: 12px; }
+.journal-flag { --pin-bg: #35d49f; --pin-fg: #061b1d; position: relative; width: 50px; height: 32px; border-radius: 9px; background: var(--pin-bg); color: var(--pin-fg); border: .5px solid var(--panel-strong); box-shadow: 0 0 0 .5px rgba(255,255,255,.92), 0 0 3px rgba(255,255,255,.45), 0 4px 10px rgba(0,0,0,.24); }
+.journal-flag .badge { position: absolute; width: 8px; height: 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.9); background: #8fa2a0; z-index: 3; }
+.journal-flag .status { left: -4px; top: -4px; }
+.journal-flag .activity { position: absolute; right: -8px; top: -10px; display: grid; place-items: center; background: transparent; border: 0; box-shadow: none; font-size: 14px; line-height: 1; z-index: 4; }
+.journal-flag .activity.empty { display: none; }
 .pr-main { min-width: 0; }
 .pr-main strong, .pr-main em { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pr-main strong { font-size: 16px; }
@@ -95,10 +100,10 @@ p { color: var(--muted); line-height: 1.45; }
 .pr-flag-icon { background: transparent; border: 0; }
 .pr-pin-wrap { --pin-scale: 1; position: relative; width: calc(86px * var(--pin-scale)); height: calc(54px * var(--pin-scale)); display: block; }
 .pr-pin-wrap.faded { opacity: .22; filter: saturate(.65); }
-.pr-needle { position: absolute; left: calc(15px * var(--pin-scale)); bottom: calc(1px * var(--pin-scale)); width: calc(3px * var(--pin-scale)); height: calc(27px * var(--pin-scale)); border-radius: calc(2px * var(--pin-scale)); background: var(--panel-strong); box-shadow: 0 0 0 .5px rgba(255,255,255,.9), 0 2px 6px rgba(0,0,0,.36); z-index: 1; }
+.pr-needle { position: absolute; left: calc(24px * var(--pin-scale)); bottom: 0; width: calc(1px * var(--pin-scale)); height: calc(23px * var(--pin-scale)); border-radius: calc(1px * var(--pin-scale)); background: var(--panel-strong); box-shadow: 0 0 0 .5px rgba(255,255,255,.92), 0 0 3px rgba(255,255,255,.42), 0 2px 6px rgba(0,0,0,.36); z-index: 1; }
 .pr-needle::after { content: none; }
-.pr-flag { --difficulty: #35d49f; position: absolute; left: calc(24px * var(--pin-scale)); bottom: calc(22px * var(--pin-scale)); min-width: calc(46px * var(--pin-scale)); height: calc(26px * var(--pin-scale)); padding: 0 calc(8px * var(--pin-scale)); border-radius: calc(8px * var(--pin-scale)); display: inline-flex; align-items: center; justify-content: center; background: var(--panel-strong); color: var(--text); border: .5px solid rgba(255,255,255,.9); box-shadow: inset 0 -3px 0 var(--difficulty), 0 4px 14px rgba(0,0,0,.35); font-size: calc(12px * var(--pin-scale)); font-weight: 900; line-height: 1; white-space: nowrap; z-index: 2; }
-.pr-flag.active { box-shadow: inset 0 -3px 0 var(--difficulty), 0 0 0 1px rgba(255,255,255,.5), 0 7px 18px rgba(0,0,0,.42); }
+.pr-flag { --pin-bg: #35d49f; --pin-fg: #061b1d; position: absolute; left: calc(24px * var(--pin-scale)); bottom: calc(22px * var(--pin-scale)); min-width: calc(46px * var(--pin-scale)); height: calc(26px * var(--pin-scale)); padding: 0 calc(8px * var(--pin-scale)); border-radius: calc(8px * var(--pin-scale)); display: inline-flex; align-items: center; justify-content: center; background: var(--pin-bg); color: var(--pin-fg); border: .5px solid var(--panel-strong); box-shadow: 0 0 0 .5px rgba(255,255,255,.92), 0 0 3px rgba(255,255,255,.48), 0 4px 14px rgba(0,0,0,.35); font-size: calc(12px * var(--pin-scale)); font-weight: 900; line-height: 1; white-space: nowrap; z-index: 2; }
+.pr-flag.active { box-shadow: 0 0 0 .5px rgba(255,255,255,.98), 0 0 4px rgba(255,255,255,.62), 0 7px 18px rgba(0,0,0,.42); }
 .pr-flag .badge { position: absolute; width: calc(8px * var(--pin-scale)); height: calc(8px * var(--pin-scale)); border-radius: 999px; border: 1px solid rgba(255,255,255,.9); background: #8fa2a0; z-index: 3; }
 .pr-flag .status { left: -4px; top: -4px; }
 .pr-flag .activity { position: absolute; right: calc(-7px * var(--pin-scale)); top: calc(-9px * var(--pin-scale)); display: grid; place-items: center; background: transparent; border: 0; box-shadow: none; font-size: calc(13px * var(--pin-scale)); line-height: 1; z-index: 4; }

@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.7',
-  name: 'Flag Styling Activity Emoji',
-  label: 'V5.0.7 Flag Styling Activity Emoji'
+  id: 'V5.0.8',
+  name: 'Difficulty Flag Outline Restore',
+  label: 'V5.0.8 Difficulty Flag Outline Restore'
 };
