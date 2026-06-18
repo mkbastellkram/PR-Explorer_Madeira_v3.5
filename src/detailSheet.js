@@ -14,6 +14,7 @@ export function openDetail(id, openAdjacent) {
   host ||= document.querySelector('#detailHost');
   const pr = state.data.prs.find(item => item.id === id);
   if (!pr) return;
+
   host.hidden = false;
   document.querySelector('#app').classList.add('detail-active');
   host.innerHTML = `
@@ -36,7 +37,7 @@ export function openDetail(id, openAdjacent) {
         <div class="facts">
           <div><span>Status</span><strong>${escapeHtml(pr.status || 'Check')}</strong></div>
           <div><span>Level</span><strong>${escapeHtml(pr.difficulty || '-')}</strong></div>
-          <div><span>Höhe</span><strong>${fmt(pr.elevationLow, '')}–${fmt(pr.elevationHigh, ' m')}</strong></div>
+          <div><span>Höhe</span><strong>${fmt(pr.elevationLow, '')}-${fmt(pr.elevationHigh, ' m')}</strong></div>
           <div><span>Aufstieg</span><strong>${fmt(pr.elevationGain, ' hm')}</strong></div>
         </div>
         <p>${escapeHtml(pr.detailText || '')}</p>
@@ -51,12 +52,20 @@ export function openDetail(id, openAdjacent) {
         </div>
       </div>
     </section>`;
+
   host.querySelector('.close').addEventListener('click', () => closeDetail());
   bindGestures(host.querySelector('#sheet'), openAdjacent);
 }
 
 function bindGestures(sheet, openAdjacent) {
-  let sx = 0, sy = 0, dx = 0, dy = 0, axis = '', active = false, startHeight = 0;
+  let sx = 0;
+  let sy = 0;
+  let dx = 0;
+  let dy = 0;
+  let axis = '';
+  let active = false;
+  let startHeight = 0;
+
   sheet.addEventListener('pointerdown', event => {
     if (event.target.closest('button, a')) return;
     active = true;
@@ -66,29 +75,35 @@ function bindGestures(sheet, openAdjacent) {
     startHeight = sheet.getBoundingClientRect().height;
     sheet.setPointerCapture(event.pointerId);
   });
+
   sheet.addEventListener('pointermove', event => {
     if (!active) return;
     dx = event.clientX - sx;
     dy = event.clientY - sy;
-    const ax = Math.abs(dx), ay = Math.abs(dy);
+    const ax = Math.abs(dx);
+    const ay = Math.abs(dy);
+
     if (!axis) {
       if (ay > 12 && ay > ax * 1.15) axis = 'y';
       else if (ax > 18 && ax > ay * 1.15 && sheet.classList.contains('peek')) axis = 'x';
       else return;
       sheet.classList.add('dragging');
     }
+
     event.preventDefault();
     if (axis === 'y') {
-      const min = Math.max(230, window.innerHeight * 0.29);
+      const min = Math.max(240, window.innerHeight * 0.30);
       const max = Math.min(window.innerHeight * 0.78, window.innerHeight - 72);
       sheet.style.height = `${Math.max(min, Math.min(max, startHeight - dy))}px`;
     }
     if (axis === 'x') sheet.style.setProperty('--drag-x', `${Math.max(-260, Math.min(260, dx))}px`);
   }, { passive: false });
+
   sheet.addEventListener('pointerup', () => {
     if (!active) return;
     active = false;
     sheet.classList.remove('dragging');
+
     if (axis === 'x' && Math.abs(dx) > 82) {
       openAdjacent(dx < 0 ? 1 : -1);
       return;

@@ -1,6 +1,6 @@
 import { VERSION } from './version.js';
 import { state, filteredPrs } from './state.js';
-import { initMap, renderPins, showPrOnMap, fitAll } from './map.js';
+import { getBaseLayers, initMap, renderPins, setBaseLayer, showPrOnMap, fitAll } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
 
@@ -30,6 +30,7 @@ function renderTopbar() {
       <button class="icon-btn" data-action="fit" aria-label="Alle Pins">◎</button>
       <button class="icon-btn" data-action="journal" aria-label="Journal">☰</button>
     </div>`;
+
   $('#topbar').addEventListener('click', event => {
     const action = event.target.closest('[data-action]')?.dataset.action;
     if (action === 'fit') fitAll();
@@ -42,21 +43,42 @@ function renderNav() {
     <button data-view="journal">Journal</button>
     <button data-view="map">Karte</button>
     <button data-view="dashboard">Dashboard</button>`;
+
   $('#nav').addEventListener('click', event => {
     const view = event.target.closest('[data-view]')?.dataset.view;
     if (view) renderView(view);
   });
 }
 
+function renderMapControls() {
+  const controls = document.createElement('div');
+  controls.id = 'mapControls';
+  controls.className = 'map-controls';
+  controls.innerHTML = getBaseLayers()
+    .map(layer => `<button class="${layer.active ? 'active' : ''}" data-layer="${layer.key}">${layer.label}</button>`)
+    .join('');
+
+  controls.addEventListener('click', event => {
+    const key = event.target.closest('[data-layer]')?.dataset.layer;
+    if (!key) return;
+    setBaseLayer(key);
+    controls.querySelectorAll('button').forEach(button => button.classList.toggle('active', button.dataset.layer === key));
+  });
+
+  $('#app').append(controls);
+}
+
 export function renderView(view) {
   state.view = view;
   closeDetail(false);
   $('#app').classList.toggle('list-mode', view !== 'map');
+  $('#app').classList.toggle('map-mode', view === 'map');
   document.querySelectorAll('#nav button').forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
+
   if (view === 'journal') renderJournal($('#view'), openPr);
   if (view === 'map') {
     $('#view').innerHTML = '';
-    fitAll();
+    setTimeout(fitAll, 60);
   }
   if (view === 'dashboard') renderDashboard();
 }
@@ -65,6 +87,7 @@ export function openPr(id) {
   state.activeId = id;
   state.view = 'map';
   $('#app').classList.remove('list-mode');
+  $('#app').classList.add('map-mode');
   document.querySelectorAll('#nav button').forEach(btn => btn.classList.toggle('active', btn.dataset.view === 'map'));
   showPrOnMap(id);
   openDetail(id, openAdjacentPr);
@@ -97,8 +120,9 @@ async function boot() {
   renderNav();
   await loadData();
   initMap(openPr);
+  renderMapControls();
   renderPins();
-  renderView('journal');
+  renderView('map');
 }
 
 boot().catch(error => {

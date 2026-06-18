@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.0',
-  name: 'Recovery Core',
-  label: 'V5.0.0 Recovery Core'
+  id: 'V5.0.1',
+  name: 'Map Baseline',
+  label: 'V5.0.1 Map Baseline'
 };

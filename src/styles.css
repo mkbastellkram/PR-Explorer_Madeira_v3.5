@@ -26,6 +26,10 @@ button { color: inherit; }
 .brand span { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 18px rgba(53,212,159,.72); }
 .top-actions { margin-left: auto; display: flex; gap: 8px; }
 .icon-btn { width: 44px; height: 44px; border-radius: 22px; display: grid; place-items: center; }
+.map-controls { position: fixed; top: calc(env(safe-area-inset-top) + 66px); left: 12px; right: 12px; z-index: 38; display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; pointer-events: none; }
+.map-controls button { pointer-events: auto; flex: 0 0 auto; min-height: 42px; border: 1px solid var(--line); border-radius: 21px; padding: 0 15px; background: var(--panel); color: var(--text); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+.map-controls button.active { background: rgba(53,212,159,.2); border-color: rgba(53,212,159,.62); }
+.list-mode .map-controls { display: none; }
 
 .view { position: fixed; inset: 0; z-index: 20; pointer-events: none; }
 .list-mode .view { pointer-events: auto; }
@@ -52,7 +56,7 @@ p { color: var(--muted); line-height: 1.45; }
 .nav button.active { background: rgba(53,212,159,.18); color: var(--text); }
 
 .detail-host { position: fixed; inset: 0; z-index: 55; pointer-events: none; }
-.sheet { pointer-events: auto; position: absolute; left: 0; right: 0; bottom: max(env(safe-area-inset-bottom), 8px); min-height: 0; border-radius: 22px 22px 0 0; overflow: hidden; transform: translateX(var(--drag-x, 0)); box-shadow: 0 -18px 60px rgba(0,0,0,.45); touch-action: none; }
+.sheet { pointer-events: auto; position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom) + 76px); min-height: 0; border-radius: 22px 22px 0 0; overflow: hidden; transform: translateX(var(--drag-x, 0)); box-shadow: 0 -18px 60px rgba(0,0,0,.45); touch-action: none; }
 .sheet.peek { height: clamp(238px, 30dvh, 284px); }
 .sheet.expanded { height: min(78dvh, calc(100dvh - env(safe-area-inset-top) - 72px)); }
 .sheet.dragging { transition: none; user-select: none; }
@@ -85,7 +89,7 @@ p { color: var(--muted); line-height: 1.45; }
 }
 
 @media (min-width: 760px) {
-  .sheet { left: auto; right: 14px; width: 440px; border-radius: 22px; bottom: 14px; }
+  .sheet { left: auto; right: 14px; width: 440px; border-radius: 22px; bottom: calc(env(safe-area-inset-bottom) + 86px); }
   .sheet.peek { height: 286px; }
   .sheet.expanded { height: calc(100dvh - 118px); }
 }
