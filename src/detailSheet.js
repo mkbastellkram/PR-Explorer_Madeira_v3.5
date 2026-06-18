@@ -77,7 +77,9 @@ export function openDetail(id, openAdjacent) {
     renderPins();
     openDetail(id, openAdjacent);
   });
-  bindGestures(host.querySelector('#sheet'), openAdjacent);
+  const sheet = host.querySelector('#sheet');
+  bindGestures(sheet, openAdjacent);
+  runSheetEntry(sheet);
 }
 
 function bindGestures(sheet, openAdjacent) {
@@ -88,6 +90,7 @@ function bindGestures(sheet, openAdjacent) {
   let axis = '';
   let active = false;
   let startHeight = 0;
+  let startTime = 0;
 
   sheet.addEventListener('pointerdown', event => {
     if (event.target.closest('.close, a')) return;
@@ -96,6 +99,7 @@ function bindGestures(sheet, openAdjacent) {
     axis = '';
     sx = event.clientX;
     sy = event.clientY;
+    startTime = performance.now();
     startHeight = sheet.getBoundingClientRect().height;
     sheet.setPointerCapture(event.pointerId);
   });
@@ -129,8 +133,16 @@ function bindGestures(sheet, openAdjacent) {
     sheet.classList.remove('dragging');
 
     if (axis === 'x' && Math.abs(dx) > 96) {
-      sheet.style.setProperty('--drag-x', `${dx < 0 ? -120 : 120}px`);
-      setTimeout(() => openAdjacent(dx < 0 ? 1 : -1), 130);
+      const dir = dx < 0 ? -1 : 1;
+      const elapsed = Math.max(1, performance.now() - startTime);
+      const velocity = Math.max(0.18, Math.abs(dx) / elapsed);
+      const distance = window.innerWidth + 120 - Math.abs(dx);
+      const duration = Math.max(320, Math.min(720, distance / velocity));
+      sheet.classList.add('carousel-exit');
+      sheet.style.setProperty('--carousel-duration', `${Math.round(duration)}ms`);
+      sheet.style.setProperty('--drag-x', `${dir * (window.innerWidth + 120)}px`);
+      window.PRX_SHEET_ENTRY_DIR = -dir;
+      window.setTimeout(() => openAdjacent(dx < 0 ? 1 : -1), duration);
       return;
     }
     if (axis === 'y') {
@@ -147,6 +159,24 @@ function setState(sheet, mode) {
   sheet.classList.toggle('peek', mode !== 'expanded');
   if (mode === 'expanded') sheet.style.height = `${window.innerHeight - currentExpandedTop() - currentSheetBottom()}px`;
   else sheet.style.removeProperty('height');
+}
+
+function runSheetEntry(sheet) {
+  const dir = Number(window.PRX_SHEET_ENTRY_DIR || 0);
+  if (!dir) return;
+  window.PRX_SHEET_ENTRY_DIR = 0;
+  sheet.classList.add('carousel-enter');
+  sheet.style.setProperty('--carousel-duration', '420ms');
+  sheet.style.setProperty('--drag-x', `${dir * (window.innerWidth + 120)}px`);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      sheet.style.setProperty('--drag-x', '0px');
+      window.setTimeout(() => {
+        sheet.classList.remove('carousel-enter');
+        sheet.style.removeProperty('--carousel-duration');
+      }, 440);
+    });
+  });
 }
 
 function currentExpandedTop() {

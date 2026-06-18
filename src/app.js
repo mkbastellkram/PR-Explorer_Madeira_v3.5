@@ -25,12 +25,20 @@ export async function loadData() {
 
 function renderTopbar() {
   $('#topbar').innerHTML = `
-    <div class="brand"><span></span><strong>PR-Explorer</strong></div>`;
+    <div class="brand"><span></span><strong>PR-Explorer</strong></div>
+    <div class="top-actions">
+      <button class="icon-btn" data-action="share" aria-label="Teilen">↑</button>
+      <button class="icon-btn" data-action="map-options" aria-label="Kartenoptionen">◫</button>
+      <button class="icon-btn" data-action="settings" aria-label="Einstellungen">⚙</button>
+    </div>`;
 
   $('#topbar').addEventListener('click', event => {
     const action = event.target.closest('[data-action]')?.dataset.action;
     if (action === 'fit') fitAll();
     if (action === 'journal') renderView('journal');
+    if (action === 'share') toast('Teilen ist vorbereitet.');
+    if (action === 'map-options') toast('Kartenoptionen folgen.');
+    if (action === 'settings') renderView('dashboard');
   });
 }
 

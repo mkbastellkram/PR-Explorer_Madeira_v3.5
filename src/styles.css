@@ -64,6 +64,7 @@ p { color: var(--muted); line-height: 1.45; }
 
 .detail-host { position: fixed; inset: 0; z-index: 55; pointer-events: none; }
 .sheet { pointer-events: auto; position: absolute; left: 0; right: 0; bottom: var(--sheet-bottom); min-height: 0; border-radius: 22px 22px 0 0; overflow: hidden; transform: translateX(var(--drag-x, 0)); box-shadow: 0 -18px 60px rgba(0,0,0,.45); touch-action: none; transition: transform .46s var(--motion-soft), height .46s var(--motion-soft), bottom .46s var(--motion-soft), background-color .28s ease; }
+.sheet.carousel-exit, .sheet.carousel-enter { transition: transform var(--carousel-duration, 420ms) linear, height .46s var(--motion-soft), bottom .46s var(--motion-soft), background-color .28s ease; }
 .sheet.peek { height: clamp(238px, 30dvh, 284px); }
 .sheet.expanded { height: calc(100dvh - var(--sheet-expanded-top) - var(--sheet-bottom)); background: var(--panel-strong); border-radius: 22px 22px 0 0; }
 .sheet.dragging { transition: none; user-select: none; }
