@@ -96,6 +96,10 @@ p { color: var(--muted); line-height: 1.45; }
 .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 12px 0; }
 .link-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
 .link-grid a { min-height: 46px; display: grid; place-items: center; border-radius: 14px; border: 1px solid var(--line); color: var(--text); text-decoration: none; background: rgba(255,255,255,.06); }
+.external-searches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; margin-top: 12px; }
+.external-link { min-width: 0; min-height: 50px; display: grid; grid-template-columns: 24px 1fr; align-items: center; gap: 8px; border-radius: 15px; border: 1px solid var(--line); padding: 0 10px; background: rgba(255,255,255,.055); color: var(--text); text-decoration: none; }
+.external-link img { width: 23px; height: 23px; object-fit: contain; filter: drop-shadow(0 1px 2px rgba(0,0,0,.24)); }
+.external-link span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 850; }
 .data-state { margin-top: 14px; color: var(--muted); font-size: 13px; }
 .pr-flag-icon { background: transparent; border: 0; }
 .pr-pin-wrap { --pin-scale: 1; position: relative; width: calc(86px * var(--pin-scale)); height: calc(54px * var(--pin-scale)); display: block; }

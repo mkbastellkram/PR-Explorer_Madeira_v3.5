@@ -58,6 +58,9 @@ export function openDetail(id, openAdjacent) {
           ${link(pr.links.driveGoogleMaps, 'Anfahrt')}
           ${link(pr.links.schmalePfade, 'Schmale Pfade')}
         </div>
+        <div class="external-searches" aria-label="Externe Suche">
+          ${externalSearchLinks(pr)}
+        </div>
         <div class="data-state">
           GPX: ${pr.track ? 'vorhanden' : 'fehlt'} - KML: ${pr.route ? 'vorhanden' : 'fehlt'}
         </div>
@@ -309,6 +312,27 @@ function currentSheetBottom() {
 
 function link(href, label) {
   return href ? `<a href="${escapeHtml(href)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>` : '';
+}
+
+function externalSearchLinks(pr) {
+  const query = `${pr.displayId} ${pr.name} Madeira Wanderung`;
+  const encoded = encodeURIComponent(query);
+  const mapsHref = pr.links.driveGoogleMaps || pr.links.startGoogleMaps ||
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${pr.displayId} ${pr.name} Madeira`)}`;
+  const items = [
+    { label: 'Google', icon: 'google.svg', href: `https://www.google.com/search?q=${encoded}` },
+    { label: 'Maps', icon: 'googlemaps.svg', href: mapsHref },
+    { label: 'YouTube', icon: 'youtube.svg', href: `https://www.youtube.com/results?search_query=${encoded}` },
+    { label: 'Instagram', icon: 'instagram.svg', href: `https://www.instagram.com/explore/search/keyword/?q=${encoded}` },
+    { label: 'Komoot', icon: 'komoot.svg', href: `https://www.komoot.com/search?q=${encoded}` },
+    { label: 'Strava', icon: 'strava.svg', href: `https://www.google.com/search?q=${encodeURIComponent(`site:strava.com/routes ${query}`)}` }
+  ];
+
+  return items.map(item => `
+    <a class="external-link" href="${escapeHtml(item.href)}" target="_blank" rel="noopener" aria-label="${escapeHtml(item.label)} Suche">
+      <img src="assets/platforms/${escapeHtml(item.icon)}" alt="" />
+      <span>${escapeHtml(item.label)}</span>
+    </a>`).join('');
 }
 
 function fmt(value, suffix = '') {
