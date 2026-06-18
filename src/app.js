@@ -25,11 +25,7 @@ export async function loadData() {
 
 function renderTopbar() {
   $('#topbar').innerHTML = `
-    <div class="brand"><span></span><strong>PR-Explorer</strong></div>
-    <div class="top-actions">
-      <button class="icon-btn text-btn" data-action="fit" aria-label="Alle Pins">Pins</button>
-      <button class="icon-btn text-btn" data-action="journal" aria-label="Journal">Liste</button>
-    </div>`;
+    <div class="brand"><span></span><strong>PR-Explorer</strong></div>`;
 
   $('#topbar').addEventListener('click', event => {
     const action = event.target.closest('[data-action]')?.dataset.action;

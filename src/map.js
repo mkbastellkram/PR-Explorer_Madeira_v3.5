@@ -1,13 +1,23 @@
 import { state, filteredPrs } from './state.js';
 
 let map;
-let renderer;
 let pinLayer;
 let gpxLayer;
 let kmlLayer;
 let endpointLayer;
 let openPrCallback;
 let activeBaseLayer = 'osm';
+
+const mapStyle = {
+  pinScale: 1.12,
+  activePinScale: 1.42,
+  activeLineWeight: 5,
+  inactiveLineWeight: 2,
+  lineHaloWeight: 0.8,
+  lineHaloColor: '#ffffff',
+  gpxColor: '#ff453a',
+  kmlColor: '#0a84ff'
+};
 
 const baseLayers = new Map();
 const BASE_LAYER_CONFIG = {
@@ -31,12 +41,10 @@ const BASE_LAYER_CONFIG = {
 export function initMap(onOpenPr) {
   if (!window.L) throw new Error('Leaflet is not available');
   openPrCallback = onOpenPr;
-  renderer = L.canvas({ padding: 0.5 });
 
   map = L.map('map', {
     zoomControl: false,
     attributionControl: true,
-    preferCanvas: true,
     zoomAnimation: false,
     fadeAnimation: false,
     markerZoomAnimation: false,
@@ -69,13 +77,12 @@ export function renderPins() {
 
   filteredPrs().forEach(pr => {
     if (!Number.isFinite(pr.lat) || !Number.isFinite(pr.lon)) return;
-    const marker = L.circleMarker([pr.lat, pr.lon], {
-      renderer,
-      radius: state.activeId === pr.id ? 10 : 7,
-      color: '#ffffff',
-      weight: 2,
-      fillColor: statusColor(pr.status),
-      fillOpacity: 0.94
+    const isActive = state.activeId === pr.id;
+    const faded = Boolean(state.activeId && !isActive);
+    const marker = L.marker([pr.lat, pr.lon], {
+      icon: createPrFlag(pr, isActive, faded),
+      zIndexOffset: isActive ? 10000 : faded ? -100 : 0,
+      riseOnHover: true
     });
     marker.bindTooltip(`${pr.displayId} - ${pr.name}`);
     marker.on('click', () => openPrCallback(pr.id));
@@ -126,8 +133,8 @@ export async function showPrOnMap(id) {
   if (!pr) return;
 
   const bounds = [];
-  if (pr.route?.file) bounds.push(...await drawFile(pr.route.file, kmlLayer, '#0a84ff', 'KML'));
-  if (pr.track?.file) bounds.push(...await drawFile(pr.track.file, gpxLayer, '#ff453a', 'GPX'));
+  if (pr.route?.file) bounds.push(...await drawFile(pr.route.file, kmlLayer, mapStyle.kmlColor, 'KML', true));
+  if (pr.track?.file) bounds.push(...await drawFile(pr.track.file, gpxLayer, mapStyle.gpxColor, 'GPX', true));
   if (!bounds.length && Number.isFinite(pr.lat) && Number.isFinite(pr.lon)) bounds.push([pr.lat, pr.lon]);
 
   if (bounds.length) {
@@ -140,7 +147,7 @@ export async function showPrOnMap(id) {
   }
 }
 
-async function drawFile(file, layer, color, label) {
+async function drawFile(file, layer, color, label, active) {
   try {
     const data = await fetch(file, { cache: 'force-cache' }).then(res => res.json());
     const raw = (data.points || [])
@@ -148,11 +155,22 @@ async function drawFile(file, layer, color, label) {
       .filter(point => Number.isFinite(point[0]) && Number.isFinite(point[1]));
     const segments = splitSegments(raw);
     const drawn = [];
+    const weight = active ? mapStyle.activeLineWeight : mapStyle.inactiveLineWeight;
 
     segments.forEach(segment => {
       if (segment.length < 2) return;
-      L.polyline(segment, { renderer, color: '#ffffff', weight: 7, opacity: 0.42, interactive: false }).addTo(layer);
-      L.polyline(segment, { renderer, color, weight: 4, opacity: 0.92, interactive: false }).addTo(layer);
+      L.polyline(segment, {
+        color: mapStyle.lineHaloColor,
+        weight: weight + mapStyle.lineHaloWeight * 2,
+        opacity: active ? 0.85 : 0.24,
+        interactive: false
+      }).addTo(layer);
+      L.polyline(segment, {
+        color,
+        weight,
+        opacity: active ? 0.94 : 0.24,
+        interactive: false
+      }).addTo(layer);
       drawn.push(...segment);
     });
     addEndpoints(drawn, color, label);
@@ -161,6 +179,31 @@ async function drawFile(file, layer, color, label) {
     console.warn('Could not draw route file', file, error);
     return [];
   }
+}
+
+function createPrFlag(pr, active, faded) {
+  const scale = active ? mapStyle.activePinScale : mapStyle.pinScale;
+  const difficulty = difficultyStyle(pr.difficulty);
+  const status = statusStyle(pr.status);
+  const activity = activityBadge(pr.activity || pr.planStatus || '');
+  const className = `pr-flag ${active ? 'active' : ''} ${faded ? 'faded' : ''}`;
+  const html = `
+    <span class="${className}" style="--pin-bg:${difficulty.bg};--pin-fg:${difficulty.fg};--pin-scale:${scale}">
+      <span class="badge status" style="background:${status}"></span>
+      <span class="badge activity ${activity ? '' : 'empty'}" style="background:${activity?.bg || 'transparent'}">${activity?.label || ''}</span>
+      ${escapeHtml(compactPrNumber(pr.displayId))}
+    </span>`;
+
+  return L.divIcon({
+    className: 'pr-flag-icon',
+    html,
+    iconSize: [Math.ceil(54 * scale), Math.ceil(34 * scale)],
+    iconAnchor: [Math.ceil(27 * scale), Math.ceil(17 * scale)]
+  });
+}
+
+function compactPrNumber(displayId) {
+  return String(displayId || '').replace(/^PR\s*/i, '');
 }
 
 function splitSegments(points, maxJumpKm = 1.5) {
@@ -191,7 +234,7 @@ function addEndpoints(points, color, label) {
 }
 
 function addEndpoint(point, color, label, radius) {
-  const marker = L.circleMarker(point, { renderer, radius, color: '#ffffff', weight: 2, fillColor: color, fillOpacity: 1 });
+  const marker = L.circleMarker(point, { radius, color: '#ffffff', weight: 2, fillColor: color, fillOpacity: 1 });
   marker.bindTooltip(label);
   marker.addTo(endpointLayer);
 }
@@ -218,6 +261,38 @@ function getBottomPadding() {
   return Math.ceil(window.innerHeight - sheet.top + 22);
 }
 
+function difficultyStyle(value = '') {
+  const s = normalize(value);
+  if (s.includes('schwer')) return { bg: '#ff453a', fg: '#ffffff' };
+  if (s.includes('mittel')) return { bg: '#ffd166', fg: '#142426' };
+  if (s.includes('leicht')) return { bg: '#35d49f', fg: '#082224' };
+  return { bg: '#7dd8ff', fg: '#061b1d' };
+}
+
+function statusStyle(value = '') {
+  const s = normalize(value);
+  if (s.includes('closed') || s.includes('geschlossen')) return '#ff453a';
+  if (s.includes('restricted') || s.includes('eingeschraenkt') || s.includes('eingeschrankt')) return '#ffd166';
+  if (s.includes('open') || s.includes('geoeffnet') || s.includes('geoffnet')) return '#35d49f';
+  return '#8fa2a0';
+}
+
+function activityBadge(value = '') {
+  const s = normalize(value);
+  if (s.includes('favorit')) return { bg: '#050708', label: 'H' };
+  if (s.includes('geplant')) return { bg: '#ff2d55', label: 'H' };
+  if (s.includes('gebucht')) return { bg: '#ffd166', label: '*' };
+  return null;
+}
+
+function normalize(value) {
+  return String(value || '').toLowerCase()
+    .replaceAll('ä', 'ae')
+    .replaceAll('ö', 'oe')
+    .replaceAll('ü', 'ue')
+    .replaceAll('ß', 'ss');
+}
+
 function distanceKm(a, b) {
   const radius = 6371.0088;
   const p1 = a[0] * Math.PI / 180;
@@ -228,10 +303,6 @@ function distanceKm(a, b) {
   return 2 * radius * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
 }
 
-function statusColor(status = '') {
-  const s = String(status).toLowerCase();
-  if (s.includes('closed')) return '#ff453a';
-  if (s.includes('restricted')) return '#ffd166';
-  if (s.includes('open')) return '#35d49f';
-  return '#38d5bd';
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
 }

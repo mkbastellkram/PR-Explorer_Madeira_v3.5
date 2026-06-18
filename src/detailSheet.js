@@ -74,6 +74,7 @@ function bindGestures(sheet, openAdjacent) {
 
   sheet.addEventListener('pointerdown', event => {
     if (event.target.closest('button, a')) return;
+    if (sheet.classList.contains('expanded') && event.target.closest('.sheet-body')) return;
     active = true;
     axis = '';
     sx = event.clientX;
@@ -90,7 +91,7 @@ function bindGestures(sheet, openAdjacent) {
     const ay = Math.abs(dy);
 
     if (!axis) {
-      if (ay > 14 && ay > ax * 1.2) axis = 'y';
+      if (ay > 16 && ay > ax * 1.24) axis = 'y';
       else if (ax > 24 && ax > ay * 1.2 && sheet.classList.contains('peek')) axis = 'x';
       else return;
       sheet.classList.add('dragging');
@@ -99,7 +100,7 @@ function bindGestures(sheet, openAdjacent) {
     event.preventDefault();
     if (axis === 'y') {
       const min = Math.max(260, window.innerHeight * 0.32);
-      const max = Math.min(window.innerHeight * 0.78, window.innerHeight - 72);
+      const max = window.innerHeight - currentExpandedTop() - currentSheetBottom();
       sheet.style.height = `${Math.max(min, Math.min(max, startHeight - dy))}px`;
     }
     if (axis === 'x') sheet.style.setProperty('--drag-x', `${Math.max(-220, Math.min(220, dx))}px`);
@@ -115,7 +116,11 @@ function bindGestures(sheet, openAdjacent) {
       setTimeout(() => openAdjacent(dx < 0 ? 1 : -1), 130);
       return;
     }
-    if (axis === 'y') setState(sheet, dy < -52 ? 'expanded' : 'peek');
+    if (axis === 'y') {
+      const height = sheet.getBoundingClientRect().height;
+      const midpoint = window.innerHeight * 0.56;
+      setState(sheet, dy < -52 || height > midpoint ? 'expanded' : 'peek');
+    }
     sheet.style.removeProperty('--drag-x');
   });
 }
@@ -123,8 +128,18 @@ function bindGestures(sheet, openAdjacent) {
 function setState(sheet, mode) {
   sheet.classList.toggle('expanded', mode === 'expanded');
   sheet.classList.toggle('peek', mode !== 'expanded');
-  if (mode === 'expanded') sheet.style.height = `min(78dvh, calc(100dvh - env(safe-area-inset-top) - 72px))`;
+  if (mode === 'expanded') sheet.style.height = `${window.innerHeight - currentExpandedTop() - currentSheetBottom()}px`;
   else sheet.style.removeProperty('height');
+}
+
+function currentExpandedTop() {
+  return Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sheet-expanded-top')) || 0;
+}
+
+function currentSheetBottom() {
+  const nav = document.querySelector('#nav')?.getBoundingClientRect();
+  if (nav) return Math.max(66, window.innerHeight - nav.top + 8);
+  return 66;
 }
 
 function link(href, label) {
