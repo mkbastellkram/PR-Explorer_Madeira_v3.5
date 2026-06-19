@@ -9,6 +9,8 @@ import { normalizePois } from './poiModel.js';
 import { openRoutingPanel, PRXRoutingLive } from './routingLive.js';
 
 const $ = selector => document.querySelector(selector);
+const SPLASH_MIN_MS = 3000;
+const splashStartedAt = performance.now();
 
 export function toast(message) {
   const node = $('#toast');
@@ -775,7 +777,7 @@ async function boot() {
   renderPins();
   renderPois();
   renderView('map');
-  document.querySelector('#splash')?.classList.add('done');
+  finishSplash();
 }
 
 function routingTargets() {
@@ -806,6 +808,13 @@ function routingTargets() {
 
 boot().catch(error => {
   console.error(error);
-  document.querySelector('#splash')?.classList.add('done');
+  finishSplash();
   toast('V5 konnte nicht starten.');
 });
+
+function finishSplash() {
+  const remaining = Math.max(0, SPLASH_MIN_MS - (performance.now() - splashStartedAt));
+  window.setTimeout(() => {
+    document.querySelector('#splash')?.classList.add('done');
+  }, remaining);
+}
