@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "schema": "prx-osm-pois-v1",
+    "source": "OSM import sample",
+    "attribution": "OpenStreetMap contributors",
+    "generatedAt": null,
+    "bbox": {
+      "south": 32.6,
+      "west": -17.35,
+      "north": 33.15,
+      "east": -16.2
+    }
+  },
+  "pois": [
+    {
+      "id": "osm-node-1000001",
+      "osm_type": "node",
+      "osm_id": 1000001,
+      "category": "water",
+      "subcategory": "drinking_water",
+      "name": "Drinking water sample",
+      "lat": 32.7359,
+      "lon": -16.8872,
+      "tags": {
+        "amenity": "drinking_water",
+        "access": "yes"
+      },
+      "source": "osm",
+      "source_updated_at": null
+    },
+    {
+      "id": "osm-node-1000002",
+      "osm_type": "node",
+      "osm_id": 1000002,
+      "category": "parking",
+      "subcategory": "parking",
+      "name": "Parking sample",
+      "lat": 32.7835,
+      "lon": -16.9071,
+      "tags": {
+        "amenity": "parking"
+      },
+      "source": "osm",
+      "source_updated_at": null
+    },
+    {
+      "id": "osm-node-1000003",
+      "osm_type": "node",
+      "osm_id": 1000003,
+      "category": "viewpoint",
+      "subcategory": "viewpoint",
+      "name": "Viewpoint sample",
+      "lat": 32.736,
+      "lon": -16.887,
+      "tags": {
+        "tourism": "viewpoint"
+      },
+      "source": "osm",
+      "source_updated_at": null
+    }
+  ]
+}

@@ -80,7 +80,7 @@ function renderPoiCategories(backdrop) {
   const host = backdrop.querySelector('#poiCategories');
   host.innerHTML = poiCategoryDefinitions()
     .map(category => `<button class="chip ${state.poiFilters.categories.has(category.id) ? 'active' : ''}" data-poi-category="${escapeHtml(category.id)}">${escapeHtml(category.icon)} ${escapeHtml(category.label)}</button>`)
-    .join('');
+    .join('') + `<div class="poi-attribution">${state.osmPoiMeta ? 'OSM POIs geladen - OpenStreetMap contributors' : 'OSM POI-Datei optional: data/osm-pois.json'}</div>`;
   host.querySelectorAll('[data-poi-category]').forEach(button => {
     button.addEventListener('click', () => {
       togglePoiCategory(button.dataset.poiCategory);

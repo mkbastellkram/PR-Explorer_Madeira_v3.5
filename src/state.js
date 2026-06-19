@@ -4,6 +4,7 @@ const SETTINGS_KEY = 'prx.v5.settings';
 export const state = {
   data: null,
   pois: [],
+  osmPoiMeta: null,
   view: 'journal',
   activeId: null,
   heatmapMode: false,

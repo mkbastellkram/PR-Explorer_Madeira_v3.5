@@ -93,7 +93,7 @@ export function renderPois() {
         zIndexOffset: -250,
         riseOnHover: true
       });
-      marker.bindTooltip(`${poi.name} · ${poi.label}`);
+      marker.bindTooltip(`${poi.name} - ${poi.label} - ${poi.sourceLayer === 'osm' ? 'OSM' : 'PRX'}`);
       marker.addTo(poiLayer);
     });
 }
@@ -280,7 +280,7 @@ function createPrDot(pr) {
 }
 
 function createPoiIcon(poi) {
-  const html = `<span class="poi-dot" style="--poi-color:${poi.color}"><span>${escapeHtml(poi.icon)}</span></span>`;
+  const html = `<span class="poi-dot ${poi.sourceLayer === 'osm' ? 'osm' : 'prx'}" style="--poi-color:${poi.color}"><span>${escapeHtml(poi.icon)}</span></span>`;
   return L.divIcon({
     className: 'poi-icon',
     html,

@@ -2,7 +2,7 @@ import { categoryAliases, poiCategories } from '../data/poi-catalog.js';
 
 const categoryById = new Map(poiCategories.map(category => [category.id, category]));
 
-export function normalizePois(rawPois = []) {
+export function normalizePois(rawPois = [], options = {}) {
   return rawPois
     .map((poi, index) => {
       const lat = Number(poi.lat ?? poi.latitude);
@@ -10,6 +10,7 @@ export function normalizePois(rawPois = []) {
       if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
       const category = normalizeCategory(poi.category || poi.subcategory || poi.feature_tags || '');
       const definition = categoryById.get(category) || categoryById.get('landscape');
+      const source = poi.source || options.source || poi.source_basis || 'PRX curated';
       return {
         id: poi.id || `poi-${index}`,
         osmType: poi.osm_type || poi.osmType || '',
@@ -23,7 +24,8 @@ export function normalizePois(rawPois = []) {
         shortText: poi.short_150 || poi.shortText || poi.detail_280 || '',
         detailText: poi.detail_280 || poi.detailText || '',
         googleMaps: poi.google_maps || poi.googleMaps || '',
-        source: poi.source || poi.source_basis || 'PRX curated',
+        source,
+        sourceLayer: options.layer || (source === 'osm' ? 'osm' : 'prx'),
         sourceUpdatedAt: poi.source_updated_at || '',
         tags: poi.tags || {},
         icon: definition?.icon || '•',
@@ -44,6 +46,7 @@ export function poiCategoryDefinitions() {
 
 function normalizeCategory(value = '') {
   const normalized = String(value).toLowerCase();
+  if (categoryById.has(normalized)) return normalized;
   const alias = categoryAliases.find(item => item.match.some(part => normalized.includes(part)));
   return alias?.category || 'landscape';
 }
