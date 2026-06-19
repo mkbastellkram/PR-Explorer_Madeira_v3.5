@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { loadUserState, state, filteredPrs, prUserState, durationToMinutes } from './state.js';
+import { loadUserState, state, filteredPrs, prUserState, durationToMinutes, setTripSettingValue } from './state.js';
 import { getBaseLayers, getMap, initMap, renderPins, renderPois, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute, toggleHeatmapMode, renderHeatmap } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
@@ -161,7 +161,7 @@ export function renderView(view) {
     $('#view').innerHTML = '';
     setTimeout(fitAll, 60);
   }
-  if (view === 'dashboard') renderDashboard();
+  if (view === 'dashboard') renderSettings();
   if (view === 'overview') renderDashboard();
   if (view === 'options') openFilterSheet(handleFiltersChanged);
   if (view === 'trip') renderCalendar();
@@ -210,6 +210,97 @@ function renderDashboard() {
         <div><strong>${counts.pois}</strong><span>POIs</span></div>
       </div>
     </section>`;
+}
+
+function renderSettings() {
+  const s = state.tripSettings;
+  const hasOrsKey = Boolean(localStorage.getItem('prx.v5.orsKey'));
+  $('#view').innerHTML = `
+    <section class="panel-list">
+      <div class="journal-head">
+        <div>
+          <h1>Einstellungen</h1>
+          <p>${VERSION.label} - zentrale Planung, Karte und System</p>
+        </div>
+      </div>
+      <div class="settings-list">
+        <section class="settings-card">
+          <header><strong>Reisezeit</strong><span>Basis fuer Kalender und Tagesplanung</span></header>
+          <div class="settings-fields two">
+            ${settingsDate('vacationStart', 'Urlaub vom', s.vacationStart)}
+            ${settingsDate('vacationEnd', 'Urlaub bis', s.vacationEnd)}
+          </div>
+        </section>
+        <section class="settings-card">
+          <header><strong>Unterkunft</strong><span>Startpunkt fuer Anfahrten vorbereiten</span></header>
+          <div class="settings-fields">
+            ${settingsText('accommodationName', 'Name / Adresse', s.accommodationName, 'z.B. Pestana Promenade, Funchal')}
+          </div>
+          <div class="settings-fields two">
+            ${settingsText('accommodationLat', 'Latitude', s.accommodationLat, '32.64...')}
+            ${settingsText('accommodationLon', 'Longitude', s.accommodationLon, '-16.92...')}
+          </div>
+          <button class="settings-action" data-settings-action="maps-search">In Google Maps suchen</button>
+        </section>
+        <section class="settings-card">
+          <header><strong>Routing</strong><span>${hasOrsKey ? 'ORS-Key lokal gespeichert' : 'ORS-Key noch nicht gespeichert'}</span></header>
+          <div class="settings-actions">
+            <button data-settings-action="routing">Live Routing oeffnen</button>
+            <a href="https://openrouteservice.org/dev/" target="_blank" rel="noopener">ORS-Key holen</a>
+          </div>
+        </section>
+        <section class="settings-card">
+          <header><strong>Karte, Filter und POI</strong><span>Linien, Regionen, POI-Ebenen und Reiseparameter</span></header>
+          <div class="settings-actions">
+            <button data-settings-action="filters">Filter & Kartenstil</button>
+            <button data-settings-action="info">Info Center</button>
+          </div>
+        </section>
+        <section class="settings-card">
+          <header><strong>Offline</strong><span>Noch nicht aktiv</span></header>
+          <p>Die App nutzt aktuell Browser-Cache und GitHub Pages. Ein echter Service Worker mit definierter Offline-Dateiliste fehlt noch.</p>
+        </section>
+        <section class="settings-card">
+          <header><strong>Google Kalender</strong><span>Vorbereitet, aber noch nicht synchronisiert</span></header>
+          <p>Die lokale Kalenderansicht speichert Termine, Notizen und POIs. Der naechste Schritt ist Export oder echte Google-Calendar-Verdrahtung.</p>
+        </section>
+      </div>
+    </section>`;
+
+  $('#view').querySelectorAll('[data-trip-text]').forEach(input => {
+    input.addEventListener('change', () => {
+      setTripSettingValue(input.dataset.tripText, input.value);
+      renderSettings();
+    });
+  });
+  $('#view').querySelectorAll('[data-settings-action]').forEach(button => {
+    button.addEventListener('click', event => {
+      const action = event.currentTarget.dataset.settingsAction;
+      if (action === 'routing') openRoutingPanel();
+      if (action === 'filters') openFilterSheet(handleFiltersChanged);
+      if (action === 'info') openInfoCenter(openPr);
+      if (action === 'maps-search') {
+        const query = state.tripSettings.accommodationName || 'Hotel Madeira';
+        window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank', 'noopener');
+      }
+    });
+  });
+}
+
+function settingsText(key, label, value, placeholder = '') {
+  return `
+    <label>
+      <span>${escapeHtml(label)}</span>
+      <input data-trip-text="${escapeHtml(key)}" type="text" value="${escapeHtml(value)}" placeholder="${escapeHtml(placeholder)}" />
+    </label>`;
+}
+
+function settingsDate(key, label, value) {
+  return `
+    <label>
+      <span>${escapeHtml(label)}</span>
+      <input data-trip-text="${escapeHtml(key)}" type="date" value="${escapeHtml(value)}" />
+    </label>`;
 }
 
 function navButton(view, label, iconSvg) {

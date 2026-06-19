@@ -38,7 +38,12 @@ export const state = {
     startupMinutes: 10,
     parkingMinutes: 10,
     walkToStartMinutes: 5,
-    fuelReserveFactor: 1.15
+    fuelReserveFactor: 1.15,
+    vacationStart: '',
+    vacationEnd: '',
+    accommodationName: '',
+    accommodationLat: '',
+    accommodationLon: ''
   }
 };
 
@@ -68,6 +73,11 @@ export function loadUserState() {
 
 export function setTripSetting(key, value) {
   state.tripSettings[key] = Number(value);
+  saveSettings();
+}
+
+export function setTripSettingValue(key, value) {
+  state.tripSettings[key] = String(value ?? '').slice(0, 240);
   saveSettings();
 }
 
