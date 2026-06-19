@@ -206,7 +206,7 @@ function renderTrip() {
         ${tripKpi('Kosten', fmt(stats.fuelCost, ' EUR'))}
       </div>
       <div class="trip-cost-note">
-        Kraftstoff grob: ${fmt(stats.fuelLiters, ' l')} bei 7,0 l/100 km und 1,80 EUR/l. Werte spaeter ueber Optionen einstellbar.
+        Kraftstoff: ${fmt(stats.fuelLiters, ' l')} bei ${fmt(state.tripSettings.fuelLitersPer100Km, ' l/100 km')} und ${fmt(state.tripSettings.fuelPricePerLiter, ' EUR/l')}. Fahrzeit mit Madeira-Faktor ${fmt(state.tripSettings.driveTimeFactor, 'x')}.
       </div>
       <div class="trip-list">
         ${groups.map(renderTripGroup).join('') || '<div class="empty">Noch keine Favoriten, geplanten oder gebuchten PRs.</div>'}
@@ -233,7 +233,7 @@ function renderTripGroup(group) {
             <span class="trip-mark">${activityEmoji(user.activity)}</span>
             <span class="trip-main">
               <strong>${escapeHtml(pr.displayId)} - ${escapeHtml(pr.name)}</strong>
-              <em>${fmt((Number(pr.driveKm) || 0) * 2, ' km')} Hin/Rueck - ${fmt((Number(pr.driveMin) || 0) * 2 / 60, ' h')} Fahrt - ${fmt(pr.distanceKm, ' km')} PR</em>
+              <em>${fmt((Number(pr.driveKm) || 0) * 2, ' km')} Hin/Rueck - ${fmt(adjustedDriveMinutes(pr) / 60, ' h')} gesamt - ${fmt(pr.distanceKm, ' km')} PR</em>
             </span>
           </button>`).join('')}
       </div>
@@ -272,14 +272,23 @@ function makeTripGroup(title, items, badge) {
 
 function tripStats(items) {
   const driveKm = items.reduce((sum, item) => sum + (Number(item.pr.driveKm) || 0) * 2, 0);
-  const driveHours = items.reduce((sum, item) => sum + (Number(item.pr.driveMin) || 0) * 2 / 60, 0);
-  const fuelLiters = driveKm * 0.07;
+  const driveHours = items.reduce((sum, item) => sum + adjustedDriveMinutes(item.pr) / 60, 0);
+  const fuelLiters = driveKm * state.tripSettings.fuelLitersPer100Km / 100;
   return {
     driveKm,
     driveHours,
     fuelLiters,
-    fuelCost: fuelLiters * 1.8
+    fuelCost: fuelLiters * state.tripSettings.fuelPricePerLiter,
+    minimumRangeKm: driveKm * state.tripSettings.fuelReserveFactor
   };
+}
+
+function adjustedDriveMinutes(pr) {
+  const baseRoundTrip = (Number(pr.driveMin) || 0) * 2;
+  return baseRoundTrip * state.tripSettings.driveTimeFactor +
+    state.tripSettings.startupMinutes +
+    state.tripSettings.parkingMinutes +
+    state.tripSettings.walkToStartMinutes;
 }
 
 function tripKpi(label, value) {
@@ -331,8 +340,8 @@ function openInfoPanel() {
           ${infoKpi('Wanderzeit', fmt(stats.walkHours, ' h'), 'Summe')}
           ${infoKpi('Fahr-km', fmt(stats.driveKmRound, ' km'), 'hin+rueck')}
           ${infoKpi('Fahrzeit', fmt(stats.driveHoursRound, ' h'), 'hin+rueck')}
-          ${infoKpi('Kraftstoff', fmt(stats.fuelLiters, ' l'), '7,0 l/100')}
-          ${infoKpi('Kosten', fmt(stats.fuelCost, ' EUR'), '1,80 EUR/l')}
+          ${infoKpi('Kraftstoff', fmt(stats.fuelLiters, ' l'), `${fmt(state.tripSettings.fuelLitersPer100Km, ' l/100')}`)}
+          ${infoKpi('Kosten', fmt(stats.fuelCost, ' EUR'), `${fmt(state.tripSettings.fuelPricePerLiter, ' EUR/l')}`)}
         </div>
         <div class="bubble-card">
           <strong>PR-Profil</strong>
@@ -356,8 +365,8 @@ function selectionStats(prs) {
   const walkMinutes = prs.reduce((sum, pr) => sum + (durationToMinutes(pr.duration) || 0), 0);
   const elevationGain = prs.reduce((sum, pr) => sum + (Number(pr.elevationGain) || 0), 0);
   const driveKmRound = prs.reduce((sum, pr) => sum + (Number(pr.driveKm) || 0) * 2, 0);
-  const driveHoursRound = prs.reduce((sum, pr) => sum + (Number(pr.driveMin) || 0) * 2 / 60, 0);
-  const fuelLiters = driveKmRound * 0.07;
+  const driveHoursRound = prs.reduce((sum, pr) => sum + adjustedDriveMinutes(pr) / 60, 0);
+  const fuelLiters = driveKmRound * state.tripSettings.fuelLitersPer100Km / 100;
   return {
     count: prs.length,
     walkKm,
@@ -366,7 +375,7 @@ function selectionStats(prs) {
     driveKmRound,
     driveHoursRound,
     fuelLiters,
-    fuelCost: fuelLiters * 1.8
+    fuelCost: fuelLiters * state.tripSettings.fuelPricePerLiter
   };
 }
 

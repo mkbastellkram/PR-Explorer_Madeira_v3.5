@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'prx.v5.prStates';
+const SETTINGS_KEY = 'prx.v5.settings';
 
 export const state = {
   data: null,
@@ -24,6 +25,15 @@ export const state = {
     lineHaloColor: '#ffffff',
     gpxColor: '#ff453a',
     kmlColor: '#0a84ff'
+  },
+  tripSettings: {
+    fuelLitersPer100Km: 7,
+    fuelPricePerLiter: 1.8,
+    driveTimeFactor: 1.2,
+    startupMinutes: 10,
+    parkingMinutes: 10,
+    walkToStartMinutes: 5,
+    fuelReserveFactor: 1.15
   }
 };
 
@@ -34,6 +44,26 @@ export function loadUserState() {
   } catch {
     state.prStates = {};
   }
+  try {
+    const rawSettings = localStorage.getItem(SETTINGS_KEY);
+    const settings = rawSettings ? JSON.parse(rawSettings) : {};
+    state.tripSettings = { ...state.tripSettings, ...settings.tripSettings };
+    state.mapStyle = { ...state.mapStyle, ...settings.mapStyle };
+  } catch {
+    // Keep defaults.
+  }
+}
+
+export function setTripSetting(key, value) {
+  state.tripSettings[key] = Number(value);
+  saveSettings();
+}
+
+export function saveSettings() {
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify({
+    tripSettings: state.tripSettings,
+    mapStyle: state.mapStyle
+  }));
 }
 
 export function prUserState(id) {

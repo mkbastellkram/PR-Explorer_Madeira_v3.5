@@ -1,4 +1,4 @@
-import { state, filteredPrs, metricValue, prsForRange, resetRangeFilters, setRangeFilter } from './state.js';
+import { saveSettings, setTripSetting, state, filteredPrs, metricValue, prsForRange, resetRangeFilters, setRangeFilter } from './state.js';
 
 const METRICS = [
   { key: 'driveKm', label: 'Anfahrt', unit: 'km', precision: 0 },
@@ -38,6 +38,10 @@ export function openFilterSheet(onChange) {
           <h2>Werte</h2>
           <div id="filterRanges"></div>
         </section>
+        <section>
+          <h2>Reise & Fahrzeug</h2>
+          <div id="tripControls"></div>
+        </section>
       </div>
       <footer>
         <button data-filter-reset>Zuruecksetzen</button>
@@ -62,6 +66,7 @@ function renderFilterControls(backdrop) {
   renderLineControls(backdrop);
   renderRegions(backdrop);
   renderRanges(backdrop);
+  renderTripControls(backdrop);
   backdrop.querySelector('#filterCount').textContent = `${filteredPrs().length} PRs sichtbar`;
 }
 
@@ -79,6 +84,7 @@ function renderLineControls(backdrop) {
   host.querySelectorAll('[data-style-color]').forEach(input => {
     input.addEventListener('input', () => {
       state.mapStyle[input.dataset.styleColor] = input.value;
+      saveSettings();
       emitChange();
     });
   });
@@ -87,9 +93,40 @@ function renderLineControls(backdrop) {
       state.mapStyle[input.dataset.styleSlider] = Number(input.value);
       const label = host.querySelector(`[data-style-value="${input.dataset.styleSlider}"]`);
       if (label) label.textContent = `${formatNumber(Number(input.value), 1)} ${input.dataset.unit}`;
+      saveSettings();
       emitChange();
     });
   });
+}
+
+function renderTripControls(backdrop) {
+  const host = backdrop.querySelector('#tripControls');
+  const s = state.tripSettings;
+  host.innerHTML = `
+    ${tripSlider('fuelLitersPer100Km', 'Verbrauch', s.fuelLitersPer100Km, 4, 14, 0.1, 'l/100 km')}
+    ${tripSlider('fuelPricePerLiter', 'Kraftstoffpreis', s.fuelPricePerLiter, 1.2, 2.8, 0.05, 'EUR/l')}
+    ${tripSlider('driveTimeFactor', 'Madeira-Fahrzeitfaktor', s.driveTimeFactor, 1, 1.8, 0.05, 'x')}
+    ${tripSlider('startupMinutes', 'Startaufschlag', s.startupMinutes, 0, 30, 5, 'min')}
+    ${tripSlider('parkingMinutes', 'Parkplatzsuche', s.parkingMinutes, 0, 30, 5, 'min')}
+    ${tripSlider('walkToStartMinutes', 'Weg zum Start', s.walkToStartMinutes, 0, 30, 5, 'min')}
+    ${tripSlider('fuelReserveFactor', 'Reichweitenreserve', s.fuelReserveFactor, 1, 1.5, 0.05, 'x')}
+  `;
+  host.querySelectorAll('[data-trip-setting]').forEach(input => {
+    input.addEventListener('input', () => {
+      setTripSetting(input.dataset.tripSetting, input.value);
+      const label = host.querySelector(`[data-trip-value="${input.dataset.tripSetting}"]`);
+      if (label) label.textContent = `${formatNumber(Number(input.value), valuePrecision(input.step))} ${input.dataset.unit}`;
+      emitChange();
+    });
+  });
+}
+
+function tripSlider(key, label, value, min, max, step, unit) {
+  return `
+    <label class="style-slider">
+      <span>${label}<strong data-trip-value="${key}">${formatNumber(value, valuePrecision(step))} ${unit}</strong></span>
+      <input type="range" min="${min}" max="${max}" step="${step}" value="${value}" data-trip-setting="${key}" data-unit="${unit}" />
+    </label>`;
 }
 
 function colorControl(key, label, value) {
@@ -239,6 +276,11 @@ function formatMetric(metric, value) {
 
 function formatNumber(value, precision) {
   return String(Number(value).toFixed(precision)).replace(/\.0$/, '').replace('.', ',');
+}
+
+function valuePrecision(step) {
+  const raw = String(step);
+  return raw.includes('.') ? raw.split('.')[1].length : 0;
 }
 
 function emitChange() {
