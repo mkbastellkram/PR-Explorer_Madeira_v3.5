@@ -1,6 +1,6 @@
 import { VERSION } from './version.js';
 import { loadUserState, state, filteredPrs, prUserState } from './state.js';
-import { getBaseLayers, initMap, renderPins, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute } from './map.js';
+import { getBaseLayers, initMap, renderPins, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute, toggleHeatmapMode, renderHeatmap } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
 import { openFilterSheet } from './filterSheet.js';
@@ -37,7 +37,7 @@ function renderTopbar() {
     <div class="tool-cluster">
       <button class="icon-btn" data-action="fit" aria-label="Karte einpassen">${icon('zoom')}</button>
       <button class="icon-btn" data-action="journal" aria-label="Journal">${icon('grid')}</button>
-      <button class="icon-btn" data-action="map-options" aria-label="Filter">${icon('flame')}</button>
+      <button class="icon-btn" data-action="heatmap" aria-label="Heatmap">${icon('flame')}</button>
       <button class="icon-btn" data-action="info" aria-label="Info">${icon('info')}</button>
     </div>
     <div class="tool-cluster">
@@ -50,7 +50,12 @@ function renderTopbar() {
     if (action === 'fit') fitAll();
     if (action === 'journal') renderView('journal');
     if (action === 'share') toast('Teilen ist vorbereitet.');
-    if (action === 'map-options') openFilterSheet(handleFiltersChanged);
+    if (action === 'heatmap') {
+      toggleHeatmapMode().then(active => {
+        $('#topbar [data-action="heatmap"]')?.classList.toggle('active', active);
+        toast(active ? 'Heatmap: KML-Ueberlagerung aktiv.' : 'Heatmap aus.');
+      });
+    }
     if (action === 'settings') renderView('dashboard');
     if (action === 'info') toast(VERSION.label);
   });
@@ -214,6 +219,7 @@ function renderTrip() {
 
 function handleFiltersChanged() {
   renderPins();
+  renderHeatmap();
   redrawActiveRoute();
   if (state.view === 'map') {
     setTimeout(fitAll, 30);

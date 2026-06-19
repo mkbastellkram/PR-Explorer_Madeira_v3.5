@@ -5,6 +5,7 @@ let pinLayer;
 let gpxLayer;
 let kmlLayer;
 let endpointLayer;
+let heatmapLayer;
 let openPrCallback;
 let activeBaseLayer = 'osm';
 let redrawTimer = 0;
@@ -47,6 +48,7 @@ export function initMap(onOpenPr) {
   baseLayers.get(activeBaseLayer).addTo(map);
 
   pinLayer = L.layerGroup().addTo(map);
+  heatmapLayer = L.layerGroup().addTo(map);
   gpxLayer = L.layerGroup().addTo(map);
   kmlLayer = L.layerGroup().addTo(map);
   endpointLayer = L.layerGroup().addTo(map);
@@ -62,7 +64,7 @@ export function renderPins() {
   filteredPrs().forEach(pr => {
     if (!Number.isFinite(pr.lat) || !Number.isFinite(pr.lon)) return;
     const isActive = state.activeId === pr.id;
-    const faded = Boolean(state.activeId && !isActive);
+    const faded = Boolean((state.activeId || state.heatmapMode) && !isActive);
     const marker = L.marker([pr.lat, pr.lon], {
       icon: createPrFlag(pr, isActive, faded),
       zIndexOffset: isActive ? 10000 : faded ? -100 : 0,
@@ -126,6 +128,34 @@ export async function showPrOnMap(id) {
   }
 }
 
+export async function toggleHeatmapMode() {
+  state.heatmapMode = !state.heatmapMode;
+  await renderHeatmap();
+  renderPins();
+  return state.heatmapMode;
+}
+
+export async function renderHeatmap() {
+  if (!heatmapLayer) return;
+  heatmapLayer.clearLayers();
+  if (!state.heatmapMode) return;
+
+  const prs = filteredPrs().filter(pr => pr.route?.file);
+  const bounds = [];
+  for (const pr of prs) {
+    bounds.push(...await drawHeatmapFile(pr.route.file));
+  }
+
+  if (bounds.length && !state.activeId) {
+    map.fitBounds(bounds, {
+      paddingTopLeft: [28, getTopPadding()],
+      paddingBottomRight: [28, 128],
+      maxZoom: 12,
+      animate: false
+    });
+  }
+}
+
 async function drawFile(file, layer, color, label, active) {
   try {
     const data = await fetch(file, { cache: 'force-cache' }).then(res => res.json());
@@ -152,6 +182,41 @@ async function drawFile(file, layer, color, label, active) {
     return drawn;
   } catch (error) {
     console.warn('Could not draw route file', file, error);
+    return [];
+  }
+}
+
+async function drawHeatmapFile(file) {
+  try {
+    const data = await fetch(file, { cache: 'force-cache' }).then(res => res.json());
+    const raw = (data.points || [])
+      .map(point => [Number(point[0]), Number(point[1])])
+      .filter(point => Number.isFinite(point[0]) && Number.isFinite(point[1]));
+    const segments = splitSegments(raw);
+    const drawn = [];
+
+    segments.forEach(segment => {
+      if (segment.length < 2) return;
+      L.polyline(segment, {
+        color: '#36aaff',
+        weight: 12,
+        opacity: 0.18,
+        interactive: false,
+        className: 'heat-route-glow'
+      }).addTo(heatmapLayer);
+      L.polyline(segment, {
+        color: '#73d7ff',
+        weight: 5,
+        opacity: 0.34,
+        interactive: false,
+        className: 'heat-route-core'
+      }).addTo(heatmapLayer);
+      drawn.push(...segment);
+    });
+
+    return drawn;
+  } catch (error) {
+    console.warn('Could not draw heatmap route file', file, error);
     return [];
   }
 }

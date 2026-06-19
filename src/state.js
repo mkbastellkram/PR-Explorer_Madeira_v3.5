@@ -5,6 +5,7 @@ export const state = {
   pois: [],
   view: 'journal',
   activeId: null,
+  heatmapMode: false,
   prStates: {},
   filters: {
     q: '',
