@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { loadUserState, state, filteredPrs, prUserState } from './state.js';
+import { loadUserState, state, filteredPrs, prUserState, durationToMinutes } from './state.js';
 import { getBaseLayers, initMap, renderPins, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute, toggleHeatmapMode, renderHeatmap } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
@@ -57,7 +57,7 @@ function renderTopbar() {
       });
     }
     if (action === 'settings') renderView('dashboard');
-    if (action === 'info') toast(VERSION.label);
+    if (action === 'info') openInfoPanel();
   });
 }
 
@@ -226,6 +226,121 @@ function handleFiltersChanged() {
   } else if (state.view === 'journal') {
     renderJournal($('#view'), openPr);
   }
+}
+
+function openInfoPanel() {
+  document.querySelector('#infoPanel')?.remove();
+  const prs = filteredPrs();
+  const stats = selectionStats(prs);
+  const backdrop = document.createElement('div');
+  backdrop.id = 'infoPanel';
+  backdrop.className = 'info-backdrop';
+  backdrop.innerHTML = `
+    <section class="info-panel" role="dialog" aria-modal="true" aria-label="Karten-Statistik">
+      <header>
+        <div>
+          <strong>Karten-Info</strong>
+          <span>${escapeHtml(VERSION.label)} - aktuelle Filterauswahl</span>
+        </div>
+        <button type="button" data-close>&times;</button>
+      </header>
+      <div class="info-body">
+        <div class="info-kpis">
+          ${infoKpi('PRs', stats.count, 'sichtbar')}
+          ${infoKpi('Wander-km', fmt(stats.walkKm, ' km'), 'Summe')}
+          ${infoKpi('Hoehenmeter', fmt(stats.elevationGain, ' hm'), 'Summe')}
+          ${infoKpi('Wanderzeit', fmt(stats.walkHours, ' h'), 'Summe')}
+          ${infoKpi('Fahr-km', fmt(stats.driveKmRound, ' km'), 'hin+rueck')}
+          ${infoKpi('Fahrzeit', fmt(stats.driveHoursRound, ' h'), 'hin+rueck')}
+          ${infoKpi('Kraftstoff', fmt(stats.fuelLiters, ' l'), '7,0 l/100')}
+          ${infoKpi('Kosten', fmt(stats.fuelCost, ' EUR'), '1,80 EUR/l')}
+        </div>
+        <div class="bubble-card">
+          <strong>PR-Profil</strong>
+          ${bubbleChart(prs)}
+          <p>X = Dauer, Y = Hoehenmeter, Kreisgroesse = Distanz, Farbe = Schwierigkeit</p>
+        </div>
+      </div>
+    </section>`;
+  backdrop.addEventListener('click', event => {
+    if (event.target === backdrop || event.target.closest('[data-close]')) backdrop.remove();
+  });
+  document.body.append(backdrop);
+}
+
+function infoKpi(label, value, note) {
+  return `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong><em>${escapeHtml(note)}</em></div>`;
+}
+
+function selectionStats(prs) {
+  const walkKm = prs.reduce((sum, pr) => sum + numberOr(pr.track?.distanceKm, pr.distanceKm), 0);
+  const walkMinutes = prs.reduce((sum, pr) => sum + (durationToMinutes(pr.duration) || 0), 0);
+  const elevationGain = prs.reduce((sum, pr) => sum + (Number(pr.elevationGain) || 0), 0);
+  const driveKmRound = prs.reduce((sum, pr) => sum + (Number(pr.driveKm) || 0) * 2, 0);
+  const driveHoursRound = prs.reduce((sum, pr) => sum + (Number(pr.driveMin) || 0) * 2 / 60, 0);
+  const fuelLiters = driveKmRound * 0.07;
+  return {
+    count: prs.length,
+    walkKm,
+    walkHours: walkMinutes / 60,
+    elevationGain,
+    driveKmRound,
+    driveHoursRound,
+    fuelLiters,
+    fuelCost: fuelLiters * 1.8
+  };
+}
+
+function bubbleChart(prs) {
+  const rows = prs.map(pr => ({
+    id: pr.displayId,
+    hours: (durationToMinutes(pr.duration) || 0) / 60,
+    elevation: Number(pr.elevationGain) || 0,
+    distance: numberOr(pr.track?.distanceKm, pr.distanceKm),
+    difficulty: pr.difficulty
+  })).filter(row => row.hours > 0 || row.elevation > 0 || row.distance > 0);
+
+  if (!rows.length) return '<div class="empty">Keine Diagrammdaten in der aktuellen Auswahl.</div>';
+
+  const width = 640;
+  const height = 420;
+  const pad = { left: 54, top: 24, right: 22, bottom: 52 };
+  const maxHours = Math.max(1, ...rows.map(row => row.hours));
+  const maxElevation = Math.max(100, ...rows.map(row => row.elevation));
+  const maxDistance = Math.max(1, ...rows.map(row => row.distance));
+  const x = value => pad.left + (value / maxHours) * (width - pad.left - pad.right);
+  const y = value => height - pad.bottom - (value / maxElevation) * (height - pad.top - pad.bottom);
+  const r = value => 5 + Math.sqrt(value / maxDistance) * 16;
+  const gridY = [0, .25, .5, .75, 1].map(t => Math.round(maxElevation * t));
+  const gridX = [0, .25, .5, .75, 1].map(t => Math.round(maxHours * t * 10) / 10);
+
+  return `
+    <svg class="bubble-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="PR Bubble Chart">
+      <g class="chart-grid">
+        ${gridY.map(value => `<line x1="${pad.left}" y1="${y(value)}" x2="${width - pad.right}" y2="${y(value)}"></line><text x="${pad.left - 10}" y="${y(value) + 4}" text-anchor="end">${value}</text>`).join('')}
+        ${gridX.map(value => `<line x1="${x(value)}" y1="${pad.top}" x2="${x(value)}" y2="${height - pad.bottom}"></line><text x="${x(value)}" y="${height - 20}" text-anchor="middle">${String(value).replace('.', ',')}</text>`).join('')}
+      </g>
+      <line class="chart-axis" x1="${pad.left}" y1="${height - pad.bottom}" x2="${width - pad.right}" y2="${height - pad.bottom}"></line>
+      <line class="chart-axis" x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${height - pad.bottom}"></line>
+      ${rows.map(row => `<g class="bubble-point"><circle cx="${x(row.hours)}" cy="${y(row.elevation)}" r="${r(row.distance)}" fill="${difficultyColor(row.difficulty)}"></circle><text x="${x(row.hours) + r(row.distance) + 3}" y="${y(row.elevation) - 3}">${escapeHtml(row.id)}</text></g>`).join('')}
+      <text class="axis-label" x="${width / 2}" y="${height - 4}" text-anchor="middle">Dauer der Wanderung (h)</text>
+      <text class="axis-label" transform="translate(16 ${height / 2}) rotate(-90)" text-anchor="middle">Hoehenmeter laut Tabelle</text>
+    </svg>`;
+}
+
+function numberOr(primary, fallback) {
+  const first = Number(primary);
+  if (Number.isFinite(first)) return first;
+  const second = Number(fallback);
+  return Number.isFinite(second) ? second : 0;
+}
+
+function difficultyColor(value = '') {
+  const s = String(value || '').toLowerCase();
+  if (s.includes('schwer')) return '#ff5b6c';
+  if (s.includes('mittel')) return '#ffd24d';
+  if (s.includes('leicht')) return '#35d49f';
+  return '#9caab7';
 }
 
 function tripRank(user) {
