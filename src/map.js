@@ -93,7 +93,7 @@ export function renderPois() {
         zIndexOffset: -250,
         riseOnHover: true
       });
-      marker.bindTooltip(`${poi.name} - ${poi.label} - ${poi.sourceLayer === 'osm' ? 'OSM' : 'PRX'}`);
+      marker.bindTooltip(`${poi.name} - ${poi.label} - ${poiSourceLabel(poi)}`);
       marker.addTo(poiLayer);
     });
 }
@@ -287,6 +287,12 @@ function createPoiIcon(poi) {
     iconSize: [24, 24],
     iconAnchor: [12, 12]
   });
+}
+
+function poiSourceLabel(poi) {
+  if (poi.sourceLayer === 'osm') return 'OSM';
+  if (poi.sourceLayer === 'prx-feature') return 'PRX Feature';
+  return 'PRX';
 }
 
 function compactPrNumber(displayId) {

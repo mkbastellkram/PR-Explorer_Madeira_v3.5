@@ -27,9 +27,48 @@ export async function loadData() {
   state.data = prs;
   state.pois = [
     ...normalizePois(pois.pois || [], { layer: 'prx', source: 'prx' }),
+    ...normalizePois(featurePoisFromPrs(prs.prs || []), { layer: 'prx-feature', source: 'prx-feature' }),
     ...normalizePois(osmPois.pois || [], { layer: 'osm', source: 'osm' })
   ];
   state.osmPoiMeta = osmPois.meta || null;
+}
+
+function featurePoisFromPrs(prs = []) {
+  return prs.flatMap(pr => {
+    if (!Number.isFinite(pr.lat) || !Number.isFinite(pr.lon)) return [];
+    const text = [
+      pr.displayId,
+      pr.name,
+      pr.shortText,
+      pr.detailText,
+      ...(pr.featureTags || [])
+    ].join(' ').toLowerCase();
+    const features = [];
+
+    if (text.includes('tunnel')) {
+      features.push(routeFeaturePoi(pr, 'tunnel', 'Tunnel'));
+    }
+
+    if (text.includes('wasserfall') || text.includes('caldeir') || text.includes('risco')) {
+      features.push(routeFeaturePoi(pr, 'waterfall', 'Wasserfall-Kontext'));
+    }
+
+    return features;
+  });
+}
+
+function routeFeaturePoi(pr, category, label) {
+  return {
+    id: `feature-${pr.id}-${category}`,
+    category,
+    name: `${pr.displayId} ${label}`,
+    lat: pr.lat,
+    lon: pr.lon,
+    related_pr: pr.displayId,
+    short_150: `${label} aus PRX-Routendaten. Position ist der PR-Referenzpunkt, nicht zwingend der exakte Objektpunkt.`,
+    source: 'prx-feature',
+    tags: { route_feature: category, confidence: 'route-level' }
+  };
 }
 
 function renderTopbar() {

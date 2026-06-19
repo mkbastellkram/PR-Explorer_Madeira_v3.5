@@ -1,5 +1,6 @@
 const STORAGE_KEY = 'prx.v5.prStates';
 const SETTINGS_KEY = 'prx.v5.settings';
+const POI_CATALOG_VERSION = 2;
 
 export const state = {
   data: null,
@@ -10,7 +11,7 @@ export const state = {
   heatmapMode: false,
   prStates: {},
   poiFilters: {
-    categories: new Set(['viewpoint', 'trailhead', 'waterfall'])
+    categories: new Set(['viewpoint', 'trailhead', 'waterfall', 'tunnel'])
   },
   filters: {
     q: '',
@@ -54,6 +55,11 @@ export function loadUserState() {
     state.tripSettings = { ...state.tripSettings, ...settings.tripSettings };
     state.mapStyle = { ...state.mapStyle, ...settings.mapStyle };
     state.poiFilters.categories = new Set(settings.poiCategories || [...state.poiFilters.categories]);
+    if ((settings.poiCatalogVersion || 0) < POI_CATALOG_VERSION) {
+      state.poiFilters.categories.add('waterfall');
+      state.poiFilters.categories.add('tunnel');
+      saveSettings();
+    }
   } catch {
     // Keep defaults.
   }
@@ -68,7 +74,8 @@ export function saveSettings() {
   localStorage.setItem(SETTINGS_KEY, JSON.stringify({
     tripSettings: state.tripSettings,
     mapStyle: state.mapStyle,
-    poiCategories: [...state.poiFilters.categories]
+    poiCategories: [...state.poiFilters.categories],
+    poiCatalogVersion: POI_CATALOG_VERSION
   }));
 }
 
