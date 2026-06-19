@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.17',
-  name: 'Map Info Statistics',
-  label: 'V5.0.17 Map Info Statistics'
+  id: 'V5.0.18',
+  name: 'Info Center Foundation',
+  label: 'V5.0.18 Info Center Foundation'
 };

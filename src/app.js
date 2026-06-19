@@ -4,6 +4,7 @@ import { getBaseLayers, initMap, renderPins, setBaseLayer, showPrOnMap, fitAll, 
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
 import { openFilterSheet } from './filterSheet.js';
+import { openInfoCenter } from './infoCenter.js';
 
 const $ = selector => document.querySelector(selector);
 
@@ -57,7 +58,7 @@ function renderTopbar() {
       });
     }
     if (action === 'settings') renderView('dashboard');
-    if (action === 'info') openInfoPanel();
+    if (action === 'info') openInfoCenter(openPr);
   });
 }
 
