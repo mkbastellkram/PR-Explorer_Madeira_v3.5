@@ -132,6 +132,24 @@ p { color: var(--muted); line-height: 1.45; }
 .metrics strong { display: block; font-size: 28px; }
 .metrics span { color: var(--muted); }
 .trip-mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.055); font-size: 20px; }
+.trip-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 0 16px 12px; }
+.trip-summary div { min-height: 78px; border: 1px solid var(--line); border-radius: 16px; padding: 12px; background: rgba(255,255,255,.055); }
+.trip-summary span { display: block; color: var(--muted); font-size: 12px; font-weight: 800; }
+.trip-summary strong { display: block; margin-top: 6px; font-size: 24px; line-height: 1; }
+.trip-cost-note { margin: 0 16px 12px; border: 1px solid rgba(53,212,159,.24); border-radius: 16px; padding: 11px 12px; color: var(--muted); background: rgba(53,212,159,.065); font-size: 12px; line-height: 1.4; }
+.trip-list { display: grid; gap: 12px; padding: 0 12px 20px; }
+.trip-day { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: rgba(255,255,255,.045); }
+.trip-day header { min-height: 58px; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.trip-day header div { min-width: 0; flex: 1; }
+.trip-day header strong, .trip-day header span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.trip-day header span { margin-top: 3px; color: var(--muted); font-size: 12px; }
+.trip-day header em { flex: 0 0 auto; min-height: 28px; display: grid; place-items: center; border-radius: 14px; padding: 0 10px; color: var(--accent); background: rgba(53,212,159,.13); font-size: 12px; font-style: normal; font-weight: 850; }
+.trip-row { width: 100%; min-height: 72px; display: grid; grid-template-columns: 48px 42px 1fr; align-items: center; gap: 9px; padding: 10px 12px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--text); text-align: left; }
+.trip-row:last-child { border-bottom: 0; }
+.trip-time { color: var(--muted); font-size: 12px; font-weight: 850; }
+.trip-main { min-width: 0; }
+.trip-main strong, .trip-main em { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.trip-main em { margin-top: 5px; color: var(--muted); font-size: 12px; font-style: normal; }
 .toast { position: fixed; left: 18px; right: 18px; bottom: calc(env(safe-area-inset-bottom) + 84px); z-index: 80; border: 1px solid var(--line); border-radius: 16px; padding: 12px; text-align: center; background: var(--panel-strong); }
 
 .modal-backdrop { position: fixed; inset: 0; z-index: 90; display: grid; align-items: end; background: rgba(0,0,0,.28); pointer-events: auto; }

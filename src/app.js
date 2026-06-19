@@ -184,38 +184,116 @@ function icon(name) {
 }
 
 function renderTrip() {
-  const planned = (state.data?.prs || [])
+  const items = (state.data?.prs || [])
     .map(pr => ({ pr, user: prUserState(pr.id) }))
     .filter(item => ['booked', 'planned', 'favorite'].includes(item.user.activity))
     .sort((a, b) => tripRank(a.user) - tripRank(b.user) || scheduleTime(a.user).localeCompare(scheduleTime(b.user)) || Number(a.pr.number) - Number(b.pr.number));
-  const driveKm = planned.reduce((sum, item) => sum + (Number(item.pr.driveKm) || 0) * 2, 0);
+  const stats = tripStats(items);
+  const groups = tripGroups(items);
 
   $('#view').innerHTML = `
     <section class="panel-list">
       <div class="journal-head">
         <div>
           <h1>Reise</h1>
-          <p>${planned.length} gemerkte PRs - ${fmt(driveKm, ' km')} Hin/Rueck geschaetzt</p>
+          <p>${items.length} gemerkte PRs - ${fmt(stats.driveKm, ' km')} Hin/Rueck - ${fmt(stats.driveHours, ' h')} Fahrt</p>
         </div>
       </div>
-      <div class="list">
-        ${planned.map(({ pr, user }) => `
-          <button class="pr-row" data-trip-pr="${escapeHtml(pr.id)}">
-            <span class="trip-mark">${activityEmoji(user.activity)}</span>
-            <span class="pr-main">
-              <strong>${escapeHtml(pr.displayId)} - ${escapeHtml(pr.name)}</strong>
-              <em>${escapeHtml(scheduleLabel(user))} - ${fmt((Number(pr.driveKm) || 0) * 2, ' km')} Fahrt - ${fmt(pr.driveMin, ' min Google')}</em>
-            </span>
-            <span class="pr-status">${escapeHtml(user.activity)}</span>
-          </button>`).join('') || '<div class="empty">Noch keine Favoriten, geplanten oder gebuchten PRs.</div>'}
+      <div class="trip-summary">
+        ${tripKpi('PRs', items.length)}
+        ${tripKpi('Fahr-km', fmt(stats.driveKm, ' km'))}
+        ${tripKpi('Fahrzeit', fmt(stats.driveHours, ' h'))}
+        ${tripKpi('Kosten', fmt(stats.fuelCost, ' EUR'))}
       </div>
-      <div class="metrics">
-        <div><strong>${fmt(driveKm, '')}</strong><span>km Fahrt gesamt</span></div>
-        <div><strong>${planned.filter(item => item.user.activity === 'booked').length}</strong><span>gebucht</span></div>
+      <div class="trip-cost-note">
+        Kraftstoff grob: ${fmt(stats.fuelLiters, ' l')} bei 7,0 l/100 km und 1,80 EUR/l. Werte spaeter ueber Optionen einstellbar.
+      </div>
+      <div class="trip-list">
+        ${groups.map(renderTripGroup).join('') || '<div class="empty">Noch keine Favoriten, geplanten oder gebuchten PRs.</div>'}
       </div>
     </section>`;
 
   $('#view').querySelectorAll('[data-trip-pr]').forEach(row => row.addEventListener('click', () => openPr(row.dataset.tripPr)));
+}
+
+function renderTripGroup(group) {
+  return `
+    <section class="trip-day">
+      <header>
+        <div>
+          <strong>${escapeHtml(group.title)}</strong>
+          <span>${group.items.length} PRs - ${fmt(group.stats.driveKm, ' km')} - ${fmt(group.stats.driveHours, ' h')} Fahrt</span>
+        </div>
+        <em>${escapeHtml(group.badge)}</em>
+      </header>
+      <div>
+        ${group.items.map(({ pr, user }) => `
+          <button class="trip-row" data-trip-pr="${escapeHtml(pr.id)}">
+            <span class="trip-time">${escapeHtml(tripTime(user))}</span>
+            <span class="trip-mark">${activityEmoji(user.activity)}</span>
+            <span class="trip-main">
+              <strong>${escapeHtml(pr.displayId)} - ${escapeHtml(pr.name)}</strong>
+              <em>${fmt((Number(pr.driveKm) || 0) * 2, ' km')} Hin/Rueck - ${fmt((Number(pr.driveMin) || 0) * 2 / 60, ' h')} Fahrt - ${fmt(pr.distanceKm, ' km')} PR</em>
+            </span>
+          </button>`).join('')}
+      </div>
+    </section>`;
+}
+
+function tripGroups(items) {
+  const dated = new Map();
+  const favorites = [];
+  const unscheduled = [];
+
+  items.forEach(item => {
+    if (item.user.schedule?.date) {
+      const key = item.user.schedule.date;
+      if (!dated.has(key)) dated.set(key, []);
+      dated.get(key).push(item);
+    } else if (item.user.activity === 'favorite') {
+      favorites.push(item);
+    } else {
+      unscheduled.push(item);
+    }
+  });
+
+  const groups = [...dated.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([date, list]) => makeTripGroup(dateLabel(date), list.sort((a, b) => scheduleTime(a.user).localeCompare(scheduleTime(b.user))), 'Termin'));
+
+  if (unscheduled.length) groups.push(makeTripGroup('Termin offen', unscheduled, 'Planen'));
+  if (favorites.length) groups.push(makeTripGroup('Favoriten ohne Termin', favorites, 'Merkliste'));
+  return groups;
+}
+
+function makeTripGroup(title, items, badge) {
+  return { title, items, badge, stats: tripStats(items) };
+}
+
+function tripStats(items) {
+  const driveKm = items.reduce((sum, item) => sum + (Number(item.pr.driveKm) || 0) * 2, 0);
+  const driveHours = items.reduce((sum, item) => sum + (Number(item.pr.driveMin) || 0) * 2 / 60, 0);
+  const fuelLiters = driveKm * 0.07;
+  return {
+    driveKm,
+    driveHours,
+    fuelLiters,
+    fuelCost: fuelLiters * 1.8
+  };
+}
+
+function tripKpi(label, value) {
+  return `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`;
+}
+
+function dateLabel(date) {
+  const parts = String(date || '').split('-');
+  if (parts.length !== 3) return date || 'Termin';
+  return `${parts[2]}.${parts[1]}.${parts[0]}`;
+}
+
+function tripTime(user) {
+  return user.schedule ? `${user.schedule.hour}:${user.schedule.minute}` : '--:--';
 }
 
 function handleFiltersChanged() {

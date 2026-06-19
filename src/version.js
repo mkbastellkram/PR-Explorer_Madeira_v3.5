@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.19',
-  name: 'Manual Status Cycling',
-  label: 'V5.0.19 Manual Status Cycling'
+  id: 'V5.0.20',
+  name: 'Trip Planner V1',
+  label: 'V5.0.20 Trip Planner V1'
 };
