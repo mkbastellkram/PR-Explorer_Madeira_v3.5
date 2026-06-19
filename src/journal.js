@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { state, filteredPrs, prStatus, prUserState } from './state.js';
+import { state, filteredPrs, prImage, prStatus, prUserState } from './state.js';
 import { renderPins } from './map.js';
 
 export function renderJournal(host, openPr) {
@@ -88,8 +88,10 @@ function renderRow(pr) {
   const statusValue = prStatus(pr);
   const status = statusEmoji(statusValue);
   const activity = activityEmoji(user);
+  const image = prImage(pr);
   return `
     <button class="pr-row ${user.ignored ? 'ignored' : ''}" data-id="${pr.id}">
+      ${journalThumbnail(pr, image)}
       <span class="pr-code journal-flag" style="--pin-bg:${difficultyStyle(pr.difficulty).bg};--pin-fg:${difficultyStyle(pr.difficulty).fg}">
         <span class="status-emoji">${status}</span>
         <span class="activity ${activity ? '' : 'empty'}">${activity}</span>
@@ -101,6 +103,19 @@ function renderRow(pr) {
       </span>
       <span class="pr-status">${activity} ${escapeHtml(activityLabel(user) || statusLabel(statusValue))}</span>
     </button>`;
+}
+
+function journalThumbnail(pr, image) {
+  if (image) {
+    return `
+      <span class="pr-thumb">
+        <img src="${escapeHtml(image.thumbnail)}" alt="${escapeHtml(image.alt)}" loading="lazy" />
+      </span>`;
+  }
+  return `
+    <span class="pr-thumb placeholder" style="--thumb-hue:${thumbHue(pr)}">
+      <b>${escapeHtml(pr.displayId.replace('PR ', ''))}</b>
+    </span>`;
 }
 
 function sortByNumber(a, b) {
@@ -144,6 +159,10 @@ function difficultyStyle(value = '') {
   if (s.includes('mittel')) return { bg: '#ffd166', fg: '#142426' };
   if (s.includes('leicht')) return { bg: '#35d49f', fg: '#082224' };
   return { bg: '#7dd8ff', fg: '#061b1d' };
+}
+
+function thumbHue(pr) {
+  return (String(pr.displayId || '').split('').reduce((sum, char) => sum + char.charCodeAt(0), 0) * 17) % 360;
 }
 
 function fmt(value, suffix = '') {

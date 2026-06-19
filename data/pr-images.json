@@ -1,0 +1,8 @@
+{
+  "meta": {
+    "schema": 1,
+    "purpose": "Curated PR and attraction imagery. Only add own, explicitly permitted, or license-compatible images with credit/source metadata.",
+    "fields": ["thumbnail", "src", "alt", "credit", "license", "sourceUrl"]
+  },
+  "images": {}
+}

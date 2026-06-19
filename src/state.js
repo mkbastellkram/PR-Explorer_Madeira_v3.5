@@ -5,6 +5,7 @@ const POI_CATALOG_VERSION = 3;
 export const state = {
   data: null,
   pois: [],
+  images: {},
   osmPoiMeta: null,
   view: 'journal',
   activeId: null,
@@ -105,6 +106,21 @@ export function prUserState(id) {
     note: '',
     selectedPoiIds: [],
     ...state.prStates[id]
+  };
+}
+
+export function prImage(pr) {
+  const direct = pr?.image || null;
+  const catalog = state.images?.[pr?.id] || state.images?.[pr?.displayId] || null;
+  const image = direct || catalog;
+  if (!image?.thumbnail && !image?.src) return null;
+  return {
+    thumbnail: image.thumbnail || image.src,
+    src: image.src || image.thumbnail,
+    alt: image.alt || `${pr.displayId} ${pr.name}`,
+    credit: image.credit || '',
+    license: image.license || '',
+    sourceUrl: image.sourceUrl || ''
   };
 }
 

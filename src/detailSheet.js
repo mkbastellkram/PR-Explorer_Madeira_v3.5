@@ -1,4 +1,4 @@
-import { cyclePrStatus, prStatus, prUserState, setPrActivity, setPrNote, state, toggleIgnored, togglePrPoi } from './state.js';
+import { cyclePrStatus, prImage, prStatus, prUserState, setPrActivity, setPrNote, state, toggleIgnored, togglePrPoi } from './state.js';
 import { renderPins } from './map.js';
 import { infoDigestsForPr, openInfoCenter } from './infoCenter.js';
 
@@ -18,6 +18,7 @@ export function openDetail(id, openAdjacent, openPrCallback = null, initialMode 
   if (!pr) return;
   const user = prUserState(id);
   const status = prStatus(pr);
+  const image = prImage(pr);
 
   host.hidden = false;
   document.querySelector('#app').classList.add('detail-active');
@@ -46,6 +47,7 @@ export function openDetail(id, openAdjacent, openPrCallback = null, initialMode 
         <button class="${user.ignored ? 'active' : ''}" data-action="ignore" ${user.activity === 'booked' ? 'disabled' : ''}>Ignorieren</button>
       </section>
       <div class="sheet-body">
+        ${detailImage(pr, image)}
         <p class="lead">${escapeHtml(pr.shortText || pr.detailText || 'Noch kein Kurztext vorhanden.')}</p>
         <div class="facts">
           <div><span>Status</span><strong>${statusEmoji(status)} ${escapeHtml(statusLabel(status))}</strong></div>
@@ -141,6 +143,21 @@ function infoExtract(pr) {
           </button>`).join('')}
       </div>
     </section>`;
+}
+
+function detailImage(pr, image) {
+  if (image) {
+    return `
+      <figure class="detail-image">
+        <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" loading="lazy" />
+        ${image.credit || image.license ? `<figcaption>${escapeHtml([image.credit, image.license].filter(Boolean).join(' - '))}</figcaption>` : ''}
+      </figure>`;
+  }
+  return `
+    <figure class="detail-image placeholder" style="--thumb-hue:${thumbHue(pr)}">
+      <strong>${escapeHtml(pr.displayId)}</strong>
+      <span>${escapeHtml(pr.name)}</span>
+    </figure>`;
 }
 
 async function renderElevationProfile(node, pr) {
@@ -302,6 +319,10 @@ function contextRank(poi) {
 
 function samePr(a, b) {
   return String(a || '').replace(/\s+/g, ' ').trim().toLowerCase() === String(b || '').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+function thumbHue(pr) {
+  return (String(pr.displayId || '').split('').reduce((sum, char) => sum + char.charCodeAt(0), 0) * 17) % 360;
 }
 
 function openScheduleDialog(pr, activity, currentSchedule = null) {
