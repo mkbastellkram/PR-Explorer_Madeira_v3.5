@@ -92,6 +92,8 @@ export function prUserState(id) {
     ignored: false,
     statusOverride: '',
     schedule: null,
+    note: '',
+    selectedPoiIds: [],
     ...state.prStates[id]
   };
 }
@@ -133,6 +135,21 @@ export function toggleIgnored(id) {
   state.prStates[id] = { ...current, ignored: !current.ignored };
   saveUserState();
   return true;
+}
+
+export function setPrNote(id, note) {
+  state.prStates[id] = { ...prUserState(id), note: String(note || '').slice(0, 1200) };
+  saveUserState();
+}
+
+export function togglePrPoi(id, poiId) {
+  const current = prUserState(id);
+  const selected = new Set(current.selectedPoiIds || []);
+  if (selected.has(poiId)) selected.delete(poiId);
+  else selected.add(poiId);
+  state.prStates[id] = { ...current, selectedPoiIds: [...selected] };
+  saveUserState();
+  return selected.has(poiId);
 }
 
 export function normalizePr(value) {

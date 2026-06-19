@@ -1,4 +1,4 @@
-import { cyclePrStatus, prStatus, prUserState, setPrActivity, state, toggleIgnored } from './state.js';
+import { cyclePrStatus, prStatus, prUserState, setPrActivity, setPrNote, state, toggleIgnored, togglePrPoi } from './state.js';
 import { renderPins } from './map.js';
 import { infoDigestsForPr, openInfoCenter } from './infoCenter.js';
 
@@ -58,6 +58,7 @@ export function openDetail(id, openAdjacent, openPrCallback = null, initialMode 
         </div>
         ${infoExtract(pr)}
         ${contextCards(pr)}
+        ${noteField(user)}
         <p>${escapeHtml(pr.detailText || '')}</p>
         <div class="link-grid">
           ${link(pr.links.visitMadeira, 'Visit Madeira')}
@@ -106,6 +107,15 @@ export function openDetail(id, openAdjacent, openPrCallback = null, initialMode 
       const topicId = event.currentTarget.dataset.infoDigest;
       openInfoCenter(openPrCallback || (() => {}), topicId);
     });
+  });
+  host.querySelectorAll('[data-poi-toggle]').forEach(button => {
+    button.addEventListener('click', event => {
+      togglePrPoi(id, event.currentTarget.dataset.poiToggle);
+      openDetail(id, openAdjacent, openPrCallback, sheetMode());
+    });
+  });
+  host.querySelector('[data-pr-note]')?.addEventListener('change', event => {
+    setPrNote(id, event.currentTarget.value);
   });
   const sheet = host.querySelector('#sheet');
   bindGestures(sheet, openAdjacent);
@@ -247,6 +257,7 @@ function toRad(value) {
 function contextCards(pr) {
   const related = (state.pois || []).filter(poi => poi.relatedPr?.some(id => samePr(id, pr.displayId)));
   if (!related.length) return '';
+  const selected = new Set(prUserState(pr.id).selectedPoiIds || []);
   const ordered = related
     .sort((a, b) => contextRank(a) - contextRank(b))
     .slice(0, 8);
@@ -254,19 +265,31 @@ function contextCards(pr) {
     <section class="context-strip" aria-label="PR Kontext">
       <div class="context-strip-head"><strong>Kontext</strong><span>Webcams und POIs zum PR</span></div>
       <div class="context-cards">
-        ${ordered.map(poi => contextCard(poi)).join('')}
+        ${ordered.map(poi => contextCard(poi, selected.has(poi.id))).join('')}
       </div>
     </section>`;
 }
 
-function contextCard(poi) {
+function contextCard(poi, selected = false) {
   const href = poi.sourceUrl || poi.googleMaps || `https://www.google.com/search?q=${encodeURIComponent(`${poi.name} Madeira`)}`;
   return `
-    <a class="context-card ${poi.category}" href="${escapeHtml(href)}" target="_blank" rel="noopener">
+    <article class="context-card ${poi.category} ${selected ? 'selected' : ''}">
       <i style="--poi-color:${escapeHtml(poi.color)}">${escapeHtml(poi.icon)}</i>
       <strong>${escapeHtml(poi.name)}</strong>
       <span>${escapeHtml(poi.label)} - ${escapeHtml(poi.shortText || poi.subcategory || '')}</span>
-    </a>`;
+      <div class="context-actions">
+        <button type="button" class="${selected ? 'active' : ''}" data-poi-toggle="${escapeHtml(poi.id)}">${selected ? 'Ausgewaehlt' : 'Mitnehmen'}</button>
+        <a href="${escapeHtml(href)}" target="_blank" rel="noopener">Quelle</a>
+      </div>
+    </article>`;
+}
+
+function noteField(user) {
+  return `
+    <label class="detail-note">
+      <span>Notiz fuer Reise und Kalender</span>
+      <textarea data-pr-note rows="4" placeholder="Eigene Hinweise, Treffpunkt, Ausruestung, Parken...">${escapeHtml(user.note || '')}</textarea>
+    </label>`;
 }
 
 function contextRank(poi) {
@@ -418,7 +441,7 @@ function bindGestures(sheet, openAdjacent) {
   let startTime = 0;
 
   sheet.addEventListener('pointerdown', event => {
-    if (event.target.closest('.close, a')) return;
+    if (event.target.closest('.close, a, button, input, textarea, select')) return;
     active = true;
     bodyGesture = Boolean(sheet.classList.contains('expanded') && event.target.closest('.sheet-body'));
     axis = '';
