@@ -203,6 +203,9 @@ function renderDashboard() {
   const counts = state.data.meta.counts;
   $('#view').innerHTML = `
     <section class="panel-list">
+      <figure class="overview-hero">
+        <img src="assets/brand/intro-madeira-2026.png" alt="Madeira 2026" />
+      </figure>
       <h1>Dashboard</h1>
       <p>${VERSION.label}</p>
       <div class="metrics">
@@ -772,6 +775,7 @@ async function boot() {
   renderPins();
   renderPois();
   renderView('map');
+  document.querySelector('#splash')?.classList.add('done');
 }
 
 function routingTargets() {
@@ -802,5 +806,6 @@ function routingTargets() {
 
 boot().catch(error => {
   console.error(error);
+  document.querySelector('#splash')?.classList.add('done');
   toast('V5 konnte nicht starten.');
 });
