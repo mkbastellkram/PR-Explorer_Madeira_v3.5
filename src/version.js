@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.25',
-  name: 'Feature POIs',
-  label: 'V5.0.25 Feature POIs'
+  id: 'V5.0.26',
+  name: 'Webcams and Elevation Profiles',
+  label: 'V5.0.26 Webcams and Elevation Profiles'
 };

@@ -9,6 +9,7 @@ export const poiCategories = [
   { id: 'shelter', label: 'Schutz', icon: 'H', color: '#c7b7ff', tags: ['amenity=shelter', 'emergency=*'] },
   { id: 'waterfall', label: 'Wasserfall', icon: '~', color: '#45d6ff', tags: ['waterway=waterfall'] },
   { id: 'tunnel', label: 'Tunnel', icon: 'T', color: '#c7b7ff', tags: ['tunnel=yes', 'route_feature=tunnel'] },
+  { id: 'webcam', label: 'Webcam', icon: 'C', color: '#2da8ff', tags: ['surveillance=webcam', 'man_made=surveillance'] },
   { id: 'trailhead', label: 'Start', icon: '>', color: '#ff9f0a', tags: ['trailhead', 'tourism=information'] },
   { id: 'landscape', label: 'Natur', icon: '*', color: '#35d49f', tags: ['natural=*'] }
 ];
@@ -26,12 +27,15 @@ export const osmTagMap = {
   'amenity=shelter': 'shelter',
   'waterway=waterfall': 'waterfall',
   'tunnel=yes': 'tunnel',
-  'route_feature=tunnel': 'tunnel'
+  'route_feature=tunnel': 'tunnel',
+  'surveillance=webcam': 'webcam',
+  'man_made=surveillance': 'webcam'
 };
 
 export const categoryAliases = [
   { match: ['wasserfall', 'lagune', 'wasserquellen'], category: 'waterfall' },
   { match: ['tunnel'], category: 'tunnel' },
+  { match: ['webcam', 'kamera', 'camera'], category: 'webcam' },
   { match: ['aussicht', 'miradouro', 'gipfel'], category: 'viewpoint' },
   { match: ['startpunkt', 'parkplatz'], category: 'trailhead' },
   { match: ['park/'], category: 'trailhead' },

@@ -24,6 +24,7 @@ export function normalizePois(rawPois = [], options = {}) {
         shortText: poi.short_150 || poi.shortText || poi.detail_280 || '',
         detailText: poi.detail_280 || poi.detailText || '',
         googleMaps: poi.google_maps || poi.googleMaps || '',
+        sourceUrl: poi.url || poi.sourceUrl || poi.google_maps || poi.googleMaps || '',
         source,
         sourceLayer: options.layer || (source === 'osm' ? 'osm' : 'prx'),
         sourceUpdatedAt: poi.source_updated_at || '',

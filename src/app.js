@@ -19,14 +19,16 @@ export function toast(message) {
 }
 
 export async function loadData() {
-  const [prs, pois, osmPois] = await Promise.all([
+  const [prs, pois, webcams, osmPois] = await Promise.all([
     fetch('data/prs.json', { cache: 'no-store' }).then(res => res.json()),
     fetch('data/pois.json', { cache: 'no-store' }).then(res => res.json()).catch(() => ({ pois: [] })),
+    fetch('data/webcams.json', { cache: 'no-store' }).then(res => res.json()).catch(() => ({ pois: [] })),
     fetch('data/osm-pois.json', { cache: 'no-store' }).then(res => res.json()).catch(() => ({ pois: [], meta: null }))
   ]);
   state.data = prs;
   state.pois = [
     ...normalizePois(pois.pois || [], { layer: 'prx', source: 'prx' }),
+    ...normalizePois(webcams.pois || [], { layer: 'webcam', source: 'webcam' }),
     ...normalizePois(featurePoisFromPrs(prs.prs || []), { layer: 'prx-feature', source: 'prx-feature' }),
     ...normalizePois(osmPois.pois || [], { layer: 'osm', source: 'osm' })
   ];

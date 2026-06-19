@@ -52,6 +52,10 @@ export function openDetail(id, openAdjacent) {
           <div><span>Hoehe</span><strong>${fmt(pr.elevationLow, '')}-${fmt(pr.elevationHigh, ' m')}</strong></div>
           <div><span>Aufstieg</span><strong>${fmt(pr.elevationGain, ' hm')}</strong></div>
         </div>
+        <div class="elevation-profile" data-elevation-profile>
+          ${renderElevationFallback(pr)}
+        </div>
+        ${contextCards(pr)}
         <p>${escapeHtml(pr.detailText || '')}</p>
         <div class="link-grid">
           ${link(pr.links.visitMadeira, 'Visit Madeira')}
@@ -98,6 +102,155 @@ export function openDetail(id, openAdjacent) {
   const sheet = host.querySelector('#sheet');
   bindGestures(sheet, openAdjacent);
   runSheetEntry(sheet);
+  renderElevationProfile(host.querySelector('[data-elevation-profile]'), pr);
+}
+
+async function renderElevationProfile(node, pr) {
+  if (!node || !pr.track?.file) return;
+  try {
+    const data = await fetch(pr.track.file, { cache: 'force-cache' }).then(res => res.json());
+    const points = (data.points || [])
+      .map(point => ({ lat: Number(point[0]), lon: Number(point[1]), ele: Number(point[2]) }))
+      .filter(point => Number.isFinite(point.lat) && Number.isFinite(point.lon) && Number.isFinite(point.ele));
+    if (points.length < 2) return;
+    node.innerHTML = renderElevationChart(points, pr, Number(data.distanceKm) || Number(pr.distanceKm) || 0, 'GPX');
+  } catch {
+    // Keep table-value fallback.
+  }
+}
+
+function renderElevationFallback(pr) {
+  const low = Number(pr.elevationLow);
+  const high = Number(pr.elevationHigh);
+  if (!Number.isFinite(low) || !Number.isFinite(high)) {
+    return `<div class="elevation-empty">Hoehenprofil noch ohne verwertbare Hoehendaten.</div>`;
+  }
+  const start = low + (high - low) * 0.18;
+  const end = low + (high - low) * 0.55;
+  return renderElevationChart([
+    { lat: 0, lon: 0, ele: start },
+    { lat: 0, lon: 0, ele: high },
+    { lat: 0, lon: 0, ele: low },
+    { lat: 0, lon: 0, ele: end }
+  ], pr, Number(pr.distanceKm) || 0, 'Tabelle');
+}
+
+function renderElevationChart(points, pr, distanceKm, sourceLabel) {
+  const width = 640;
+  const height = 178;
+  const pad = { left: 22, right: 18, top: 18, bottom: 32 };
+  const distances = cumulativeDistances(points, distanceKm);
+  const elevations = points.map(point => point.ele);
+  const low = Math.min(...elevations);
+  const high = Math.max(...elevations);
+  const span = Math.max(1, high - low);
+  const total = Math.max(0.1, distances[distances.length - 1] || distanceKm || points.length - 1);
+  const x = value => pad.left + (value / total) * (width - pad.left - pad.right);
+  const y = value => pad.top + (1 - ((value - low) / span)) * (height - pad.top - pad.bottom);
+  const sampled = sampleProfile(points, distances, 96);
+  const path = sampled.map((item, index) => `${index ? 'L' : 'M'}${x(item.distance).toFixed(1)} ${y(item.ele).toFixed(1)}`).join(' ');
+  const area = `${path} L${x(total).toFixed(1)} ${height - pad.bottom} L${pad.left} ${height - pad.bottom} Z`;
+  const start = elevations[0];
+  const end = elevations[elevations.length - 1];
+
+  return `
+    <div class="elevation-head">
+      <div><strong>Hoehenprofil</strong><span>${escapeHtml(sourceLabel)} - ${fmt(distanceKm, ' km')} - ${escapeHtml(pr.duration || '-')}</span></div>
+      <em>${Math.round(low)}-${Math.round(high)} m</em>
+    </div>
+    <svg class="elevation-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Hoehenprofil ${escapeHtml(pr.displayId)}">
+      <defs>
+        <linearGradient id="elevFill" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="rgba(53,212,159,.42)" />
+          <stop offset="1" stop-color="rgba(53,212,159,0)" />
+        </linearGradient>
+        <filter id="elevGlow" x="-20%" y="-60%" width="140%" height="220%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <line class="elevation-grid" x1="${pad.left}" y1="${y(low)}" x2="${width - pad.right}" y2="${y(low)}" />
+      <line class="elevation-grid" x1="${pad.left}" y1="${y(high)}" x2="${width - pad.right}" y2="${y(high)}" />
+      <path class="elevation-area" d="${area}" />
+      <path class="elevation-line" d="${path}" filter="url(#elevGlow)" />
+      <text x="${pad.left}" y="${height - 10}">0 km / ${Math.round(start)} m</text>
+      <text x="${width - pad.right}" y="${height - 10}" text-anchor="end">${fmt(total, ' km')} / ${Math.round(end)} m</text>
+      <text x="${width - pad.right}" y="${y(high) - 5}" text-anchor="end">${Math.round(high)} m</text>
+      <text x="${width - pad.right}" y="${y(low) + 14}" text-anchor="end">${Math.round(low)} m</text>
+    </svg>`;
+}
+
+function cumulativeDistances(points, declaredDistanceKm) {
+  const distances = [0];
+  for (let index = 1; index < points.length; index += 1) {
+    distances.push(distances[index - 1] + haversineKm(points[index - 1], points[index]));
+  }
+  const actualTotal = distances[distances.length - 1];
+  if (declaredDistanceKm > 0 && actualTotal > 0) {
+    const factor = declaredDistanceKm / actualTotal;
+    return distances.map(distance => distance * factor);
+  }
+  return distances;
+}
+
+function sampleProfile(points, distances, maxPoints) {
+  if (points.length <= maxPoints) return points.map((point, index) => ({ ele: point.ele, distance: distances[index] }));
+  return Array.from({ length: maxPoints }, (_, index) => {
+    const pointIndex = Math.round((index / (maxPoints - 1)) * (points.length - 1));
+    return { ele: points[pointIndex].ele, distance: distances[pointIndex] };
+  });
+}
+
+function haversineKm(a, b) {
+  if (a.lat === 0 && a.lon === 0 && b.lat === 0 && b.lon === 0) return 1;
+  const radius = 6371;
+  const dLat = toRad(b.lat - a.lat);
+  const dLon = toRad(b.lon - a.lon);
+  const lat1 = toRad(a.lat);
+  const lat2 = toRad(b.lat);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+  return 2 * radius * Math.asin(Math.sqrt(h));
+}
+
+function toRad(value) {
+  return value * Math.PI / 180;
+}
+
+function contextCards(pr) {
+  const related = (state.pois || []).filter(poi => poi.relatedPr?.some(id => samePr(id, pr.displayId)));
+  if (!related.length) return '';
+  const ordered = related
+    .sort((a, b) => contextRank(a) - contextRank(b))
+    .slice(0, 8);
+  return `
+    <section class="context-strip" aria-label="PR Kontext">
+      <div class="context-strip-head"><strong>Kontext</strong><span>Webcams und POIs zum PR</span></div>
+      <div class="context-cards">
+        ${ordered.map(poi => contextCard(poi)).join('')}
+      </div>
+    </section>`;
+}
+
+function contextCard(poi) {
+  const href = poi.sourceUrl || poi.googleMaps || `https://www.google.com/search?q=${encodeURIComponent(`${poi.name} Madeira`)}`;
+  return `
+    <a class="context-card ${poi.category}" href="${escapeHtml(href)}" target="_blank" rel="noopener">
+      <i style="--poi-color:${escapeHtml(poi.color)}">${escapeHtml(poi.icon)}</i>
+      <strong>${escapeHtml(poi.name)}</strong>
+      <span>${escapeHtml(poi.label)} - ${escapeHtml(poi.shortText || poi.subcategory || '')}</span>
+    </a>`;
+}
+
+function contextRank(poi) {
+  if (poi.category === 'webcam') return 0;
+  if (poi.category === 'trailhead') return 1;
+  if (poi.category === 'waterfall') return 2;
+  if (poi.category === 'viewpoint') return 3;
+  return 9;
+}
+
+function samePr(a, b) {
+  return String(a || '').replace(/\s+/g, ' ').trim().toLowerCase() === String(b || '').replace(/\s+/g, ' ').trim().toLowerCase();
 }
 
 function openScheduleDialog(pr, activity, currentSchedule = null) {

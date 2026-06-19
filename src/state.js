@@ -1,6 +1,6 @@
 const STORAGE_KEY = 'prx.v5.prStates';
 const SETTINGS_KEY = 'prx.v5.settings';
-const POI_CATALOG_VERSION = 2;
+const POI_CATALOG_VERSION = 3;
 
 export const state = {
   data: null,
@@ -11,7 +11,7 @@ export const state = {
   heatmapMode: false,
   prStates: {},
   poiFilters: {
-    categories: new Set(['viewpoint', 'trailhead', 'waterfall', 'tunnel'])
+    categories: new Set(['viewpoint', 'trailhead', 'waterfall', 'tunnel', 'webcam'])
   },
   filters: {
     q: '',
@@ -58,6 +58,7 @@ export function loadUserState() {
     if ((settings.poiCatalogVersion || 0) < POI_CATALOG_VERSION) {
       state.poiFilters.categories.add('waterfall');
       state.poiFilters.categories.add('tunnel');
+      state.poiFilters.categories.add('webcam');
       saveSettings();
     }
   } catch {

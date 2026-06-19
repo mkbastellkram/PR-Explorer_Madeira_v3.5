@@ -291,6 +291,7 @@ function createPoiIcon(poi) {
 
 function poiSourceLabel(poi) {
   if (poi.sourceLayer === 'osm') return 'OSM';
+  if (poi.sourceLayer === 'webcam') return 'Webcam';
   if (poi.sourceLayer === 'prx-feature') return 'PRX Feature';
   return 'PRX';
 }
