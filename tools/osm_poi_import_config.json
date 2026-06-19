@@ -1,0 +1,41 @@
+{
+  "profile": "madeira-curated-pois",
+  "runtimePolicy": "No Overpass calls from the app runtime. Import, normalize, curate, then publish static POI data.",
+  "bbox": {
+    "south": 32.6,
+    "west": -17.35,
+    "north": 33.15,
+    "east": -16.2
+  },
+  "uniqueKey": ["osm_type", "osm_id"],
+  "attribution": "© OpenStreetMap contributors",
+  "categories": {
+    "water": ["amenity=drinking_water"],
+    "toilet": ["amenity=toilets"],
+    "supplies": ["shop=supermarket", "shop=convenience"],
+    "health": ["amenity=pharmacy", "amenity=doctors"],
+    "parking": ["amenity=parking"],
+    "bus": ["highway=bus_stop"],
+    "viewpoint": ["tourism=viewpoint"],
+    "shelter": ["amenity=shelter", "emergency=*"],
+    "waterfall": ["waterway=waterfall"]
+  },
+  "targetSchema": {
+    "id": "uuid",
+    "osm_type": "text",
+    "osm_id": "bigint",
+    "category": "text",
+    "subcategory": "text",
+    "name": "text",
+    "lat": "double precision",
+    "lon": "double precision",
+    "tags": "jsonb",
+    "source": "text",
+    "source_updated_at": "timestamptz"
+  },
+  "updateStrategy": {
+    "mode": "weekly_full_import",
+    "upsertBy": ["osm_type", "osm_id"],
+    "deletePolicy": "mark_deleted_at"
+  }
+}

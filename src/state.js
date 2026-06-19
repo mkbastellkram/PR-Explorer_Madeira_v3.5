@@ -8,6 +8,9 @@ export const state = {
   activeId: null,
   heatmapMode: false,
   prStates: {},
+  poiFilters: {
+    categories: new Set(['viewpoint', 'trailhead', 'waterfall'])
+  },
   filters: {
     q: '',
     regions: new Set(),
@@ -49,6 +52,7 @@ export function loadUserState() {
     const settings = rawSettings ? JSON.parse(rawSettings) : {};
     state.tripSettings = { ...state.tripSettings, ...settings.tripSettings };
     state.mapStyle = { ...state.mapStyle, ...settings.mapStyle };
+    state.poiFilters.categories = new Set(settings.poiCategories || [...state.poiFilters.categories]);
   } catch {
     // Keep defaults.
   }
@@ -62,8 +66,15 @@ export function setTripSetting(key, value) {
 export function saveSettings() {
   localStorage.setItem(SETTINGS_KEY, JSON.stringify({
     tripSettings: state.tripSettings,
-    mapStyle: state.mapStyle
+    mapStyle: state.mapStyle,
+    poiCategories: [...state.poiFilters.categories]
   }));
+}
+
+export function togglePoiCategory(category) {
+  if (state.poiFilters.categories.has(category)) state.poiFilters.categories.delete(category);
+  else state.poiFilters.categories.add(category);
+  saveSettings();
 }
 
 export function prUserState(id) {

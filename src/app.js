@@ -1,10 +1,11 @@
 import { VERSION } from './version.js';
 import { loadUserState, state, filteredPrs, prUserState, durationToMinutes } from './state.js';
-import { getBaseLayers, initMap, renderPins, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute, toggleHeatmapMode, renderHeatmap } from './map.js';
+import { getBaseLayers, initMap, renderPins, renderPois, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute, toggleHeatmapMode, renderHeatmap } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
 import { openFilterSheet } from './filterSheet.js';
 import { openInfoCenter } from './infoCenter.js';
+import { normalizePois } from './poiModel.js';
 
 const $ = selector => document.querySelector(selector);
 
@@ -22,7 +23,7 @@ export async function loadData() {
     fetch('data/pois.json', { cache: 'no-store' }).then(res => res.json()).catch(() => ({ pois: [] }))
   ]);
   state.data = prs;
-  state.pois = pois.pois || [];
+  state.pois = normalizePois(pois.pois || []);
 }
 
 function renderTopbar() {
@@ -307,6 +308,7 @@ function tripTime(user) {
 
 function handleFiltersChanged() {
   renderPins();
+  renderPois();
   renderHeatmap();
   redrawActiveRoute();
   if (state.view === 'map') {
@@ -470,6 +472,7 @@ async function boot() {
   initMap(openPr);
   renderMapControls();
   renderPins();
+  renderPois();
   renderView('map');
 }
 

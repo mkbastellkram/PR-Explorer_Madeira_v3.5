@@ -2,6 +2,7 @@ import { state, filteredPrs, prStatus, prUserState } from './state.js';
 
 let map;
 let pinLayer;
+let poiLayer;
 let gpxLayer;
 let kmlLayer;
 let endpointLayer;
@@ -48,6 +49,7 @@ export function initMap(onOpenPr) {
   baseLayers.get(activeBaseLayer).addTo(map);
 
   pinLayer = L.layerGroup().addTo(map);
+  poiLayer = L.layerGroup().addTo(map);
   heatmapLayer = L.layerGroup().addTo(map);
   gpxLayer = L.layerGroup().addTo(map);
   kmlLayer = L.layerGroup().addTo(map);
@@ -74,6 +76,22 @@ export function renderPins() {
     marker.on('click', () => openPrCallback(pr.id));
     marker.addTo(pinLayer);
   });
+}
+
+export function renderPois() {
+  if (!poiLayer) return;
+  poiLayer.clearLayers();
+  (state.pois || [])
+    .filter(poi => state.poiFilters.categories.has(poi.category))
+    .forEach(poi => {
+      const marker = L.marker([poi.lat, poi.lon], {
+        icon: createPoiIcon(poi),
+        zIndexOffset: -250,
+        riseOnHover: true
+      });
+      marker.bindTooltip(`${poi.name} · ${poi.label}`);
+      marker.addTo(poiLayer);
+    });
 }
 
 export function fitAll() {
@@ -254,6 +272,16 @@ function createPrDot(pr) {
     html,
     iconSize: [18, 18],
     iconAnchor: [9, 9]
+  });
+}
+
+function createPoiIcon(poi) {
+  const html = `<span class="poi-dot" style="--poi-color:${poi.color}"><span>${escapeHtml(poi.icon)}</span></span>`;
+  return L.divIcon({
+    className: 'poi-icon',
+    html,
+    iconSize: [24, 24],
+    iconAnchor: [12, 12]
   });
 }
 

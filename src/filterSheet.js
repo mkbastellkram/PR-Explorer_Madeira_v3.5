@@ -1,4 +1,5 @@
-import { saveSettings, setTripSetting, state, filteredPrs, metricValue, prsForRange, resetRangeFilters, setRangeFilter } from './state.js';
+import { saveSettings, setTripSetting, state, filteredPrs, metricValue, prsForRange, resetRangeFilters, setRangeFilter, togglePoiCategory } from './state.js';
+import { poiCategoryDefinitions } from './poiModel.js';
 
 const METRICS = [
   { key: 'driveKm', label: 'Anfahrt', unit: 'km', precision: 0 },
@@ -35,6 +36,10 @@ export function openFilterSheet(onChange) {
           <div class="filter-region-grid" id="filterRegions"></div>
         </section>
         <section>
+          <h2>POI-Ebenen</h2>
+          <div class="filter-region-grid" id="poiCategories"></div>
+        </section>
+        <section>
           <h2>Werte</h2>
           <div id="filterRanges"></div>
         </section>
@@ -65,9 +70,24 @@ export function openFilterSheet(onChange) {
 function renderFilterControls(backdrop) {
   renderLineControls(backdrop);
   renderRegions(backdrop);
+  renderPoiCategories(backdrop);
   renderRanges(backdrop);
   renderTripControls(backdrop);
   backdrop.querySelector('#filterCount').textContent = `${filteredPrs().length} PRs sichtbar`;
+}
+
+function renderPoiCategories(backdrop) {
+  const host = backdrop.querySelector('#poiCategories');
+  host.innerHTML = poiCategoryDefinitions()
+    .map(category => `<button class="chip ${state.poiFilters.categories.has(category.id) ? 'active' : ''}" data-poi-category="${escapeHtml(category.id)}">${escapeHtml(category.icon)} ${escapeHtml(category.label)}</button>`)
+    .join('');
+  host.querySelectorAll('[data-poi-category]').forEach(button => {
+    button.addEventListener('click', () => {
+      togglePoiCategory(button.dataset.poiCategory);
+      emitChange();
+      renderFilterControls(backdrop);
+    });
+  });
 }
 
 function renderLineControls(backdrop) {
