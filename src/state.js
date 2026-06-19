@@ -181,15 +181,69 @@ export function exportUserData() {
 export function importUserData(payload, { merge = true } = {}) {
   if (!payload || payload.kind !== 'prx-trip-share') throw new Error('Ungueltiges PRX-Datenpaket');
   const incomingStates = payload.prStates && typeof payload.prStates === 'object' ? payload.prStates : {};
-  state.prStates = merge ? { ...state.prStates, ...incomingStates } : incomingStates;
+  const result = merge ? mergePrStates(state.prStates, incomingStates) : {
+    states: incomingStates,
+    imported: Object.keys(incomingStates).length,
+    conflicts: 0,
+    skipped: 0
+  };
+  state.prStates = result.states;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state.prStates));
 
   const settings = payload.settings || {};
-  state.tripSettings = { ...state.tripSettings, ...settings.tripSettings };
+  state.tripSettings = mergeSettings(state.tripSettings, settings.tripSettings || {});
   state.mapStyle = { ...state.mapStyle, ...settings.mapStyle };
-  if (Array.isArray(settings.poiCategories)) state.poiFilters.categories = new Set(settings.poiCategories);
+  if (Array.isArray(settings.poiCategories) && !state.poiFilters.categories.size) state.poiFilters.categories = new Set(settings.poiCategories);
   saveSettings();
-  return Object.keys(incomingStates).length;
+  return result;
+}
+
+function mergePrStates(localStates, incomingStates) {
+  const next = { ...localStates };
+  const result = { states: next, imported: 0, conflicts: 0, skipped: 0 };
+  Object.entries(incomingStates).forEach(([id, incoming]) => {
+    const local = next[id];
+    if (!local) {
+      next[id] = incoming;
+      result.imported += 1;
+      return;
+    }
+    const merged = { ...local };
+    Object.entries(incoming || {}).forEach(([key, value]) => {
+      const localValue = local[key];
+      if (isEmptyValue(localValue)) {
+        merged[key] = value;
+        result.imported += 1;
+      } else if (isEmptyValue(value) || sameValue(localValue, value)) {
+        result.skipped += 1;
+      } else if (key === 'selectedPoiIds') {
+        merged[key] = [...new Set([...(Array.isArray(localValue) ? localValue : []), ...(Array.isArray(value) ? value : [])])];
+        result.imported += 1;
+      } else {
+        result.conflicts += 1;
+      }
+    });
+    next[id] = merged;
+  });
+  return result;
+}
+
+function mergeSettings(local, incoming) {
+  const next = { ...local };
+  Object.entries(incoming || {}).forEach(([key, value]) => {
+    if (isEmptyValue(next[key]) && !isEmptyValue(value)) next[key] = value;
+  });
+  return next;
+}
+
+function isEmptyValue(value) {
+  return value === null || value === undefined || value === '' ||
+    (Array.isArray(value) && value.length === 0) ||
+    (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0);
+}
+
+function sameValue(a, b) {
+  return JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
 }
 
 export function normalizePr(value) {

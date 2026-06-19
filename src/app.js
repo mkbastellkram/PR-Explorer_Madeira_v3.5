@@ -336,8 +336,8 @@ async function importSharePackage(event) {
   if (!file) return;
   try {
     const payload = JSON.parse(await file.text());
-    const count = importUserData(payload, { merge: true });
-    toast(`${count} PR-Eintraege importiert.`);
+    const result = importUserData(payload, { merge: true });
+    toast(`${result.imported} importiert, ${result.conflicts} Konflikte behalten lokal.`);
     renderSettings();
   } catch {
     toast('Import nicht moeglich: falsche oder defekte Datei.');
