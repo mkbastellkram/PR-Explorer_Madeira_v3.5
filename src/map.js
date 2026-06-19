@@ -70,10 +70,9 @@ export function renderPins() {
   filteredPrs().forEach(pr => {
     if (!Number.isFinite(pr.lat) || !Number.isFinite(pr.lon)) return;
     const isActive = state.activeId === pr.id;
-    const faded = Boolean((state.activeId || state.heatmapMode) && !isActive);
     const marker = L.marker([pr.lat, pr.lon], {
-      icon: createPrFlag(pr, isActive, faded),
-      zIndexOffset: isActive ? 10000 : faded ? -100 : 0,
+      icon: isActive ? createPrFlag(pr, true, false) : createPrDot(pr),
+      zIndexOffset: isActive ? 10000 : -100,
       riseOnHover: true
     });
     marker.bindTooltip(`${pr.displayId} - ${pr.name}`);
