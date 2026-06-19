@@ -5,6 +5,7 @@ import { insta360GuideTopics } from '../data/info/insta360-guides.js';
 import { statisticTopics } from '../data/info/statistics.js';
 import { madeiraKnowledgeTopics } from '../data/info/madeira-knowledge.js';
 import { tourismTopics } from '../data/info/tourism.js';
+import { attractionTopics } from '../data/info/attractions.js';
 
 const categories = [
   { id: 'rankings', icon: '🏆', title: 'Rankings', text: 'Bestenlisten fuer schnelle Reiseentscheidungen.', topics: ['tunnels', 'waterfalls', 'bridges', 'calories'] },
@@ -14,6 +15,7 @@ const categories = [
   { id: 'landscape', icon: '⛰️', title: 'Natur & Landschaft', text: 'Landschaftstypen und passende PRs.', topics: ['landscape-types'] },
   { id: 'fitness', icon: '❤️', title: 'Schwierigkeit & Fitness', text: 'Belastung, Radarprofil und Kalorien.', topics: ['difficulty-radar', 'calories'] },
   { id: 'tourism', icon: '👥', title: 'Touristenaufkommen', text: 'Crowd Level und ruhigere Alternativen.', topics: ['crowd-level'] },
+  { id: 'attractions', icon: '◆', title: 'Sehenswuerdigkeiten', text: 'Kuratierte POIs nach Kategorien.', topics: ['top-attractions'] },
   { id: 'tunnels', icon: '🔦', title: 'Tunnel', text: 'Tunnelanzahl, Laenge und Lampenbedarf.', topics: ['tunnels'] },
   { id: 'waterfalls', icon: '💧', title: 'Wasserfaelle', text: 'Wasserfall- und Fotowert.', topics: ['waterfalls'] },
   { id: 'bridges', icon: '🌉', title: 'Bruecken', text: 'Stege, Bruecken und Uebergaenge.', topics: ['bridges'] },
@@ -27,7 +29,8 @@ const topics = [
   ...insta360GuideTopics,
   ...statisticTopics,
   ...madeiraKnowledgeTopics,
-  ...tourismTopics
+  ...tourismTopics,
+  ...attractionTopics
 ];
 
 const topicById = new Map(topics.map(topic => [topic.id, topic]));
@@ -175,7 +178,40 @@ function renderChart(topic) {
   if (topic.chart === 'bar' || topic.chart === 'heat-ranking') return renderBarChart(topic);
   if (topic.chart === 'radar') return renderRadar(topic);
   if (topic.chart === 'landscape') return renderLandscape(topic);
+  if (topic.chart === 'attractions') return renderAttractions();
   return renderScoreCards(topic);
+}
+
+function renderAttractions() {
+  const functional = new Set(['trailhead', 'parking', 'bus', 'toilet', 'water', 'supplies', 'health']);
+  const pois = (state.pois || [])
+    .filter(poi => poi.sourceLayer === 'prx')
+    .filter(poi => !functional.has(poi.category));
+  const groups = groupBy(pois, poi => poi.label || 'Sonstige');
+  const sortedGroups = Object.entries(groups).sort(([a], [b]) => a.localeCompare(b));
+  return `
+    <section class="info-chart-card">
+      <strong>${pois.length} kuratierte POIs</strong>
+      <p>Top-100 ist vorbereitet, aber noch nicht befuellt. Aktuell sichtbar ist der gepruefte PRX-Kontextbestand.</p>
+      <div class="attraction-groups">
+        ${sortedGroups.map(([label, items]) => `
+          <article class="attraction-group">
+            <header><strong>${escapeHtml(label)}</strong><span>${items.length}</span></header>
+            <div>
+              ${items.slice(0, 12).map(poi => attractionCard(poi)).join('')}
+            </div>
+          </article>`).join('')}
+      </div>
+    </section>`;
+}
+
+function attractionCard(poi) {
+  const related = (poi.relatedPr || []).find(Boolean);
+  return `
+    <button ${related ? `data-info-pr="${escapeHtml(related)}"` : ''}>
+      <b>${escapeHtml(poi.name)}</b>
+      <span>${escapeHtml(poi.shortText || poi.subcategory || '')}</span>
+    </button>`;
 }
 
 function renderBarChart(topic) {
@@ -354,6 +390,15 @@ function distribution(prs, key) {
   return prs.reduce((acc, pr) => {
     const label = pr[key] || 'k.A.';
     acc[label] = (acc[label] || 0) + 1;
+    return acc;
+  }, {});
+}
+
+function groupBy(items, getKey) {
+  return items.reduce((acc, item) => {
+    const key = getKey(item);
+    acc[key] ||= [];
+    acc[key].push(item);
     return acc;
   }, {});
 }

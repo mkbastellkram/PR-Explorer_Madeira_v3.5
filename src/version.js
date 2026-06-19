@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.27',
-  name: 'Detail Info Extracts',
-  label: 'V5.0.27 Detail Info Extracts'
+  id: 'V5.0.28',
+  name: 'Attractions Inventory',
+  label: 'V5.0.28 Attractions Inventory'
 };

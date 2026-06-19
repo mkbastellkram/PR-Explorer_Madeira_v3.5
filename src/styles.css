@@ -293,6 +293,15 @@ p { color: var(--muted); line-height: 1.45; }
 .info-ranking button { min-height: 46px; border-radius: 15px; padding: 8px 10px; display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 8px; }
 .info-ranking span { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 12px; background: rgba(53,212,159,.18); color: var(--accent); font-weight: 900; }
 .info-ranking em { color: var(--muted); font-size: 12px; font-style: normal; text-align: right; }
+.attraction-groups { display: grid; gap: 12px; margin-top: 12px; }
+.attraction-group { border: 1px solid rgba(255,255,255,.09); border-radius: 16px; padding: 10px; background: rgba(255,255,255,.035); }
+.attraction-group header { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.attraction-group header span { color: var(--accent); font-weight: 900; }
+.attraction-group div { display: grid; gap: 7px; }
+.attraction-group button { min-height: 50px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.045); color: var(--text); padding: 8px 10px; text-align: left; }
+.attraction-group b, .attraction-group span { display: block; overflow: hidden; text-overflow: ellipsis; }
+.attraction-group b { white-space: nowrap; font-size: 13px; }
+.attraction-group span { color: var(--muted); font-size: 11px; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .info-explain p, .info-landscape-card p { margin: 0; color: var(--muted); }
 .info-pr-links div, .info-pr-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .info-pr-links button, .info-pr-chips button { min-height: 32px; border-radius: 16px; padding: 0 11px; font-weight: 850; text-align: center; }
