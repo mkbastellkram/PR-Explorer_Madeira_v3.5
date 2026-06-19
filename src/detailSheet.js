@@ -1,5 +1,6 @@
 import { cyclePrStatus, prStatus, prUserState, setPrActivity, state, toggleIgnored } from './state.js';
 import { renderPins } from './map.js';
+import { infoDigestsForPr, openInfoCenter } from './infoCenter.js';
 
 let host;
 
@@ -11,7 +12,7 @@ export function closeDetail(clearActive = true) {
   if (clearActive) state.activeId = null;
 }
 
-export function openDetail(id, openAdjacent) {
+export function openDetail(id, openAdjacent, openPrCallback = null) {
   host ||= document.querySelector('#detailHost');
   const pr = state.data.prs.find(item => item.id === id);
   if (!pr) return;
@@ -55,6 +56,7 @@ export function openDetail(id, openAdjacent) {
         <div class="elevation-profile" data-elevation-profile>
           ${renderElevationFallback(pr)}
         </div>
+        ${infoExtract(pr)}
         ${contextCards(pr)}
         <p>${escapeHtml(pr.detailText || '')}</p>
         <div class="link-grid">
@@ -99,10 +101,36 @@ export function openDetail(id, openAdjacent) {
     renderPins();
     openDetail(id, openAdjacent);
   });
+  host.querySelectorAll('[data-info-digest]').forEach(button => {
+    button.addEventListener('click', event => {
+      const topicId = event.currentTarget.dataset.infoDigest;
+      openInfoCenter(openPrCallback || (() => {}), topicId);
+    });
+  });
   const sheet = host.querySelector('#sheet');
   bindGestures(sheet, openAdjacent);
   runSheetEntry(sheet);
   renderElevationProfile(host.querySelector('[data-elevation-profile]'), pr);
+}
+
+function infoExtract(pr) {
+  const digests = infoDigestsForPr(pr.displayId).slice(0, 5);
+  if (!digests.length) return '';
+  return `
+    <section class="detail-info-extract" aria-label="Info Center Auszug">
+      <div class="detail-info-head">
+        <strong>Info</strong>
+        <span>Warum dieser PR auffaellt</span>
+      </div>
+      <div class="detail-info-list">
+        ${digests.map(item => `
+          <button data-info-digest="${escapeHtml(item.topicId)}">
+            <em>${escapeHtml(item.value)}</em>
+            <strong>${escapeHtml(item.title)}</strong>
+            <span>${escapeHtml(item.text)}</span>
+          </button>`).join('')}
+      </div>
+    </section>`;
 }
 
 async function renderElevationProfile(node, pr) {

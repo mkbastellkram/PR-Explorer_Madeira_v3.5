@@ -35,15 +35,32 @@ const topicById = new Map(topics.map(topic => [topic.id, topic]));
 let openPrCallback = null;
 let mode = 'visible';
 
-export function openInfoCenter(openPr) {
+export function openInfoCenter(openPr, initialTopicId = '') {
   openPrCallback = openPr;
   document.querySelector('#infoCenter')?.remove();
   const backdrop = document.createElement('div');
   backdrop.id = 'infoCenter';
   backdrop.className = 'info-center-backdrop';
-  backdrop.innerHTML = `<section class="info-center" role="dialog" aria-modal="true">${renderIndex()}</section>`;
+  const initialTopic = topicById.get(initialTopicId);
+  backdrop.innerHTML = `<section class="info-center" role="dialog" aria-modal="true">${initialTopic ? renderTopic(initialTopic) : renderIndex()}</section>`;
   backdrop.addEventListener('click', handleClick);
   document.body.append(backdrop);
+}
+
+export function infoDigestsForPr(prLabel) {
+  const normalized = normalizePrLabel(prLabel);
+  return topics.flatMap(topic => {
+    const hits = (topic.items || []).filter(item => itemMentionsPr(item, normalized));
+    const item = hits[0];
+    return item ? [{
+      topicId: topic.id,
+      category: topic.category || '',
+      title: topic.title,
+      lead: topic.lead,
+      text: digestText(topic, item),
+      value: digestValue(topic, item)
+    }] : [];
+  });
 }
 
 function handleClick(event) {
@@ -283,6 +300,31 @@ function uniquePrLabels(topic) {
     (item.prs || []).forEach(pr => labels.push(pr));
   });
   return [...new Set(labels)];
+}
+
+function itemMentionsPr(item, normalizedPr) {
+  if (normalizePrLabel(item.pr) === normalizedPr) return true;
+  return (item.prs || []).some(label => normalizePrLabel(label) === normalizedPr);
+}
+
+function digestText(topic, item) {
+  return item.note ||
+    item.sunriseDescription ||
+    item.sunsetDescription ||
+    item.photoValue ||
+    item.mainWaterfall ||
+    item.bridgeType ||
+    item.description ||
+    item.text ||
+    topic.lead ||
+    '';
+}
+
+function digestValue(topic, item) {
+  const metric = topic.metric;
+  if (metric && item[metric] !== undefined) return `${topic.metricLabel || metric}: ${item[metric]}`;
+  if (item.type) return item.type;
+  return topic.category || '';
 }
 
 function sortedItems(topic) {

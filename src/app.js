@@ -186,7 +186,7 @@ export function openPr(id) {
     $('#view').innerHTML = '';
   }
 
-  openDetail(id, openAdjacentPr);
+  openDetail(id, openAdjacentPr, openPr);
   setTimeout(() => showPrOnMap(id), 40);
 }
 
