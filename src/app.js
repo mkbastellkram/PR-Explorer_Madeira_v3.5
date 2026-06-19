@@ -1,11 +1,12 @@
 import { VERSION } from './version.js';
 import { loadUserState, state, filteredPrs, prUserState, durationToMinutes } from './state.js';
-import { getBaseLayers, initMap, renderPins, renderPois, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute, toggleHeatmapMode, renderHeatmap } from './map.js';
+import { getBaseLayers, getMap, initMap, renderPins, renderPois, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute, toggleHeatmapMode, renderHeatmap } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
 import { openFilterSheet } from './filterSheet.js';
 import { openInfoCenter } from './infoCenter.js';
 import { normalizePois } from './poiModel.js';
+import { openRoutingPanel, PRXRoutingLive } from './routingLive.js';
 
 const $ = selector => document.querySelector(selector);
 
@@ -44,6 +45,7 @@ function renderTopbar() {
     </div>
     <div class="tool-cluster">
       <button class="icon-btn" data-action="settings" aria-label="Einstellungen">${icon('gear')}</button>
+      <button class="icon-btn" data-action="routing" aria-label="Live Routing">${icon('route')}</button>
       <button class="icon-btn" data-action="share" aria-label="Teilen">${icon('share')}</button>
     </div>`;
 
@@ -59,6 +61,7 @@ function renderTopbar() {
       });
     }
     if (action === 'settings') renderView('dashboard');
+    if (action === 'routing') openRoutingPanel();
     if (action === 'info') openInfoCenter(openPr);
   });
 }
@@ -179,6 +182,7 @@ function icon(name) {
     flame: '<svg viewBox="0 0 28 28" aria-hidden="true"><path d="M14 24c4.2 0 7-2.8 7-6.8 0-3-1.7-5.3-4.4-7.8.3 2.3-.7 3.7-2.1 4.6.1-3.7-1.8-6.3-4.7-8.5.4 4.5-3.8 6.4-3.8 11.4C6 21 9.4 24 14 24Z"/><path d="M14 24c1.9 0 3.2-1.3 3.2-3.1 0-1.5-.9-2.6-2.3-3.8.1 1.3-.5 2.1-1.4 2.6 0-1.9-.9-3.1-2.1-4.1.2 2.2-1.7 3.4-1.7 5.4 0 1.7 1.5 3 4.3 3Z"/></svg>',
     info: '<svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="10"/><path d="M14 12.5v6"/><path d="M14 8.5h.1"/></svg>',
     gear: '<svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="3.5"/><path d="M14 3.5v3"/><path d="M14 21.5v3"/><path d="m6.6 6.6 2.1 2.1"/><path d="m19.3 19.3 2.1 2.1"/><path d="M3.5 14h3"/><path d="M21.5 14h3"/><path d="m6.6 21.4 2.1-2.1"/><path d="m19.3 8.7 2.1-2.1"/></svg>',
+    route: '<svg viewBox="0 0 28 28" aria-hidden="true"><path d="M7 22c4-5 10 1 14-4"/><circle cx="7" cy="22" r="2.2"/><circle cx="21" cy="8" r="2.2"/><path d="M21 10.2c0 4.8-6 5-8.2 6.8"/></svg>',
     share: '<svg viewBox="0 0 28 28" aria-hidden="true"><path d="M14 18V4"/><path d="m9 9 5-5 5 5"/><path d="M7 13v9h14v-9"/></svg>'
   };
   return icons[name] || '';
@@ -470,10 +474,43 @@ async function boot() {
   renderNav();
   await loadData();
   initMap(openPr);
+  PRXRoutingLive.init({
+    map: getMap(),
+    getTargets: routingTargets,
+    fallbackKmlResolver: target => target.routeFile,
+    maxAlternatives: 5,
+    toast
+  });
   renderMapControls();
   renderPins();
   renderPois();
   renderView('map');
+}
+
+function routingTargets() {
+  const prTargets = (state.data?.prs || [])
+    .filter(pr => Number.isFinite(pr.lat) && Number.isFinite(pr.lon))
+    .map(pr => ({
+      id: pr.id,
+      type: 'pr',
+      name: `${pr.displayId} - ${pr.name}`,
+      lat: pr.lat,
+      lon: pr.lon,
+      routeFile: pr.route?.file || '',
+      routeDistanceKm: pr.route?.distanceKm || null
+    }));
+  const poiTargets = (state.pois || [])
+    .filter(poi => Number.isFinite(poi.lat) && Number.isFinite(poi.lon))
+    .map(poi => ({
+      id: poi.id,
+      type: 'poi',
+      name: poi.name,
+      lat: poi.lat,
+      lon: poi.lon,
+      routeFile: '',
+      routeDistanceKm: null
+    }));
+  return [...prTargets, ...poiTargets];
 }
 
 boot().catch(error => {

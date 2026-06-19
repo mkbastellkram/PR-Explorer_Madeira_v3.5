@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.22',
-  name: 'Curated POI Layer',
-  label: 'V5.0.22 Curated POI Layer'
+  id: 'V5.0.23',
+  name: 'Live Routing Foundation',
+  label: 'V5.0.23 Live Routing Foundation'
 };

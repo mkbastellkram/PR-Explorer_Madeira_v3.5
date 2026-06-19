@@ -59,6 +59,10 @@ export function initMap(onOpenPr) {
   setTimeout(invalidateMap, 120);
 }
 
+export function getMap() {
+  return map;
+}
+
 export function renderPins() {
   if (!pinLayer) return;
   pinLayer.clearLayers();
