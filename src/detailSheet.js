@@ -12,7 +12,7 @@ export function closeDetail(clearActive = true) {
   if (clearActive) state.activeId = null;
 }
 
-export function openDetail(id, openAdjacent, openPrCallback = null) {
+export function openDetail(id, openAdjacent, openPrCallback = null, initialMode = 'peek') {
   host ||= document.querySelector('#detailHost');
   const pr = state.data.prs.find(item => item.id === id);
   if (!pr) return;
@@ -22,7 +22,7 @@ export function openDetail(id, openAdjacent, openPrCallback = null) {
   host.hidden = false;
   document.querySelector('#app').classList.add('detail-active');
   host.innerHTML = `
-    <section class="sheet peek ${user.ignored ? 'ignored' : ''}" id="sheet">
+    <section class="sheet ${initialMode === 'expanded' ? 'expanded' : 'peek'} ${user.ignored ? 'ignored' : ''}" id="sheet">
       <header class="sheet-head">
         <div>
           <strong>${escapeHtml(pr.displayId)} - ${escapeHtml(pr.name)}</strong>
@@ -78,7 +78,7 @@ export function openDetail(id, openAdjacent, openPrCallback = null) {
   host.querySelector('[data-action="cycle-status"]').addEventListener('click', () => {
     cyclePrStatus(id);
     renderPins();
-    openDetail(id, openAdjacent);
+    openDetail(id, openAdjacent, openPrCallback, sheetMode());
   });
   host.querySelectorAll('[data-activity]').forEach(button => {
     button.addEventListener('click', async event => {
@@ -93,13 +93,13 @@ export function openDetail(id, openAdjacent, openPrCallback = null) {
         setPrActivity(id, activity, schedule);
       }
       renderPins();
-      openDetail(id, openAdjacent);
+      openDetail(id, openAdjacent, openPrCallback, sheetMode());
     });
   });
   host.querySelector('[data-action="ignore"]').addEventListener('click', () => {
     toggleIgnored(id);
     renderPins();
-    openDetail(id, openAdjacent);
+    openDetail(id, openAdjacent, openPrCallback, sheetMode());
   });
   host.querySelectorAll('[data-info-digest]').forEach(button => {
     button.addEventListener('click', event => {
@@ -413,13 +413,14 @@ function bindGestures(sheet, openAdjacent) {
   let dy = 0;
   let axis = '';
   let active = false;
+  let bodyGesture = false;
   let startHeight = 0;
   let startTime = 0;
 
   sheet.addEventListener('pointerdown', event => {
     if (event.target.closest('.close, a')) return;
-    if (sheet.classList.contains('expanded') && event.target.closest('.sheet-body')) return;
     active = true;
+    bodyGesture = Boolean(sheet.classList.contains('expanded') && event.target.closest('.sheet-body'));
     axis = '';
     sx = event.clientX;
     sy = event.clientY;
@@ -436,8 +437,8 @@ function bindGestures(sheet, openAdjacent) {
     const ay = Math.abs(dy);
 
     if (!axis) {
-      if (ay > 16 && ay > ax * 1.24) axis = 'y';
-      else if (ax > 24 && ax > ay * 1.2 && sheet.classList.contains('peek')) axis = 'x';
+      if (!bodyGesture && ay > 16 && ay > ax * 1.24) axis = 'y';
+      else if (ax > 24 && ax > ay * 1.2) axis = 'x';
       else return;
       sheet.classList.add('dragging');
     }
@@ -466,7 +467,8 @@ function bindGestures(sheet, openAdjacent) {
       sheet.style.setProperty('--carousel-duration', `${Math.round(duration)}ms`);
       sheet.style.setProperty('--drag-x', `${dir * (window.innerWidth + 120)}px`);
       window.PRX_SHEET_ENTRY_DIR = -dir;
-      window.setTimeout(() => openAdjacent(dx < 0 ? 1 : -1), duration);
+      window.PRX_SHEET_ENTRY_MODE = sheet.classList.contains('expanded') ? 'expanded' : 'peek';
+      window.setTimeout(() => openAdjacent(dx < 0 ? 1 : -1, window.PRX_SHEET_ENTRY_MODE), duration);
       return;
     }
     if (axis === 'y') {
@@ -487,8 +489,11 @@ function setState(sheet, mode) {
 
 function runSheetEntry(sheet) {
   const dir = Number(window.PRX_SHEET_ENTRY_DIR || 0);
+  const mode = window.PRX_SHEET_ENTRY_MODE || '';
   if (!dir) return;
   window.PRX_SHEET_ENTRY_DIR = 0;
+  window.PRX_SHEET_ENTRY_MODE = '';
+  if (mode === 'expanded') setState(sheet, 'expanded');
   sheet.classList.add('carousel-enter');
   sheet.style.setProperty('--carousel-duration', '420ms');
   sheet.style.setProperty('--drag-x', `${dir * (window.innerWidth + 120)}px`);
@@ -501,6 +506,10 @@ function runSheetEntry(sheet) {
       }, 440);
     });
   });
+}
+
+function sheetMode() {
+  return host?.querySelector('#sheet')?.classList.contains('expanded') ? 'expanded' : 'peek';
 }
 
 function currentExpandedTop() {

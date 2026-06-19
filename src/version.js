@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.28',
-  name: 'Attractions Inventory',
-  label: 'V5.0.28 Attractions Inventory'
+  id: 'V5.0.29',
+  name: 'Expanded Carousel Swipe',
+  label: 'V5.0.29 Expanded Carousel Swipe'
 };

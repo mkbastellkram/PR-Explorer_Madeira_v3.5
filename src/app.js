@@ -167,7 +167,7 @@ export function renderView(view) {
   if (view === 'trip') renderTrip();
 }
 
-export function openPr(id) {
+export function openPr(id, detailMode = 'peek') {
   const wasList = $('#app').classList.contains('list-mode');
   state.activeId = id;
   state.view = 'map';
@@ -186,15 +186,15 @@ export function openPr(id) {
     $('#view').innerHTML = '';
   }
 
-  openDetail(id, openAdjacentPr, openPr);
+  openDetail(id, openAdjacentPr, openPr, detailMode);
   setTimeout(() => showPrOnMap(id), 40);
 }
 
-function openAdjacentPr(delta) {
+function openAdjacentPr(delta, detailMode = 'peek') {
   const prs = filteredPrs();
   const idx = Math.max(0, prs.findIndex(pr => pr.id === state.activeId));
   const next = prs[(idx + delta + prs.length) % prs.length];
-  if (next) openPr(next.id);
+  if (next) openPr(next.id, detailMode);
 }
 
 function renderDashboard() {
