@@ -162,6 +162,36 @@ export function togglePrPoi(id, poiId) {
   return selected.has(poiId);
 }
 
+export function exportUserData() {
+  return {
+    kind: 'prx-trip-share',
+    schema: 1,
+    exportedAt: new Date().toISOString(),
+    note: 'Enthaelt Reiseplanung, Termine, Notizen, POI-Auswahl und Einstellungen. Enthaelt keinen ORS-Key.',
+    prStates: state.prStates,
+    settings: {
+      tripSettings: state.tripSettings,
+      mapStyle: state.mapStyle,
+      poiCategories: [...state.poiFilters.categories],
+      poiCatalogVersion: POI_CATALOG_VERSION
+    }
+  };
+}
+
+export function importUserData(payload, { merge = true } = {}) {
+  if (!payload || payload.kind !== 'prx-trip-share') throw new Error('Ungueltiges PRX-Datenpaket');
+  const incomingStates = payload.prStates && typeof payload.prStates === 'object' ? payload.prStates : {};
+  state.prStates = merge ? { ...state.prStates, ...incomingStates } : incomingStates;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.prStates));
+
+  const settings = payload.settings || {};
+  state.tripSettings = { ...state.tripSettings, ...settings.tripSettings };
+  state.mapStyle = { ...state.mapStyle, ...settings.mapStyle };
+  if (Array.isArray(settings.poiCategories)) state.poiFilters.categories = new Set(settings.poiCategories);
+  saveSettings();
+  return Object.keys(incomingStates).length;
+}
+
 export function normalizePr(value) {
   return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }

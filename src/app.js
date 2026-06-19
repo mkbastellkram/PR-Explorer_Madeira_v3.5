@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { loadUserState, state, filteredPrs, prUserState, durationToMinutes, setTripSettingValue } from './state.js';
+import { exportUserData, importUserData, loadUserState, state, filteredPrs, prUserState, durationToMinutes, setTripSettingValue } from './state.js';
 import { getBaseLayers, getMap, initMap, renderPins, renderPois, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute, toggleHeatmapMode, renderHeatmap } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
@@ -264,6 +264,15 @@ function renderSettings() {
           <header><strong>Google Kalender</strong><span>Vorbereitet, aber noch nicht synchronisiert</span></header>
           <p>Die lokale Kalenderansicht speichert Termine, Notizen und POIs. Der naechste Schritt ist Export oder echte Google-Calendar-Verdrahtung.</p>
         </section>
+        <section class="settings-card">
+          <header><strong>Datenabgleich</strong><span>Reiseplan an Freunde uebergeben</span></header>
+          <p>Exportiert Favoriten, geplante/gebuchte PRs, Termine, Notizen, ausgewählte POIs, Reisezeit, Unterkunft und Karten-/POI-Einstellungen. Private Keys werden nicht exportiert.</p>
+          <div class="settings-actions">
+            <button data-settings-action="export-share">Exportieren</button>
+            <button data-settings-action="import-share">Importieren</button>
+          </div>
+          <input class="hidden-file" type="file" accept="application/json,.json" data-share-file />
+        </section>
       </div>
     </section>`;
 
@@ -279,12 +288,15 @@ function renderSettings() {
       if (action === 'routing') openRoutingPanel();
       if (action === 'filters') openFilterSheet(handleFiltersChanged);
       if (action === 'info') openInfoCenter(openPr);
+      if (action === 'export-share') exportSharePackage();
+      if (action === 'import-share') $('#view').querySelector('[data-share-file]')?.click();
       if (action === 'maps-search') {
         const query = state.tripSettings.accommodationName || 'Hotel Madeira';
         window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank', 'noopener');
       }
     });
   });
+  $('#view').querySelector('[data-share-file]')?.addEventListener('change', importSharePackage);
 }
 
 function settingsText(key, label, value, placeholder = '') {
@@ -301,6 +313,35 @@ function settingsDate(key, label, value) {
       <span>${escapeHtml(label)}</span>
       <input data-trip-text="${escapeHtml(key)}" type="date" value="${escapeHtml(value)}" />
     </label>`;
+}
+
+function exportSharePackage() {
+  const payload = exportUserData();
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const date = new Date().toISOString().slice(0, 10);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `PRX-Reiseplan-${date}.json`;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+  toast('Reiseplan exportiert.');
+}
+
+async function importSharePackage(event) {
+  const file = event.currentTarget.files?.[0];
+  event.currentTarget.value = '';
+  if (!file) return;
+  try {
+    const payload = JSON.parse(await file.text());
+    const count = importUserData(payload, { merge: true });
+    toast(`${count} PR-Eintraege importiert.`);
+    renderSettings();
+  } catch {
+    toast('Import nicht moeglich: falsche oder defekte Datei.');
+  }
 }
 
 function navButton(view, label, iconSvg) {
