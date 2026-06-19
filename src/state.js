@@ -1,6 +1,6 @@
 const STORAGE_KEY = 'prx.v5.prStates';
 const SETTINGS_KEY = 'prx.v5.settings';
-const POI_CATALOG_VERSION = 3;
+const POI_CATALOG_VERSION = 4;
 
 export const state = {
   data: null,
@@ -65,6 +65,8 @@ export function loadUserState() {
       state.poiFilters.categories.add('waterfall');
       state.poiFilters.categories.add('tunnel');
       state.poiFilters.categories.add('webcam');
+      state.poiFilters.categories.add('parking');
+      state.poiFilters.categories.add('viewpoint');
       saveSettings();
     }
   } catch {

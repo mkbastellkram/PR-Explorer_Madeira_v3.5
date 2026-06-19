@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.38',
-  name: 'Full Bleed Icon',
-  label: 'V5.0.38 Full Bleed Icon'
+  id: 'V5.0.39',
+  name: 'POI Candidate Layer',
+  label: 'V5.0.39 POI Candidate Layer'
 };

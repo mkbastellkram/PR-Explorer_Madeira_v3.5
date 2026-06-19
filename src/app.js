@@ -21,11 +21,12 @@ export function toast(message) {
 }
 
 export async function loadData() {
-  const [prs, pois, webcams, osmPois, images] = await Promise.all([
+  const [prs, pois, webcams, osmPois, poiCandidates, images] = await Promise.all([
     fetch('data/prs.json', { cache: 'no-store' }).then(res => res.json()),
     fetch('data/pois.json', { cache: 'no-store' }).then(res => res.json()).catch(() => ({ pois: [] })),
     fetch('data/webcams.json', { cache: 'no-store' }).then(res => res.json()).catch(() => ({ pois: [] })),
     fetch('data/osm-pois.json', { cache: 'no-store' }).then(res => res.json()).catch(() => ({ pois: [], meta: null })),
+    fetch('data/prx-poi-candidates.json', { cache: 'no-store' }).then(res => res.json()).catch(() => ({ pois: [], meta: null })),
     fetch('data/pr-images.json', { cache: 'no-store' }).then(res => res.json()).catch(() => ({ images: {} }))
   ]);
   state.data = prs;
@@ -34,7 +35,8 @@ export async function loadData() {
     ...normalizePois(pois.pois || [], { layer: 'prx', source: 'prx' }),
     ...normalizePois(webcams.pois || [], { layer: 'webcam', source: 'webcam' }),
     ...normalizePois(featurePoisFromPrs(prs.prs || []), { layer: 'prx-feature', source: 'prx-feature' }),
-    ...normalizePois(osmPois.pois || [], { layer: 'osm', source: 'osm' })
+    ...normalizePois(osmPois.pois || [], { layer: 'osm', source: 'osm' }),
+    ...normalizePois(poiCandidates.pois || [], { layer: 'candidate', source: 'candidate' })
   ];
   state.osmPoiMeta = osmPois.meta || null;
 }

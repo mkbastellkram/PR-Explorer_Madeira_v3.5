@@ -11,6 +11,14 @@ export const poiCategories = [
   { id: 'tunnel', label: 'Tunnel', icon: 'T', color: '#c7b7ff', tags: ['tunnel=yes', 'route_feature=tunnel'] },
   { id: 'webcam', label: 'Webcam', icon: 'C', color: '#2da8ff', tags: ['surveillance=webcam', 'man_made=surveillance'] },
   { id: 'trailhead', label: 'Start', icon: '>', color: '#ff9f0a', tags: ['trailhead', 'tourism=information'] },
+  { id: 'photo_spot', label: 'Foto', icon: 'F', color: '#ff7ab6', tags: ['photo_spot'] },
+  { id: 'attraction', label: 'Ziel', icon: 'A', color: '#ffd166', tags: ['tourism=attraction'] },
+  { id: 'beach', label: 'Strand', icon: '~', color: '#45d6ff', tags: ['natural=beach'] },
+  { id: 'fuel', label: 'Tanken', icon: 'G', color: '#ff9f0a', tags: ['amenity=fuel'] },
+  { id: 'doctor', label: 'Arzt', icon: '+', color: '#ff5b6c', tags: ['amenity=doctors'] },
+  { id: 'pharmacy', label: 'Apotheke', icon: '+', color: '#ff5b6c', tags: ['amenity=pharmacy'] },
+  { id: 'danger', label: 'Gefahr', icon: '!', color: '#ff453a', tags: ['hazard=*'] },
+  { id: 'info', label: 'Info', icon: 'i', color: '#8fd8ff', tags: ['tourism=information'] },
   { id: 'landscape', label: 'Natur', icon: '*', color: '#35d49f', tags: ['natural=*'] }
 ];
 
@@ -29,10 +37,27 @@ export const osmTagMap = {
   'tunnel=yes': 'tunnel',
   'route_feature=tunnel': 'tunnel',
   'surveillance=webcam': 'webcam',
-  'man_made=surveillance': 'webcam'
+  'man_made=surveillance': 'webcam',
+  'amenity=fuel': 'fuel',
+  'amenity=pharmacy': 'pharmacy',
+  'amenity=doctors': 'doctor',
+  'tourism=attraction': 'attraction',
+  'natural=beach': 'beach',
+  'tourism=information': 'info'
 };
 
 export const categoryAliases = [
+  { match: ['drinking_water', 'trinkwasser'], category: 'water' },
+  { match: ['toilet', 'wc'], category: 'toilet' },
+  { match: ['bus_stop', 'bus'], category: 'bus' },
+  { match: ['pharmacy', 'apotheke'], category: 'pharmacy' },
+  { match: ['doctor', 'arzt'], category: 'doctor' },
+  { match: ['fuel', 'tankstelle'], category: 'fuel' },
+  { match: ['danger', 'gefahr'], category: 'danger' },
+  { match: ['photo_spot', 'foto'], category: 'photo_spot' },
+  { match: ['attraction', 'sehenswuerdigkeit', 'sehenswürdigkeit'], category: 'attraction' },
+  { match: ['beach', 'strand'], category: 'beach' },
+  { match: ['info'], category: 'info' },
   { match: ['wasserfall', 'lagune', 'wasserquellen'], category: 'waterfall' },
   { match: ['tunnel'], category: 'tunnel' },
   { match: ['webcam', 'kamera', 'camera'], category: 'webcam' },

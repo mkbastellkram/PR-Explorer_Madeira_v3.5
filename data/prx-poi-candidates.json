@@ -1,0 +1,3583 @@
+{
+  "meta": {
+    "schema": 1,
+    "purpose": "Curated POI candidates for PR-Explorer Madeira V5.",
+    "createdBy": "ChatGPT",
+    "createdAt": "2026-06-20",
+    "sources": [
+      "project:PR – V1.xlsx",
+      "https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/pr-6-levada-das-25-fontes/",
+      "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-9-levada-do-caldeirao-verde/",
+      "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/",
+      "https://simplifica.madeira.gov.pt/services/78-82-259",
+      "https://www.netmadeira.com/webcams-madeira/pico-do-arieiro",
+      "https://www.webcammadeira.com/en-US/webcam/achada-do-teixeira",
+      "https://www.madeira-web.com/pt/webcams.html",
+      "https://www.madereintime.fr/en/madeira-live.html",
+      "https://beyondmadeira.com/pt/live-webcams"
+    ],
+    "notes": "Candidate package only. No status approved. Trailheads/selected parking derive from PR-Explorer Excel. Many natural/functional POIs are marked medium/low confidence and must be validated against OSM/official sources before integration."
+  },
+  "pois": [
+    {
+      "id": "poi-trailhead-pr-1",
+      "name": "Startpunkt PR 1 – Vereda do Areeiro",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.735491,
+      "lon": -16.928797,
+      "region": "Central South",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 1"
+      ],
+      "relatedPrIds": [
+        "pr-1"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 1.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 1 Vereda do Areeiro. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.735491,-16.928797",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-1-1",
+      "name": "Startpunkt PR 1.1 – Vereda da Ilha",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.805899,
+      "lon": -16.91139,
+      "region": "North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 1.1"
+      ],
+      "relatedPrIds": [
+        "pr-1-1"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 1.1.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 1.1 Vereda da Ilha. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.805899,-16.911390",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-1-2",
+      "name": "Startpunkt PR 1.2 – Vereda do Pico Ruivo",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.764814,
+      "lon": -16.92108,
+      "region": "North East",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 1.2"
+      ],
+      "relatedPrIds": [
+        "pr-1-2"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 1.2.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 1.2 Vereda do Pico Ruivo. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.764814,-16.921080",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-1-3",
+      "name": "Startpunkt PR 1.3 – Vereda da Encumeada",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.760215,
+      "lon": -16.943376,
+      "region": "Central North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 1.3"
+      ],
+      "relatedPrIds": [
+        "pr-1-3"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 1.3.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 1.3 Vereda da Encumeada. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.760215,-16.943376",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-2",
+      "name": "Startpunkt PR 2 – Vereda do Urzal",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.742544,
+      "lon": -16.966133,
+      "region": "Central South",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 2"
+      ],
+      "relatedPrIds": [
+        "pr-2"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 2.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 2 Vereda do Urzal. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.742544,-16.966133",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-3",
+      "name": "Startpunkt PR 3 – Vereda do Burro",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.734933,
+      "lon": -16.928818,
+      "region": "Central South",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 3"
+      ],
+      "relatedPrIds": [
+        "pr-3"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 3.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 3 Vereda do Burro. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.734933,-16.928818",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-3-1",
+      "name": "Startpunkt PR 3.1 – Caminho Real do Monte",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.676691,
+      "lon": -16.903321,
+      "region": "Süd ",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 3.1"
+      ],
+      "relatedPrIds": [
+        "pr-3-1"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 3.1.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 3.1 Caminho Real do Monte. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.676691,-16.903321",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-4",
+      "name": "Startpunkt PR 4 – Levada do Barreiro",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.726012,
+      "lon": -16.924866,
+      "region": "Central South",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 4"
+      ],
+      "relatedPrIds": [
+        "pr-4"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 4.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 4 Levada do Barreiro. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.726012,-16.924866",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-5",
+      "name": "Startpunkt PR 5 – Vededa das Funduras",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.747471,
+      "lon": -16.825449,
+      "region": "North East",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 5"
+      ],
+      "relatedPrIds": [
+        "pr-5"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 5.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 5 Vededa das Funduras. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.747471,-16.825449",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-6",
+      "name": "Startpunkt PR 6 – Levada das 25 Fontes",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.755044,
+      "lon": -17.133991,
+      "region": "South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6"
+      ],
+      "relatedPrIds": [
+        "pr-6"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 6.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 6 Levada das 25 Fontes. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.755044,-17.133991",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-6-1",
+      "name": "Startpunkt PR 6.1 – Levada do Risco",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.755046,
+      "lon": -17.133993,
+      "region": "South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6.1"
+      ],
+      "relatedPrIds": [
+        "pr-6-1"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 6.1.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 6.1 Levada do Risco. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.755046,-17.133993",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-6-2",
+      "name": "Startpunkt PR 6.2 – Levada do Alecrim",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.753573,
+      "lon": -17.132659,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6.2"
+      ],
+      "relatedPrIds": [
+        "pr-6-2"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 6.2.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 6.2 Levada do Alecrim. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.753573,-17.132659",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-6-3",
+      "name": "Startpunkt PR 6.3 – Vereda da Lagoa do Vento",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.759936,
+      "lon": -17.121887,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6.3"
+      ],
+      "relatedPrIds": [
+        "pr-6-3"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 6.3.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 6.3 Vereda da Lagoa do Vento. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.759936,-17.121887",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-6-4",
+      "name": "Startpunkt PR 6.4 – Levada Velha do Rabacal",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.769039,
+      "lon": -17.153574,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6.4"
+      ],
+      "relatedPrIds": [
+        "pr-6-4"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 6.4.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 6.4 Levada Velha do Rabacal. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.769039,-17.153574",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-6-5",
+      "name": "Startpunkt PR 6.5 – Vereda do Pico Fernandes",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.762628,
+      "lon": -17.09944,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6.5"
+      ],
+      "relatedPrIds": [
+        "pr-6-5"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 6.5.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 6.5 Vereda do Pico Fernandes. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.762628,-17.099440",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-6-6",
+      "name": "Startpunkt PR 6.6 – Vereda do Tunel do Cavalo",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.755616,
+      "lon": -17.142597,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6.6"
+      ],
+      "relatedPrIds": [
+        "pr-6-6"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 6.6.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 6.6 Vereda do Tunel do Cavalo. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.755616,-17.142597",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-6-8",
+      "name": "Startpunkt PR 6.8 – Levada do Paul II - Um caminho para todos",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.748334,
+      "lon": -17.125443,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6.8"
+      ],
+      "relatedPrIds": [
+        "pr-6-8"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 6.8.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 6.8 Levada do Paul II - Um caminho para todos. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.748334,-17.125443",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-7",
+      "name": "Startpunkt PR 7 – Levada do Moinho",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.845746,
+      "lon": -17.193717,
+      "region": "North West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 7"
+      ],
+      "relatedPrIds": [
+        "pr-7"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 7.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 7 Levada do Moinho. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.845746,-17.193717",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-8",
+      "name": "Startpunkt PR 8 – Vereda da Ponta de Sao Lourenco",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.743376,
+      "lon": -16.70094,
+      "region": "North East",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 8"
+      ],
+      "relatedPrIds": [
+        "pr-8"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 8.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 8 Vereda da Ponta de Sao Lourenco. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.743376,-16.700940",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-9",
+      "name": "Startpunkt PR 9 – Levada do Caldeirao Verde",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.783557,
+      "lon": -16.907019,
+      "region": "North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 9"
+      ],
+      "relatedPrIds": [
+        "pr-9"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 9.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 9 Levada do Caldeirao Verde. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.783557,-16.907019",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-9-1",
+      "name": "Startpunkt PR 9.1 – Levada do Caldeirao Verde - um caminho",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.73554,
+      "lon": -16.886378,
+      "region": "North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 9.1"
+      ],
+      "relatedPrIds": [
+        "pr-9-1"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 9.1.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 9.1 Levada do Caldeirao Verde - um caminho. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.735540,-16.886378",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-10",
+      "name": "Startpunkt PR 10 – Levada do Furado",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.734915,
+      "lon": -16.886138,
+      "region": "Central South",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 10"
+      ],
+      "relatedPrIds": [
+        "pr-10"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 10.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 10 Levada do Furado. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.734915,-16.886138",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-11",
+      "name": "Startpunkt PR 11 – Vereda dos Balcoes",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.73554,
+      "lon": -16.886378,
+      "region": "Central South",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 11"
+      ],
+      "relatedPrIds": [
+        "pr-11"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 11.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 11 Vereda dos Balcoes. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.735540,-16.886378",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-12",
+      "name": "Startpunkt PR 12 – Caminho Real da Encumeada",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.711065,
+      "lon": -16.987193,
+      "region": "South",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 12"
+      ],
+      "relatedPrIds": [
+        "pr-12"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 12.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 12 Caminho Real da Encumeada. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.711065,-16.987193",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-13",
+      "name": "Startpunkt PR 13 – Vareda do Fanal",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.767111,
+      "lon": -17.107714,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 13"
+      ],
+      "relatedPrIds": [
+        "pr-13"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 13.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 13 Vareda do Fanal. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.767111,-17.107714",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-13-1",
+      "name": "Startpunkt PR 13.1 – Vareda da Palha Carga",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.772718,
+      "lon": -17.122694,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 13.1"
+      ],
+      "relatedPrIds": [
+        "pr-13-1"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 13.1.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 13.1 Vareda da Palha Carga. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.772718,-17.122694",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-14",
+      "name": "Startpunkt PR 14 – Levada dos Cedros",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.806103,
+      "lon": -17.140848,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 14"
+      ],
+      "relatedPrIds": [
+        "pr-14"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 14.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 14 Levada dos Cedros. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.806103,-17.140848",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-15",
+      "name": "Startpunkt PR 15 – Vededa da Ribeira da Janela",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.844092,
+      "lon": -17.155057,
+      "region": "North West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 15"
+      ],
+      "relatedPrIds": [
+        "pr-15"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 15.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 15 Vededa da Ribeira da Janela. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.844092,-17.155057",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-16",
+      "name": "Startpunkt PR 16 – Levada Faja do Rodrigues",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.779257,
+      "lon": -17.04958,
+      "region": "Central North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 16"
+      ],
+      "relatedPrIds": [
+        "pr-16"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 16.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 16 Levada Faja do Rodrigues. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.779257,-17.049580",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-17",
+      "name": "Startpunkt PR 17 – Caminho do Pinaculo e Folhadal",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.754225,
+      "lon": -17.019293,
+      "region": "Central North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 17"
+      ],
+      "relatedPrIds": [
+        "pr-17"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 17.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 17 Caminho do Pinaculo e Folhadal. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.754225,-17.019293",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-18",
+      "name": "Startpunkt PR 18 – Levada do Rei",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.816548,
+      "lon": -16.924595,
+      "region": "North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 18"
+      ],
+      "relatedPrIds": [
+        "pr-18"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 18.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 18 Levada do Rei. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.816548,-16.924595",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-19",
+      "name": "Startpunkt PR 19 – Caminho Real do Paul do Mar",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.752487,
+      "lon": -17.217052,
+      "region": "South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 19"
+      ],
+      "relatedPrIds": [
+        "pr-19"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 19.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 19 Caminho Real do Paul do Mar. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.752487,-17.217052",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-20",
+      "name": "Startpunkt PR 20 – Vereda do Jardim do Mar",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.748332,
+      "lon": -17.21016,
+      "region": "South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 20"
+      ],
+      "relatedPrIds": [
+        "pr-20"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 20.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 20 Vereda do Jardim do Mar. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.748332,-17.210160",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-21",
+      "name": "Startpunkt PR 21 – Caminho do Norte",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.754524,
+      "lon": -17.018887,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 21"
+      ],
+      "relatedPrIds": [
+        "pr-21"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 21.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 21 Caminho do Norte. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.754524,-17.018887",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-22",
+      "name": "Startpunkt PR 22 – Vereda do Chao dos Louros",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.76019,
+      "lon": -17.018242,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 22"
+      ],
+      "relatedPrIds": [
+        "pr-22"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 22.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 22 Vereda do Chao dos Louros. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.760190,-17.018242",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-27",
+      "name": "Startpunkt PR 27 – Glaciar de Planalto",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.757621,
+      "lon": -17.059546,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 27"
+      ],
+      "relatedPrIds": [
+        "pr-27"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 27.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 27 Glaciar de Planalto. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.757621,-17.059546",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-pr-28",
+      "name": "Startpunkt PR 28 – Levada da Rocha Vermelha",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 32.742804,
+      "lon": -17.150514,
+      "region": "South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 28"
+      ],
+      "relatedPrIds": [
+        "pr-28"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PR 28.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PR 28 Levada da Rocha Vermelha. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.742804,-17.150514",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-ps-pr-1",
+      "name": "Startpunkt PS PR 1 – Vereda do Pico Branco e Terra Cha",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 33.096706,
+      "lon": -16.314598,
+      "region": "Porto Santo",
+      "island": "Porto Santo",
+      "relatedPr": [
+        "PS PR 1"
+      ],
+      "relatedPrIds": [
+        "ps-pr-1"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PS PR 1.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PS PR 1 Vereda do Pico Branco e Terra Cha. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=33.096706,-16.314598",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-ps-pr-2",
+      "name": "Startpunkt PS PR 2 – Vereda do Pico do Castelo",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 33.090709,
+      "lon": -16.3274,
+      "region": "Porto Santo",
+      "island": "Porto Santo",
+      "relatedPr": [
+        "PS PR 2"
+      ],
+      "relatedPrIds": [
+        "ps-pr-2"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PS PR 2.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PS PR 2 Vereda do Pico do Castelo. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=33.090709,-16.327400",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-trailhead-ps-pr-3",
+      "name": "Startpunkt PS PR 3 – Levada do Pico do Castelo",
+      "category": "trailhead",
+      "subcategory": "official-trail-start",
+      "lat": 33.08382,
+      "lon": -16.340841,
+      "region": "Porto Santo",
+      "island": "Porto Santo",
+      "relatedPr": [
+        "PS PR 3"
+      ],
+      "relatedPrIds": [
+        "ps-pr-3"
+      ],
+      "shortText": "Startpunkt des offiziellen Wanderwegs PS PR 3.",
+      "description": "Aus PR-Explorer-Basisdaten übernommener Startpunkt für PS PR 3 Levada do Pico do Castelo. Vor Integration gegen GPX/KML und offizielle Karte prüfen.",
+      "tags": [
+        "trailhead",
+        "official-pr"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=33.083820,-16.340841",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus vorhandener PR-Explorer-Excel übernommen."
+    },
+    {
+      "id": "poi-parking-pr-1",
+      "name": "Parken PR 1 – Vereda do Areeiro",
+      "category": "parking",
+      "subcategory": "trail-parking",
+      "lat": 32.735491,
+      "lon": -16.928797,
+      "region": "Central South",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 1"
+      ],
+      "relatedPrIds": [
+        "pr-1"
+      ],
+      "shortText": "Park-/Startbereich am offiziellen Weg PR 1.",
+      "description": "Parkhinweis aus der PR-Explorer-Basisdatei: 4,00 €/Stunde. Exakte Parkfläche vor Nutzung prüfen.",
+      "tags": [
+        "parking",
+        "trailhead"
+      ],
+      "importance": 4,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.735491,-16.928797",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Parkplatz-Koordinate zunächst identisch mit Startkoordinate; Parkfläche exakt verifizieren."
+    },
+    {
+      "id": "poi-parking-pr-9",
+      "name": "Parken PR 9 – Levada do Caldeirao Verde",
+      "category": "parking",
+      "subcategory": "trail-parking",
+      "lat": 32.783557,
+      "lon": -16.907019,
+      "region": "North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 9"
+      ],
+      "relatedPrIds": [
+        "pr-9"
+      ],
+      "shortText": "Park-/Startbereich am offiziellen Weg PR 9.",
+      "description": "Parkhinweis aus der PR-Explorer-Basisdatei: 2,00 €/Stunde. Exakte Parkfläche vor Nutzung prüfen.",
+      "tags": [
+        "parking",
+        "trailhead"
+      ],
+      "importance": 4,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.783557,-16.907019",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Parkplatz-Koordinate zunächst identisch mit Startkoordinate; Parkfläche exakt verifizieren."
+    },
+    {
+      "id": "poi-parking-pr-9-1",
+      "name": "Parken PR 9.1 – Levada do Caldeirao Verde - um caminho",
+      "category": "parking",
+      "subcategory": "trail-parking",
+      "lat": 32.73554,
+      "lon": -16.886378,
+      "region": "North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 9.1"
+      ],
+      "relatedPrIds": [
+        "pr-9-1"
+      ],
+      "shortText": "Park-/Startbereich am offiziellen Weg PR 9.1.",
+      "description": "Parkhinweis aus der PR-Explorer-Basisdatei: 2,00 €/Stunde. Exakte Parkfläche vor Nutzung prüfen.",
+      "tags": [
+        "parking",
+        "trailhead"
+      ],
+      "importance": 4,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "project:PR – V1.xlsx",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.735540,-16.886378",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Parkplatz-Koordinate zunächst identisch mit Startkoordinate; Parkfläche exakt verifizieren."
+    },
+    {
+      "id": "poi-waterfall-risco",
+      "name": "Risco Wasserfall",
+      "category": "waterfall",
+      "subcategory": "waterfall",
+      "lat": 32.7589,
+      "lon": -17.1392,
+      "region": "South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6.1"
+      ],
+      "relatedPrIds": [
+        "pr-6-1"
+      ],
+      "shortText": "Hoher Wasserfall am Risco-Abzweig im Rabaçal-Gebiet.",
+      "description": "Klassischer Fotopunkt am kurzen Risco-Zweig; sinnvoll zusammen mit 25 Fontes/Rabaçal planen.",
+      "tags": [
+        "waterfall",
+        "photo",
+        "popular"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "madeira-web",
+      "sourceUrl": "https://visitmadeira.com/de/search/?query=Levada%20do%20Risco",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.758900,-17.139200",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate vor Freigabe gegen OSM/GPX prüfen.",
+      "waterfall": {
+        "heightMeters": null,
+        "photoRating": 5,
+        "seasonality": "best after rain"
+      }
+    },
+    {
+      "id": "poi-waterfall-25-fontes",
+      "name": "Lagoa das 25 Fontes",
+      "category": "waterfall",
+      "subcategory": "waterfall-lagoon",
+      "lat": 32.7662,
+      "lon": -17.1299,
+      "region": "South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6"
+      ],
+      "relatedPrIds": [
+        "pr-6"
+      ],
+      "shortText": "Ikonische Lagune mit vielen Quellaustritten im Rabaçal-Gebiet.",
+      "description": "Hauptziel von PR 6; touristisch stark frequentiert und für Fotostopps relevant.",
+      "tags": [
+        "waterfall",
+        "lagoon",
+        "popular",
+        "photo"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/pr-6-levada-das-25-fontes/",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.766200,-17.129900",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate vor Freigabe gegen OSM/GPX prüfen.",
+      "waterfall": {
+        "heightMeters": null,
+        "photoRating": 5,
+        "seasonality": "all year, stronger after rain"
+      }
+    },
+    {
+      "id": "poi-waterfall-lagoa-do-vento",
+      "name": "Lagoa do Vento",
+      "category": "waterfall",
+      "subcategory": "waterfall-lagoon",
+      "lat": 32.7616,
+      "lon": -17.1218,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6.3"
+      ],
+      "relatedPrIds": [
+        "pr-6-3"
+      ],
+      "shortText": "Große Wasserfall-Lagune oberhalb von Rabaçal.",
+      "description": "Attraktiver Fotopunkt an PR 6.3; oft ruhiger als 25 Fontes, aber Trittsicherheit prüfen.",
+      "tags": [
+        "waterfall",
+        "lagoon",
+        "photo"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.761600,-17.121800",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate vor Freigabe gegen OSM/GPX prüfen.",
+      "waterfall": {
+        "heightMeters": null,
+        "photoRating": 5,
+        "seasonality": "best after rain"
+      }
+    },
+    {
+      "id": "poi-waterfall-caldeirao-verde",
+      "name": "Caldeirão Verde Wasserfall",
+      "category": "waterfall",
+      "subcategory": "waterfall",
+      "lat": 32.7759,
+      "lon": -16.9178,
+      "region": "North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 9"
+      ],
+      "relatedPrIds": [
+        "pr-9"
+      ],
+      "shortText": "Hoher Wasserfall am Zielkessel der Levada do Caldeirão Verde.",
+      "description": "Schlüsselpunkt von PR 9; lange Hin- und Rücktour mit Tunnelpassagen und hoher Besucherfrequenz.",
+      "tags": [
+        "waterfall",
+        "photo",
+        "popular"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-9-levada-do-caldeirao-verde/",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.775900,-16.917800",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate vor Freigabe gegen OSM/GPX prüfen.",
+      "waterfall": {
+        "heightMeters": null,
+        "photoRating": 5,
+        "seasonality": "best after rain"
+      }
+    },
+    {
+      "id": "poi-waterfall-caldeirao-inferno",
+      "name": "Caldeirão do Inferno",
+      "category": "waterfall",
+      "subcategory": "waterfall-gorge",
+      "lat": 32.7731,
+      "lon": -16.9235,
+      "region": "North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 9"
+      ],
+      "relatedPrIds": [
+        "pr-9"
+      ],
+      "shortText": "Spektakulärer Kessel oberhalb von Caldeirão Verde.",
+      "description": "Nur bei gesicherter Weglage und offenem Status einplanen; wichtiger Kandidat für Warn-/Review-Logik.",
+      "tags": [
+        "waterfall",
+        "gorge",
+        "danger"
+      ],
+      "importance": 4,
+      "status": "needs-review",
+      "source": "official",
+      "sourceUrl": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-9-levada-do-caldeirao-verde/",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.773100,-16.923500",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Zugang/Status und Koordinate zwingend prüfen.",
+      "waterfall": {
+        "heightMeters": null,
+        "photoRating": 5,
+        "seasonality": "best after rain"
+      }
+    },
+    {
+      "id": "poi-waterfall-levada-do-rei",
+      "name": "Ribeiro Bonito Wasserfallbereich",
+      "category": "waterfall",
+      "subcategory": "waterfall",
+      "lat": 32.819,
+      "lon": -16.9305,
+      "region": "North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 18"
+      ],
+      "relatedPrIds": [
+        "pr-18"
+      ],
+      "shortText": "Wasserfall- und Bachbereich am Levada-do-Rei-Weg.",
+      "description": "Relevanter Naturpunkt für PR 18; genaue Lage entlang des Tracks prüfen.",
+      "tags": [
+        "waterfall",
+        "forest"
+      ],
+      "importance": 4,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.819000&mlon=-16.930500#map=16/32.819000/-16.930500",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.819000,-16.930500",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Kandidat aus Routenwissen; OSM/GPX-Abgleich erforderlich.",
+      "waterfall": {
+        "heightMeters": null,
+        "photoRating": 4,
+        "seasonality": "best after rain"
+      }
+    },
+    {
+      "id": "poi-waterfall-faja-rodrigues",
+      "name": "Fajã do Rodrigues Wasserfallbereich",
+      "category": "waterfall",
+      "subcategory": "waterfall",
+      "lat": 32.7836,
+      "lon": -17.0508,
+      "region": "Central North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 16"
+      ],
+      "relatedPrIds": [
+        "pr-16"
+      ],
+      "shortText": "Feuchter Wasserfall-/Levadaabschnitt bei Fajã do Rodrigues.",
+      "description": "Für PR 16 relevant; Tunnel und nasse Passagen wahrscheinlich, Lage vor Freigabe prüfen.",
+      "tags": [
+        "waterfall",
+        "wet",
+        "tunnel"
+      ],
+      "importance": 4,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.783600&mlon=-17.050800#map=16/32.783600/-17.050800",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.783600,-17.050800",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Koordinate grob; gegen Track und OSM prüfen.",
+      "waterfall": {
+        "heightMeters": null,
+        "photoRating": 4,
+        "seasonality": "best after rain"
+      }
+    },
+    {
+      "id": "poi-waterfall-agua-dalto",
+      "name": "Água d’Alto Wasserfall",
+      "category": "waterfall",
+      "subcategory": "waterfall",
+      "lat": 32.7908,
+      "lon": -16.8789,
+      "region": "North East",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Kleiner Wasserfallbereich nahe Faial/Santana-Kontext.",
+      "description": "Kandidat für Tagesplanung im Nordosten; nur nach Quellenprüfung übernehmen.",
+      "tags": [
+        "waterfall",
+        "photo"
+      ],
+      "importance": 3,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.790800&mlon=-16.878900#map=16/32.790800/-16.878900",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.790800,-16.878900",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Nicht direkt PR-gebunden; Koordinate prüfen.",
+      "waterfall": {
+        "heightMeters": null,
+        "photoRating": 3,
+        "seasonality": "after rain"
+      }
+    },
+    {
+      "id": "poi-waterfall-garganta-funda",
+      "name": "Garganta Funda Wasserfall",
+      "category": "waterfall",
+      "subcategory": "waterfall",
+      "lat": 32.8156,
+      "lon": -17.2502,
+      "region": "West",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Hoher saisonaler Wasserfall bei Ponta do Pargo.",
+      "description": "Guter Abstecher im Westen; besonders nach Regen relevant, im Sommer ggf. wenig Wasser.",
+      "tags": [
+        "waterfall",
+        "viewpoint",
+        "photo"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.815600&mlon=-17.250200#map=16/32.815600/-17.250200",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.815600,-17.250200",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate vor Freigabe gegen OSM prüfen.",
+      "waterfall": {
+        "heightMeters": null,
+        "photoRating": 4,
+        "seasonality": "best after rain"
+      }
+    },
+    {
+      "id": "poi-tunnel-pr1-pico-areeiro",
+      "name": "Tunnelpassagen PR 1",
+      "category": "tunnel",
+      "subcategory": "mountain-tunnel",
+      "lat": 32.7512,
+      "lon": -16.9235,
+      "region": "Central Mountains",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 1"
+      ],
+      "relatedPrIds": [
+        "pr-1"
+      ],
+      "shortText": "Tunnelpassagen zwischen Pico do Areeiro und Pico Ruivo.",
+      "description": "Für PR 1 relevante dunkle Abschnitte; Stirnlampe und Statusprüfung einplanen.",
+      "tags": [
+        "tunnel",
+        "flashlight",
+        "mountain"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://simplifica.madeira.gov.pt/services/78-82-259",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.751200,-16.923500",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Abschnittskoordinate repräsentativ; genaue Tunnelabschnitte später als Linienobjekte erfassen.",
+      "tunnel": {
+        "lengthMeters": null,
+        "flashlightRequired": true,
+        "wetRisk": "medium"
+      }
+    },
+    {
+      "id": "poi-tunnel-pr9-caldeirao-verde-1",
+      "name": "Tunnel PR 9 Caldeirão Verde",
+      "category": "tunnel",
+      "subcategory": "levada-tunnel",
+      "lat": 32.7795,
+      "lon": -16.9118,
+      "region": "North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 9"
+      ],
+      "relatedPrIds": [
+        "pr-9"
+      ],
+      "shortText": "Levada-Tunnel auf PR 9 Richtung Caldeirão Verde.",
+      "description": "Stirnlampe erforderlich; nasse und niedrige Passagen möglich.",
+      "tags": [
+        "tunnel",
+        "flashlight",
+        "wet"
+      ],
+      "importance": 5,
+      "status": "needs-review",
+      "source": "official",
+      "sourceUrl": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-9-levada-do-caldeirao-verde/",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.779500,-16.911800",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Repräsentativer Kandidat; exakte Tunnel-Ways aus OSM/Track ableiten.",
+      "tunnel": {
+        "lengthMeters": null,
+        "flashlightRequired": true,
+        "wetRisk": "high"
+      }
+    },
+    {
+      "id": "poi-tunnel-pr6-6-tunel-cavalo",
+      "name": "Túnel do Cavalo",
+      "category": "tunnel",
+      "subcategory": "levada-tunnel",
+      "lat": 32.7556,
+      "lon": -17.1426,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6.6"
+      ],
+      "relatedPrIds": [
+        "pr-6-6"
+      ],
+      "shortText": "Tunnelbezug am offiziellen Weg PR 6.6.",
+      "description": "Als eigener Tunnel-Kandidat für Rabaçal/Paul da Serra; Länge und Verlauf prüfen.",
+      "tags": [
+        "tunnel",
+        "flashlight"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.755600,-17.142600",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus PR-Startkontext; Tunnelgeometrie prüfen.",
+      "tunnel": {
+        "lengthMeters": null,
+        "flashlightRequired": true,
+        "wetRisk": "medium"
+      }
+    },
+    {
+      "id": "poi-tunnel-faja-rodrigues",
+      "name": "Tunnel Fajã do Rodrigues",
+      "category": "tunnel",
+      "subcategory": "levada-tunnel",
+      "lat": 32.7817,
+      "lon": -17.0502,
+      "region": "Central North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 16"
+      ],
+      "relatedPrIds": [
+        "pr-16"
+      ],
+      "shortText": "Tunnel-/Levadaabschnitt bei Fajã do Rodrigues.",
+      "description": "Für PR 16 wichtiger Ausrüstungs- und Sicherheitskandidat.",
+      "tags": [
+        "tunnel",
+        "flashlight",
+        "wet"
+      ],
+      "importance": 4,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.781700&mlon=-17.050200#map=16/32.781700/-17.050200",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.781700,-17.050200",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Exakte Lage und Länge über OSM/GPX prüfen.",
+      "tunnel": {
+        "lengthMeters": null,
+        "flashlightRequired": true,
+        "wetRisk": "high"
+      }
+    },
+    {
+      "id": "poi-tunnel-folhadal",
+      "name": "Tunnel Folhadal",
+      "category": "tunnel",
+      "subcategory": "levada-tunnel",
+      "lat": 32.7544,
+      "lon": -17.02,
+      "region": "Central North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 17"
+      ],
+      "relatedPrIds": [
+        "pr-17"
+      ],
+      "shortText": "Tunnelpassage im Folhadal-/Pináculo-Kontext.",
+      "description": "Als Sicherheits-POI für PR 17 vormerken; Status und genaue Lage prüfen.",
+      "tags": [
+        "tunnel",
+        "flashlight",
+        "wet"
+      ],
+      "importance": 4,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.754400&mlon=-17.020000#map=16/32.754400/-17.020000",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.754400,-17.020000",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Kandidat; genaue OSM-Way-Zuordnung fehlt.",
+      "tunnel": {
+        "lengthMeters": null,
+        "flashlightRequired": true,
+        "wetRisk": "high"
+      }
+    },
+    {
+      "id": "poi-webcam-pico-areeiro",
+      "name": "Webcam Pico do Areeiro",
+      "category": "webcam",
+      "subcategory": "mountain-webcam",
+      "lat": 32.7355,
+      "lon": -16.9288,
+      "region": "Central Mountains",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 1",
+        "PR 3"
+      ],
+      "relatedPrIds": [
+        "pr-1",
+        "pr-3"
+      ],
+      "shortText": "Live-Webcam zur Wetterprüfung am Pico do Areeiro.",
+      "description": "Sehr wichtiger Kontrollpunkt für Wolken, Wind und Sicht vor PR 1/PR 3.",
+      "tags": [
+        "webcam",
+        "weather",
+        "mountain"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "webcam",
+      "sourceUrl": "https://www.netmadeira.com/webcams-madeira/pico-do-arieiro",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.735500,-16.928800",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "high",
+      "notes": "Webcamseite vor Integration technisch prüfen.",
+      "webcam": {
+        "provider": "NetMadeira",
+        "pageUrl": "https://www.netmadeira.com/webcams-madeira/pico-do-arieiro",
+        "streamUrl": "",
+        "refreshType": "page",
+        "notes": "Nur Seitenlink speichern, keinen Stream scrapen."
+      }
+    },
+    {
+      "id": "poi-webcam-achada-teixeira",
+      "name": "Webcam Achada do Teixeira",
+      "category": "webcam",
+      "subcategory": "mountain-webcam",
+      "lat": 32.7648,
+      "lon": -16.9211,
+      "region": "North East",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 1.2"
+      ],
+      "relatedPrIds": [
+        "pr-1-2"
+      ],
+      "shortText": "Webcam am Startbereich Achada do Teixeira/Pico Ruivo.",
+      "description": "Nützlich zur Prüfung von Wetter, Wolken und Parkplatz-/Startbedingungen.",
+      "tags": [
+        "webcam",
+        "weather",
+        "trailhead"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "webcam",
+      "sourceUrl": "https://www.webcammadeira.com/en-US/webcam/achada-do-teixeira",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.764800,-16.921100",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "high",
+      "notes": "Nur Link/Provider speichern.",
+      "webcam": {
+        "provider": "Webcam Madeira",
+        "pageUrl": "https://www.webcammadeira.com/en-US/webcam/achada-do-teixeira",
+        "streamUrl": "",
+        "refreshType": "page",
+        "notes": "Nur Seitenlink speichern, keinen Stream scrapen."
+      }
+    },
+    {
+      "id": "poi-webcam-porto-moniz",
+      "name": "Webcam Porto Moniz",
+      "category": "webcam",
+      "subcategory": "coast-webcam",
+      "lat": 32.8686,
+      "lon": -17.1707,
+      "region": "North West",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Webcam für Wetter und Seegang an den Naturpools Porto Moniz.",
+      "description": "Geeignet für Tagesplanung im Nordwesten nach Wanderungen oder bei Schlechtwetterausweichung.",
+      "tags": [
+        "webcam",
+        "coast",
+        "weather"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "webcam",
+      "sourceUrl": "https://www.madeira-web.com/pt/webcams.html",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.868600,-17.170700",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Konkrete Unterseite/Provider prüfen.",
+      "webcam": {
+        "provider": "Madeira-Web",
+        "pageUrl": "https://www.madeira-web.com/pt/webcams.html",
+        "streamUrl": "",
+        "refreshType": "page",
+        "notes": "Sammelseite; später genaue Kamera-URL erfassen."
+      }
+    },
+    {
+      "id": "poi-webcam-funchal-marina",
+      "name": "Webcam Funchal Marina",
+      "category": "webcam",
+      "subcategory": "city-webcam",
+      "lat": 32.6469,
+      "lon": -16.9117,
+      "region": "South",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Webcam für Wetterbild im Raum Funchal.",
+      "description": "Basiskontrolle vom Hotel-/Stadtbereich vor Tagesstart.",
+      "tags": [
+        "webcam",
+        "weather",
+        "city"
+      ],
+      "importance": 3,
+      "status": "candidate",
+      "source": "webcam",
+      "sourceUrl": "https://www.madeira-web.com/pt/webcams.html",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.646900,-16.911700",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Sammelseite; später genaue Kamera-URL erfassen.",
+      "webcam": {
+        "provider": "Madeira-Web",
+        "pageUrl": "https://www.madeira-web.com/pt/webcams.html",
+        "streamUrl": "",
+        "refreshType": "page",
+        "notes": "Nur Seitenlink speichern."
+      }
+    },
+    {
+      "id": "poi-webcam-eira-serrado",
+      "name": "Webcam Eira do Serrado",
+      "category": "webcam",
+      "subcategory": "mountain-webcam",
+      "lat": 32.7104,
+      "lon": -16.9653,
+      "region": "Central Mountains",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Webcam mit Blick in den Curral-das-Freiras-Kontext.",
+      "description": "Hilfreich für zentrale Bergwetter- und Wolkenprüfung.",
+      "tags": [
+        "webcam",
+        "weather",
+        "viewpoint"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "webcam",
+      "sourceUrl": "https://www.madereintime.fr/en/madeira-live.html",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.710400,-16.965300",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Provider/Unterseite prüfen.",
+      "webcam": {
+        "provider": "Madere in Time",
+        "pageUrl": "https://www.madereintime.fr/en/madeira-live.html",
+        "streamUrl": "",
+        "refreshType": "page",
+        "notes": "Sammelseite; kein Stream übernehmen."
+      }
+    },
+    {
+      "id": "poi-webcam-porto-santo",
+      "name": "Webcam Porto Santo",
+      "category": "webcam",
+      "subcategory": "beach-webcam",
+      "lat": 33.06,
+      "lon": -16.333,
+      "region": "Porto Santo",
+      "island": "Porto Santo",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Webcam für Strand- und Wetterlage auf Porto Santo.",
+      "description": "Nützlich für Porto-Santo-Tage und PS-PR-Planung.",
+      "tags": [
+        "webcam",
+        "weather",
+        "beach"
+      ],
+      "importance": 3,
+      "status": "candidate",
+      "source": "webcam",
+      "sourceUrl": "https://beyondmadeira.com/pt/live-webcams",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=33.060000,-16.333000",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Konkrete Kamera prüfen.",
+      "webcam": {
+        "provider": "Beyond Madeira",
+        "pageUrl": "https://beyondmadeira.com/pt/live-webcams",
+        "streamUrl": "",
+        "refreshType": "page",
+        "notes": "Nur Seitenlink speichern."
+      }
+    },
+    {
+      "id": "poi-viewpoint-pico-areeiro",
+      "name": "Pico do Areeiro",
+      "category": "viewpoint",
+      "subcategory": "summit-viewpoint",
+      "lat": 32.7355,
+      "lon": -16.9288,
+      "region": "Central Mountains",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 1",
+        "PR 3"
+      ],
+      "relatedPrIds": [
+        "pr-1",
+        "pr-3"
+      ],
+      "shortText": "Ikonischer Hochgebirgs-Aussichtspunkt und PR-Start.",
+      "description": "Sehr wichtiger Start-, Foto- und Wetterpunkt; früh starten wegen Parkplatz und Wolkenlage.",
+      "tags": [
+        "viewpoint",
+        "sunrise",
+        "photo",
+        "popular"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://www.netmadeira.com/webcams-madeira/pico-do-arieiro",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.735500,-16.928800",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "high",
+      "notes": "Koordinate deckt sich mit PR-Explorer-Start PR1.",
+      "photo": {
+        "sunriseScore": 5,
+        "sunsetScore": 3,
+        "goldenHourScore": 5,
+        "insta360Score": 5,
+        "droneLikeScore": 5,
+        "crowdRisk": "high"
+      }
+    },
+    {
+      "id": "poi-viewpoint-pico-ruivo",
+      "name": "Pico Ruivo",
+      "category": "viewpoint",
+      "subcategory": "summit-viewpoint",
+      "lat": 32.7587,
+      "lon": -16.9427,
+      "region": "Central Mountains",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 1",
+        "PR 1.2"
+      ],
+      "relatedPrIds": [
+        "pr-1",
+        "pr-1-2"
+      ],
+      "shortText": "Höchster Gipfel Madeiras mit weitem Rundblick.",
+      "description": "Zentraler Ziel-/Knotenpunkt der Hochgebirgsrouten; Wetter und Status vorab prüfen.",
+      "tags": [
+        "viewpoint",
+        "summit",
+        "photo"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://simplifica.madeira.gov.pt/services/78-82-259",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.758700,-16.942700",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate prüfen.",
+      "photo": {
+        "sunriseScore": 5,
+        "sunsetScore": 5,
+        "goldenHourScore": 5,
+        "insta360Score": 5,
+        "droneLikeScore": 5,
+        "crowdRisk": "high"
+      }
+    },
+    {
+      "id": "poi-viewpoint-balcões",
+      "name": "Miradouro dos Balcões",
+      "category": "viewpoint",
+      "subcategory": "forest-viewpoint",
+      "lat": 32.7372,
+      "lon": -16.887,
+      "region": "Central South",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 11"
+      ],
+      "relatedPrIds": [
+        "pr-11"
+      ],
+      "shortText": "Leicht erreichbarer Aussichtspunkt bei Ribeiro Frio.",
+      "description": "Kurzer PR-11-Klassiker mit Blick in das zentrale Bergmassiv; sehr gut als kurzer Stopp.",
+      "tags": [
+        "viewpoint",
+        "easy",
+        "photo"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://visitmadeira.com/en/travel-info/useful-information/advice-to-walkers/",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.737200,-16.887000",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate prüfen.",
+      "photo": {
+        "sunriseScore": 3,
+        "sunsetScore": 3,
+        "goldenHourScore": 4,
+        "insta360Score": 3,
+        "droneLikeScore": 4,
+        "crowdRisk": "high"
+      }
+    },
+    {
+      "id": "poi-viewpoint-ponta-sao-lourenco",
+      "name": "Ponta de São Lourenço Aussicht",
+      "category": "viewpoint",
+      "subcategory": "coastal-viewpoint",
+      "lat": 32.7434,
+      "lon": -16.7009,
+      "region": "North East",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 8"
+      ],
+      "relatedPrIds": [
+        "pr-8"
+      ],
+      "shortText": "Karger Küsten- und Klippenblick am Ostende Madeiras.",
+      "description": "Sehr starker Foto-/Insta360-Kontext; windig, wenig Schatten, früh starten.",
+      "tags": [
+        "viewpoint",
+        "coast",
+        "photo",
+        "insta360"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.743400,-16.700900",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus PR-Start; Endpunkte entlang Track ergänzen.",
+      "photo": {
+        "sunriseScore": 5,
+        "sunsetScore": 4,
+        "goldenHourScore": 5,
+        "insta360Score": 5,
+        "droneLikeScore": 5,
+        "crowdRisk": "high"
+      }
+    },
+    {
+      "id": "poi-viewpoint-eira-serrado",
+      "name": "Eira do Serrado",
+      "category": "viewpoint",
+      "subcategory": "mountain-viewpoint",
+      "lat": 32.7104,
+      "lon": -16.9653,
+      "region": "Central Mountains",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Aussichtspunkt über Curral das Freiras.",
+      "description": "Starker Aussichtsstopp im Zentrum; gut als Auto-/Kurzstopp kombinierbar.",
+      "tags": [
+        "viewpoint",
+        "photo"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.710400&mlon=-16.965300#map=16/32.710400/-16.965300",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.710400,-16.965300",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen.",
+      "photo": {
+        "sunriseScore": 3,
+        "sunsetScore": 4,
+        "goldenHourScore": 5,
+        "insta360Score": 4,
+        "droneLikeScore": 5,
+        "crowdRisk": "medium"
+      }
+    },
+    {
+      "id": "poi-viewpoint-cabo-girao",
+      "name": "Cabo Girão Skywalk",
+      "category": "viewpoint",
+      "subcategory": "skywalk",
+      "lat": 32.656,
+      "lon": -17.0047,
+      "region": "South",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Bekannter Glasboden-Aussichtspunkt an der Steilküste.",
+      "description": "Top-Sehenswürdigkeit mit hoher touristischer Frequenz; eher als kurzer Stopp planen.",
+      "tags": [
+        "viewpoint",
+        "attraction",
+        "popular"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.656000&mlon=-17.004700#map=16/32.656000/-17.004700",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.656000,-17.004700",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen.",
+      "photo": {
+        "sunriseScore": 3,
+        "sunsetScore": 5,
+        "goldenHourScore": 5,
+        "insta360Score": 4,
+        "droneLikeScore": 5,
+        "crowdRisk": "high"
+      }
+    },
+    {
+      "id": "poi-viewpoint-guindaste",
+      "name": "Miradouro do Guindaste",
+      "category": "viewpoint",
+      "subcategory": "coastal-viewpoint",
+      "lat": 32.797,
+      "lon": -16.849,
+      "region": "North East",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Küstenblick mit Glasplattform bei Faial.",
+      "description": "Fotostopp im Nordosten; gut mit Santana/Ribeiro Frio kombinierbar.",
+      "tags": [
+        "viewpoint",
+        "coast",
+        "photo"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.797000&mlon=-16.849000#map=16/32.797000/-16.849000",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.797000,-16.849000",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen.",
+      "photo": {
+        "sunriseScore": 4,
+        "sunsetScore": 3,
+        "goldenHourScore": 5,
+        "insta360Score": 4,
+        "droneLikeScore": 5,
+        "crowdRisk": "medium"
+      }
+    },
+    {
+      "id": "poi-viewpoint-bica-cana",
+      "name": "Bica da Cana",
+      "category": "viewpoint",
+      "subcategory": "mountain-viewpoint",
+      "lat": 32.7533,
+      "lon": -17.0612,
+      "region": "Central South West",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Aussichtspunkt auf Paul da Serra mit Bergpanorama.",
+      "description": "Guter Wetter- und Fotostopp im Hochland; Wolkenlage stark wechselnd.",
+      "tags": [
+        "viewpoint",
+        "mountain",
+        "photo"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.753300&mlon=-17.061200#map=16/32.753300/-17.061200",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.753300,-17.061200",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen.",
+      "photo": {
+        "sunriseScore": 5,
+        "sunsetScore": 4,
+        "goldenHourScore": 5,
+        "insta360Score": 4,
+        "droneLikeScore": 5,
+        "crowdRisk": "medium"
+      }
+    },
+    {
+      "id": "poi-viewpoint-fanal",
+      "name": "Fanal Lorbeerwald",
+      "category": "viewpoint",
+      "subcategory": "forest-photo-spot",
+      "lat": 32.809,
+      "lon": -17.141,
+      "region": "North West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 13",
+        "PR 14"
+      ],
+      "relatedPrIds": [
+        "pr-13",
+        "pr-14"
+      ],
+      "shortText": "Mystischer Lorbeerwald und Fotospot im Fanal-Gebiet.",
+      "description": "Sehr starker Nebel-/Wald-Fotopunkt; nicht als einzelner Marker überladen.",
+      "tags": [
+        "forest",
+        "photo",
+        "insta360",
+        "popular"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.809000&mlon=-17.141000#map=16/32.809000/-17.141000",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.809000,-17.141000",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen.",
+      "photo": {
+        "sunriseScore": 4,
+        "sunsetScore": 4,
+        "goldenHourScore": 5,
+        "insta360Score": 5,
+        "droneLikeScore": 5,
+        "crowdRisk": "high"
+      }
+    },
+    {
+      "id": "poi-viewpoint-portela",
+      "name": "Miradouro da Portela",
+      "category": "viewpoint",
+      "subcategory": "mountain-viewpoint",
+      "lat": 32.7475,
+      "lon": -16.8254,
+      "region": "North East",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 5"
+      ],
+      "relatedPrIds": [
+        "pr-5"
+      ],
+      "shortText": "Aussichtspunkt am Start-/Kontextbereich PR 5.",
+      "description": "Guter Blick Richtung Porto da Cruz und Adlerfelsen; einfacher Stopp.",
+      "tags": [
+        "viewpoint",
+        "photo"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://visitmadeira.com/en/travel-info/useful-information/advice-to-walkers/",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.747500,-16.825400",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus PR-Explorer-Start PR5.",
+      "photo": {
+        "sunriseScore": 4,
+        "sunsetScore": 3,
+        "goldenHourScore": 4,
+        "insta360Score": 3,
+        "droneLikeScore": 4,
+        "crowdRisk": "medium"
+      }
+    },
+    {
+      "id": "poi-viewpoint-encumeada",
+      "name": "Boca da Encumeada",
+      "category": "viewpoint",
+      "subcategory": "mountain-pass",
+      "lat": 32.7542,
+      "lon": -17.0193,
+      "region": "Central North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 17",
+        "PR 21",
+        "PR 22"
+      ],
+      "relatedPrIds": [
+        "pr-17",
+        "pr-21",
+        "pr-22"
+      ],
+      "shortText": "Gebirgspass mit zentralem Nord-Süd-Blick.",
+      "description": "Wichtiger Knotenpunkt für zentrale PRs; Wetterwechsel und Parken prüfen.",
+      "tags": [
+        "viewpoint",
+        "trailhead"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.754200&mlon=-17.019300#map=16/32.754200/-17.019300",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.754200,-17.019300",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen.",
+      "photo": {
+        "sunriseScore": 3,
+        "sunsetScore": 4,
+        "goldenHourScore": 4,
+        "insta360Score": 3,
+        "droneLikeScore": 4,
+        "crowdRisk": "medium"
+      }
+    },
+    {
+      "id": "poi-viewpoint-pico-branco",
+      "name": "Pico Branco Aussicht",
+      "category": "viewpoint",
+      "subcategory": "summit-viewpoint",
+      "lat": 33.0967,
+      "lon": -16.3146,
+      "region": "Porto Santo",
+      "island": "Porto Santo",
+      "relatedPr": [
+        "PS PR 1"
+      ],
+      "relatedPrIds": [
+        "ps-pr-1"
+      ],
+      "shortText": "Aussichtspunkt am Porto-Santo-Weg Pico Branco/Terra Chã.",
+      "description": "Wichtigster Natur-/Aussichtskandidat für Porto Santo PR 1.",
+      "tags": [
+        "viewpoint",
+        "porto-santo",
+        "photo"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=33.096700&mlon=-16.314600#map=16/33.096700/-16.314600",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=33.096700,-16.314600",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus PR-Explorer-Startkontext; Trackbezug prüfen.",
+      "photo": {
+        "sunriseScore": 4,
+        "sunsetScore": 4,
+        "goldenHourScore": 5,
+        "insta360Score": 4,
+        "droneLikeScore": 5,
+        "crowdRisk": "medium"
+      }
+    },
+    {
+      "id": "poi-attraction-santana-houses",
+      "name": "Traditionelle Häuser Santana",
+      "category": "attraction",
+      "subcategory": "cultural",
+      "lat": 32.8032,
+      "lon": -16.8819,
+      "region": "North East",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Bekannte traditionelle strohgedeckte Häuser in Santana.",
+      "description": "Top-Sehenswürdigkeit im Nordosten, gut als kurzer Kulturstopp nach Wanderungen.",
+      "tags": [
+        "attraction",
+        "culture",
+        "photo"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.803200&mlon=-16.881900#map=16/32.803200/-16.881900",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.803200,-16.881900",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen."
+    },
+    {
+      "id": "poi-attraction-porto-moniz-pools",
+      "name": "Naturpools Porto Moniz",
+      "category": "attraction",
+      "subcategory": "natural-pools",
+      "lat": 32.8686,
+      "lon": -17.1707,
+      "region": "North West",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Bekannte Naturbecken an der Nordwestküste.",
+      "description": "Sehr gutes Ziel nach West-/Nordwesttouren; Wetter und Seegang per Webcam prüfen.",
+      "tags": [
+        "attraction",
+        "coast",
+        "swim"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.868600&mlon=-17.170700#map=16/32.868600/-17.170700",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.868600,-17.170700",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen."
+    },
+    {
+      "id": "poi-attraction-seixal-beach",
+      "name": "Praia do Seixal",
+      "category": "beach",
+      "subcategory": "black-sand-beach",
+      "lat": 32.823,
+      "lon": -17.1034,
+      "region": "North West",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Schwarzer Sandstrand mit Nordküstenkulisse.",
+      "description": "Fotostarker Strandstopp; Seegang und Parken prüfen.",
+      "tags": [
+        "beach",
+        "photo"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.823000&mlon=-17.103400#map=16/32.823000/-17.103400",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.823000,-17.103400",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen.",
+      "photo": {
+        "sunriseScore": 4,
+        "sunsetScore": 3,
+        "goldenHourScore": 5,
+        "insta360Score": 4,
+        "droneLikeScore": 5,
+        "crowdRisk": "high"
+      }
+    },
+    {
+      "id": "poi-attraction-porto-santo-beach",
+      "name": "Porto Santo Strand",
+      "category": "beach",
+      "subcategory": "long-beach",
+      "lat": 33.0494,
+      "lon": -16.3419,
+      "region": "Porto Santo",
+      "island": "Porto Santo",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Langer Sandstrand auf Porto Santo.",
+      "description": "Zentraler Strand-/Ruhepunkt für Porto-Santo-Tage.",
+      "tags": [
+        "beach",
+        "porto-santo"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=33.049400&mlon=-16.341900#map=16/33.049400/-16.341900",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=33.049400,-16.341900",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen."
+    },
+    {
+      "id": "poi-info-rabacal-house",
+      "name": "Rabaçal Forsthaus",
+      "category": "info",
+      "subcategory": "trail-service-point",
+      "lat": 32.763,
+      "lon": -17.133,
+      "region": "South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6",
+        "PR 6.1",
+        "PR 6.2",
+        "PR 6.3"
+      ],
+      "relatedPrIds": [
+        "pr-6",
+        "pr-6-1",
+        "pr-6-2",
+        "pr-6-3"
+      ],
+      "shortText": "Zentraler Orientierungspunkt im Rabaçal-Wegenetz.",
+      "description": "Relevanter Sammel-/Orientierungspunkt für mehrere PR-6-Varianten.",
+      "tags": [
+        "info",
+        "trailhub"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/pr-6-levada-das-25-fontes/",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.763000,-17.133000",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate prüfen."
+    },
+    {
+      "id": "poi-info-queimadas-house",
+      "name": "Forstpark Queimadas",
+      "category": "info",
+      "subcategory": "trail-service-point",
+      "lat": 32.7836,
+      "lon": -16.907,
+      "region": "North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 9"
+      ],
+      "relatedPrIds": [
+        "pr-9"
+      ],
+      "shortText": "Start- und Servicebereich für Caldeirão Verde.",
+      "description": "Wichtiger PR-9-Startbereich mit Parkplatzbezug; häufig stark frequentiert.",
+      "tags": [
+        "trailhub",
+        "parking",
+        "popular"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://visitmadeira.com/de/ausfluege/naturliebhaber/aktivitaeten/wandern/pr-9-levada-do-caldeirao-verde/",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.783600,-16.907000",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "high",
+      "notes": "Koordinate aus PR-Explorer-Start PR9."
+    },
+    {
+      "id": "poi-info-ribeiro-frio",
+      "name": "Ribeiro Frio",
+      "category": "info",
+      "subcategory": "trail-service-point",
+      "lat": 32.7355,
+      "lon": -16.8864,
+      "region": "Central South",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 10",
+        "PR 11"
+      ],
+      "relatedPrIds": [
+        "pr-10",
+        "pr-11"
+      ],
+      "shortText": "Wichtiger Start-/Knotenpunkt bei Ribeiro Frio.",
+      "description": "Relevanter Ausgangspunkt für Levada do Furado und Balcões.",
+      "tags": [
+        "trailhub",
+        "bus_stop",
+        "restaurant"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "official",
+      "sourceUrl": "https://visitmadeira.com/en/travel-info/useful-information/advice-to-walkers/",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.735500,-16.886400",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Koordinate aus PR-Explorer-Daten PR10/PR11."
+    },
+    {
+      "id": "poi-photo-ponta-do-rosto",
+      "name": "Ponta do Rosto Fotospot",
+      "category": "photo_spot",
+      "subcategory": "coastal-photo-spot",
+      "lat": 32.7481,
+      "lon": -16.7047,
+      "region": "North East",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 8"
+      ],
+      "relatedPrIds": [
+        "pr-8"
+      ],
+      "shortText": "Spektakulärer Küstenblick nahe Ponta de São Lourenço.",
+      "description": "Sehr starker Sunrise-/Insta360-Punkt; wind- und absturzgefährdete Bereiche meiden.",
+      "tags": [
+        "photo",
+        "sunrise",
+        "coast",
+        "insta360"
+      ],
+      "importance": 5,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.748100&mlon=-16.704700#map=16/32.748100/-16.704700",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.748100,-16.704700",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen.",
+      "photo": {
+        "sunriseScore": 5,
+        "sunsetScore": 3,
+        "goldenHourScore": 5,
+        "insta360Score": 5,
+        "droneLikeScore": 5,
+        "crowdRisk": "medium"
+      }
+    },
+    {
+      "id": "poi-photo-paul-do-mar",
+      "name": "Paul do Mar Promenade",
+      "category": "photo_spot",
+      "subcategory": "coastal-photo-spot",
+      "lat": 32.7525,
+      "lon": -17.2171,
+      "region": "South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 19"
+      ],
+      "relatedPrIds": [
+        "pr-19"
+      ],
+      "shortText": "Küsten- und Sonnenuntergangskontext bei Paul do Mar.",
+      "description": "Geeignet als Abschluss nach Westtouren; Parken/Brandung prüfen.",
+      "tags": [
+        "photo",
+        "sunset",
+        "coast"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.752500&mlon=-17.217100#map=16/32.752500/-17.217100",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.752500,-17.217100",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen.",
+      "photo": {
+        "sunriseScore": 2,
+        "sunsetScore": 5,
+        "goldenHourScore": 5,
+        "insta360Score": 4,
+        "droneLikeScore": 4,
+        "crowdRisk": "medium"
+      }
+    },
+    {
+      "id": "poi-photo-jardim-do-mar",
+      "name": "Jardim do Mar Küstenpromenade",
+      "category": "photo_spot",
+      "subcategory": "coastal-photo-spot",
+      "lat": 32.7483,
+      "lon": -17.2102,
+      "region": "South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 20"
+      ],
+      "relatedPrIds": [
+        "pr-20"
+      ],
+      "shortText": "Küstenort und Fotostopp nahe PR 20.",
+      "description": "Guter Abend-/Sonnenuntergangspunkt im Südwesten.",
+      "tags": [
+        "photo",
+        "sunset",
+        "coast"
+      ],
+      "importance": 4,
+      "status": "candidate",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.748300&mlon=-17.210200#map=16/32.748300/-17.210200",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.748300,-17.210200",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "medium",
+      "notes": "Quelle/Koordinate prüfen.",
+      "photo": {
+        "sunriseScore": 2,
+        "sunsetScore": 5,
+        "goldenHourScore": 5,
+        "insta360Score": 4,
+        "droneLikeScore": 4,
+        "crowdRisk": "medium"
+      }
+    },
+    {
+      "id": "poi-danger-pr1-exposure",
+      "name": "Ausgesetzte Abschnitte PR 1",
+      "category": "danger",
+      "subcategory": "exposure",
+      "lat": 32.7485,
+      "lon": -16.9245,
+      "region": "Central Mountains",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 1"
+      ],
+      "relatedPrIds": [
+        "pr-1"
+      ],
+      "shortText": "Ausgesetzte Hochgebirgsabschnitte auf PR 1.",
+      "description": "Nur als Warnkandidat; genaue Abschnitte aus offizieller Statuslage und Track ableiten.",
+      "tags": [
+        "danger",
+        "exposure",
+        "mountain"
+      ],
+      "importance": 5,
+      "status": "needs-review",
+      "source": "official",
+      "sourceUrl": "https://simplifica.madeira.gov.pt/services/78-82-259",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.748500,-16.924500",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Punkt ist repräsentativ, später als Abschnitt modellieren."
+    },
+    {
+      "id": "poi-toilet-rabacal",
+      "name": "WC Rabaçal Bereich",
+      "category": "toilet",
+      "subcategory": "public-toilet",
+      "lat": 32.763,
+      "lon": -17.133,
+      "region": "South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6",
+        "PR 6.1"
+      ],
+      "relatedPrIds": [
+        "pr-6",
+        "pr-6-1"
+      ],
+      "shortText": "WC-Kandidat im Rabaçal-Start-/Servicekontext.",
+      "description": "Nur nach Vor-Ort-/OSM-Prüfung als Funktions-POI freigeben.",
+      "tags": [
+        "toilet",
+        "service"
+      ],
+      "importance": 3,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.763000&mlon=-17.133000#map=16/32.763000/-17.133000",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.763000,-17.133000",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Funktions-POI-Kandidat; vor Nutzung OSM/Quelle exakt prüfen."
+    },
+    {
+      "id": "poi-drinking-water-rabacal",
+      "name": "Trinkwasser Rabaçal Bereich",
+      "category": "drinking_water",
+      "subcategory": "trail-water",
+      "lat": 32.763,
+      "lon": -17.133,
+      "region": "South West",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 6"
+      ],
+      "relatedPrIds": [
+        "pr-6"
+      ],
+      "shortText": "Trinkwasser-Kandidat im Rabaçal-Kontext.",
+      "description": "Nur mit verlässlicher Quelle/OSM-Tag freigeben.",
+      "tags": [
+        "water",
+        "service"
+      ],
+      "importance": 2,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.763000&mlon=-17.133000#map=16/32.763000/-17.133000",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.763000,-17.133000",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Funktions-POI-Kandidat; vor Nutzung OSM/Quelle exakt prüfen."
+    },
+    {
+      "id": "poi-toilet-queimadas",
+      "name": "WC Queimadas",
+      "category": "toilet",
+      "subcategory": "public-toilet",
+      "lat": 32.7836,
+      "lon": -16.907,
+      "region": "North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 9"
+      ],
+      "relatedPrIds": [
+        "pr-9"
+      ],
+      "shortText": "WC-Kandidat im Queimadas-Startbereich.",
+      "description": "Nur nach OSM/Ort-Prüfung als Funktions-POI freigeben.",
+      "tags": [
+        "toilet",
+        "service"
+      ],
+      "importance": 3,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.783600&mlon=-16.907000#map=16/32.783600/-16.907000",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.783600,-16.907000",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Funktions-POI-Kandidat; vor Nutzung OSM/Quelle exakt prüfen."
+    },
+    {
+      "id": "poi-bus-ribeiro-frio",
+      "name": "Bushaltestelle Ribeiro Frio",
+      "category": "bus_stop",
+      "subcategory": "bus-stop",
+      "lat": 32.7355,
+      "lon": -16.8864,
+      "region": "Central South",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 10",
+        "PR 11"
+      ],
+      "relatedPrIds": [
+        "pr-10",
+        "pr-11"
+      ],
+      "shortText": "Bus-Kandidat am Ribeiro-Frio-Knotenpunkt.",
+      "description": "Für Rück-/Alternativplanung interessant; Linien/Zeiten separat prüfen.",
+      "tags": [
+        "bus",
+        "service"
+      ],
+      "importance": 3,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.735500&mlon=-16.886400#map=16/32.735500/-16.886400",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.735500,-16.886400",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Funktions-POI-Kandidat; vor Nutzung OSM/Quelle exakt prüfen."
+    },
+    {
+      "id": "poi-bus-encumeada",
+      "name": "Bushaltestelle Encumeada",
+      "category": "bus_stop",
+      "subcategory": "bus-stop",
+      "lat": 32.7542,
+      "lon": -17.0193,
+      "region": "Central North",
+      "island": "Madeira",
+      "relatedPr": [
+        "PR 17",
+        "PR 21",
+        "PR 22"
+      ],
+      "relatedPrIds": [
+        "pr-17",
+        "pr-21",
+        "pr-22"
+      ],
+      "shortText": "Bus-Kandidat am Encumeada-Pass.",
+      "description": "Nur nach Fahrplandaten/OSM validieren.",
+      "tags": [
+        "bus",
+        "service"
+      ],
+      "importance": 2,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.754200&mlon=-17.019300#map=16/32.754200/-17.019300",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.754200,-17.019300",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Funktions-POI-Kandidat; vor Nutzung OSM/Quelle exakt prüfen."
+    },
+    {
+      "id": "poi-fuel-santana",
+      "name": "Tankstelle Santana Kandidat",
+      "category": "fuel",
+      "subcategory": "fuel-station",
+      "lat": 32.8032,
+      "lon": -16.8819,
+      "region": "North East",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Tankstellen-Kandidat im Raum Santana.",
+      "description": "Funktions-POI für Nordost-Tage; Anbieter/Koordinate prüfen.",
+      "tags": [
+        "fuel",
+        "service"
+      ],
+      "importance": 2,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.803200&mlon=-16.881900#map=16/32.803200/-16.881900",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.803200,-16.881900",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Funktions-POI-Kandidat; vor Nutzung OSM/Quelle exakt prüfen."
+    },
+    {
+      "id": "poi-pharmacy-santana",
+      "name": "Apotheke Santana Kandidat",
+      "category": "pharmacy",
+      "subcategory": "pharmacy",
+      "lat": 32.8032,
+      "lon": -16.8819,
+      "region": "North East",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Apotheken-Kandidat im Raum Santana.",
+      "description": "Funktions-POI; nur nach Quelle/Öffnung prüfen.",
+      "tags": [
+        "pharmacy",
+        "service"
+      ],
+      "importance": 2,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.803200&mlon=-16.881900#map=16/32.803200/-16.881900",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.803200,-16.881900",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Funktions-POI-Kandidat; vor Nutzung OSM/Quelle exakt prüfen."
+    },
+    {
+      "id": "poi-fuel-porto-moniz",
+      "name": "Tankstelle Porto Moniz Kandidat",
+      "category": "fuel",
+      "subcategory": "fuel-station",
+      "lat": 32.8686,
+      "lon": -17.1707,
+      "region": "North West",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Tankstellen-Kandidat im Raum Porto Moniz.",
+      "description": "Funktions-POI für Nordwest-Tage; Anbieter/Koordinate prüfen.",
+      "tags": [
+        "fuel",
+        "service"
+      ],
+      "importance": 2,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.868600&mlon=-17.170700#map=16/32.868600/-17.170700",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.868600,-17.170700",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Funktions-POI-Kandidat; vor Nutzung OSM/Quelle exakt prüfen."
+    },
+    {
+      "id": "poi-doctor-funchal-hospital",
+      "name": "Medizinischer Notfallpunkt Funchal Kandidat",
+      "category": "doctor",
+      "subcategory": "medical",
+      "lat": 32.65,
+      "lon": -16.925,
+      "region": "South",
+      "island": "Madeira",
+      "relatedPr": [],
+      "relatedPrIds": [],
+      "shortText": "Medizinischer Versorgungskandidat im Raum Funchal.",
+      "description": "Nur mit offiziellen Gesundheitsdaten und genauer Adresse freigeben.",
+      "tags": [
+        "medical",
+        "service"
+      ],
+      "importance": 2,
+      "status": "needs-review",
+      "source": "manual",
+      "sourceUrl": "https://www.openstreetmap.org/?mlat=32.650000&mlon=-16.925000#map=16/32.650000/-16.925000",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=32.650000,-16.925000",
+      "osm": {
+        "osmType": "",
+        "osmId": null,
+        "tags": {}
+      },
+      "license": "source-specific / needs review",
+      "confidence": "low",
+      "notes": "Funktions-POI-Kandidat; vor Nutzung OSM/Quelle exakt prüfen."
+    }
+  ]
+}
