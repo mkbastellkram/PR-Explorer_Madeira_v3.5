@@ -1,4 +1,4 @@
-import { state, filteredPrs, prUserState } from './state.js';
+import { state, filteredPrs, prStatus, prUserState } from './state.js';
 
 let map;
 let pinLayer;
@@ -226,7 +226,7 @@ function createPrFlag(pr, active, faded) {
 
   const scale = active ? mapStyle.activePinScale : mapStyle.pinScale;
   const difficulty = difficultyStyle(pr.difficulty);
-  const status = statusEmoji(pr.status);
+  const status = statusEmoji(prStatus(pr));
   const user = prUserState(pr.id);
   const activity = activityBadge(user.activity);
   const html = `
@@ -248,7 +248,7 @@ function createPrFlag(pr, active, faded) {
 }
 
 function createPrDot(pr) {
-  const html = `<span class="pr-dot" style="--dot-bg:${statusColor(pr.status)}"></span>`;
+  const html = `<span class="pr-dot" style="--dot-bg:${statusColor(prStatus(pr))}"></span>`;
   return L.divIcon({
     className: 'pr-dot-icon',
     html,

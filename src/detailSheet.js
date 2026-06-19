@@ -1,4 +1,4 @@
-import { prUserState, setPrActivity, state, toggleIgnored } from './state.js';
+import { cyclePrStatus, prStatus, prUserState, setPrActivity, state, toggleIgnored } from './state.js';
 import { renderPins } from './map.js';
 
 let host;
@@ -16,6 +16,7 @@ export function openDetail(id, openAdjacent) {
   const pr = state.data.prs.find(item => item.id === id);
   if (!pr) return;
   const user = prUserState(id);
+  const status = prStatus(pr);
 
   host.hidden = false;
   document.querySelector('#app').classList.add('detail-active');
@@ -35,7 +36,7 @@ export function openDetail(id, openAdjacent) {
         <div><span>Region</span><strong>${escapeHtml(pr.region || '-')}</strong></div>
       </section>
       <section class="peek-meta" aria-label="Planungsstatus">
-        <span>${statusEmoji(pr.status)} ${escapeHtml(pr.status || 'Status offen')}</span>
+        <button class="status-cycle ${statusClass(status)}" data-action="cycle-status">${statusEmoji(status)} ${escapeHtml(statusLabel(status))}</button>
         <button class="${user.activity === 'favorite' ? 'active' : ''}" data-activity="favorite" ${user.activity === 'booked' ? 'disabled' : ''}>${'\u{1F499}'} Favorit</button>
         <button class="${user.activity === 'planned' ? 'active' : ''}" data-activity="planned" ${user.activity === 'booked' ? 'disabled' : ''}>${'\u2764\uFE0F'} Geplant</button>
         <button class="${user.activity === 'booked' ? 'active' : ''}" data-activity="booked">${'\u2B50\uFE0F'} IFCN</button>
@@ -46,7 +47,7 @@ export function openDetail(id, openAdjacent) {
       <div class="sheet-body">
         <p class="lead">${escapeHtml(pr.shortText || pr.detailText || 'Noch kein Kurztext vorhanden.')}</p>
         <div class="facts">
-          <div><span>Status</span><strong>${statusEmoji(pr.status)} ${escapeHtml(pr.status || 'Check')}</strong></div>
+          <div><span>Status</span><strong>${statusEmoji(status)} ${escapeHtml(statusLabel(status))}</strong></div>
           <div><span>Level</span><strong>${escapeHtml(pr.difficulty || '-')}</strong></div>
           <div><span>Hoehe</span><strong>${fmt(pr.elevationLow, '')}-${fmt(pr.elevationHigh, ' m')}</strong></div>
           <div><span>Aufstieg</span><strong>${fmt(pr.elevationGain, ' hm')}</strong></div>
@@ -68,6 +69,11 @@ export function openDetail(id, openAdjacent) {
     </section>`;
 
   host.querySelector('.close').addEventListener('click', () => closeDetail());
+  host.querySelector('[data-action="cycle-status"]').addEventListener('click', () => {
+    cyclePrStatus(id);
+    renderPins();
+    openDetail(id, openAdjacent);
+  });
   host.querySelectorAll('[data-activity]').forEach(button => {
     button.addEventListener('click', async event => {
       const activity = event.currentTarget.dataset.activity;
@@ -194,6 +200,22 @@ function statusEmoji(status = '') {
   if (s.includes('restricted') || s.includes('eingeschraenkt') || s.includes('eingeschrankt')) return '\u{1F7E1}';
   if (s.includes('open') || s.includes('geoeffnet') || s.includes('geoffnet')) return '\u{1F7E2}';
   return '\u{1F7E1}';
+}
+
+function statusLabel(status = '') {
+  const s = normalize(status);
+  if (s.includes('closed') || s.includes('geschlossen')) return 'Closed';
+  if (s.includes('restricted') || s.includes('eingeschraenkt') || s.includes('eingeschrankt')) return 'Restricted';
+  if (s.includes('open') || s.includes('geoeffnet') || s.includes('geoffnet')) return 'Open';
+  return 'Check';
+}
+
+function statusClass(status = '') {
+  const s = normalize(status);
+  if (s.includes('closed') || s.includes('geschlossen')) return 'status-closed';
+  if (s.includes('restricted') || s.includes('eingeschraenkt') || s.includes('eingeschrankt')) return 'status-restricted';
+  if (s.includes('open') || s.includes('geoeffnet') || s.includes('geoffnet')) return 'status-open';
+  return '';
 }
 
 function normalize(value) {

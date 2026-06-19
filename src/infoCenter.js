@@ -1,4 +1,4 @@
-import { state, filteredPrs, durationToMinutes } from './state.js';
+import { state, filteredPrs, durationToMinutes, prStatus } from './state.js';
 import { rankingTopics } from '../data/info/rankings.js';
 import { photoGuideTopics } from '../data/info/photo-guides.js';
 import { insta360GuideTopics } from '../data/info/insta360-guides.js';
@@ -300,7 +300,11 @@ function statsFor(prs) {
     avgDriveMin: prs.reduce((sum, pr) => sum + (Number(pr.driveMin) || 0), 0) / count,
     avgDriveKm: prs.reduce((sum, pr) => sum + (Number(pr.driveKm) || 0), 0) / count,
     difficulty: distribution(prs, 'difficulty'),
-    status: distribution(prs, 'status')
+    status: prs.reduce((acc, pr) => {
+      const label = prStatus(pr) || 'k.A.';
+      acc[label] = (acc[label] || 0) + 1;
+      return acc;
+    }, {})
   };
 }
 

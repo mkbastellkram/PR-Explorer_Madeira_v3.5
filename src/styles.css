@@ -92,6 +92,9 @@ p { color: var(--muted); line-height: 1.45; }
 .peek-meta button.active, .state-actions button.active { border-color: rgba(53,212,159,.72); background: rgba(53,212,159,.18); color: var(--text); }
 .peek-meta button[data-activity="planned"].active { border-color: rgba(255,45,85,.72); background: rgba(255,45,85,.18); }
 .peek-meta button[data-activity="booked"].active { border-color: rgba(255,209,102,.72); background: rgba(255,209,102,.18); }
+.peek-meta .status-cycle.status-open { color: #35d49f; border-color: rgba(53,212,159,.54); }
+.peek-meta .status-cycle.status-restricted { color: #ffd166; border-color: rgba(255,209,102,.54); }
+.peek-meta .status-cycle.status-closed { color: #ff5b6c; border-color: rgba(255,69,58,.54); }
 .peek-meta button:disabled { opacity: .36; }
 .state-actions { display: grid; grid-template-columns: 1fr; padding: 0 12px 12px; border-bottom: 1px solid var(--line); }
 .state-actions button:disabled { opacity: .36; }

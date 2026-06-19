@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { state, filteredPrs, prUserState } from './state.js';
+import { state, filteredPrs, prStatus, prUserState } from './state.js';
 import { renderPins } from './map.js';
 
 export function renderJournal(host, openPr) {
@@ -85,7 +85,8 @@ function groupPrs(prs) {
 
 function renderRow(pr) {
   const user = prUserState(pr.id);
-  const status = statusEmoji(pr.status);
+  const statusValue = prStatus(pr);
+  const status = statusEmoji(statusValue);
   const activity = activityEmoji(user);
   return `
     <button class="pr-row ${user.ignored ? 'ignored' : ''}" data-id="${pr.id}">
@@ -98,7 +99,7 @@ function renderRow(pr) {
         <strong>${escapeHtml(pr.name)}</strong>
         <em>${escapeHtml(pr.region)} - ${fmt(pr.distanceKm, ' km')} - ${escapeHtml(pr.duration || '-')} - ${fmt(pr.driveMin, ' min')}</em>
       </span>
-      <span class="pr-status">${activity} ${escapeHtml(activityLabel(user) || statusLabel(pr.status))}</span>
+      <span class="pr-status">${activity} ${escapeHtml(activityLabel(user) || statusLabel(statusValue))}</span>
     </button>`;
 }
 

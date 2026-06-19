@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.18',
-  name: 'Info Center Foundation',
-  label: 'V5.0.18 Info Center Foundation'
+  id: 'V5.0.19',
+  name: 'Manual Status Cycling',
+  label: 'V5.0.19 Manual Status Cycling'
 };

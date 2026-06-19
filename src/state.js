@@ -40,9 +40,24 @@ export function prUserState(id) {
   return {
     activity: '',
     ignored: false,
+    statusOverride: '',
     schedule: null,
     ...state.prStates[id]
   };
+}
+
+export function prStatus(pr) {
+  return prUserState(pr.id).statusOverride || pr.status || '';
+}
+
+export function cyclePrStatus(id) {
+  const pr = state.data?.prs.find(item => item.id === id);
+  if (!pr) return '';
+  const current = normalizeStatus(prStatus(pr));
+  const next = current === 'Open' ? 'Restricted' : current === 'Restricted' ? 'Closed' : 'Open';
+  state.prStates[id] = { ...prUserState(id), statusOverride: next };
+  saveUserState();
+  return next;
 }
 
 export function setPrActivity(id, activity, schedule = null) {
@@ -83,7 +98,7 @@ export function filteredPrs() {
   return (state.data?.prs || []).filter(pr => {
     if (q && !`${pr.displayId} ${pr.name} ${pr.region}`.toLowerCase().includes(q)) return false;
     if (state.filters.regions.size && !state.filters.regions.has(pr.region)) return false;
-    if (state.filters.statuses.size && !state.filters.statuses.has(pr.status)) return false;
+    if (state.filters.statuses.size && !state.filters.statuses.has(prStatus(pr))) return false;
     if (!rangeAllows('driveKm', pr.driveKm)) return false;
     if (!rangeAllows('driveMin', pr.driveMin)) return false;
     if (!rangeAllows('distanceKm', pr.distanceKm)) return false;
@@ -97,7 +112,7 @@ export function prsForRange(metricKey) {
   return (state.data?.prs || []).filter(pr => {
     if (q && !`${pr.displayId} ${pr.name} ${pr.region}`.toLowerCase().includes(q)) return false;
     if (state.filters.regions.size && !state.filters.regions.has(pr.region)) return false;
-    if (state.filters.statuses.size && !state.filters.statuses.has(pr.status)) return false;
+    if (state.filters.statuses.size && !state.filters.statuses.has(prStatus(pr))) return false;
     return Object.keys(state.filters.ranges).every(key => key === metricKey || rangeAllows(key, metricValue(pr, key)));
   });
 }
@@ -132,4 +147,12 @@ function rangeAllows(key, value) {
 
 function saveUserState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state.prStates));
+}
+
+function normalizeStatus(value = '') {
+  const s = String(value || '').toLowerCase();
+  if (s.includes('restricted') || s.includes('eingeschraenkt') || s.includes('eingeschrankt')) return 'Restricted';
+  if (s.includes('closed') || s.includes('geschlossen')) return 'Closed';
+  if (s.includes('open') || s.includes('geoeffnet') || s.includes('geoffnet')) return 'Open';
+  return 'Closed';
 }
