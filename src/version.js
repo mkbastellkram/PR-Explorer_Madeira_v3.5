@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.1.4',
-  name: 'Accommodation Maps Link',
-  label: 'V5.1.4 Accommodation Maps Link'
+  id: 'V5.1.5',
+  name: 'iOS Icon Fix',
+  label: 'V5.1.5 iOS Icon Fix'
 };

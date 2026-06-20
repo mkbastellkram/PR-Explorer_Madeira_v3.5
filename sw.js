@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'prx-v5-1-4-accommodation-link-icon';
+const CACHE_VERSION = 'prx-v5-1-5-ios-icons';
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
@@ -6,7 +6,10 @@ const PRECACHE_URLS = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/brand/app-icon-v5.png',
+  './assets/brand/apple-touch-icon.png',
+  './assets/brand/app-icon-192.png',
+  './assets/brand/app-icon-512.png',
+  './assets/brand/app-icon-1024.png',
   './assets/brand/intro-madeira-2026.png',
   './assets/platforms/google.svg',
   './assets/platforms/googlemaps.svg',
