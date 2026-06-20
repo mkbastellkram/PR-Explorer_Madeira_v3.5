@@ -380,7 +380,7 @@ p { color: var(--muted); line-height: 1.45; }
 .routing-list { display: grid; gap: 8px; }
 .routing-list > strong { font-size: 13px; }
 .routing-row { min-height: 62px; display: grid; grid-template-columns: 10px 1fr auto auto; gap: 8px; align-items: center; border: 1px solid var(--line); border-radius: 16px; padding: 9px; background: rgba(255,255,255,.045); }
-.routing-row.preview { grid-template-columns: 10px 1fr auto; }
+.routing-row.preview { grid-template-columns: 10px 1fr auto auto; }
 .routing-row i { width: 6px; height: 38px; border-radius: 4px; background: var(--route-color); box-shadow: 0 0 12px color-mix(in srgb, var(--route-color) 54%, transparent); }
 .routing-row div { min-width: 0; }
 .routing-row strong, .routing-row span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

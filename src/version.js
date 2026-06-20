@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.43',
-  name: 'Trip List Calendar Export',
-  label: 'V5.0.43 Trip List Calendar Export'
+  id: 'V5.0.44',
+  name: 'Routing Start Buttons',
+  label: 'V5.0.44 Routing Start Buttons'
 };

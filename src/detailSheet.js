@@ -9,7 +9,10 @@ export function closeDetail(clearActive = true) {
   host.hidden = true;
   host.innerHTML = '';
   document.querySelector('#app').classList.remove('detail-active');
-  if (clearActive) state.activeId = null;
+  if (clearActive) {
+    state.activeId = null;
+    window.PRX_ACTIVE_ID = '';
+  }
 }
 
 export function openDetail(id, openAdjacent, openPrCallback = null, initialMode = 'peek') {

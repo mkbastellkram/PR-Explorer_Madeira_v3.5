@@ -176,6 +176,7 @@ export function renderView(view) {
 export function openPr(id, detailMode = 'peek') {
   const wasList = $('#app').classList.contains('list-mode');
   state.activeId = id;
+  window.PRX_ACTIVE_ID = id;
   state.view = 'map';
 
   $('#app').classList.remove('list-mode');

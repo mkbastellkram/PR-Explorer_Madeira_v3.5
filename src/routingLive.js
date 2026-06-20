@@ -145,15 +145,24 @@ function handlePanelClick(event) {
   const action = event.target.closest('[data-routing-action]')?.dataset.routingAction;
   const routeId = event.target.closest('[data-route-toggle]')?.dataset.routeToggle;
   const mapsId = event.target.closest('[data-route-maps]')?.dataset.routeMaps;
+  const targetRouteId = event.target.closest('[data-target-route]')?.dataset.targetRoute;
   const targetMapsId = event.target.closest('[data-target-maps]')?.dataset.targetMaps;
 
   if (action === 'gps') PRXRoutingLive.locateUser();
   if (action === 'demo') PRXRoutingLive.setDemoStart();
   if (action === 'nearest5') PRXRoutingLive.showNearestRoutes({ count: 5 });
   if (action === 'nearest10') PRXRoutingLive.showNearestRoutes({ count: 10 });
+  if (action === 'active') {
+    const target = activeTarget();
+    if (target) PRXRoutingLive.routeTo(target);
+  }
   if (action === 'clear') PRXRoutingLive.clearRoutes();
   if (action === 'saveKey') PRXRoutingLive.saveApiKey(routingState.panel.querySelector('[data-ors-key]')?.value);
   if (routeId) PRXRoutingLive.toggleRoute(routeId);
+  if (targetRouteId) {
+    const target = nearestTargets(10).find(item => item.id === targetRouteId);
+    if (target) PRXRoutingLive.routeTo(target);
+  }
   if (mapsId) {
     const route = routingState.routes.find(item => item.id === mapsId);
     if (route) PRXRoutingLive.openGoogleMaps(route.target);
@@ -167,6 +176,7 @@ function handlePanelClick(event) {
 function renderPanel() {
   if (!routingState.panel) return;
   const targets = nearestTargets(10);
+  const selectedTarget = activeTarget();
   routingState.panel.innerHTML = `
     <section class="routing-panel" role="dialog" aria-modal="true" aria-label="Live Routing">
       <header>
@@ -180,8 +190,9 @@ function renderPanel() {
         <div class="routing-actions">
           <button data-routing-action="gps">Standort</button>
           <button data-routing-action="demo">Funchal</button>
-          <button data-routing-action="nearest5">naechste 5</button>
-          <button data-routing-action="nearest10">naechste 10</button>
+          ${selectedTarget ? '<button data-routing-action="active">Aktiver PR</button>' : ''}
+          <button data-routing-action="nearest5">5 Routen</button>
+          <button data-routing-action="nearest10">10 Routen</button>
           <button data-routing-action="clear">Loeschen</button>
         </div>
         <label class="routing-key">
@@ -190,7 +201,7 @@ function renderPanel() {
           <button data-routing-action="saveKey">Speichern</button>
         </label>
         <div class="routing-hint">
-          Ohne ORS-Key nutzt PRX vorhandene KML-Anfahrten als Offline-Fallback. Wandertracks bleiben unveraendert.
+          Ablauf: Standort oder Funchal setzen, dann bei einem Ziel Route tippen. Ohne ORS-Key nutzt PRX KML/Luftlinie als Fallback. Wandertracks bleiben unveraendert.
         </div>
         <section class="routing-list">
           <strong>Routen</strong>
@@ -198,6 +209,11 @@ function renderPanel() {
         </section>
       </div>
     </section>`;
+}
+
+function activeTarget() {
+  const activeId = window.PRX_ACTIVE_ID || '';
+  return routingState.getTargets().find(target => target.id === activeId) || null;
 }
 
 function routeRow(route) {
@@ -221,6 +237,7 @@ function routePreview(targets) {
         <strong>${escapeHtml(target.name)}</strong>
         <span>${formatDistance(target.airDistance * 1000)} Luftlinie</span>
       </div>
+      <button data-target-route="${escapeHtml(target.id)}">Route</button>
       <button data-target-maps="${escapeHtml(target.id)}">Maps</button>
     </article>`).join('') || '<div class="empty">Keine Ziele gefunden.</div>';
 }
