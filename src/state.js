@@ -192,10 +192,11 @@ export function prImage(pr) {
   const direct = pr?.image || null;
   const catalog = state.images?.[pr?.id] || state.images?.[pr?.displayId] || null;
   const image = direct || catalog;
-  if (!image?.thumbnail && !image?.src) return null;
+  const resolved = resolveImageUrls(image);
+  if (!resolved.thumbnail && !resolved.src) return null;
   return {
-    thumbnail: image.thumbnail || image.src,
-    src: image.src || image.thumbnail,
+    thumbnail: resolved.thumbnail,
+    src: resolved.src,
     alt: image.alt || `${pr.displayId} ${pr.name}`,
     credit: image.credit || '',
     license: image.license || '',
@@ -205,6 +206,32 @@ export function prImage(pr) {
     status: image.status || '',
     notes: image.notes || ''
   };
+}
+
+function resolveImageUrls(image) {
+  if (!image) return { thumbnail: '', src: '' };
+  const src = image.src || image.originalUrl || '';
+  const thumbnail = image.thumbnail || image.src || '';
+  const fileUrl = wikimediaFileRedirect(image.sourceUrl);
+  return {
+    thumbnail: usableImageUrl(thumbnail) || (fileUrl ? `${fileUrl}?width=320` : ''),
+    src: usableImageUrl(src) || (fileUrl ? `${fileUrl}?width=1200` : '')
+  };
+}
+
+function usableImageUrl(value) {
+  const url = String(value || '').trim();
+  if (!/^https?:\/\//i.test(url)) return '';
+  if (url.includes('/thumb/...')) return '';
+  if (/\/wiki\/(?:Category|File):/i.test(url)) return '';
+  return url;
+}
+
+function wikimediaFileRedirect(sourceUrl) {
+  const url = String(sourceUrl || '').trim();
+  const match = url.match(/commons\.wikimedia\.org\/wiki\/File:([^?#]+)/i);
+  if (!match) return '';
+  return `https://commons.wikimedia.org/wiki/Special:Redirect/file/${match[1]}`;
 }
 
 export function prStatus(pr) {

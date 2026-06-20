@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.1.5',
-  name: 'iOS Icon Fix',
-  label: 'V5.1.5 iOS Icon Fix'
+  id: 'V5.1.6',
+  name: 'Wikimedia Image Resolver',
+  label: 'V5.1.6 Wikimedia Image Resolver'
 };
