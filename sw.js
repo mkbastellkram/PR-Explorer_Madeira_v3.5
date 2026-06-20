@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'prx-v5-1-6-wikimedia-image-resolver';
+const CACHE_VERSION = 'prx-v5-1-7-image-fullscreen-gallery';
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 

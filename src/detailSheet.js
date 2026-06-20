@@ -81,6 +81,7 @@ export function openDetail(id, openAdjacent, openPrCallback = null, initialMode 
     </section>`;
 
   host.querySelector('.close').addEventListener('click', () => closeDetail());
+  host.querySelector('[data-image-fullscreen]')?.addEventListener('click', () => openImageFullscreen(pr, image));
   host.querySelector('[data-action="cycle-status"]').addEventListener('click', () => {
     cyclePrStatus(id);
     renderPins();
@@ -151,8 +152,9 @@ function infoExtract(pr) {
 function detailImage(pr, image) {
   if (image) {
     return `
-      <figure class="detail-image">
+      <figure class="detail-image" data-image-fullscreen role="button" tabindex="0" aria-label="Bild ${escapeHtml(pr.displayId)} im Vollbild oeffnen">
         <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" loading="lazy" />
+        <span class="image-open-hint">Vollbild</span>
         ${image.credit || image.license ? `<figcaption>${escapeHtml([image.credit, image.license].filter(Boolean).join(' - '))}</figcaption>` : ''}
       </figure>`;
   }
@@ -161,6 +163,29 @@ function detailImage(pr, image) {
       <strong>${escapeHtml(pr.displayId)}</strong>
       <span>${escapeHtml(pr.name)}</span>
     </figure>`;
+}
+
+function openImageFullscreen(pr, image) {
+  if (!image?.src) return;
+  const existing = document.querySelector('#imageViewer');
+  existing?.remove();
+  const viewer = document.createElement('div');
+  viewer.id = 'imageViewer';
+  viewer.className = 'image-viewer';
+  viewer.innerHTML = `
+    <div class="image-viewer-bar">
+      <button data-image-back aria-label="Zurueck">Zurueck</button>
+      <strong>${escapeHtml(pr.displayId)} - ${escapeHtml(pr.name)}</strong>
+    </div>
+    <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" />
+    <footer>
+      <span>${escapeHtml([image.credit, image.license, image.status === 'needs-review' ? 'Lizenz pruefen' : ''].filter(Boolean).join(' - '))}</span>
+      ${image.sourceUrl ? `<a href="${escapeHtml(image.sourceUrl)}" target="_blank" rel="noopener">Quelle</a>` : ''}
+    </footer>`;
+  viewer.addEventListener('click', event => {
+    if (event.target.id === 'imageViewer' || event.target.closest('[data-image-back]')) viewer.remove();
+  });
+  document.querySelector('#app').append(viewer);
 }
 
 async function renderElevationProfile(node, pr) {

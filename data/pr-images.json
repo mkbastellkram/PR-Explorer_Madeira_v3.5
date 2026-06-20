@@ -17,7 +17,7 @@
       "notes",
       "gallery"
     ],
-    "note": "Final batch: 12 of 37 Madeira PRs with a usable Wikimedia match (PR1, PR1.2, PR4, PR6, PR6.1, PR6.2, PR8, PR9, PR11, PR13, PR17, PR19). Routes checked but skipped due to no clearly matching, license-compatible photo found (not filled with placeholders): PR2, PR3, PR3.1, PR5, PR6.3, PR7, PR9.1, PR10, PR12, PR14, PR15, PR16, PR18, PR20, PR21, PR22, PR27, PR28. Remaining untouched (PR6.4-6.6, PR6.8): not yet researched. Porto Santo (PS PR 1-3) intentionally excluded per instruction."
+    "note": "Final batch: 12 of 37 Madeira PRs with a usable Wikimedia match (PR1, PR1.2, PR4, PR6, PR6.1, PR6.2, PR8, PR9, PR11, PR13, PR17, PR19). Routes checked but skipped due to no clearly matching, license-compatible photo found (not filled with placeholders): PR2, PR3, PR3.1, PR5, PR6.3, PR7, PR9.1, PR10, PR12, PR14, PR15, PR16, PR18, PR20, PR21, PR22, PR27, PR28. Remaining untouched (PR6.4-6.6, PR6.8): not yet researched. Porto Santo (PS PR 1-3) intentionally excluded per instruction. V5.1.7: PR1.2, PR13 und PR19 auf konkrete Wikimedia-Dateien verdichtet; Status bleibt needs-review."
   },
   "images": {
     "pr-1": {
@@ -44,12 +44,12 @@
       "credit": "Foto-Serie 'ASD' (Wikimedia Commons, Kategorie Casa de Abrigo do Pico Ruivo)",
       "license": "needs verification (Lizenz auf Einzeldateiseite prüfen)",
       "source": "wikimedia",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/Category:Casa_de_Abrigo_do_Pico_Ruivo",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Madeira-Santana-Pico_Ruivo-hiking_trail_PR_1-2_(middle_-_view_from_to_Santana)-03ASD.jpg",
       "originalUrl": "",
       "width": 4608,
       "height": 3456,
       "status": "needs-review",
-      "notes": "Bildserie 'Madeira-Santana-Pico Ruivo-hiking trail PR 1-2 (middle - view from to Santana)-03ASD.jpg' bis '-06ASD.jpg' liegt in der Kategorie. Lizenz und exakter Autor müssen noch auf der jeweiligen Dateiseite bestätigt werden, bevor Status auf 'candidate' oder 'approved' wechselt.",
+      "notes": "Bildserie 'Madeira-Santana-Pico Ruivo-hiking trail PR 1-2 (middle - view from to Santana)-03ASD.jpg' bis '-06ASD.jpg' liegt in der Kategorie. Lizenz und exakter Autor müssen noch auf der jeweiligen Dateiseite bestätigt werden, bevor Status auf 'candidate' oder 'approved' wechselt. Konkrete Datei fuer sichtbaren Test gesetzt; Lizenz/Autor weiterhin pruefen.",
       "gallery": []
     },
     "pr-6": {
@@ -172,12 +172,12 @@
       "credit": "noch zu bestätigen (Dateien explizit als 'PR 13' benannt)",
       "license": "needs verification (Lizenz auf Einzeldateiseite prüfen)",
       "source": "wikimedia",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/Category:Trees_in_Madeira",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:PR_13,_Fanal,_Madeira,_tree.jpg",
       "originalUrl": "",
       "width": 4000,
       "height": 3000,
       "status": "needs-review",
-      "notes": "Drei Dateien sind direkt als 'PR 13, Fanal, Madeira, steps.jpg' / 'tree trunk.jpg' / 'tree.jpg' benannt - eindeutigste Routenzuordnung im gesamten Batch. Lizenz auf den jeweiligen Dateiseiten noch zu verifizieren, bevor 'candidate'. Alternative Motive in Category:Fanal (z.B. 'Fanal Madeira.jpg'), falls reines Landschaftsbild statt Wegmotiv gewuenscht.",
+      "notes": "Drei Dateien sind direkt als 'PR 13, Fanal, Madeira, steps.jpg' / 'tree trunk.jpg' / 'tree.jpg' benannt - eindeutigste Routenzuordnung im gesamten Batch. Lizenz auf den jeweiligen Dateiseiten noch zu verifizieren, bevor 'candidate'. Alternative Motive in Category:Fanal (z.B. 'Fanal Madeira.jpg'), falls reines Landschaftsbild statt Wegmotiv gewuenscht. Konkrete PR13-Datei fuer sichtbaren Test gesetzt; Lizenz/Autor weiterhin pruefen.",
       "gallery": []
     },
     "pr-19": {
@@ -188,12 +188,12 @@
       "credit": "noch zu bestätigen (Foto-Serie 'ASD', Wikimedia Category:Paul do Mar)",
       "license": "needs verification (Lizenz auf Einzeldateiseite prüfen)",
       "source": "wikimedia",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/Category:Paul_do_Mar",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Madeira-Paul_do_Mar-view_to_Jardin_do_Mar-01ASD.jpg",
       "originalUrl": "",
       "width": 4624,
       "height": 3468,
       "status": "needs-review",
-      "notes": "Datei 'Madeira-Paul do Mar-view to Jardin do Mar-01ASD.jpg' zeigt den namensgebenden Blick zwischen den beiden Endpunkten von PR19/PR20. Gleicher Fotograf-Stil ('ASD') wie das PR1.2-Material. Lizenz noch zu verifizieren.",
+      "notes": "Datei 'Madeira-Paul do Mar-view to Jardin do Mar-01ASD.jpg' zeigt den namensgebenden Blick zwischen den beiden Endpunkten von PR19/PR20. Gleicher Fotograf-Stil ('ASD') wie das PR1.2-Material. Lizenz noch zu verifizieren. Konkrete Datei fuer sichtbaren Test gesetzt; Lizenz/Autor weiterhin pruefen.",
       "gallery": []
     },
     "pr-9": {

@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.1.6',
-  name: 'Wikimedia Image Resolver',
-  label: 'V5.1.6 Wikimedia Image Resolver'
+  id: 'V5.1.7',
+  name: 'Image Fullscreen Gallery',
+  label: 'V5.1.7 Image Fullscreen Gallery'
 };
