@@ -10,6 +10,7 @@ export const poiCategories = [
   { id: 'waterfall', label: 'Wasserfall', icon: '~', color: '#45d6ff', tags: ['waterway=waterfall'] },
   { id: 'tunnel', label: 'Tunnel', icon: 'T', color: '#c7b7ff', tags: ['tunnel=yes', 'route_feature=tunnel'] },
   { id: 'webcam', label: 'Webcam', icon: 'C', color: '#2da8ff', tags: ['surveillance=webcam', 'man_made=surveillance'] },
+  { id: 'custom', label: 'Eigene Ziele', icon: '+', color: '#7dd8ff', tags: ['prx=custom_place'] },
   { id: 'trailhead', label: 'Start', icon: '>', color: '#ff9f0a', tags: ['trailhead', 'tourism=information'] },
   { id: 'photo_spot', label: 'Foto', icon: 'F', color: '#ff7ab6', tags: ['photo_spot'] },
   { id: 'attraction', label: 'Ziel', icon: 'A', color: '#ffd166', tags: ['tourism=attraction'] },

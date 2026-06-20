@@ -1,6 +1,6 @@
 const STORAGE_KEY = 'prx.v5.prStates';
 const SETTINGS_KEY = 'prx.v5.settings';
-const POI_CATALOG_VERSION = 5;
+const POI_CATALOG_VERSION = 6;
 
 export const state = {
   data: null,

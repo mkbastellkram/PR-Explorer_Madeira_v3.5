@@ -36,7 +36,7 @@ export function openFilterSheet(onChange) {
           <div class="filter-region-grid" id="filterRegions"></div>
         </section>
         <section>
-          <h2>POI-Ebenen</h2>
+          <h2>Kartenebenen</h2>
           <div class="filter-region-grid" id="poiCategories"></div>
         </section>
         <section>
