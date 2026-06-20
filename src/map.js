@@ -95,6 +95,11 @@ export function renderPois() {
         riseOnHover: true
       });
       marker.bindTooltip(`${poi.name} - ${poi.label} - ${poiSourceLabel(poi)}`);
+      marker.bindPopup(poiPopupHtml(poi), {
+        className: 'poi-popup',
+        maxWidth: 280,
+        closeButton: true
+      });
       marker.addTo(poiLayer);
     });
 }
@@ -313,6 +318,34 @@ function createPoiIcon(poi) {
     iconSize: [24, 24],
     iconAnchor: [12, 12]
   });
+}
+
+function poiPopupHtml(poi) {
+  const lat = Number(poi.lat);
+  const lon = Number(poi.lon);
+  const coordinate = `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+  const query = `${poi.name || 'POI'} ${poi.label || poi.category || ''} Madeira`;
+  const googleHref = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+  const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${lat},${lon}`)}&travelmode=driving`;
+  return `
+    <article class="poi-flag">
+      <header>
+        <strong>${escapeHtml(poi.name || 'POI')}</strong>
+        <span>${escapeHtml(poi.label || poi.category || 'POI')} - ${escapeHtml(poiSourceLabel(poi))}</span>
+      </header>
+      <p>${escapeHtml(coordinate)}</p>
+      ${poi.shortText ? `<p class="poi-flag-note">${escapeHtml(poi.shortText)}</p>` : ''}
+      <div class="poi-flag-links">
+        <a href="${escapeHtml(googleHref)}" target="_blank" rel="noopener" aria-label="Google Suche">
+          <img src="assets/platforms/google.svg" alt="" />
+          <span>Google</span>
+        </a>
+        <a href="${escapeHtml(mapsHref)}" target="_blank" rel="noopener" aria-label="Google Maps Route">
+          <img src="assets/platforms/googlemaps.svg" alt="" />
+          <span>Route</span>
+        </a>
+      </div>
+    </article>`;
 }
 
 function poiSourceLabel(poi) {

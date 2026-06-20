@@ -198,6 +198,19 @@ p { color: var(--muted); line-height: 1.45; }
 .poi-dot { width: 22px; height: 22px; display: grid; place-items: center; border-radius: 999px; background: color-mix(in srgb, var(--poi-color) 78%, #061b1d); border: 1px solid rgba(255,255,255,.82); box-shadow: 0 0 0 1px rgba(10,35,38,.72), 0 3px 8px rgba(0,0,0,.28); color: #061b1d; font-size: 10px; font-weight: 950; opacity: .92; }
 .poi-dot.osm { width: 18px; height: 18px; opacity: .74; font-size: 9px; border-color: rgba(255,255,255,.55); }
 .poi-dot span { transform: translateY(-.5px); }
+.leaflet-popup.poi-popup .leaflet-popup-content-wrapper { border: 1px solid var(--line); border-radius: 18px; background: rgba(6,27,29,.94); color: var(--text); box-shadow: 0 14px 38px rgba(0,0,0,.38); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+.leaflet-popup.poi-popup .leaflet-popup-tip { background: rgba(6,27,29,.94); border: 1px solid var(--line); }
+.leaflet-popup.poi-popup .leaflet-popup-content { margin: 0; width: 260px !important; }
+.leaflet-popup.poi-popup .leaflet-popup-close-button { color: var(--text); }
+.poi-flag { padding: 12px; }
+.poi-flag header strong, .poi-flag header span { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.poi-flag header strong { font-size: 15px; }
+.poi-flag header span, .poi-flag p { color: var(--muted); font-size: 12px; }
+.poi-flag p { margin: 7px 0 0; }
+.poi-flag-note { line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.poi-flag-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 11px; }
+.poi-flag-links a { min-height: 40px; display: grid; grid-template-columns: 22px 1fr; align-items: center; gap: 7px; border-radius: 14px; border: 1px solid var(--line); padding: 0 10px; background: rgba(255,255,255,.06); color: var(--text); text-decoration: none; font-size: 12px; font-weight: 850; }
+.poi-flag-links img { width: 21px; height: 21px; object-fit: contain; opacity: .92; filter: brightness(0) saturate(100%) invert(88%) sepia(22%) saturate(690%) hue-rotate(113deg) brightness(104%) contrast(98%) drop-shadow(0 0 7px rgba(53,212,159,.28)); }
 .poi-attribution { flex-basis: 100%; color: var(--muted); font-size: 11px; padding: 2px 4px 0; }
 .heat-route-glow { filter: drop-shadow(0 0 5px rgba(61, 190, 255, .8)); }
 .journal-group h2 { margin: 0; padding: 13px 16px 8px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; background: rgba(0,0,0,.12); border-bottom: 1px solid var(--line); }
