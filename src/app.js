@@ -300,8 +300,8 @@ function renderSettings() {
           </div>
         </section>
         <section class="settings-card">
-          <header><strong>Offline</strong><span>Noch nicht aktiv</span></header>
-          <p>Die App nutzt aktuell Browser-Cache und GitHub Pages. Ein echter Service Worker mit definierter Offline-Dateiliste fehlt noch.</p>
+          <header><strong>Offline</strong><span>Phase 1 aktiv</span></header>
+          <p>App, PR-Daten, POIs, Reiseplanung, GPX- und KML-JSON werden fuer Offline-Nutzung zwischengespeichert. Kartenkacheln und ORS-Routing bleiben online bzw. best-effort Cache.</p>
         </section>
         <section class="settings-card">
           <header><strong>Kalender Export</strong><span>iOS-kompatible ICS-Datei</span></header>
