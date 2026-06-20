@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.1.0',
-  name: 'Offline Phase 1',
-  label: 'V5.1.0 Offline Phase 1'
+  id: 'V5.1.1',
+  name: 'External Logo Tint',
+  label: 'V5.1.1 External Logo Tint'
 };
