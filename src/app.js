@@ -270,8 +270,12 @@ function renderSettings() {
           <p>Die App nutzt aktuell Browser-Cache und GitHub Pages. Ein echter Service Worker mit definierter Offline-Dateiliste fehlt noch.</p>
         </section>
         <section class="settings-card">
-          <header><strong>Google Kalender</strong><span>Vorbereitet, aber noch nicht synchronisiert</span></header>
-          <p>Die lokale Kalenderansicht speichert Termine, Notizen und POIs. Der naechste Schritt ist Export oder echte Google-Calendar-Verdrahtung.</p>
+          <header><strong>Kalender Export</strong><span>iOS-kompatible ICS-Datei</span></header>
+          <p>Exportiert geplante und gebuchte PRs mit Datum, Uhrzeit, Notizen, POIs und Links als Kalenderdatei.</p>
+          <div class="settings-actions">
+            <button data-settings-action="export-ics">ICS exportieren</button>
+            <button data-settings-action="trip">Kalenderansicht</button>
+          </div>
         </section>
         <section class="settings-card">
           <header><strong>Datenabgleich</strong><span>Reiseplan an Freunde uebergeben</span></header>
@@ -299,6 +303,8 @@ function renderSettings() {
       if (action === 'info') openInfoCenter(openPr);
       if (action === 'export-share') exportSharePackage();
       if (action === 'import-share') $('#view').querySelector('[data-share-file]')?.click();
+      if (action === 'export-ics') exportIcsCalendar();
+      if (action === 'trip') renderView('trip');
       if (action === 'maps-search') {
         const query = state.tripSettings.accommodationName || 'Hotel Madeira';
         window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank', 'noopener');
@@ -326,17 +332,102 @@ function settingsDate(key, label, value) {
 
 function exportSharePackage() {
   const payload = exportUserData();
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
   const date = new Date().toISOString().slice(0, 10);
+  downloadTextFile(`PRX-Reiseplan-${date}.json`, JSON.stringify(payload, null, 2), 'application/json;charset=utf-8');
+  toast('Reiseplan exportiert.');
+}
+
+function exportIcsCalendar() {
+  const events = calendarEvents()
+    .filter(({ user }) => ['planned', 'booked'].includes(user.activity) && user.schedule?.date);
+  if (!events.length) {
+    toast('Keine geplanten oder gebuchten Termine fuer ICS gefunden.');
+    return;
+  }
+
+  const stamp = icsStamp(new Date());
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//PR-Explorer Madeira//PRX V5//DE',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'X-WR-CALNAME:PR-Explorer Madeira'
+  ];
+
+  events.forEach(({ pr, user }) => {
+    const start = scheduleDate(user.schedule);
+    const end = new Date(start.getTime() + Math.max(90, durationToMinutes(pr.duration) || 120) * 60000);
+    const summary = `${activityEmoji(user.activity)} ${pr.displayId} ${pr.name}`;
+    lines.push(
+      'BEGIN:VEVENT',
+      `UID:${icsText(`prx-${pr.id}-${user.schedule.isoLocal || user.schedule.date}`)}@pr-explorer-madeira`,
+      `DTSTAMP:${stamp}`,
+      `DTSTART:${icsStamp(start, false)}`,
+      `DTEND:${icsStamp(end, false)}`,
+      `SUMMARY:${icsText(summary)}`,
+      `DESCRIPTION:${icsText(calendarDescription(pr, user))}`,
+      `LOCATION:${icsText(pr.region || 'Madeira')}`,
+      'END:VEVENT'
+    );
+  });
+
+  lines.push('END:VCALENDAR');
+  downloadTextFile(`PRX-Kalender-${new Date().toISOString().slice(0, 10)}.ics`, `${lines.join('\r\n')}\r\n`, 'text/calendar;charset=utf-8');
+  toast(`${events.length} Termine als ICS exportiert.`);
+}
+
+function calendarDescription(pr, user) {
+  const poiNames = selectedPoiNames(user);
+  return [
+    `${pr.displayId} - ${pr.name}`,
+    `Status: ${user.activity === 'booked' ? 'IFCN gebucht' : 'geplant'}`,
+    `Region: ${pr.region || '-'}`,
+    `Laenge: ${fmt(pr.distanceKm, ' km')}`,
+    `Dauer: ${pr.duration || '-'}`,
+    `Anfahrt: ${fmt(pr.driveMin, ' min')} / ${fmt(pr.driveKm, ' km')}`,
+    poiNames.length ? `POIs: ${poiNames.join(', ')}` : '',
+    user.note ? `Notiz: ${user.note}` : '',
+    pr.links?.visitMadeira ? `Visit Madeira: ${pr.links.visitMadeira}` : '',
+    pr.links?.driveGoogleMaps ? `Anfahrt: ${pr.links.driveGoogleMaps}` : '',
+    pr.links?.startGoogleMaps ? `Start: ${pr.links.startGoogleMaps}` : ''
+  ].filter(Boolean).join('\n');
+}
+
+function scheduleDate(schedule) {
+  const [year, month, day] = String(schedule.date || '').split('-').map(Number);
+  const hour = Number(schedule.hour || 8);
+  const minute = Number(schedule.minute || 0);
+  return new Date(year, month - 1, day, hour, minute, 0);
+}
+
+function icsStamp(date, utc = true) {
+  const source = utc ? new Date(date.getTime()) : date;
+  const parts = utc
+    ? [source.getUTCFullYear(), source.getUTCMonth() + 1, source.getUTCDate(), source.getUTCHours(), source.getUTCMinutes(), source.getUTCSeconds()]
+    : [source.getFullYear(), source.getMonth() + 1, source.getDate(), source.getHours(), source.getMinutes(), source.getSeconds()];
+  const [year, month, day, hour, minute, second] = parts.map((part, index) => index ? String(part).padStart(2, '0') : String(part));
+  return `${year}${month}${day}T${hour}${minute}${second}${utc ? 'Z' : ''}`;
+}
+
+function icsText(value) {
+  return String(value ?? '')
+    .replace(/\\/g, '\\\\')
+    .replace(/\n/g, '\\n')
+    .replace(/,/g, '\\,')
+    .replace(/;/g, '\\;');
+}
+
+function downloadTextFile(filename, content, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = `PRX-Reiseplan-${date}.json`;
+  link.download = filename;
   document.body.append(link);
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
-  toast('Reiseplan exportiert.');
 }
 
 async function importSharePackage(event) {
