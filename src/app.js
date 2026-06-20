@@ -270,13 +270,16 @@ function renderSettings() {
           <div class="settings-fields two">
             <label>
               <span>Kategorie</span>
-              <input data-custom-place="category" type="text" placeholder="hotel, food, beach, viewpoint" />
+              <input data-custom-place="category" type="text" list="customPlaceCategories" placeholder="hotel, food, beach, viewpoint" />
             </label>
             <label>
               <span>Notiz</span>
               <input data-custom-place="note" type="text" placeholder="optional" />
             </label>
           </div>
+          <datalist id="customPlaceCategories">
+            ${customPlaceCategoryOptions()}
+          </datalist>
           <button class="settings-action" data-settings-action="add-custom-place">Ziel hinzufuegen</button>
           <div class="custom-place-list">
             ${renderCustomPlaceList()}
@@ -405,6 +408,33 @@ function customPlaceActivityLabel(place) {
   if (place.activity === 'favorite') return 'Favorit';
   if (place.activity === 'planned' || place.inTrip) return 'geplant';
   return '';
+}
+
+function customPlaceCategoryOptions() {
+  const defaults = [
+    'hotel',
+    'restaurant',
+    'cafe',
+    'bar',
+    'supermarkt',
+    'parkplatz',
+    'strand',
+    'aussichtspunkt',
+    'sehenswuerdigkeit',
+    'tankstelle',
+    'apotheke',
+    'arzt',
+    'bushaltestelle',
+    'shopping',
+    'sonstiges'
+  ];
+  const used = (state.customPlaces || [])
+    .map(place => String(place.category || '').trim())
+    .filter(Boolean);
+  return [...new Set([...defaults, ...used])]
+    .sort((a, b) => a.localeCompare(b, 'de'))
+    .map(category => `<option value="${escapeHtml(category)}"></option>`)
+    .join('');
 }
 
 function settingsText(key, label, value, placeholder = '') {

@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.49',
-  name: 'Custom Place Planning',
-  label: 'V5.0.49 Custom Place Planning'
+  id: 'V5.0.50',
+  name: 'Custom Category Suggestions',
+  label: 'V5.0.50 Custom Category Suggestions'
 };
