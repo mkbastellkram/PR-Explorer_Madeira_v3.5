@@ -122,7 +122,11 @@ export function prImage(pr) {
     alt: image.alt || `${pr.displayId} ${pr.name}`,
     credit: image.credit || '',
     license: image.license || '',
-    sourceUrl: image.sourceUrl || ''
+    source: image.source || '',
+    sourceUrl: image.sourceUrl || '',
+    originalUrl: image.originalUrl || '',
+    status: image.status || '',
+    notes: image.notes || ''
   };
 }
 
