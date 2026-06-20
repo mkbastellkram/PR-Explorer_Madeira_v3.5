@@ -20,6 +20,13 @@ const mapStyle = {
 const baseLayers = new Map();
 const BASE_LAYER_CONFIG = {
   osm: { label: 'OSM', url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', options: { maxZoom: 19, attribution: '(c) OpenStreetMap' } },
+  hike: {
+    label: 'Hike',
+    layers: [
+      { url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', options: { maxZoom: 19, attribution: '(c) OpenStreetMap' } },
+      { url: 'https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', options: { maxZoom: 18, opacity: 0.9, attribution: 'Hiking routes (c) Waymarked Trails / OSM' } }
+    ]
+  },
   topo: { label: 'Topo', url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', options: { maxZoom: 17, attribution: '(c) OpenTopoMap, (c) OpenStreetMap' } },
   sat: { label: 'Sat', url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', options: { maxZoom: 18, attribution: 'Tiles (c) Esri' } }
 };
@@ -38,13 +45,7 @@ export function initMap(onOpenPr) {
   }).setView([32.75, -16.95], 10);
 
   Object.entries(BASE_LAYER_CONFIG).forEach(([key, config]) => {
-    baseLayers.set(key, L.tileLayer(config.url, {
-      updateWhenIdle: true,
-      updateWhenZooming: false,
-      keepBuffer: 4,
-      crossOrigin: true,
-      ...config.options
-    }));
+    baseLayers.set(key, createBaseLayer(config));
   });
   baseLayers.get(activeBaseLayer).addTo(map);
 
@@ -122,6 +123,19 @@ export function setBaseLayer(key) {
 
 export function getBaseLayers() {
   return Object.entries(BASE_LAYER_CONFIG).map(([key, config]) => ({ key, label: config.label, active: key === activeBaseLayer }));
+}
+
+function createBaseLayer(config) {
+  const common = {
+    updateWhenIdle: true,
+    updateWhenZooming: false,
+    keepBuffer: 4,
+    crossOrigin: true
+  };
+  if (config.layers) {
+    return L.layerGroup(config.layers.map(layer => L.tileLayer(layer.url, { ...common, ...layer.options })));
+  }
+  return L.tileLayer(config.url, { ...common, ...config.options });
 }
 
 export async function showPrOnMap(id) {
