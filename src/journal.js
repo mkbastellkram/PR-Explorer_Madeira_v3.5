@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { state, filteredPrs, prImage, prStatus, prUserState } from './state.js';
+import { setCustomPlaceNote, state, filteredPrs, prImage, prStatus, prUserState } from './state.js';
 import { renderPins } from './map.js';
 
 export function renderJournal(host, openPr, openCustomPlace = null) {
@@ -60,9 +60,13 @@ function drawList(openPr, openCustomPlace = null) {
       ${group.items.map(renderRow).join('')}
     </section>`).join('') || '<div class="empty">Keine PRs im aktuellen Filter.</div>') +
     renderCustomPlaces(customPlaces);
-  list.querySelectorAll('.pr-row').forEach(row => row.addEventListener('click', () => openPr(row.dataset.id)));
-  list.querySelectorAll('[data-custom-place]').forEach(row => {
-    row.addEventListener('click', () => openCustomPlace?.(row.dataset.customPlace));
+  list.querySelectorAll('.pr-row[data-id]').forEach(row => row.addEventListener('click', () => openPr(row.dataset.id)));
+  list.querySelectorAll('[data-custom-route]').forEach(button => {
+    button.addEventListener('click', () => openCustomPlace?.(button.dataset.customRoute));
+  });
+  list.querySelectorAll('[data-custom-note]').forEach(input => {
+    input.addEventListener('change', () => setCustomPlaceNote(input.dataset.customNote, input.value));
+    input.addEventListener('click', event => event.stopPropagation());
   });
 }
 
@@ -123,8 +127,31 @@ function renderCustomPlaces(customPlaces) {
   return `
     <section class="journal-group custom-journal-group">
       <h2>Eigene Ziele</h2>
-      ${customPlaces.map(renderCustomPlaceRow).join('')}
+      ${customPlaces.map(renderCustomPlaceCard).join('')}
     </section>`;
+}
+
+function renderCustomPlaceCard(place) {
+  return `
+    <article class="custom-journal-card">
+      <button class="pr-row custom-journal-row" data-custom-route="${escapeHtml(place.id)}">
+        <span class="pr-thumb placeholder custom-thumb">
+          <b>*</b>
+        </span>
+        <span class="pr-code journal-flag custom-flag">
+          Ziel
+        </span>
+        <span class="pr-main">
+          <strong>${escapeHtml(place.name)}</strong>
+          <em>${escapeHtml(place.category || 'custom')} - ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}${place.inTrip ? ' - Reise' : ''}</em>
+        </span>
+        <span class="pr-status">Route</span>
+      </button>
+      <label class="custom-note-field">
+        <span>Notiz / Kommentar</span>
+        <textarea data-custom-note="${escapeHtml(place.id)}" rows="2" placeholder="z.B. Tisch reservieren, Treffpunkt, Parkhinweis...">${escapeHtml(place.note || '')}</textarea>
+      </label>
+    </article>`;
 }
 
 function renderCustomPlaceRow(place) {

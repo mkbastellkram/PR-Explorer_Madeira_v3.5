@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.47',
-  name: 'Journal Custom Places',
-  label: 'V5.0.47 Journal Custom Places'
+  id: 'V5.0.48',
+  name: 'Custom Place Notes',
+  label: 'V5.0.48 Custom Place Notes'
 };

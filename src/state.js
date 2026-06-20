@@ -132,6 +132,14 @@ export function toggleCustomPlaceTrip(id) {
   return place.inTrip;
 }
 
+export function setCustomPlaceNote(id, note) {
+  const place = state.customPlaces.find(item => item.id === id);
+  if (!place) return false;
+  place.note = String(note || '').slice(0, 500);
+  saveSettings();
+  return true;
+}
+
 export function togglePoiCategory(category) {
   if (state.poiFilters.categories.has(category)) state.poiFilters.categories.delete(category);
   else state.poiFilters.categories.add(category);

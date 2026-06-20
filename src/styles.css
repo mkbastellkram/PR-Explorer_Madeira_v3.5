@@ -68,8 +68,13 @@ p { color: var(--muted); line-height: 1.45; }
 .journal-flag .activity { position: absolute; right: -8px; top: -10px; display: grid; place-items: center; background: transparent; border: 0; box-shadow: none; font-size: 14px; line-height: 1; z-index: 4; }
 .journal-flag .activity.empty { display: none; }
 .custom-journal-group { margin-top: 12px; }
+.custom-journal-card { border-bottom: 1px solid var(--line); background: rgba(255,255,255,.025); }
+.custom-journal-card .pr-row { border-bottom: 0; }
 .custom-journal-row .custom-thumb { --thumb-hue: 190; }
 .custom-flag { display: grid; place-items: center; background: rgba(125,216,255,.2); color: #d8f7ff; font-size: 12px; font-weight: 900; }
+.custom-note-field { display: grid; gap: 6px; padding: 0 12px 12px 86px; }
+.custom-note-field span { color: var(--muted); font-size: 12px; font-weight: 850; }
+.custom-note-field textarea { width: 100%; min-height: 58px; resize: vertical; border-radius: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.06); color: var(--text); padding: 9px 10px; font: inherit; line-height: 1.35; }
 .pr-main { min-width: 0; }
 .pr-main strong, .pr-main em { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pr-main strong { font-size: 16px; }
