@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.1.3',
-  name: 'Dashboard Layer Toggles',
-  label: 'V5.1.3 Dashboard Layer Toggles'
+  id: 'V5.1.4',
+  name: 'Accommodation Maps Link',
+  label: 'V5.1.4 Accommodation Maps Link'
 };

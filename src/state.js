@@ -50,6 +50,7 @@ export const state = {
     vacationStart: '',
     vacationEnd: '',
     accommodationName: '',
+    accommodationMapsLink: '',
     accommodationLat: '',
     accommodationLon: '',
     customPlacesTitle: 'Eigene Ziele'
@@ -91,7 +92,8 @@ export function setTripSetting(key, value) {
 }
 
 export function setTripSettingValue(key, value) {
-  state.tripSettings[key] = String(value ?? '').slice(0, 240);
+  const maxLength = key.toLowerCase().includes('link') ? 900 : 240;
+  state.tripSettings[key] = String(value ?? '').slice(0, maxLength);
   saveSettings();
 }
 

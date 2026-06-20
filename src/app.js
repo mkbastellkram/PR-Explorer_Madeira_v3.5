@@ -263,12 +263,16 @@ function renderSettings() {
           <header><strong>Unterkunft</strong><span>Startpunkt fuer Anfahrten vorbereiten</span></header>
           <div class="settings-fields">
             ${settingsText('accommodationName', 'Name / Adresse', s.accommodationName, 'z.B. Pestana Promenade, Funchal')}
+            ${settingsText('accommodationMapsLink', 'Google-Maps Teilen-Link', s.accommodationMapsLink, 'https://maps.app.goo.gl/... oder Google-Maps-URL')}
           </div>
           <div class="settings-fields two">
             ${settingsText('accommodationLat', 'Latitude', s.accommodationLat, '32.64...')}
             ${settingsText('accommodationLon', 'Longitude', s.accommodationLon, '-16.92...')}
           </div>
-          <button class="settings-action" data-settings-action="maps-search">In Google Maps suchen</button>
+          <div class="settings-actions">
+            <button data-settings-action="use-accommodation-link">Koordinaten aus Link uebernehmen</button>
+            <button data-settings-action="maps-search">In Google Maps oeffnen</button>
+          </div>
         </section>
         <section class="settings-card">
           <header><strong>Eigene Ziele</strong><span>Maps-Link einfuegen und zur Reise/Routing nutzen</span></header>
@@ -358,9 +362,9 @@ function renderSettings() {
       if (action === 'export-ics') exportIcsCalendar();
       if (action === 'trip') renderView('trip');
       if (action === 'add-custom-place') addCustomPlaceFromSettings();
+      if (action === 'use-accommodation-link') applyAccommodationMapsLink();
       if (action === 'maps-search') {
-        const query = state.tripSettings.accommodationName || 'Hotel Madeira';
-        window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank', 'noopener');
+        window.open(accommodationMapsUrl(), '_blank', 'noopener');
       }
     });
   });
@@ -387,6 +391,31 @@ function renderSettings() {
     });
   });
   $('#view').querySelector('[data-share-file]')?.addEventListener('change', importSharePackage);
+}
+
+function applyAccommodationMapsLink() {
+  const parsed = parseCoordinateInput(state.tripSettings.accommodationMapsLink);
+  if (!parsed) {
+    toast('Link gespeichert. Kurzlinks enthalten hier oft keine lesbaren Koordinaten.');
+    return;
+  }
+  setTripSettingValue('accommodationLat', parsed.lat);
+  setTripSettingValue('accommodationLon', parsed.lon);
+  toast('Unterkunft-Koordinaten uebernommen.');
+  renderSettings();
+}
+
+function accommodationMapsUrl() {
+  const s = state.tripSettings;
+  const link = String(s.accommodationMapsLink || '').trim();
+  if (/^https?:\/\//i.test(link)) return link;
+  const lat = Number(s.accommodationLat);
+  const lon = Number(s.accommodationLon);
+  if (Number.isFinite(lat) && Number.isFinite(lon)) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${lat},${lon}`)}`;
+  }
+  const query = s.accommodationName || 'Hotel Madeira';
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
 function addCustomPlaceFromSettings() {

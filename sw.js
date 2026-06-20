@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'prx-v5-1-3-dashboard-layer-toggles';
+const CACHE_VERSION = 'prx-v5-1-4-accommodation-link-icon';
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
@@ -6,7 +6,7 @@ const PRECACHE_URLS = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/brand/app-icon.png',
+  './assets/brand/app-icon-v5.png',
   './assets/brand/intro-madeira-2026.png',
   './assets/platforms/google.svg',
   './assets/platforms/googlemaps.svg',
