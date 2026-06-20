@@ -123,7 +123,7 @@ function renderNav() {
     ${navButton('overview', 'Uebersicht', icon('home'))}
     ${navButton('journal', 'Journal', icon('journal'))}
     ${navButton('map', 'Karte', icon('map'))}
-    ${navButton('trip', 'Kalender', icon('calendar'))}
+    ${navButton('trip', 'Reisen', icon('travel'))}
     ${navButton('options', 'Optionen', icon('sliders'))}`;
 
   $('#nav').addEventListener('click', event => {
@@ -170,7 +170,7 @@ export function renderView(view) {
   if (view === 'dashboard') renderSettings();
   if (view === 'overview') renderDashboard();
   if (view === 'options') openFilterSheet(handleFiltersChanged);
-  if (view === 'trip') renderCalendar();
+  if (view === 'trip') renderTrip();
 }
 
 export function openPr(id, detailMode = 'peek') {
@@ -274,7 +274,7 @@ function renderSettings() {
           <p>Exportiert geplante und gebuchte PRs mit Datum, Uhrzeit, Notizen, POIs und Links als Kalenderdatei.</p>
           <div class="settings-actions">
             <button data-settings-action="export-ics">ICS exportieren</button>
-            <button data-settings-action="trip">Kalenderansicht</button>
+            <button data-settings-action="trip">Reiseliste</button>
           </div>
         </section>
         <section class="settings-card">
@@ -453,7 +453,7 @@ function icon(name) {
     home: '<svg viewBox="0 0 28 28" aria-hidden="true"><path d="M4.5 13.5 14 5l9.5 8.5"/><path d="M7.5 12.5v10h13v-10"/><path d="M11.5 22.5v-6h5v6"/></svg>',
     journal: '<svg viewBox="0 0 28 28" aria-hidden="true"><path d="M8 4.5h10.5a3 3 0 0 1 3 3v16H9a3 3 0 0 1-3-3v-13a3 3 0 0 1 3-3Z"/><path d="M10.5 10h7"/><path d="M10.5 14h7"/><path d="M10.5 18h5"/></svg>',
     map: '<svg viewBox="0 0 28 28" aria-hidden="true"><path d="m4.5 7.5 6-2.5 7 3 6-2.5v15l-6 2.5-7-3-6 2.5Z"/><path d="M10.5 5v15"/><path d="M17.5 8v15"/></svg>',
-    calendar: '<svg viewBox="0 0 28 28" aria-hidden="true"><rect x="5" y="6.5" width="18" height="16" rx="3"/><path d="M9 4.5v4"/><path d="M19 4.5v4"/><path d="M5 11h18"/><path d="M9 15h.1"/><path d="M14 15h.1"/><path d="M19 15h.1"/><path d="M9 19h.1"/><path d="M14 19h.1"/></svg>',
+    travel: '<svg viewBox="0 0 28 28" aria-hidden="true"><path d="M17.5 20.5a8 8 0 1 1 1.7-13.8"/><path d="M19.5 7.5h4v4"/><path d="m23.5 7.5-6.2 6.2"/><circle cx="17.5" cy="17.5" r="4.5"/><path d="m21 21 3 3"/></svg>',
     sliders: '<svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 8h18"/><path d="M5 14h18"/><path d="M5 20h18"/><circle cx="11" cy="8" r="2"/><circle cx="17" cy="14" r="2"/><circle cx="13" cy="20" r="2"/></svg>',
     zoom: '<svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="12" cy="12" r="6.5"/><path d="m17 17 6 6"/><path d="M9.5 12h5"/><path d="M12 9.5v5"/><path d="m5.5 5.5 4 4"/><path d="M5.5 9.5v-4h4"/></svg>',
     grid: '<svg viewBox="0 0 28 28" aria-hidden="true"><rect x="6" y="6" width="16" height="16" rx="2"/><path d="M10 10h.1"/><path d="M14 10h.1"/><path d="M18 10h.1"/><path d="M10 14h.1"/><path d="M14 14h.1"/><path d="M18 14h.1"/><path d="M10 18h.1"/><path d="M14 18h.1"/><path d="M18 18h.1"/></svg>',
@@ -464,50 +464,6 @@ function icon(name) {
     share: '<svg viewBox="0 0 28 28" aria-hidden="true"><path d="M14 18V4"/><path d="m9 9 5-5 5 5"/><path d="M7 13v9h14v-9"/></svg>'
   };
   return icons[name] || '';
-}
-
-function renderCalendar() {
-  const events = calendarEvents();
-  const scheduled = events.filter(item => item.user.schedule?.date)
-    .sort((a, b) => scheduleTime(a.user).localeCompare(scheduleTime(b.user)));
-  const firstDate = scheduled[0]?.user.schedule?.date || new Date().toISOString().slice(0, 10);
-  const days = calendarDays(firstDate);
-  const stats = tripStats(events);
-
-  $('#view').innerHTML = `
-    <section class="panel-list">
-      <div class="journal-head">
-        <div>
-          <h1>Kalender</h1>
-          <p>${events.length} PRs in Reiseplanung - ${fmt(stats.driveKm, ' km')} Hin/Rueck - ${fmt(stats.driveHours, ' h')} Fahrt</p>
-        </div>
-      </div>
-      <div class="trip-summary">
-        ${tripKpi('Termine', scheduled.length)}
-        ${tripKpi('Fahr-km', fmt(stats.driveKm, ' km'))}
-        ${tripKpi('Fahrzeit', fmt(stats.driveHours, ' h'))}
-        ${tripKpi('Kosten', fmt(stats.fuelCost, ' EUR'))}
-      </div>
-      <section class="calendar-card">
-        <header>
-          <strong>${escapeHtml(calendarMonthLabel(firstDate))}</strong>
-          <span>Lokal gespeichert, spaeter Google Calendar Sync</span>
-        </header>
-        <div class="calendar-weekdays">
-          <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
-        </div>
-        <div class="calendar-grid">
-          ${days.map(day => calendarDay(day, scheduled)).join('')}
-        </div>
-      </section>
-      <div class="trip-list">
-        ${tripGroups(events).map(renderTripGroup).join('') || '<div class="empty">Noch keine Favoriten, geplanten oder gebuchten PRs.</div>'}
-      </div>
-    </section>`;
-
-  $('#view').querySelectorAll('[data-trip-pr], [data-calendar-pr]').forEach(row => {
-    row.addEventListener('click', () => openPr(row.dataset.tripPr || row.dataset.calendarPr));
-  });
 }
 
 function renderTrip() {
@@ -572,42 +528,6 @@ function calendarEvents() {
     .map(pr => ({ pr, user: prUserState(pr.id) }))
     .filter(item => ['booked', 'planned', 'favorite'].includes(item.user.activity))
     .sort((a, b) => tripRank(a.user) - tripRank(b.user) || scheduleTime(a.user).localeCompare(scheduleTime(b.user)) || Number(a.pr.number) - Number(b.pr.number));
-}
-
-function calendarDays(dateString) {
-  const selected = new Date(`${dateString}T12:00:00`);
-  const year = selected.getFullYear();
-  const month = selected.getMonth();
-  const first = new Date(year, month, 1, 12);
-  const offset = (first.getDay() + 6) % 7;
-  const start = new Date(year, month, 1 - offset, 12);
-  return Array.from({ length: 42 }, (_, index) => {
-    const day = new Date(start);
-    day.setDate(start.getDate() + index);
-    return {
-      iso: day.toISOString().slice(0, 10),
-      number: day.getDate(),
-      inMonth: day.getMonth() === month
-    };
-  });
-}
-
-function calendarDay(day, events) {
-  const items = events.filter(item => item.user.schedule?.date === day.iso);
-  return `
-    <div class="calendar-day ${day.inMonth ? '' : 'muted'}">
-      <span>${day.number}</span>
-      ${items.slice(0, 3).map(({ pr, user }) => `
-        <button data-calendar-pr="${escapeHtml(pr.id)}" title="${escapeHtml(pr.displayId)} ${escapeHtml(pr.name)}">
-          ${activityEmoji(user.activity)} ${escapeHtml(tripTime(user))} ${escapeHtml(pr.displayId)}
-        </button>`).join('')}
-      ${items.length > 3 ? `<em>+${items.length - 3}</em>` : ''}
-    </div>`;
-}
-
-function calendarMonthLabel(dateString) {
-  const date = new Date(`${dateString}T12:00:00`);
-  return new Intl.DateTimeFormat('de-DE', { month: 'long', year: 'numeric' }).format(date);
 }
 
 function tripMeta(pr, user) {

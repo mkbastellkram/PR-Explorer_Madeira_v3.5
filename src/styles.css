@@ -222,17 +222,6 @@ p { color: var(--muted); line-height: 1.45; }
 .trip-main { min-width: 0; }
 .trip-main strong, .trip-main em { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .trip-main em { margin-top: 5px; color: var(--muted); font-size: 12px; font-style: normal; }
-.calendar-card { margin: 0 12px 12px; border: 1px solid var(--line); border-radius: 18px; padding: 12px; background: rgba(255,255,255,.045); }
-.calendar-card header { min-height: 42px; display: flex; align-items: start; justify-content: space-between; gap: 10px; }
-.calendar-card header strong, .calendar-card header span { display: block; }
-.calendar-card header span { color: var(--muted); font-size: 12px; text-align: right; }
-.calendar-weekdays, .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
-.calendar-weekdays { margin: 8px 0 5px; color: var(--muted); font-size: 10px; font-weight: 900; text-align: center; }
-.calendar-day { min-height: 78px; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 5px; background: rgba(0,0,0,.12); overflow: hidden; }
-.calendar-day.muted { opacity: .38; }
-.calendar-day > span { display: block; margin-bottom: 4px; color: var(--muted); font-size: 10px; font-weight: 900; }
-.calendar-day button { width: 100%; min-height: 18px; margin-top: 3px; border: 0; border-radius: 8px; background: rgba(53,212,159,.16); color: var(--text); padding: 2px 4px; font-size: 9px; font-weight: 850; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
-.calendar-day em { display: block; margin-top: 3px; color: var(--accent); font-size: 9px; font-style: normal; font-weight: 900; }
 .toast { position: fixed; left: 18px; right: 18px; bottom: calc(env(safe-area-inset-bottom) + 84px); z-index: 80; border: 1px solid var(--line); border-radius: 16px; padding: 12px; text-align: center; background: var(--panel-strong); }
 
 .modal-backdrop { position: fixed; inset: 0; z-index: 90; display: grid; align-items: end; background: rgba(0,0,0,.28); pointer-events: auto; }
