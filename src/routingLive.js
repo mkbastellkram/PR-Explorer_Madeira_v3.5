@@ -1,4 +1,5 @@
 const ORS_KEY = 'prx.v5.orsKey';
+const START_INPUT_KEY = 'prx.v5.routingStartInput';
 const DEMO_START = { lat: 32.6484, lon: -16.9072, label: 'Funchal Zentrum' };
 const COLORS = ['#2da8ff', '#35d49f', '#ffd166', '#ff5b6c', '#c7b7ff', '#ff9f0a', '#45d6ff', '#a7f06f', '#ff7ab6', '#8fd8ff'];
 
@@ -73,6 +74,19 @@ export const PRXRoutingLive = {
     if (routingState.orsApiKey) localStorage.setItem(ORS_KEY, routingState.orsApiKey);
     else localStorage.removeItem(ORS_KEY);
     renderPanel();
+  },
+
+  setStartFromText(text) {
+    const raw = String(text || '').trim();
+    const parsed = parseCoordinateInput(raw);
+    if (!parsed) {
+      routingState.toast('Keine Koordinaten im Link gefunden.');
+      return false;
+    }
+    localStorage.setItem(START_INPUT_KEY, raw);
+    this.setStartLocation(parsed);
+    routingState.toast(`Startpunkt gesetzt: ${parsed.label}`);
+    return true;
   },
 
   async showNearestRoutes({ count = routingState.maxAlternatives } = {}) {
@@ -158,6 +172,7 @@ function handlePanelClick(event) {
   }
   if (action === 'clear') PRXRoutingLive.clearRoutes();
   if (action === 'saveKey') PRXRoutingLive.saveApiKey(routingState.panel.querySelector('[data-ors-key]')?.value);
+  if (action === 'saveStart') PRXRoutingLive.setStartFromText(routingState.panel.querySelector('[data-routing-start-input]')?.value);
   if (routeId) PRXRoutingLive.toggleRoute(routeId);
   if (targetRouteId) {
     const target = nearestTargets(10).find(item => item.id === targetRouteId);
@@ -177,6 +192,7 @@ function renderPanel() {
   if (!routingState.panel) return;
   const targets = nearestTargets(10);
   const selectedTarget = activeTarget();
+  const startInput = localStorage.getItem(START_INPUT_KEY) || '';
   routingState.panel.innerHTML = `
     <section class="routing-panel" role="dialog" aria-modal="true" aria-label="Live Routing">
       <header>
@@ -200,8 +216,13 @@ function renderPanel() {
           <input data-ors-key type="password" value="${escapeHtml(routingState.orsApiKey)}" placeholder="optional, lokal gespeichert" />
           <button data-routing-action="saveKey">Speichern</button>
         </label>
+        <label class="routing-key">
+          <span>Startpunkt</span>
+          <input data-routing-start-input type="text" value="${escapeHtml(startInput)}" placeholder="Google-Maps-Link oder 32.6484,-16.9072" />
+          <button data-routing-action="saveStart">Uebernehmen</button>
+        </label>
         <div class="routing-hint">
-          Ablauf: Standort oder Funchal setzen, dann bei einem Ziel Route tippen. Ohne ORS-Key nutzt PRX KML/Luftlinie als Fallback. Wandertracks bleiben unveraendert.
+          Ablauf: Standort, Funchal oder Maps-Link setzen, dann bei einem Ziel Route tippen. Kurzlinks koennen nicht immer automatisch aufgeloest werden.
         </div>
         <section class="routing-list">
           <strong>Routen</strong>
@@ -214,6 +235,45 @@ function renderPanel() {
 function activeTarget() {
   const activeId = window.PRX_ACTIVE_ID || '';
   return routingState.getTargets().find(target => target.id === activeId) || null;
+}
+
+function parseCoordinateInput(input) {
+  if (!input) return null;
+  const decoded = safeDecode(input);
+  const candidates = [
+    /@(-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)(?:[,/]|$)/,
+    /[?&](?:q|query|ll|center|destination|origin)=(-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)(?:[&]|$)/,
+    /!3d(-?\d+(?:\.\d+)?)!4d(-?\d+(?:\.\d+)?)/,
+    /(?:lat|latitude)[=:]\s*(-?\d+(?:\.\d+)?).{0,24}(?:lon|lng|longitude)[=:]\s*(-?\d+(?:\.\d+)?)/i,
+    /(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/
+  ];
+
+  for (const pattern of candidates) {
+    const match = decoded.match(pattern);
+    if (!match) continue;
+    const lat = Number(match[1]);
+    const lon = Number(match[2]);
+    if (validCoordinate(lat, lon)) {
+      return { lat, lon, label: coordinateLabel(lat, lon) };
+    }
+  }
+  return null;
+}
+
+function safeDecode(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+function validCoordinate(lat, lon) {
+  return Number.isFinite(lat) && Number.isFinite(lon) && Math.abs(lat) <= 90 && Math.abs(lon) <= 180;
+}
+
+function coordinateLabel(lat, lon) {
+  return `Start ${lat.toFixed(5)}, ${lon.toFixed(5)}`;
 }
 
 function routeRow(route) {
