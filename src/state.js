@@ -33,6 +33,12 @@ export const state = {
     gpxColor: '#ff453a',
     kmlColor: '#0a84ff'
   },
+  layerVisibility: {
+    prs: true,
+    gpx: true,
+    kml: true,
+    pois: true
+  },
   tripSettings: {
     fuelLitersPer100Km: 7,
     fuelPricePerLiter: 1.8,
@@ -62,6 +68,7 @@ export function loadUserState() {
     const settings = rawSettings ? JSON.parse(rawSettings) : {};
     state.tripSettings = { ...state.tripSettings, ...settings.tripSettings };
     state.mapStyle = { ...state.mapStyle, ...settings.mapStyle };
+    state.layerVisibility = { ...state.layerVisibility, ...settings.layerVisibility };
     state.customPlaces = Array.isArray(settings.customPlaces) ? settings.customPlaces : [];
     state.poiFilters.categories = new Set(settings.poiCategories || [...state.poiFilters.categories]);
     if ((settings.poiCatalogVersion || 0) < POI_CATALOG_VERSION) {
@@ -92,10 +99,18 @@ export function saveSettings() {
   localStorage.setItem(SETTINGS_KEY, JSON.stringify({
     tripSettings: state.tripSettings,
     mapStyle: state.mapStyle,
+    layerVisibility: state.layerVisibility,
     customPlaces: state.customPlaces,
     poiCategories: [...state.poiFilters.categories],
     poiCatalogVersion: POI_CATALOG_VERSION
   }));
+}
+
+export function toggleLayerVisibility(layer) {
+  if (!Object.prototype.hasOwnProperty.call(state.layerVisibility, layer)) return true;
+  state.layerVisibility[layer] = !state.layerVisibility[layer];
+  saveSettings();
+  return state.layerVisibility[layer];
 }
 
 export function addCustomPlace(place) {
@@ -276,6 +291,7 @@ export function importUserData(payload, { merge = true } = {}) {
   const settings = payload.settings || {};
   state.tripSettings = mergeSettings(state.tripSettings, settings.tripSettings || {});
   state.mapStyle = { ...state.mapStyle, ...settings.mapStyle };
+  state.layerVisibility = { ...state.layerVisibility, ...settings.layerVisibility };
   if (Array.isArray(settings.customPlaces)) state.customPlaces = mergeCustomPlaces(state.customPlaces, settings.customPlaces);
   if (Array.isArray(settings.poiCategories) && !state.poiFilters.categories.size) state.poiFilters.categories = new Set(settings.poiCategories);
   saveSettings();

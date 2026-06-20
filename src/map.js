@@ -67,6 +67,7 @@ export function getMap() {
 export function renderPins() {
   if (!pinLayer) return;
   pinLayer.clearLayers();
+  if (!state.layerVisibility.prs) return;
 
   filteredPrs().forEach(pr => {
     if (!Number.isFinite(pr.lat) || !Number.isFinite(pr.lon)) return;
@@ -85,6 +86,7 @@ export function renderPins() {
 export function renderPois() {
   if (!poiLayer) return;
   poiLayer.clearLayers();
+  if (!state.layerVisibility.pois) return;
   [...(state.pois || []), ...(state.customPlaces || []).map(customPlacePoi)]
     .filter(poi => state.poiFilters.categories.has(poi.category))
     .filter(poi => Number.isFinite(Number(poi.lat)) && Number.isFinite(Number(poi.lon)))
@@ -167,8 +169,8 @@ export async function showPrOnMap(id) {
 
   const bounds = [];
   const style = currentRouteStyle();
-  if (pr.route?.file) bounds.push(...await drawFile(pr.route.file, kmlLayer, style.kmlColor, 'KML', true));
-  if (pr.track?.file) bounds.push(...await drawFile(pr.track.file, gpxLayer, style.gpxColor, 'GPX', true));
+  if (state.layerVisibility.kml && pr.route?.file) bounds.push(...await drawFile(pr.route.file, kmlLayer, style.kmlColor, 'KML', true));
+  if (state.layerVisibility.gpx && pr.track?.file) bounds.push(...await drawFile(pr.track.file, gpxLayer, style.gpxColor, 'GPX', true));
   if (!bounds.length && Number.isFinite(pr.lat) && Number.isFinite(pr.lon)) bounds.push([pr.lat, pr.lon]);
 
   if (bounds.length) {

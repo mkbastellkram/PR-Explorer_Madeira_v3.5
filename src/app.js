@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { addCustomPlace, exportUserData, importUserData, loadUserState, removeCustomPlace, setCustomPlaceActivity, state, filteredPrs, prUserState, durationToMinutes, setTripSettingValue } from './state.js';
+import { addCustomPlace, exportUserData, importUserData, loadUserState, removeCustomPlace, setCustomPlaceActivity, state, filteredPrs, prUserState, durationToMinutes, setTripSettingValue, toggleLayerVisibility } from './state.js';
 import { getBaseLayers, getMap, initMap, renderPins, renderPois, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute, toggleHeatmapMode, renderHeatmap } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
@@ -214,12 +214,30 @@ function renderDashboard() {
       <h1>Dashboard</h1>
       <p>${VERSION.label}</p>
       <div class="metrics">
-        <div><strong>${counts.prs}</strong><span>PRs</span></div>
-        <div><strong>${counts.tracks}</strong><span>GPX</span></div>
-        <div><strong>${counts.routes}</strong><span>KML</span></div>
-        <div><strong>${counts.pois}</strong><span>POIs</span></div>
+        ${dashboardToggle('prs', counts.prs, 'PRs')}
+        ${dashboardToggle('gpx', counts.tracks, 'GPX')}
+        ${dashboardToggle('kml', counts.routes, 'KML')}
+        ${dashboardToggle('pois', counts.pois, 'POIs')}
       </div>
     </section>`;
+  $('#view').querySelectorAll('[data-layer-toggle]').forEach(button => {
+    button.addEventListener('click', () => {
+      toggleLayerVisibility(button.dataset.layerToggle);
+      renderPins();
+      renderPois();
+      redrawActiveRoute();
+      renderDashboard();
+    });
+  });
+}
+
+function dashboardToggle(key, value, label) {
+  const active = state.layerVisibility[key];
+  return `
+    <button class="metric-toggle ${active ? 'active' : ''}" data-layer-toggle="${escapeHtml(key)}" aria-pressed="${active ? 'true' : 'false'}">
+      <strong>${escapeHtml(value)}</strong>
+      <span>${escapeHtml(label)}</span>
+    </button>`;
 }
 
 function renderSettings() {
