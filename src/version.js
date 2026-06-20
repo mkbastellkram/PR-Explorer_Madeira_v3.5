@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.45',
-  name: 'Maps Link Startpoint',
-  label: 'V5.0.45 Maps Link Startpoint'
+  id: 'V5.0.46',
+  name: 'Custom Places',
+  label: 'V5.0.46 Custom Places'
 };

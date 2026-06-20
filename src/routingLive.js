@@ -237,7 +237,7 @@ function activeTarget() {
   return routingState.getTargets().find(target => target.id === activeId) || null;
 }
 
-function parseCoordinateInput(input) {
+export function parseCoordinateInput(input) {
   if (!input) return null;
   const decoded = safeDecode(input);
   const candidates = [

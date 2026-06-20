@@ -85,7 +85,7 @@ export function renderPins() {
 export function renderPois() {
   if (!poiLayer) return;
   poiLayer.clearLayers();
-  (state.pois || [])
+  [...(state.pois || []), ...(state.customPlaces || []).map(customPlacePoi)]
     .filter(poi => state.poiFilters.categories.has(poi.category))
     .forEach(poi => {
       const marker = L.marker([poi.lat, poi.lon], {
@@ -96,6 +96,18 @@ export function renderPois() {
       marker.bindTooltip(`${poi.name} - ${poi.label} - ${poiSourceLabel(poi)}`);
       marker.addTo(poiLayer);
     });
+}
+
+function customPlacePoi(place) {
+  return {
+    ...place,
+    category: 'custom',
+    label: place.category || 'Eigenes Ziel',
+    sourceLayer: 'custom',
+    source: 'custom',
+    color: '#7dd8ff',
+    icon: place.category === 'hotel' ? '\u2302' : place.category === 'food' ? '\u25CC' : '\u2726'
+  };
 }
 
 export function fitAll() {
@@ -306,6 +318,7 @@ function poiSourceLabel(poi) {
   if (poi.sourceLayer === 'osm') return 'OSM';
   if (poi.sourceLayer === 'webcam') return 'Webcam';
   if (poi.sourceLayer === 'prx-feature') return 'PRX Feature';
+  if (poi.sourceLayer === 'custom') return 'Eigenes Ziel';
   return 'PRX';
 }
 

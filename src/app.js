@@ -1,12 +1,12 @@
 import { VERSION } from './version.js';
-import { exportUserData, importUserData, loadUserState, state, filteredPrs, prUserState, durationToMinutes, setTripSettingValue } from './state.js';
+import { addCustomPlace, exportUserData, importUserData, loadUserState, removeCustomPlace, state, filteredPrs, prUserState, durationToMinutes, setTripSettingValue, toggleCustomPlaceTrip } from './state.js';
 import { getBaseLayers, getMap, initMap, renderPins, renderPois, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute, toggleHeatmapMode, renderHeatmap } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
 import { openFilterSheet } from './filterSheet.js';
 import { openInfoCenter } from './infoCenter.js';
 import { normalizePois } from './poiModel.js';
-import { openRoutingPanel, PRXRoutingLive } from './routingLive.js';
+import { openRoutingPanel, parseCoordinateInput, PRXRoutingLive } from './routingLive.js';
 
 const $ = selector => document.querySelector(selector);
 const SPLASH_MIN_MS = 3000;
@@ -253,6 +253,33 @@ function renderSettings() {
           <button class="settings-action" data-settings-action="maps-search">In Google Maps suchen</button>
         </section>
         <section class="settings-card">
+          <header><strong>Eigene Ziele</strong><span>Maps-Link einfuegen und zur Reise/Routing nutzen</span></header>
+          <div class="settings-fields">
+            <label>
+              <span>Google-Maps-Link oder Koordinaten</span>
+              <input data-custom-place="sourceText" type="text" placeholder="https://www.google.com/maps/... oder 32.6484,-16.9072" />
+            </label>
+            <label>
+              <span>Name</span>
+              <input data-custom-place="name" type="text" placeholder="z.B. Restaurant, Hotel, Aussichtspunkt" />
+            </label>
+          </div>
+          <div class="settings-fields two">
+            <label>
+              <span>Kategorie</span>
+              <input data-custom-place="category" type="text" placeholder="hotel, food, beach, viewpoint" />
+            </label>
+            <label>
+              <span>Notiz</span>
+              <input data-custom-place="note" type="text" placeholder="optional" />
+            </label>
+          </div>
+          <button class="settings-action" data-settings-action="add-custom-place">Ziel hinzufuegen</button>
+          <div class="custom-place-list">
+            ${renderCustomPlaceList()}
+          </div>
+        </section>
+        <section class="settings-card">
           <header><strong>Routing</strong><span>${hasOrsKey ? 'ORS-Key lokal gespeichert' : 'ORS-Key noch nicht gespeichert'}</span></header>
           <div class="settings-actions">
             <button data-settings-action="routing">Live Routing oeffnen</button>
@@ -306,13 +333,68 @@ function renderSettings() {
       if (action === 'import-share') $('#view').querySelector('[data-share-file]')?.click();
       if (action === 'export-ics') exportIcsCalendar();
       if (action === 'trip') renderView('trip');
+      if (action === 'add-custom-place') addCustomPlaceFromSettings();
       if (action === 'maps-search') {
         const query = state.tripSettings.accommodationName || 'Hotel Madeira';
         window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank', 'noopener');
       }
     });
   });
+  $('#view').querySelectorAll('[data-custom-action]').forEach(button => {
+    button.addEventListener('click', event => {
+      const action = event.currentTarget.dataset.customAction;
+      const id = event.currentTarget.dataset.customId;
+      const place = state.customPlaces.find(item => item.id === id);
+      if (action === 'trip') {
+        toggleCustomPlaceTrip(id);
+        renderSettings();
+      }
+      if (action === 'route' && place) {
+        renderView('map');
+        openRoutingPanel();
+        setTimeout(() => PRXRoutingLive.routeTo(customPlaceTarget(place)), 30);
+      }
+      if (action === 'maps' && place) PRXRoutingLive.openGoogleMaps(customPlaceTarget(place));
+      if (action === 'remove') {
+        removeCustomPlace(id);
+        renderPois();
+        renderSettings();
+      }
+    });
+  });
   $('#view').querySelector('[data-share-file]')?.addEventListener('change', importSharePackage);
+}
+
+function addCustomPlaceFromSettings() {
+  const root = $('#view');
+  const sourceText = root.querySelector('[data-custom-place="sourceText"]')?.value || '';
+  const parsed = parseCoordinateInput(sourceText);
+  if (!parsed) {
+    toast('Keine Koordinaten im Link gefunden.');
+    return;
+  }
+  const name = root.querySelector('[data-custom-place="name"]')?.value || parsed.label;
+  const category = root.querySelector('[data-custom-place="category"]')?.value || 'custom';
+  const note = root.querySelector('[data-custom-place="note"]')?.value || '';
+  addCustomPlace({ ...parsed, name, category, note, sourceText, inTrip: true });
+  renderPois();
+  renderSettings();
+  toast('Eigenes Ziel hinzugefuegt.');
+}
+
+function renderCustomPlaceList() {
+  if (!state.customPlaces.length) return '<div class="empty compact">Noch keine eigenen Ziele.</div>';
+  return state.customPlaces.map(place => `
+    <article class="custom-place-row">
+      <div>
+        <strong>${escapeHtml(place.name)}</strong>
+        <span>${escapeHtml(place.category || 'custom')} - ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}${place.inTrip ? ' - Reise' : ''}</span>
+      </div>
+      <button data-custom-action="trip" data-custom-id="${escapeHtml(place.id)}">${place.inTrip ? 'Raus' : 'Reise'}</button>
+      <button data-custom-action="route" data-custom-id="${escapeHtml(place.id)}">Route</button>
+      <button data-custom-action="maps" data-custom-id="${escapeHtml(place.id)}">Maps</button>
+      <button data-custom-action="remove" data-custom-id="${escapeHtml(place.id)}">x</button>
+    </article>`).join('');
 }
 
 function settingsText(key, label, value, placeholder = '') {
@@ -472,6 +554,7 @@ function renderTrip() {
     .map(pr => ({ pr, user: prUserState(pr.id) }))
     .filter(item => ['booked', 'planned', 'favorite'].includes(item.user.activity))
     .sort((a, b) => tripRank(a.user) - tripRank(b.user) || scheduleTime(a.user).localeCompare(scheduleTime(b.user)) || Number(a.pr.number) - Number(b.pr.number));
+  const customPlaces = (state.customPlaces || []).filter(place => place.inTrip);
   const stats = tripStats(items);
   const groups = tripGroups(items);
 
@@ -480,7 +563,7 @@ function renderTrip() {
       <div class="journal-head">
         <div>
           <h1>Reise</h1>
-          <p>${items.length} gemerkte PRs - ${fmt(stats.driveKm, ' km')} Hin/Rueck - ${fmt(stats.driveHours, ' h')} Fahrt</p>
+          <p>${items.length} gemerkte PRs - ${customPlaces.length} eigene Ziele - ${fmt(stats.driveKm, ' km')} Hin/Rueck</p>
         </div>
       </div>
       <div class="trip-summary">
@@ -493,11 +576,19 @@ function renderTrip() {
         Kraftstoff: ${fmt(stats.fuelLiters, ' l')} bei ${fmt(state.tripSettings.fuelLitersPer100Km, ' l/100 km')} und ${fmt(state.tripSettings.fuelPricePerLiter, ' EUR/l')}. Fahrzeit mit Madeira-Faktor ${fmt(state.tripSettings.driveTimeFactor, 'x')}.
       </div>
       <div class="trip-list">
-        ${groups.map(renderTripGroup).join('') || '<div class="empty">Noch keine Favoriten, geplanten oder gebuchten PRs.</div>'}
+        ${groups.map(renderTripGroup).join('') || (customPlaces.length ? '' : '<div class="empty">Noch keine Favoriten, geplanten oder gebuchten PRs.</div>')}
+        ${renderCustomTripGroup(customPlaces)}
       </div>
     </section>`;
 
   $('#view').querySelectorAll('[data-trip-pr]').forEach(row => row.addEventListener('click', () => openPr(row.dataset.tripPr)));
+  $('#view').querySelectorAll('[data-trip-custom-route]').forEach(row => row.addEventListener('click', event => {
+    const place = state.customPlaces.find(item => item.id === event.currentTarget.dataset.tripCustomRoute);
+    if (!place) return;
+    renderView('map');
+    openRoutingPanel();
+    setTimeout(() => PRXRoutingLive.routeTo(customPlaceTarget(place)), 30);
+  }));
 }
 
 function renderTripGroup(group) {
@@ -518,6 +609,31 @@ function renderTripGroup(group) {
             <span class="trip-main">
               <strong>${escapeHtml(pr.displayId)} - ${escapeHtml(pr.name)}</strong>
               <em>${escapeHtml(tripMeta(pr, user))}</em>
+            </span>
+          </button>`).join('')}
+      </div>
+    </section>`;
+}
+
+function renderCustomTripGroup(customPlaces) {
+  if (!customPlaces.length) return '';
+  return `
+    <section class="trip-day">
+      <header>
+        <div>
+          <strong>Eigene Ziele</strong>
+          <span>${customPlaces.length} Orte fuer Urlaub, Essen, Aussicht oder Besorgung</span>
+        </div>
+        <em>Ziele</em>
+      </header>
+      <div>
+        ${customPlaces.map(place => `
+          <button class="trip-row" data-trip-custom-route="${escapeHtml(place.id)}">
+            <span class="trip-time">Ort</span>
+            <span class="trip-mark">✦</span>
+            <span class="trip-main">
+              <strong>${escapeHtml(place.name)}</strong>
+              <em>${escapeHtml(`${place.category || 'custom'} - ${place.note || `${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}`}`)}</em>
             </span>
           </button>`).join('')}
       </div>
@@ -817,7 +933,22 @@ function routingTargets() {
       routeFile: '',
       routeDistanceKm: null
     }));
-  return [...prTargets, ...poiTargets];
+  const customTargets = (state.customPlaces || [])
+    .filter(place => Number.isFinite(place.lat) && Number.isFinite(place.lon))
+    .map(customPlaceTarget);
+  return [...prTargets, ...poiTargets, ...customTargets];
+}
+
+function customPlaceTarget(place) {
+  return {
+    id: place.id,
+    type: 'custom',
+    name: `Ziel - ${place.name}`,
+    lat: place.lat,
+    lon: place.lon,
+    routeFile: '',
+    routeDistanceKm: null
+  };
 }
 
 boot().catch(error => {

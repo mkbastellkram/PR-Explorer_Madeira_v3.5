@@ -1,10 +1,11 @@
 const STORAGE_KEY = 'prx.v5.prStates';
 const SETTINGS_KEY = 'prx.v5.settings';
-const POI_CATALOG_VERSION = 4;
+const POI_CATALOG_VERSION = 5;
 
 export const state = {
   data: null,
   pois: [],
+  customPlaces: [],
   images: {},
   osmPoiMeta: null,
   view: 'journal',
@@ -12,7 +13,7 @@ export const state = {
   heatmapMode: false,
   prStates: {},
   poiFilters: {
-    categories: new Set(['viewpoint', 'trailhead', 'waterfall', 'tunnel', 'webcam'])
+    categories: new Set(['viewpoint', 'trailhead', 'waterfall', 'tunnel', 'webcam', 'custom'])
   },
   filters: {
     q: '',
@@ -60,6 +61,7 @@ export function loadUserState() {
     const settings = rawSettings ? JSON.parse(rawSettings) : {};
     state.tripSettings = { ...state.tripSettings, ...settings.tripSettings };
     state.mapStyle = { ...state.mapStyle, ...settings.mapStyle };
+    state.customPlaces = Array.isArray(settings.customPlaces) ? settings.customPlaces : [];
     state.poiFilters.categories = new Set(settings.poiCategories || [...state.poiFilters.categories]);
     if ((settings.poiCatalogVersion || 0) < POI_CATALOG_VERSION) {
       state.poiFilters.categories.add('waterfall');
@@ -67,6 +69,7 @@ export function loadUserState() {
       state.poiFilters.categories.add('webcam');
       state.poiFilters.categories.add('parking');
       state.poiFilters.categories.add('viewpoint');
+      state.poiFilters.categories.add('custom');
       saveSettings();
     }
   } catch {
@@ -88,9 +91,45 @@ export function saveSettings() {
   localStorage.setItem(SETTINGS_KEY, JSON.stringify({
     tripSettings: state.tripSettings,
     mapStyle: state.mapStyle,
+    customPlaces: state.customPlaces,
     poiCategories: [...state.poiFilters.categories],
     poiCatalogVersion: POI_CATALOG_VERSION
   }));
+}
+
+export function addCustomPlace(place) {
+  const lat = Number(place.lat);
+  const lon = Number(place.lon);
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+  const item = {
+    id: place.id || `custom-${Date.now()}-${Math.round(Math.random() * 1000)}`,
+    name: String(place.name || 'Eigenes Ziel').trim().slice(0, 90) || 'Eigenes Ziel',
+    category: String(place.category || 'custom').trim().slice(0, 40) || 'custom',
+    lat,
+    lon,
+    note: String(place.note || '').slice(0, 500),
+    sourceText: String(place.sourceText || '').slice(0, 800),
+    inTrip: Boolean(place.inTrip),
+    createdAt: place.createdAt || new Date().toISOString()
+  };
+  state.customPlaces = [item, ...state.customPlaces.filter(existing => existing.id !== item.id)];
+  saveSettings();
+  return item;
+}
+
+export function removeCustomPlace(id) {
+  const before = state.customPlaces.length;
+  state.customPlaces = state.customPlaces.filter(place => place.id !== id);
+  saveSettings();
+  return state.customPlaces.length !== before;
+}
+
+export function toggleCustomPlaceTrip(id) {
+  const place = state.customPlaces.find(item => item.id === id);
+  if (!place) return false;
+  place.inTrip = !place.inTrip;
+  saveSettings();
+  return place.inTrip;
 }
 
 export function togglePoiCategory(category) {
@@ -194,6 +233,7 @@ export function exportUserData() {
     settings: {
       tripSettings: state.tripSettings,
       mapStyle: state.mapStyle,
+      customPlaces: state.customPlaces,
       poiCategories: [...state.poiFilters.categories],
       poiCatalogVersion: POI_CATALOG_VERSION
     }
@@ -215,9 +255,19 @@ export function importUserData(payload, { merge = true } = {}) {
   const settings = payload.settings || {};
   state.tripSettings = mergeSettings(state.tripSettings, settings.tripSettings || {});
   state.mapStyle = { ...state.mapStyle, ...settings.mapStyle };
+  if (Array.isArray(settings.customPlaces)) state.customPlaces = mergeCustomPlaces(state.customPlaces, settings.customPlaces);
   if (Array.isArray(settings.poiCategories) && !state.poiFilters.categories.size) state.poiFilters.categories = new Set(settings.poiCategories);
   saveSettings();
   return result;
+}
+
+function mergeCustomPlaces(localPlaces, incomingPlaces) {
+  const byId = new Map(localPlaces.map(place => [place.id, place]));
+  incomingPlaces.forEach(place => {
+    if (!place?.id) return;
+    if (!byId.has(place.id)) byId.set(place.id, place);
+  });
+  return [...byId.values()];
 }
 
 function mergePrStates(localStates, incomingStates) {
