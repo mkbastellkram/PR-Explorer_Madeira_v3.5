@@ -101,13 +101,13 @@ export function saveSettings() {
 export function addCustomPlace(place) {
   const lat = Number(place.lat);
   const lon = Number(place.lon);
-  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+  const hasCoords = Number.isFinite(lat) && Number.isFinite(lon);
   const item = {
     id: place.id || `custom-${Date.now()}-${Math.round(Math.random() * 1000)}`,
     name: String(place.name || 'Eigenes Ziel').trim().slice(0, 90) || 'Eigenes Ziel',
     category: String(place.category || 'custom').trim().slice(0, 40) || 'custom',
-    lat,
-    lon,
+    lat: hasCoords ? lat : null,
+    lon: hasCoords ? lon : null,
     note: String(place.note || '').slice(0, 500),
     sourceText: String(place.sourceText || '').slice(0, 800),
     activity: normalizeCustomPlaceActivity(place.activity || (place.inTrip ? 'planned' : '')),

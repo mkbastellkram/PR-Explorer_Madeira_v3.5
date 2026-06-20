@@ -87,6 +87,7 @@ export function renderPois() {
   poiLayer.clearLayers();
   [...(state.pois || []), ...(state.customPlaces || []).map(customPlacePoi)]
     .filter(poi => state.poiFilters.categories.has(poi.category))
+    .filter(poi => Number.isFinite(Number(poi.lat)) && Number.isFinite(Number(poi.lon)))
     .forEach(poi => {
       const marker = L.marker([poi.lat, poi.lon], {
         icon: createPoiIcon(poi),

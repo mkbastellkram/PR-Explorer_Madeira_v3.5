@@ -375,17 +375,17 @@ function addCustomPlaceFromSettings() {
   const root = $('#view');
   const sourceText = root.querySelector('[data-custom-place="sourceText"]')?.value || '';
   const parsed = parseCoordinateInput(sourceText);
-  if (!parsed) {
-    toast('Keine Koordinaten im Link gefunden.');
+  const name = root.querySelector('[data-custom-place="name"]')?.value || parsed?.label || '';
+  if (!name.trim() && !sourceText.trim()) {
+    toast('Bitte Name oder Link eintragen.');
     return;
   }
-  const name = root.querySelector('[data-custom-place="name"]')?.value || parsed.label;
   const category = root.querySelector('[data-custom-place="category"]')?.value || 'custom';
   const note = root.querySelector('[data-custom-place="note"]')?.value || '';
-  addCustomPlace({ ...parsed, name, category, note, sourceText, inTrip: true });
+  addCustomPlace({ ...(parsed || {}), name: name || 'Eigenes Ziel', category, note, sourceText, inTrip: true });
   renderPois();
   renderSettings();
-  toast('Eigenes Ziel hinzugefuegt.');
+  toast(parsed ? 'Eigenes Ziel hinzugefuegt.' : 'Ziel ohne Koordinaten hinzugefuegt.');
 }
 
 function renderCustomPlaceList() {
@@ -394,12 +394,12 @@ function renderCustomPlaceList() {
     <article class="custom-place-row">
       <div>
         <strong>${escapeHtml(place.name)}</strong>
-        <span>${escapeHtml(place.category || 'custom')} - ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}${customPlaceActivityLabel(place) ? ' - ' + customPlaceActivityLabel(place) : ''}</span>
+        <span>${escapeHtml(place.category || 'custom')} - ${escapeHtml(customPlaceCoordinateLabel(place))}${customPlaceActivityLabel(place) ? ' - ' + customPlaceActivityLabel(place) : ''}</span>
       </div>
       <button class="${place.activity === 'favorite' ? 'active' : ''}" data-custom-action="favorite" data-custom-id="${escapeHtml(place.id)}">Favorit</button>
       <button class="${place.activity === 'planned' ? 'active' : ''}" data-custom-action="planned" data-custom-id="${escapeHtml(place.id)}">Geplant</button>
-      <button data-custom-action="route" data-custom-id="${escapeHtml(place.id)}">Route</button>
-      <button data-custom-action="maps" data-custom-id="${escapeHtml(place.id)}">Maps</button>
+      <button data-custom-action="route" data-custom-id="${escapeHtml(place.id)}" ${hasCustomPlaceCoords(place) ? '' : 'disabled'}>Route</button>
+      <button data-custom-action="maps" data-custom-id="${escapeHtml(place.id)}" ${hasCustomPlaceCoords(place) ? '' : 'disabled'}>Maps</button>
       <button data-custom-action="remove" data-custom-id="${escapeHtml(place.id)}">x</button>
     </article>`).join('');
 }
@@ -408,6 +408,14 @@ function customPlaceActivityLabel(place) {
   if (place.activity === 'favorite') return 'Favorit';
   if (place.activity === 'planned' || place.inTrip) return 'geplant';
   return '';
+}
+
+function hasCustomPlaceCoords(place) {
+  return Number.isFinite(Number(place.lat)) && Number.isFinite(Number(place.lon));
+}
+
+function customPlaceCoordinateLabel(place) {
+  return hasCustomPlaceCoords(place) ? `${Number(place.lat).toFixed(5)}, ${Number(place.lon).toFixed(5)}` : 'Koordinaten offen';
 }
 
 function customPlaceCategoryOptions() {
@@ -673,7 +681,7 @@ function renderCustomTripGroup(customPlaces) {
             <span class="trip-mark">✦</span>
             <span class="trip-main">
               <strong>${escapeHtml(place.name)}</strong>
-              <em>${escapeHtml(`${place.category || 'custom'} - ${place.note || `${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}`}`)}</em>
+              <em>${escapeHtml(`${place.category || 'custom'} - ${place.note || customPlaceCoordinateLabel(place)}`)}</em>
             </span>
           </button>`).join('')}
       </div>

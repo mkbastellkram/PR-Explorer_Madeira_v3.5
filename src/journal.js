@@ -181,16 +181,16 @@ function addCustomPlaceFromJournal(root, openPr, openCustomPlace) {
   const sourceInput = root.querySelector('[data-custom-new="sourceText"]');
   const sourceText = sourceInput?.value || '';
   const parsed = parseCoordinateInput(sourceText);
-  if (!parsed) {
-    sourceInput?.setCustomValidity('Keine Koordinaten im Link gefunden.');
+  const name = root.querySelector('[data-custom-new="name"]')?.value || parsed?.label || '';
+  if (!name.trim() && !sourceText.trim()) {
+    sourceInput?.setCustomValidity('Bitte Name oder Link eintragen.');
     sourceInput?.reportValidity();
     sourceInput?.setCustomValidity('');
     return;
   }
-  const name = root.querySelector('[data-custom-new="name"]')?.value || parsed.label;
   const category = root.querySelector('[data-custom-new="category"]')?.value || 'sonstiges';
   const note = root.querySelector('[data-custom-new="note"]')?.value || '';
-  addCustomPlace({ ...parsed, name, category, note, sourceText });
+  addCustomPlace({ ...(parsed || {}), name: name || 'Eigenes Ziel', category, note, sourceText });
   renderPois();
   drawList(openPr, openCustomPlace);
 }
@@ -223,9 +223,10 @@ function customPlaceCategoryOptions() {
 }
 
 function renderCustomPlaceCard(place) {
+  const hasCoords = hasCustomPlaceCoords(place);
   return `
     <article class="custom-journal-card">
-      <button class="pr-row custom-journal-row" data-custom-route="${escapeHtml(place.id)}">
+      <button class="pr-row custom-journal-row" data-custom-route="${escapeHtml(place.id)}" ${hasCoords ? '' : 'disabled'}>
         <span class="pr-thumb placeholder custom-thumb">
           <b>*</b>
         </span>
@@ -234,9 +235,9 @@ function renderCustomPlaceCard(place) {
         </span>
         <span class="pr-main">
           <strong>${escapeHtml(place.name)}</strong>
-          <em>${escapeHtml(place.category || 'custom')} - ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}${customPlaceLabel(place) ? ' - ' + customPlaceLabel(place) : ''}</em>
+          <em>${escapeHtml(place.category || 'custom')} - ${escapeHtml(customPlaceCoordinateLabel(place))}${customPlaceLabel(place) ? ' - ' + customPlaceLabel(place) : ''}</em>
         </span>
-        <span class="pr-status">Route</span>
+        <span class="pr-status">${hasCoords ? 'Route' : 'offen'}</span>
       </button>
       <div class="custom-place-actions">
         <button class="${place.activity === 'favorite' ? 'active' : ''}" data-custom-activity="favorite" data-custom-id="${escapeHtml(place.id)}">\u{1F499} Favorit</button>
@@ -247,6 +248,14 @@ function renderCustomPlaceCard(place) {
         <textarea data-custom-note="${escapeHtml(place.id)}" rows="2" placeholder="z.B. Tisch reservieren, Treffpunkt, Parkhinweis...">${escapeHtml(place.note || '')}</textarea>
       </label>
     </article>`;
+}
+
+function hasCustomPlaceCoords(place) {
+  return Number.isFinite(Number(place.lat)) && Number.isFinite(Number(place.lon));
+}
+
+function customPlaceCoordinateLabel(place) {
+  return hasCustomPlaceCoords(place) ? `${Number(place.lat).toFixed(5)}, ${Number(place.lon).toFixed(5)}` : 'Koordinaten offen';
 }
 
 function customPlaceLabel(place) {
