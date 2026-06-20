@@ -67,6 +67,9 @@ p { color: var(--muted); line-height: 1.45; }
 .journal-flag .status-emoji { position: absolute; left: -9px; top: -10px; font-size: 13px; line-height: 1; z-index: 4; filter: drop-shadow(0 1px 2px rgba(0,0,0,.42)); }
 .journal-flag .activity { position: absolute; right: -8px; top: -10px; display: grid; place-items: center; background: transparent; border: 0; box-shadow: none; font-size: 14px; line-height: 1; z-index: 4; }
 .journal-flag .activity.empty { display: none; }
+.custom-journal-group { margin-top: 12px; }
+.custom-journal-row .custom-thumb { --thumb-hue: 190; }
+.custom-flag { display: grid; place-items: center; background: rgba(125,216,255,.2); color: #d8f7ff; font-size: 12px; font-weight: 900; }
 .pr-main { min-width: 0; }
 .pr-main strong, .pr-main em { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pr-main strong { font-size: 16px; }

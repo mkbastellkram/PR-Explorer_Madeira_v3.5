@@ -2,7 +2,7 @@ import { VERSION } from './version.js';
 import { state, filteredPrs, prImage, prStatus, prUserState } from './state.js';
 import { renderPins } from './map.js';
 
-export function renderJournal(host, openPr) {
+export function renderJournal(host, openPr, openCustomPlace = null) {
   host.innerHTML = `
     <section class="panel-list">
       <div class="journal-head">
@@ -22,10 +22,10 @@ export function renderJournal(host, openPr) {
     </section>`;
 
   renderRegionFilters();
-  drawList(openPr);
+  drawList(openPr, openCustomPlace);
   document.querySelector('#search').addEventListener('input', event => {
     state.filters.q = event.target.value;
-    drawList(openPr);
+    drawList(openPr, openCustomPlace);
     renderPins();
   });
 }
@@ -43,21 +43,27 @@ function renderRegionFilters() {
     else if (state.filters.regions.has(region)) state.filters.regions.delete(region);
     else state.filters.regions.add(region);
     renderRegionFilters();
-    drawList(window.PRX_OPEN_PR);
+    drawList(window.PRX_OPEN_PR, window.PRX_OPEN_CUSTOM_PLACE);
     renderPins();
   }, { once: true });
 }
 
-function drawList(openPr) {
+function drawList(openPr, openCustomPlace = null) {
   window.PRX_OPEN_PR = openPr;
+  window.PRX_OPEN_CUSTOM_PLACE = openCustomPlace;
   const list = document.querySelector('#list');
   const groups = groupPrs(filteredPrs());
-  list.innerHTML = groups.map(group => `
+  const customPlaces = filteredCustomPlaces();
+  list.innerHTML = (groups.map(group => `
     <section class="journal-group">
       <h2>${group.title}</h2>
       ${group.items.map(renderRow).join('')}
-    </section>`).join('') || '<div class="empty">Keine PRs im aktuellen Filter.</div>';
+    </section>`).join('') || '<div class="empty">Keine PRs im aktuellen Filter.</div>') +
+    renderCustomPlaces(customPlaces);
   list.querySelectorAll('.pr-row').forEach(row => row.addEventListener('click', () => openPr(row.dataset.id)));
+  list.querySelectorAll('[data-custom-place]').forEach(row => {
+    row.addEventListener('click', () => openCustomPlace?.(row.dataset.customPlace));
+  });
 }
 
 function groupPrs(prs) {
@@ -102,6 +108,39 @@ function renderRow(pr) {
         <em>${escapeHtml(pr.region)} - ${fmt(pr.distanceKm, ' km')} - ${escapeHtml(pr.duration || '-')} - ${fmt(pr.driveMin, ' min')}</em>
       </span>
       <span class="pr-status">${activity} ${escapeHtml(activityLabel(user) || statusLabel(statusValue))}</span>
+    </button>`;
+}
+
+function filteredCustomPlaces() {
+  const q = state.filters.q.trim().toLowerCase();
+  return (state.customPlaces || [])
+    .filter(place => !q || `${place.name} ${place.category} ${place.note}`.toLowerCase().includes(q))
+    .sort((a, b) => String(a.name).localeCompare(String(b.name), 'de'));
+}
+
+function renderCustomPlaces(customPlaces) {
+  if (!customPlaces.length) return '';
+  return `
+    <section class="journal-group custom-journal-group">
+      <h2>Eigene Ziele</h2>
+      ${customPlaces.map(renderCustomPlaceRow).join('')}
+    </section>`;
+}
+
+function renderCustomPlaceRow(place) {
+  return `
+    <button class="pr-row custom-journal-row" data-custom-place="${escapeHtml(place.id)}">
+      <span class="pr-thumb placeholder custom-thumb">
+        <b>✦</b>
+      </span>
+      <span class="pr-code journal-flag custom-flag">
+        Ziel
+      </span>
+      <span class="pr-main">
+        <strong>${escapeHtml(place.name)}</strong>
+        <em>${escapeHtml(place.category || 'custom')} - ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}${place.inTrip ? ' - Reise' : ''}</em>
+      </span>
+      <span class="pr-status">${place.inTrip ? 'Reise' : 'Ziel'}</span>
     </button>`;
 }
 

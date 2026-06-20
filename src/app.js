@@ -162,7 +162,7 @@ export function renderView(view) {
   $('#app').classList.toggle('map-mode', view === 'map');
   document.querySelectorAll('#nav button').forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
 
-  if (view === 'journal') renderJournal($('#view'), openPr);
+  if (view === 'journal') renderJournal($('#view'), openPr, openCustomPlaceFromJournal);
   if (view === 'map') {
     $('#view').innerHTML = '';
     setTimeout(fitAll, 60);
@@ -740,8 +740,16 @@ function handleFiltersChanged() {
   if (state.view === 'map') {
     setTimeout(fitAll, 30);
   } else if (state.view === 'journal') {
-    renderJournal($('#view'), openPr);
+    renderJournal($('#view'), openPr, openCustomPlaceFromJournal);
   }
+}
+
+function openCustomPlaceFromJournal(id) {
+  const place = state.customPlaces.find(item => item.id === id);
+  if (!place) return;
+  renderView('map');
+  openRoutingPanel();
+  setTimeout(() => PRXRoutingLive.routeTo(customPlaceTarget(place)), 30);
 }
 
 function openInfoPanel() {
