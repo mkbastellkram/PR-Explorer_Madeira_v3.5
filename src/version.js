@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.0.50',
-  name: 'Custom Category Suggestions',
-  label: 'V5.0.50 Custom Category Suggestions'
+  id: 'V5.0.51',
+  name: 'Journal Add Custom Places',
+  label: 'V5.0.51 Journal Add Custom Places'
 };

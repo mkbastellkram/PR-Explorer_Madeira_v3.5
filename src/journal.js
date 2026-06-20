@@ -1,6 +1,7 @@
 import { VERSION } from './version.js';
-import { setCustomPlaceActivity, setCustomPlaceNote, setTripSettingValue, state, filteredPrs, prImage, prStatus, prUserState } from './state.js';
-import { renderPins } from './map.js';
+import { addCustomPlace, setCustomPlaceActivity, setCustomPlaceNote, setTripSettingValue, state, filteredPrs, prImage, prStatus, prUserState } from './state.js';
+import { renderPins, renderPois } from './map.js';
+import { parseCoordinateInput } from './routingLive.js';
 
 export function renderJournal(host, openPr, openCustomPlace = null) {
   host.innerHTML = `
@@ -79,6 +80,9 @@ function drawList(openPr, openCustomPlace = null) {
     setTripSettingValue('customPlacesTitle', event.target.value || 'Eigene Ziele');
     drawList(openPr, openCustomPlace);
   });
+  list.querySelector('[data-custom-add]')?.addEventListener('click', () => {
+    addCustomPlaceFromJournal(list, openPr, openCustomPlace);
+  });
 }
 
 function groupPrs(prs) {
@@ -134,15 +138,88 @@ function filteredCustomPlaces() {
 }
 
 function renderCustomPlaces(customPlaces) {
-  if (!customPlaces.length) return '';
   return `
     <section class="journal-group custom-journal-group">
       <label class="custom-title-field">
         <span>Liste</span>
         <input data-custom-title type="text" value="${escapeHtml(state.tripSettings.customPlacesTitle || 'Eigene Ziele')}" />
       </label>
+      ${renderCustomAddForm()}
       ${customPlaces.map(renderCustomPlaceCard).join('')}
     </section>`;
+}
+
+function renderCustomAddForm() {
+  return `
+    <article class="custom-add-card">
+      <div class="custom-add-grid">
+        <label>
+          <span>Google-Maps-Link oder Koordinaten</span>
+          <input data-custom-new="sourceText" type="text" placeholder="https://www.google.com/maps/... oder 32.6484,-16.9072" />
+        </label>
+        <label>
+          <span>Name</span>
+          <input data-custom-new="name" type="text" placeholder="z.B. Restaurant, Hotel, Aussichtspunkt" />
+        </label>
+        <label>
+          <span>Kategorie</span>
+          <input data-custom-new="category" type="text" list="journalCustomCategories" placeholder="restaurant, strand, parkplatz..." />
+        </label>
+        <label>
+          <span>Notiz</span>
+          <input data-custom-new="note" type="text" placeholder="optional" />
+        </label>
+      </div>
+      <datalist id="journalCustomCategories">
+        ${customPlaceCategoryOptions()}
+      </datalist>
+      <button data-custom-add>Ziel hinzufuegen</button>
+    </article>`;
+}
+
+function addCustomPlaceFromJournal(root, openPr, openCustomPlace) {
+  const sourceInput = root.querySelector('[data-custom-new="sourceText"]');
+  const sourceText = sourceInput?.value || '';
+  const parsed = parseCoordinateInput(sourceText);
+  if (!parsed) {
+    sourceInput?.setCustomValidity('Keine Koordinaten im Link gefunden.');
+    sourceInput?.reportValidity();
+    sourceInput?.setCustomValidity('');
+    return;
+  }
+  const name = root.querySelector('[data-custom-new="name"]')?.value || parsed.label;
+  const category = root.querySelector('[data-custom-new="category"]')?.value || 'sonstiges';
+  const note = root.querySelector('[data-custom-new="note"]')?.value || '';
+  addCustomPlace({ ...parsed, name, category, note, sourceText });
+  renderPois();
+  drawList(openPr, openCustomPlace);
+}
+
+function customPlaceCategoryOptions() {
+  const defaults = [
+    'hotel',
+    'restaurant',
+    'cafe',
+    'bar',
+    'supermarkt',
+    'parkplatz',
+    'strand',
+    'aussichtspunkt',
+    'sehenswuerdigkeit',
+    'tankstelle',
+    'apotheke',
+    'arzt',
+    'bushaltestelle',
+    'shopping',
+    'sonstiges'
+  ];
+  const used = (state.customPlaces || [])
+    .map(place => String(place.category || '').trim())
+    .filter(Boolean);
+  return [...new Set([...defaults, ...used])]
+    .sort((a, b) => a.localeCompare(b, 'de'))
+    .map(category => `<option value="${escapeHtml(category)}"></option>`)
+    .join('');
 }
 
 function renderCustomPlaceCard(place) {

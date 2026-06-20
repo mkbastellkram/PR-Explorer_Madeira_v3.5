@@ -71,6 +71,12 @@ p { color: var(--muted); line-height: 1.45; }
 .custom-title-field { display: grid; gap: 6px; padding: 12px 16px 10px; background: rgba(0,0,0,.12); border-bottom: 1px solid var(--line); }
 .custom-title-field span { color: var(--muted); font-size: 12px; font-weight: 850; text-transform: uppercase; letter-spacing: .04em; }
 .custom-title-field input { min-height: 40px; border-radius: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.06); color: var(--text); padding: 0 11px; font-weight: 850; }
+.custom-add-card { display: grid; gap: 10px; padding: 12px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.035); }
+.custom-add-grid { display: grid; grid-template-columns: 1fr; gap: 9px; }
+.custom-add-grid label { display: grid; gap: 6px; }
+.custom-add-grid span { color: var(--muted); font-size: 12px; font-weight: 850; }
+.custom-add-grid input { min-width: 0; min-height: 40px; border-radius: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.06); color: var(--text); padding: 0 11px; }
+.custom-add-card button { min-height: 38px; border-radius: 19px; border: 1px solid rgba(53,212,159,.45); background: rgba(53,212,159,.14); color: var(--text); font-weight: 900; }
 .custom-journal-card { border-bottom: 1px solid var(--line); background: rgba(255,255,255,.025); }
 .custom-journal-card .pr-row { border-bottom: 0; }
 .custom-journal-row .custom-thumb { --thumb-hue: 190; }
