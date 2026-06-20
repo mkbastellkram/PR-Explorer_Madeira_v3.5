@@ -45,7 +45,8 @@ export const state = {
     vacationEnd: '',
     accommodationName: '',
     accommodationLat: '',
-    accommodationLon: ''
+    accommodationLon: '',
+    customPlacesTitle: 'Eigene Ziele'
   }
 };
 
@@ -109,7 +110,8 @@ export function addCustomPlace(place) {
     lon,
     note: String(place.note || '').slice(0, 500),
     sourceText: String(place.sourceText || '').slice(0, 800),
-    inTrip: Boolean(place.inTrip),
+    activity: normalizeCustomPlaceActivity(place.activity || (place.inTrip ? 'planned' : '')),
+    inTrip: Boolean(place.inTrip || place.activity === 'planned'),
     createdAt: place.createdAt || new Date().toISOString()
   };
   state.customPlaces = [item, ...state.customPlaces.filter(existing => existing.id !== item.id)];
@@ -127,9 +129,20 @@ export function removeCustomPlace(id) {
 export function toggleCustomPlaceTrip(id) {
   const place = state.customPlaces.find(item => item.id === id);
   if (!place) return false;
-  place.inTrip = !place.inTrip;
+  place.activity = place.activity === 'planned' ? '' : 'planned';
+  place.inTrip = place.activity === 'planned';
   saveSettings();
-  return place.inTrip;
+  return place.activity === 'planned';
+}
+
+export function setCustomPlaceActivity(id, activity) {
+  const place = state.customPlaces.find(item => item.id === id);
+  if (!place) return false;
+  const next = normalizeCustomPlaceActivity(activity);
+  place.activity = place.activity === next ? '' : next;
+  place.inTrip = place.activity === 'planned';
+  saveSettings();
+  return true;
 }
 
 export function setCustomPlaceNote(id, note) {
@@ -276,6 +289,10 @@ function mergeCustomPlaces(localPlaces, incomingPlaces) {
     if (!byId.has(place.id)) byId.set(place.id, place);
   });
   return [...byId.values()];
+}
+
+function normalizeCustomPlaceActivity(value) {
+  return value === 'favorite' || value === 'planned' ? value : '';
 }
 
 function mergePrStates(localStates, incomingStates) {

@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { addCustomPlace, exportUserData, importUserData, loadUserState, removeCustomPlace, state, filteredPrs, prUserState, durationToMinutes, setTripSettingValue, toggleCustomPlaceTrip } from './state.js';
+import { addCustomPlace, exportUserData, importUserData, loadUserState, removeCustomPlace, setCustomPlaceActivity, state, filteredPrs, prUserState, durationToMinutes, setTripSettingValue } from './state.js';
 import { getBaseLayers, getMap, initMap, renderPins, renderPois, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute, toggleHeatmapMode, renderHeatmap } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
@@ -255,6 +255,9 @@ function renderSettings() {
         <section class="settings-card">
           <header><strong>Eigene Ziele</strong><span>Maps-Link einfuegen und zur Reise/Routing nutzen</span></header>
           <div class="settings-fields">
+            ${settingsText('customPlacesTitle', 'Listenueberschrift', s.customPlacesTitle || 'Eigene Ziele', 'z.B. Restaurants, Stopps, Ausflugsziele')}
+          </div>
+          <div class="settings-fields">
             <label>
               <span>Google-Maps-Link oder Koordinaten</span>
               <input data-custom-place="sourceText" type="text" placeholder="https://www.google.com/maps/... oder 32.6484,-16.9072" />
@@ -345,8 +348,8 @@ function renderSettings() {
       const action = event.currentTarget.dataset.customAction;
       const id = event.currentTarget.dataset.customId;
       const place = state.customPlaces.find(item => item.id === id);
-      if (action === 'trip') {
-        toggleCustomPlaceTrip(id);
+      if (action === 'favorite' || action === 'planned') {
+        setCustomPlaceActivity(id, action);
         renderSettings();
       }
       if (action === 'route' && place) {
@@ -388,13 +391,20 @@ function renderCustomPlaceList() {
     <article class="custom-place-row">
       <div>
         <strong>${escapeHtml(place.name)}</strong>
-        <span>${escapeHtml(place.category || 'custom')} - ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}${place.inTrip ? ' - Reise' : ''}</span>
+        <span>${escapeHtml(place.category || 'custom')} - ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}${customPlaceActivityLabel(place) ? ' - ' + customPlaceActivityLabel(place) : ''}</span>
       </div>
-      <button data-custom-action="trip" data-custom-id="${escapeHtml(place.id)}">${place.inTrip ? 'Raus' : 'Reise'}</button>
+      <button class="${place.activity === 'favorite' ? 'active' : ''}" data-custom-action="favorite" data-custom-id="${escapeHtml(place.id)}">Favorit</button>
+      <button class="${place.activity === 'planned' ? 'active' : ''}" data-custom-action="planned" data-custom-id="${escapeHtml(place.id)}">Geplant</button>
       <button data-custom-action="route" data-custom-id="${escapeHtml(place.id)}">Route</button>
       <button data-custom-action="maps" data-custom-id="${escapeHtml(place.id)}">Maps</button>
       <button data-custom-action="remove" data-custom-id="${escapeHtml(place.id)}">x</button>
     </article>`).join('');
+}
+
+function customPlaceActivityLabel(place) {
+  if (place.activity === 'favorite') return 'Favorit';
+  if (place.activity === 'planned' || place.inTrip) return 'geplant';
+  return '';
 }
 
 function settingsText(key, label, value, placeholder = '') {
@@ -554,7 +564,7 @@ function renderTrip() {
     .map(pr => ({ pr, user: prUserState(pr.id) }))
     .filter(item => ['booked', 'planned', 'favorite'].includes(item.user.activity))
     .sort((a, b) => tripRank(a.user) - tripRank(b.user) || scheduleTime(a.user).localeCompare(scheduleTime(b.user)) || Number(a.pr.number) - Number(b.pr.number));
-  const customPlaces = (state.customPlaces || []).filter(place => place.inTrip);
+  const customPlaces = (state.customPlaces || []).filter(place => place.activity === 'planned' || place.inTrip);
   const stats = tripStats(items);
   const groups = tripGroups(items);
 
@@ -621,8 +631,8 @@ function renderCustomTripGroup(customPlaces) {
     <section class="trip-day">
       <header>
         <div>
-          <strong>Eigene Ziele</strong>
-          <span>${customPlaces.length} Orte fuer Urlaub, Essen, Aussicht oder Besorgung</span>
+          <strong>${escapeHtml(state.tripSettings.customPlacesTitle || 'Eigene Ziele')}</strong>
+          <span>${customPlaces.length} geplante Orte fuer Urlaub, Essen, Aussicht oder Besorgung</span>
         </div>
         <em>Ziele</em>
       </header>

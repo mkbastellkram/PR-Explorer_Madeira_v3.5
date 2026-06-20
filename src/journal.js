@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { setCustomPlaceNote, state, filteredPrs, prImage, prStatus, prUserState } from './state.js';
+import { setCustomPlaceActivity, setCustomPlaceNote, setTripSettingValue, state, filteredPrs, prImage, prStatus, prUserState } from './state.js';
 import { renderPins } from './map.js';
 
 export function renderJournal(host, openPr, openCustomPlace = null) {
@@ -64,9 +64,20 @@ function drawList(openPr, openCustomPlace = null) {
   list.querySelectorAll('[data-custom-route]').forEach(button => {
     button.addEventListener('click', () => openCustomPlace?.(button.dataset.customRoute));
   });
+  list.querySelectorAll('[data-custom-activity]').forEach(button => {
+    button.addEventListener('click', event => {
+      event.stopPropagation();
+      setCustomPlaceActivity(button.dataset.customId, button.dataset.customActivity);
+      drawList(openPr, openCustomPlace);
+    });
+  });
   list.querySelectorAll('[data-custom-note]').forEach(input => {
     input.addEventListener('change', () => setCustomPlaceNote(input.dataset.customNote, input.value));
     input.addEventListener('click', event => event.stopPropagation());
+  });
+  list.querySelector('[data-custom-title]')?.addEventListener('change', event => {
+    setTripSettingValue('customPlacesTitle', event.target.value || 'Eigene Ziele');
+    drawList(openPr, openCustomPlace);
   });
 }
 
@@ -126,7 +137,10 @@ function renderCustomPlaces(customPlaces) {
   if (!customPlaces.length) return '';
   return `
     <section class="journal-group custom-journal-group">
-      <h2>Eigene Ziele</h2>
+      <label class="custom-title-field">
+        <span>Liste</span>
+        <input data-custom-title type="text" value="${escapeHtml(state.tripSettings.customPlacesTitle || 'Eigene Ziele')}" />
+      </label>
       ${customPlaces.map(renderCustomPlaceCard).join('')}
     </section>`;
 }
@@ -143,15 +157,26 @@ function renderCustomPlaceCard(place) {
         </span>
         <span class="pr-main">
           <strong>${escapeHtml(place.name)}</strong>
-          <em>${escapeHtml(place.category || 'custom')} - ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}${place.inTrip ? ' - Reise' : ''}</em>
+          <em>${escapeHtml(place.category || 'custom')} - ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}${customPlaceLabel(place) ? ' - ' + customPlaceLabel(place) : ''}</em>
         </span>
         <span class="pr-status">Route</span>
       </button>
+      <div class="custom-place-actions">
+        <button class="${place.activity === 'favorite' ? 'active' : ''}" data-custom-activity="favorite" data-custom-id="${escapeHtml(place.id)}">\u{1F499} Favorit</button>
+        <button class="${place.activity === 'planned' ? 'active planned' : ''}" data-custom-activity="planned" data-custom-id="${escapeHtml(place.id)}">\u2665\uFE0F Geplant</button>
+      </div>
       <label class="custom-note-field">
         <span>Notiz / Kommentar</span>
         <textarea data-custom-note="${escapeHtml(place.id)}" rows="2" placeholder="z.B. Tisch reservieren, Treffpunkt, Parkhinweis...">${escapeHtml(place.note || '')}</textarea>
       </label>
     </article>`;
+}
+
+function customPlaceLabel(place) {
+  if (place.activity === 'planned') return 'geplant';
+  if (place.activity === 'favorite') return 'Favorit';
+  if (place.inTrip) return 'geplant';
+  return '';
 }
 
 function renderCustomPlaceRow(place) {
