@@ -200,6 +200,9 @@ export async function renderHeatmap() {
   for (const pr of prs) {
     bounds.push(...await drawHeatmapFile(pr.route.file));
   }
+  (state.customTracks || []).forEach(track => {
+    bounds.push(...drawHeatmapPoints(track.points || [], true));
+  });
 
   if (bounds.length && !state.activeId) {
     map.fitBounds(bounds, {
@@ -247,33 +250,40 @@ async function drawHeatmapFile(file) {
     const raw = (data.points || [])
       .map(point => [Number(point[0]), Number(point[1])])
       .filter(point => Number.isFinite(point[0]) && Number.isFinite(point[1]));
-    const segments = splitSegments(raw);
-    const drawn = [];
-
-    segments.forEach(segment => {
-      if (segment.length < 2) return;
-      L.polyline(segment, {
-        color: '#36aaff',
-        weight: 12,
-        opacity: 0.18,
-        interactive: false,
-        className: 'heat-route-glow'
-      }).addTo(heatmapLayer);
-      L.polyline(segment, {
-        color: '#73d7ff',
-        weight: 5,
-        opacity: 0.34,
-        interactive: false,
-        className: 'heat-route-core'
-      }).addTo(heatmapLayer);
-      drawn.push(...segment);
-    });
-
-    return drawn;
+    return drawHeatmapPoints(raw, false);
   } catch (error) {
     console.warn('Could not draw heatmap route file', file, error);
     return [];
   }
+}
+
+function drawHeatmapPoints(points, recorded) {
+  const raw = (points || [])
+    .map(point => [Number(point[0]), Number(point[1])])
+    .filter(point => Number.isFinite(point[0]) && Number.isFinite(point[1]));
+  const segments = splitSegments(raw);
+  const drawn = [];
+
+  segments.forEach(segment => {
+    if (segment.length < 2) return;
+    L.polyline(segment, {
+      color: recorded ? '#00e5ff' : '#36aaff',
+      weight: recorded ? 16 : 12,
+      opacity: recorded ? 0.24 : 0.18,
+      interactive: false,
+      className: 'heat-route-glow'
+    }).addTo(heatmapLayer);
+    L.polyline(segment, {
+      color: recorded ? '#b9fbff' : '#73d7ff',
+      weight: recorded ? 6 : 5,
+      opacity: recorded ? 0.58 : 0.34,
+      interactive: false,
+      className: 'heat-route-core'
+    }).addTo(heatmapLayer);
+    drawn.push(...segment);
+  });
+
+  return drawn;
 }
 
 function createPrFlag(pr, active, faded) {

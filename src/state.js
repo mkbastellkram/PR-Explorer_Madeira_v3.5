@@ -6,6 +6,7 @@ export const state = {
   data: null,
   pois: [],
   customPlaces: [],
+  customTracks: [],
   images: {},
   osmPoiMeta: null,
   view: 'journal',
@@ -71,6 +72,7 @@ export function loadUserState() {
     state.mapStyle = { ...state.mapStyle, ...settings.mapStyle };
     state.layerVisibility = { ...state.layerVisibility, ...settings.layerVisibility };
     state.customPlaces = Array.isArray(settings.customPlaces) ? settings.customPlaces : [];
+    state.customTracks = Array.isArray(settings.customTracks) ? settings.customTracks : [];
     state.poiFilters.categories = new Set(settings.poiCategories || [...state.poiFilters.categories]);
     if ((settings.poiCatalogVersion || 0) < POI_CATALOG_VERSION) {
       state.poiFilters.categories.add('waterfall');
@@ -103,9 +105,38 @@ export function saveSettings() {
     mapStyle: state.mapStyle,
     layerVisibility: state.layerVisibility,
     customPlaces: state.customPlaces,
+    customTracks: state.customTracks,
     poiCategories: [...state.poiFilters.categories],
     poiCatalogVersion: POI_CATALOG_VERSION
   }));
+}
+
+export function addCustomTrack(track) {
+  const points = Array.isArray(track.points)
+    ? track.points
+        .map(point => [Number(point[0]), Number(point[1]), Number(point[2])])
+        .filter(point => Number.isFinite(point[0]) && Number.isFinite(point[1]))
+        .slice(0, 5000)
+    : [];
+  if (points.length < 2) return null;
+  const item = {
+    id: track.id || `track-${Date.now()}-${Math.round(Math.random() * 1000)}`,
+    name: String(track.name || 'Eigene GPX-Aufzeichnung').trim().slice(0, 90) || 'Eigene GPX-Aufzeichnung',
+    sourceFile: String(track.sourceFile || '').slice(0, 180),
+    points,
+    distanceKm: Number(track.distanceKm) || pathDistanceKm(points),
+    createdAt: track.createdAt || new Date().toISOString()
+  };
+  state.customTracks = [item, ...state.customTracks.filter(existing => existing.id !== item.id)].slice(0, 25);
+  saveSettings();
+  return item;
+}
+
+export function removeCustomTrack(id) {
+  const before = state.customTracks.length;
+  state.customTracks = state.customTracks.filter(track => track.id !== id);
+  saveSettings();
+  return state.customTracks.length !== before;
 }
 
 export function toggleLayerVisibility(layer) {
@@ -299,6 +330,7 @@ export function exportUserData() {
       tripSettings: state.tripSettings,
       mapStyle: state.mapStyle,
       customPlaces: state.customPlaces,
+      customTracks: state.customTracks,
       poiCategories: [...state.poiFilters.categories],
       poiCatalogVersion: POI_CATALOG_VERSION
     }
@@ -322,9 +354,37 @@ export function importUserData(payload, { merge = true } = {}) {
   state.mapStyle = { ...state.mapStyle, ...settings.mapStyle };
   state.layerVisibility = { ...state.layerVisibility, ...settings.layerVisibility };
   if (Array.isArray(settings.customPlaces)) state.customPlaces = mergeCustomPlaces(state.customPlaces, settings.customPlaces);
+  if (Array.isArray(settings.customTracks)) state.customTracks = mergeCustomTracks(state.customTracks, settings.customTracks);
   if (Array.isArray(settings.poiCategories) && !state.poiFilters.categories.size) state.poiFilters.categories = new Set(settings.poiCategories);
   saveSettings();
   return result;
+}
+
+function mergeCustomTracks(localTracks, incomingTracks) {
+  const byId = new Map(localTracks.map(track => [track.id, track]));
+  incomingTracks.forEach(track => {
+    if (!track?.id || !Array.isArray(track.points) || track.points.length < 2) return;
+    if (!byId.has(track.id)) byId.set(track.id, track);
+  });
+  return [...byId.values()].slice(0, 25);
+}
+
+function pathDistanceKm(points) {
+  let total = 0;
+  for (let index = 1; index < points.length; index += 1) {
+    total += distanceKm(points[index - 1], points[index]);
+  }
+  return Math.round(total * 100) / 100;
+}
+
+function distanceKm(a, b) {
+  const radius = 6371.0088;
+  const lat1 = Number(a[0]) * Math.PI / 180;
+  const lat2 = Number(b[0]) * Math.PI / 180;
+  const dLat = (Number(b[0]) - Number(a[0])) * Math.PI / 180;
+  const dLon = (Number(b[1]) - Number(a[1])) * Math.PI / 180;
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+  return 2 * radius * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
 }
 
 function mergeCustomPlaces(localPlaces, incomingPlaces) {

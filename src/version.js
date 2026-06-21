@@ -1,5 +1,5 @@
 export const VERSION = {
-  id: 'V5.1.9',
-  name: 'Routing Start Clarity',
-  label: 'V5.1.9 Routing Start Clarity'
+  id: 'V5.2.0',
+  name: 'Recorded GPX Heatmap',
+  label: 'V5.2.0 Recorded GPX Heatmap'
 };

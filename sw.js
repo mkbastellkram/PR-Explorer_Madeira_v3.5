@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'prx-v5-1-9-routing-start-clarity';
+const CACHE_VERSION = 'prx-v5-2-0-recorded-gpx-heatmap';
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 

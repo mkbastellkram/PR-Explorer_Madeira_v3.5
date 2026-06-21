@@ -1,5 +1,5 @@
 import { VERSION } from './version.js';
-import { addCustomPlace, exportUserData, importUserData, loadUserState, removeCustomPlace, setCustomPlaceActivity, state, filteredPrs, prUserState, durationToMinutes, setTripSettingValue, toggleLayerVisibility } from './state.js';
+import { addCustomPlace, addCustomTrack, exportUserData, importUserData, loadUserState, removeCustomPlace, removeCustomTrack, setCustomPlaceActivity, state, filteredPrs, prUserState, durationToMinutes, setTripSettingValue, toggleLayerVisibility } from './state.js';
 import { getBaseLayers, getMap, initMap, renderPins, renderPois, setBaseLayer, showPrOnMap, fitAll, redrawActiveRoute, toggleHeatmapMode, renderHeatmap } from './map.js';
 import { renderJournal } from './journal.js';
 import { openDetail, closeDetail } from './detailSheet.js';
@@ -331,7 +331,22 @@ function renderDashboard() {
         ${dashboardToggle('gpx', counts.tracks, 'GPX')}
         ${dashboardToggle('kml', counts.routes, 'KML')}
         ${dashboardToggle('pois', counts.pois, 'POIs')}
+        ${dashboardStatic(state.customPlaces.length + state.customTracks.length, 'Eigene')}
       </div>
+      <section class="settings-list dashboard-tools">
+        <section class="settings-card">
+          <header><strong>Eigene GPX-Aufzeichnungen</strong><span>${state.customTracks.length} Tracks fuer Heatmap</span></header>
+          <p>Vor Ort aufgezeichnete GPX-Dateien importieren. Sie werden lokal gespeichert und in der Heatmap als hellere, echte Nutzungsspuren angezeigt.</p>
+          <div class="settings-actions">
+            <button data-dashboard-action="import-gpx">GPX importieren</button>
+            <button data-dashboard-action="heatmap">Heatmap starten</button>
+          </div>
+          <input class="hidden-file" type="file" accept=".gpx,application/gpx+xml,text/xml,application/xml" multiple data-gpx-import />
+          <div class="custom-track-list">
+            ${renderCustomTrackList()}
+          </div>
+        </section>
+      </section>
     </section>`;
   $('#view').querySelectorAll('[data-layer-toggle]').forEach(button => {
     button.addEventListener('click', () => {
@@ -339,6 +354,24 @@ function renderDashboard() {
       renderPins();
       renderPois();
       redrawActiveRoute();
+      renderDashboard();
+    });
+  });
+  $('#view').querySelectorAll('[data-dashboard-action]').forEach(button => {
+    button.addEventListener('click', () => {
+      const action = button.dataset.dashboardAction;
+      if (action === 'import-gpx') $('#view').querySelector('[data-gpx-import]')?.click();
+      if (action === 'heatmap') {
+        renderView('map');
+        toggleHeatmapMode().then(active => toast(active ? 'Heatmap aktiv.' : 'Heatmap aus.'));
+      }
+    });
+  });
+  $('#view').querySelector('[data-gpx-import]')?.addEventListener('change', importCustomGpxFiles);
+  $('#view').querySelectorAll('[data-custom-track-remove]').forEach(button => {
+    button.addEventListener('click', () => {
+      removeCustomTrack(button.dataset.customTrackRemove);
+      renderHeatmap();
       renderDashboard();
     });
   });
@@ -351,6 +384,59 @@ function dashboardToggle(key, value, label) {
       <strong>${escapeHtml(value)}</strong>
       <span>${escapeHtml(label)}</span>
     </button>`;
+}
+
+function dashboardStatic(value, label) {
+  return `
+    <div class="metric-toggle active static-metric">
+      <strong>${escapeHtml(value)}</strong>
+      <span>${escapeHtml(label)}</span>
+    </div>`;
+}
+
+function renderCustomTrackList() {
+  if (!state.customTracks.length) return '<div class="empty compact">Noch keine eigenen GPX-Tracks importiert.</div>';
+  return state.customTracks.map(track => `
+    <article class="custom-track-row">
+      <div>
+        <strong>${escapeHtml(track.name)}</strong>
+        <span>${fmt(track.distanceKm, ' km')} - ${(track.points || []).length} Punkte - ${escapeHtml(track.sourceFile || 'GPX')}</span>
+      </div>
+      <button data-custom-track-remove="${escapeHtml(track.id)}">Loeschen</button>
+    </article>`).join('');
+}
+
+async function importCustomGpxFiles(event) {
+  const files = [...(event.currentTarget.files || [])];
+  event.currentTarget.value = '';
+  if (!files.length) return;
+  let imported = 0;
+  for (const file of files) {
+    try {
+      const parsed = parseGpxText(await file.text(), file.name);
+      if (addCustomTrack(parsed)) imported += 1;
+    } catch {
+      // Skip invalid files.
+    }
+  }
+  renderHeatmap();
+  renderDashboard();
+  toast(imported ? `${imported} GPX importiert.` : 'Keine verwertbare GPX-Datei gefunden.');
+}
+
+function parseGpxText(text, filename) {
+  const doc = new DOMParser().parseFromString(text, 'application/xml');
+  if (doc.querySelector('parsererror')) throw new Error('Invalid GPX');
+  const points = [...doc.querySelectorAll('trkpt, rtept')]
+    .map(node => [
+      Number(node.getAttribute('lat')),
+      Number(node.getAttribute('lon')),
+      Number(node.querySelector('ele')?.textContent)
+    ])
+    .filter(point => Number.isFinite(point[0]) && Number.isFinite(point[1]));
+  if (points.length < 2) throw new Error('No track points');
+  const name = doc.querySelector('trk > name, rte > name, metadata > name')?.textContent?.trim() || filename.replace(/\.gpx$/i, '');
+  return { name, sourceFile: filename, points };
 }
 
 function renderSettings() {
