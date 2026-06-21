@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'prx-v5-1-7-image-fullscreen-gallery';
+const CACHE_VERSION = 'prx-v5-1-8-hiking-inventory-gpx';
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 

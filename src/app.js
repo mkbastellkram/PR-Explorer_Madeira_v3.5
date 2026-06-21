@@ -138,9 +138,13 @@ function renderMapControls() {
   controls.className = 'map-controls';
   controls.innerHTML = getBaseLayers()
     .map(layer => `<button class="${layer.active ? 'active' : ''}" data-layer="${layer.key}">${layer.label}</button>`)
-    .join('');
+    .join('') + '<button data-hiking-inventory>Wege</button>';
 
   controls.addEventListener('click', event => {
+    if (event.target.closest('[data-hiking-inventory]')) {
+      openHikingInventory();
+      return;
+    }
     const key = event.target.closest('[data-layer]')?.dataset.layer;
     if (!key) return;
     setBaseLayer(key);
@@ -148,6 +152,115 @@ function renderMapControls() {
   });
 
   $('#app').append(controls);
+}
+
+function openHikingInventory() {
+  const existing = document.querySelector('#hikingInventory');
+  if (existing) {
+    existing.remove();
+    return;
+  }
+  const prs = (state.data?.prs || [])
+    .filter(pr => pr.track?.file)
+    .sort((a, b) => Number(a.number) - Number(b.number));
+  const totalKm = prs.reduce((sum, pr) => sum + Number(pr.track?.distanceKm || pr.distanceKm || 0), 0);
+  const panel = document.createElement('div');
+  panel.id = 'hikingInventory';
+  panel.className = 'hiking-inventory-backdrop';
+  panel.innerHTML = `
+    <section class="hiking-inventory" role="dialog" aria-modal="true" aria-label="OSM Hiking Wege">
+      <header>
+        <div>
+          <strong>OSM Hiking / PR-Wege</strong>
+          <span>${prs.length} GPX-Tracks - ${fmt(totalKm, ' km')} - PRX-Datenbestand</span>
+        </div>
+        <button data-hiking-close aria-label="Schliessen">x</button>
+      </header>
+      <div class="hiking-body">
+        <p class="hiking-note">Der OSM-Hiking-Layer von Waymarked Trails ist ein Kartenkachel-Layer und liefert der App keine einzelnen Wege oder GPX-Dateien. Diese Aufstellung nutzt die importierten PRX-GPX-Tracks und kann spaeter durch einen echten OSM/Overpass-Import erweitert werden.</p>
+        <div class="hiking-list">
+          ${prs.map(renderHikingRow).join('')}
+        </div>
+      </div>
+    </section>`;
+  panel.addEventListener('click', event => {
+    if (event.target.id === 'hikingInventory' || event.target.closest('[data-hiking-close]')) {
+      panel.remove();
+      return;
+    }
+    const openId = event.target.closest('[data-hiking-open]')?.dataset.hikingOpen;
+    const gpxId = event.target.closest('[data-hiking-gpx]')?.dataset.hikingGpx;
+    if (openId) {
+      panel.remove();
+      openPr(openId, 'expanded');
+    }
+    if (gpxId) {
+      const pr = state.data.prs.find(item => item.id === gpxId);
+      if (pr) exportPrGpx(pr);
+    }
+  });
+  document.querySelector('#app').append(panel);
+}
+
+function renderHikingRow(pr) {
+  const trackKm = Number(pr.track?.distanceKm || pr.distanceKm || 0);
+  const elevation = [pr.elevationLow, pr.elevationHigh].filter(value => value !== null && value !== undefined && value !== '').join('-');
+  return `
+    <article class="hiking-row">
+      <div class="hiking-code">${escapeHtml(pr.displayId)}</div>
+      <div class="hiking-main">
+        <strong>${escapeHtml(pr.name)}</strong>
+        <span>${escapeHtml(pr.region || '-')} - ${fmt(trackKm, ' km')} - ${escapeHtml(pr.duration || '-')} - ${escapeHtml(pr.difficulty || '-')}</span>
+        <em>${escapeHtml(pr.track?.sourceFile || 'GPX')} - ${pr.track?.points || 0} Punkte${elevation ? ` - ${escapeHtml(elevation)} m` : ''}</em>
+      </div>
+      <button data-hiking-open="${escapeHtml(pr.id)}">Karte</button>
+      <button data-hiking-gpx="${escapeHtml(pr.id)}">GPX</button>
+    </article>`;
+}
+
+async function exportPrGpx(pr) {
+  if (!pr.track?.file) {
+    toast('Kein GPX-Track vorhanden.');
+    return;
+  }
+  try {
+    const data = await fetch(pr.track.file, { cache: 'force-cache' }).then(res => res.json());
+    const points = (data.points || [])
+      .map(point => ({ lat: Number(point[0]), lon: Number(point[1]), ele: Number(point[2]) }))
+      .filter(point => Number.isFinite(point.lat) && Number.isFinite(point.lon));
+    if (points.length < 2) throw new Error('empty');
+    const gpx = buildGpx(pr, points);
+    downloadTextFile(`${safeFilename(pr.displayId)}-${safeFilename(pr.name)}.gpx`, gpx, 'application/gpx+xml;charset=utf-8');
+    toast(`${pr.displayId} GPX exportiert.`);
+  } catch {
+    toast('GPX konnte nicht erzeugt werden.');
+  }
+}
+
+function buildGpx(pr, points) {
+  const name = `${pr.displayId} - ${pr.name}`;
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="PR-Explorer Madeira ${VERSION.id}" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata>
+    <name>${xmlText(name)}</name>
+    <desc>${xmlText(`${pr.region || ''} ${pr.duration || ''} ${pr.difficulty || ''}`.trim())}</desc>
+  </metadata>
+  <trk>
+    <name>${xmlText(name)}</name>
+    <trkseg>
+${points.map(point => `      <trkpt lat="${point.lat.toFixed(7)}" lon="${point.lon.toFixed(7)}">${Number.isFinite(point.ele) ? `<ele>${point.ele.toFixed(1)}</ele>` : ''}</trkpt>`).join('\n')}
+    </trkseg>
+  </trk>
+</gpx>
+`;
+}
+
+function safeFilename(value) {
+  return String(value || 'track').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9._-]+/gi, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'track';
+}
+
+function xmlText(value) {
+  return String(value ?? '').replace(/[<>&'"]/g, char => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[char]));
 }
 
 export function renderView(view) {
