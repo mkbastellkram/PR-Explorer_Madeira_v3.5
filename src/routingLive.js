@@ -14,6 +14,7 @@ const routingState = {
   routes: [],
   cache: new Map(),
   panel: null,
+  lastMessage: '',
   toast: () => {}
 };
 
@@ -70,9 +71,8 @@ export const PRXRoutingLive = {
   },
 
   saveApiKey(key) {
-    routingState.orsApiKey = String(key || '').trim();
-    if (routingState.orsApiKey) localStorage.setItem(ORS_KEY, routingState.orsApiKey);
-    else localStorage.removeItem(ORS_KEY);
+    persistApiKey(key);
+    routingState.lastMessage = routingState.orsApiKey ? 'ORS-Key lokal gespeichert.' : 'ORS-Key geloescht.';
     renderPanel();
   },
 
@@ -90,6 +90,7 @@ export const PRXRoutingLive = {
   },
 
   async showNearestRoutes({ count = routingState.maxAlternatives } = {}) {
+    syncApiKeyFromPanel();
     ensureStart();
     const targets = nearestTargets(count);
     this.clearRoutes();
@@ -101,10 +102,16 @@ export const PRXRoutingLive = {
   },
 
   async routeTo(target, colorIndex = routingState.routes.length) {
+    syncApiKeyFromPanel();
     ensureStart();
     const color = COLORS[colorIndex % COLORS.length];
     const route = routingState.orsApiKey
-      ? await fetchOrsRoute(target, color).catch(() => fallbackRoute(target, color, 'ORS Fehler'))
+      ? await fetchOrsRoute(target, color).catch(error => {
+          const reason = error?.message || 'ORS Fehler';
+          routingState.lastMessage = reason;
+          routingState.toast(reason);
+          return fallbackRoute(target, color, reason);
+        })
       : await fallbackRoute(target, color, 'kein ORS-Key');
     routingState.routes.push(route);
     renderPanel();
@@ -206,9 +213,9 @@ function renderPanel() {
         <div class="routing-actions">
           <button data-routing-action="gps">Standort</button>
           <button data-routing-action="demo">Funchal</button>
-          ${selectedTarget ? '<button data-routing-action="active">Aktiver PR</button>' : ''}
-          <button data-routing-action="nearest5">5 Routen</button>
-          <button data-routing-action="nearest10">10 Routen</button>
+          ${selectedTarget ? '<button data-routing-action="active">Aktiven PR starten</button>' : ''}
+          <button data-routing-action="nearest5">5 starten</button>
+          <button data-routing-action="nearest10">10 starten</button>
           <button data-routing-action="clear">Loeschen</button>
         </div>
         <label class="routing-key">
@@ -222,14 +229,37 @@ function renderPanel() {
           <button data-routing-action="saveStart">Uebernehmen</button>
         </label>
         <div class="routing-hint">
-          Ablauf: Standort, Funchal oder Maps-Link setzen, dann bei einem Ziel Route tippen. Kurzlinks koennen nicht immer automatisch aufgeloest werden.
+          Ablauf: Startpunkt setzen, dann 5/10 starten oder unten bei einem Ziel Starten tippen. Der ORS-Key wird lokal in Safari gespeichert.
         </div>
+        ${routingState.lastMessage ? `<div class="routing-status">${escapeHtml(routingState.lastMessage)}</div>` : ''}
         <section class="routing-list">
           <strong>Routen</strong>
           ${routingState.routes.map(routeRow).join('') || routePreview(targets)}
         </section>
       </div>
     </section>`;
+  bindPanelInputs();
+}
+
+function bindPanelInputs() {
+  const keyInput = routingState.panel?.querySelector('[data-ors-key]');
+  keyInput?.addEventListener('input', () => persistApiKey(keyInput.value, false));
+  keyInput?.addEventListener('change', () => {
+    persistApiKey(keyInput.value);
+    routingState.lastMessage = routingState.orsApiKey ? 'ORS-Key lokal gespeichert.' : 'ORS-Key geloescht.';
+  });
+}
+
+function syncApiKeyFromPanel() {
+  const keyInput = routingState.panel?.querySelector('[data-ors-key]');
+  if (keyInput) persistApiKey(keyInput.value, false);
+}
+
+function persistApiKey(key, announce = true) {
+  routingState.orsApiKey = String(key || '').trim();
+  if (routingState.orsApiKey) localStorage.setItem(ORS_KEY, routingState.orsApiKey);
+  else localStorage.removeItem(ORS_KEY);
+  if (announce) routingState.toast(routingState.orsApiKey ? 'ORS-Key gespeichert.' : 'ORS-Key geloescht.');
 }
 
 function activeTarget() {
@@ -297,7 +327,7 @@ function routePreview(targets) {
         <strong>${escapeHtml(target.name)}</strong>
         <span>${formatDistance(target.airDistance * 1000)} Luftlinie</span>
       </div>
-      <button data-target-route="${escapeHtml(target.id)}">Route</button>
+      <button data-target-route="${escapeHtml(target.id)}">Starten</button>
       <button data-target-maps="${escapeHtml(target.id)}">Maps</button>
     </article>`).join('') || '<div class="empty">Keine Ziele gefunden.</div>';
 }
@@ -319,7 +349,16 @@ async function fetchOrsRoute(target, color) {
       ]
     })
   });
-  if (!response.ok) throw new Error(`ORS ${response.status}`);
+  if (!response.ok) {
+    let detail = '';
+    try {
+      const body = await response.json();
+      detail = body?.error?.message || body?.message || '';
+    } catch {
+      detail = await response.text().catch(() => '');
+    }
+    throw new Error(`ORS ${response.status}${detail ? `: ${String(detail).slice(0, 90)}` : ''}`);
+  }
   const geojson = await response.json();
   routingState.cache.set(cacheKey, geojson);
   return drawGeoJsonRoute(target, color, geojson, 'ORS');

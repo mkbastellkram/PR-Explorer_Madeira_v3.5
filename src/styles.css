@@ -431,6 +431,7 @@ p { color: var(--muted); line-height: 1.45; }
 .routing-key span { grid-column: 1 / -1; color: var(--muted); font-size: 12px; font-weight: 800; }
 .routing-key input { min-width: 0; min-height: 38px; border-radius: 13px; border: 1px solid var(--line); background: rgba(255,255,255,.07); color: var(--text); padding: 0 10px; }
 .routing-hint { margin: 10px 0 12px; color: var(--muted); font-size: 12px; line-height: 1.4; }
+.routing-status { margin: 0 0 12px; border: 1px solid rgba(255,209,102,.32); border-radius: 14px; padding: 9px 10px; background: rgba(255,209,102,.08); color: rgba(255,235,180,.92); font-size: 12px; line-height: 1.35; }
 .routing-list { display: grid; gap: 8px; }
 .routing-list > strong { font-size: 13px; }
 .routing-row { min-height: 62px; display: grid; grid-template-columns: 10px 1fr auto auto; gap: 8px; align-items: center; border: 1px solid var(--line); border-radius: 16px; padding: 9px; background: rgba(255,255,255,.045); }
